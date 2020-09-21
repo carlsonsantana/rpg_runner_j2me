@@ -17,7 +17,7 @@
   <artifactId>runner</artifactId>
   <version>1.0.0</version>
 
-  <name>Midlet</name>
+  <name>RPG Runner</name>
 
   <repositories>
     <repository>
