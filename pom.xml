@@ -12,8 +12,8 @@
     <j2me.wtkHome>${env.WTK_HOME}</j2me.wtkHome>
   </properties>
 
-  <groupId>org.groupid</groupId>
-  <artifactId>artifactid</artifactId>
+  <groupId>org.rpgrunner</groupId>
+  <artifactId>runner</artifactId>
   <version>1.0.0</version>
 
   <name>Midlet</name>
