@@ -10,6 +10,7 @@
   <properties>
     <j2me.version>2.0.2</j2me.version>
     <j2me.wtkHome>${env.WTK_HOME}</j2me.wtkHome>
+    <checkstyle.version>2.17</checkstyle.version>
   </properties>
 
   <groupId>org.rpgrunner</groupId>
@@ -59,6 +60,28 @@
 
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <version>${checkstyle.version}</version>
+        <executions>
+          <execution>
+            <id>validate</id>
+            <phase>validate</phase>
+            <configuration>
+              <configLocation>checkstyle.xml</configLocation>
+              <encoding>UTF-8</encoding>
+              <consoleOutput>true</consoleOutput>
+              <failsOnError>true</failsOnError>
+              <linkXRef>false</linkXRef>
+            </configuration>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
         <version>3.2</version>
