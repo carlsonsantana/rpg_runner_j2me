@@ -1,12 +1,21 @@
 package org.rpgrunner.runner;
 
+import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class MainMIDlet extends MIDlet {
-    public MainMIDlet() { }
+    private final Game game;
 
-    protected void startApp() { }
+    public MainMIDlet() {
+        game = new Game(this);
+    }
+
+    protected void startApp() {
+        Display display = Display.getDisplay(this);
+        display.setCurrent(game);
+        game.start();
+    }
 
     protected void pauseApp() { }
 
