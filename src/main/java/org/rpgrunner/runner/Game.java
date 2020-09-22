@@ -3,13 +3,15 @@ package org.rpgrunner.runner;
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
-import javax.microedition.midlet.MIDlet;
 
 public class Game extends GameCanvas implements Runnable {
     private Thread thread;
+    private boolean destroyed;
 
-    public Game(final MIDlet midlet) {
+    public Game() {
         super(false);
+
+        destroyed = false;
     }
 
     public void start() {
@@ -25,9 +27,17 @@ public class Game extends GameCanvas implements Runnable {
     }
 
     public void render() {
-        while (true) {
+        while (isRunning()) {
             repaint();
             flushGraphics();
         }
+    }
+
+    public void destroy() {
+        destroyed = true;
+    }
+
+    public boolean isRunning() {
+        return !destroyed;
     }
 }
