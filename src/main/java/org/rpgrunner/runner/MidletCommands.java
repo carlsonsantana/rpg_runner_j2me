@@ -7,24 +7,27 @@ import javax.microedition.midlet.MIDlet;
 
 public class MidletCommands {
     private final MIDlet midlet;
-    private final Game game;
+    private final GameRunner gameRunner;
 
-    public MidletCommands(final MIDlet gameMidlet, final Game gameRender) {
+    public MidletCommands(
+        final MIDlet gameMidlet,
+        final GameRunner game
+    ) {
         this.midlet = gameMidlet;
-        this.game = gameRender;
+        this.gameRunner = game;
     }
 
     public void setCommands() {
         Command exit = new Command("Exit", Command.EXIT, 0);
-        game.addCommand(exit);
-        game.setCommandListener(new CommandListener() {
+        gameRunner.addCommand(exit);
+        gameRunner.setCommandListener(new CommandListener() {
             public void commandAction(
                 final Command command,
                 final Displayable displayable
             ) {
                 if (command.getCommandType() == Command.EXIT) {
-                    Game gameRender = (Game) displayable;
-                    gameRender.destroy();
+                    GameRunner game = (GameRunner) displayable;
+                    game.destroy();
                     midlet.notifyDestroyed();
                 }
             }

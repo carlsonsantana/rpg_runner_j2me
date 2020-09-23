@@ -5,18 +5,18 @@ import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
 public class MainMIDlet extends MIDlet {
-    private final Game game;
+    private final GameRunner gameRunner;
     private final MidletCommands midletCommands;
 
     public MainMIDlet() {
-        game = new Game();
-        midletCommands = new MidletCommands(this, game);
+        gameRunner = new GameRunner();
+        midletCommands = new MidletCommands(this, gameRunner);
     }
 
     protected void startApp() {
         Display display = Display.getDisplay(this);
-        display.setCurrent(game);
-        game.start();
+        display.setCurrent(gameRunner);
+        gameRunner.start();
         midletCommands.setCommands();
     }
 

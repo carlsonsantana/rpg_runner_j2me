@@ -4,11 +4,11 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-public class Game extends GameCanvas implements Runnable {
+public class GameRunner extends GameCanvas implements Runnable {
     private Thread thread;
     private boolean destroyed;
 
-    public Game() {
+    public GameRunner() {
         super(false);
 
         destroyed = false;
