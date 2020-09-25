@@ -4,6 +4,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.game.map.Map;
+import org.rpgrunner.game.map.MapLoader;
 
 public class GameController {
     private final Graphics graphics;
@@ -22,6 +23,7 @@ public class GameController {
         screenHeight = deviceScreenHeight;
 
         layerManager = new LayerManager();
+        map = MapLoader.loadMap("map");
     }
 
     public void render() {
