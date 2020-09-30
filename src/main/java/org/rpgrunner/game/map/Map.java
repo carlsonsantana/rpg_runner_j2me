@@ -2,14 +2,14 @@ package org.rpgrunner.game.map;
 
 public class Map {
     private final String tileSetFileName;
-    private final byte[][] background;
+    private final byte[][] tileMap;
 
     public Map(
-        final String backgroundTileSetFileName,
-        final byte[][] mapBackground
+        final String mapTileTileSetFileName,
+        final byte[][] mapTileMap
     ) {
-        tileSetFileName = backgroundTileSetFileName;
-        background = mapBackground;
+        tileSetFileName = mapTileTileSetFileName;
+        tileMap = mapTileMap;
     }
 
     public String getTileSetFileName() {
@@ -17,10 +17,14 @@ public class Map {
     }
 
     public int getWidth() {
-        return background[0].length;
+        return tileMap[0].length;
     }
 
     public int getHeight() {
-        return background.length;
+        return tileMap.length;
+    }
+
+    public byte[][] getTileMap() {
+        return tileMap;
     }
 }

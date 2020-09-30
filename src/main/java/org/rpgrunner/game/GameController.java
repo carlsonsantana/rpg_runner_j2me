@@ -1,17 +1,18 @@
 package org.rpgrunner.game;
 
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
+import org.rpgrunner.game.map.MapRender;
+import org.rpgrunner.game.j2me.MapRenderImpl;
 
 public class GameController {
     private final Graphics graphics;
     private final int screenWidth;
     private final int screenHeight;
-    private final LayerManager layerManager;
     private Map map;
+    private MapRender mapRender;
 
     public GameController(
         final Graphics midletGraphics,
@@ -22,15 +23,15 @@ public class GameController {
         screenWidth = deviceScreenWidth;
         screenHeight = deviceScreenHeight;
 
-        layerManager = new LayerManager();
-        map = MapLoader.loadMap("map");
-    }
-
-    public void render() {
-        layerManager.paint(graphics, 0, 0);
+        setMap(MapLoader.loadMap("map"));
     }
 
     public void setMap(final Map newMap) {
         map = newMap;
+        mapRender = new MapRenderImpl(graphics, map);
+    }
+
+    public void render() {
+        mapRender.render();
     }
 }
