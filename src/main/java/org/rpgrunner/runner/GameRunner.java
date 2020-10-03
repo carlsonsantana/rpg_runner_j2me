@@ -50,4 +50,28 @@ public class GameRunner extends GameCanvas implements Runnable {
     public void destroy() {
         destroyed = true;
     }
+
+    protected void keyPressed(final int keyCode) {
+        super.keyPressed(keyCode);
+        int gameAction;
+        if (keyCode == GameCanvas.KEY_NUM2) {
+            gameAction = GameCanvas.UP;
+        } else if (keyCode == GameCanvas.KEY_NUM4) {
+            gameAction = GameCanvas.LEFT;
+        } else if (keyCode == GameCanvas.KEY_NUM6) {
+            gameAction = GameCanvas.RIGHT;
+        } else if (keyCode == GameCanvas.KEY_NUM8) {
+            gameAction = GameCanvas.DOWN;
+        } else if (keyCode == GameCanvas.KEY_NUM5) {
+            gameAction = GameCanvas.FIRE;
+        } else {
+            gameAction = getGameAction(keyCode);
+        }
+        gameController.executeGameAction(gameAction);
+    }
+
+    protected void keyReleased(final int keyCode) {
+        super.keyReleased(keyCode);
+        gameController.executeGameAction(-1);
+    }
 }

@@ -1,6 +1,7 @@
 package org.rpgrunner.game;
 
 import javax.microedition.lcdui.Graphics;
+import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
@@ -41,6 +42,18 @@ public class GameController {
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
         playerCharacter = newPlayerCharacter;
         characterRender = new CharacterRenderImpl(graphics, playerCharacter);
+    }
+
+    public void executeGameAction(final int gameAction) {
+        if (gameAction == GameCanvas.UP) {
+            playerCharacter.moveUp();
+        } else if (gameAction == GameCanvas.RIGHT) {
+            playerCharacter.moveRight();
+        } else if (gameAction == GameCanvas.DOWN) {
+            playerCharacter.moveDown();
+        } else if (gameAction == GameCanvas.LEFT) {
+            playerCharacter.moveLeft();
+        }
     }
 
     public void render() {
