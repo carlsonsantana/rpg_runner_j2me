@@ -15,6 +15,12 @@ public class CharacterRenderImpl implements CharacterRender {
 
     private static final short SPRITE_HEIGHT = 32;
     private static final short SPRITE_WIDTH = 16;
+    private static final short SPRITE_MOVE_SPEED = 4;
+
+    private static final short SPRITE_FRAME_WALKING_1 = 0;
+    private static final short SPRITE_FRAME_STOPPED_1 = 1;
+    private static final short SPRITE_FRAME_WALKING_2 = 2;
+    private static final short SPRITE_FRAME_STOPPED_2 = 3;
 
     private static final short SPRITE_FRAME_UP_WALKING_1 = 0;
     private static final short SPRITE_FRAME_UP_STOPPED = 1;
@@ -29,7 +35,7 @@ public class CharacterRenderImpl implements CharacterRender {
     private static final short SPRITE_FRAME_LEFT_STOPPED = 10;
     private static final short SPRITE_FRAME_LEFT_WALKING_2 = 11;
 
-    private static final short SPRITE_INITIAL = SPRITE_FRAME_DOWN_STOPPED;
+    private static final short SPRITE_INITIAL = SPRITE_FRAME_STOPPED_2;
 
     private static final int[] SPRITE_ANIMATION_UP = {
         SPRITE_FRAME_UP_WALKING_1,
@@ -68,7 +74,7 @@ public class CharacterRenderImpl implements CharacterRender {
         graphics = gameGraphics;
         character = gameCharacter;
         sprite = new Sprite(loadImage(), SPRITE_WIDTH, SPRITE_HEIGHT);
-        sprite.setFrame(SPRITE_INITIAL);
+        changeSpriteAnimation();
     }
 
     private Image loadImage() {
@@ -86,7 +92,10 @@ public class CharacterRenderImpl implements CharacterRender {
     }
 
     public void render() {
-        changeSpriteAnimation();
+        if (isAnimationComplete()) {
+            changeSpriteAnimation();
+        }
+        moveSprite();
         changeSpriteFrame();
 
         sprite.paint(graphics);
@@ -107,21 +116,39 @@ public class CharacterRenderImpl implements CharacterRender {
             }
 
             sprite.setFrameSequence(animation);
+            sprite.setFrame(SPRITE_INITIAL);
         }
     }
 
     private void changeSpriteFrame() {
-        int currentFrame = sprite.getFrame();
-        if (
-            character.isMoving()
-            || (
-                currentFrame != SPRITE_FRAME_UP_STOPPED
-                && currentFrame != SPRITE_FRAME_RIGHT_STOPPED
-                && currentFrame != SPRITE_FRAME_DOWN_STOPPED
-                && currentFrame != SPRITE_FRAME_LEFT_STOPPED
-            )
-        ) {
+        if (isAnimationRunning()) {
             sprite.nextFrame();
         }
+    }
+
+    private void moveSprite() {
+        if (isAnimationRunning()) {
+            int x = sprite.getX();
+            int y = sprite.getY();
+            if (Direction.isUp(direction)) {
+                y -= SPRITE_MOVE_SPEED;
+            } else if (Direction.isRight(direction)) {
+                x += SPRITE_MOVE_SPEED;
+            } else if (Direction.isDown(direction)) {
+                y += SPRITE_MOVE_SPEED;
+            } else {
+                x -= SPRITE_MOVE_SPEED;
+            }
+            sprite.setPosition(x, y);
+        }
+    }
+
+    private boolean isAnimationRunning() {
+        return character.isMoving() || (!isAnimationComplete());
+    }
+
+    private boolean isAnimationComplete() {
+        int currentFrame = sprite.getFrame();
+        return currentFrame == SPRITE_FRAME_STOPPED_2;
     }
 }
