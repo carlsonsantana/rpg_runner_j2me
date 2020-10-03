@@ -53,6 +53,8 @@ public class GameController {
             playerCharacter.moveDown();
         } else if (gameAction == GameCanvas.LEFT) {
             playerCharacter.moveLeft();
+        } else {
+            playerCharacter.stop();
         }
     }
 

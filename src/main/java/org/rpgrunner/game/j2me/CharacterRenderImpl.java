@@ -31,9 +31,35 @@ public class CharacterRenderImpl implements CharacterRender {
 
     private static final short SPRITE_INITIAL = SPRITE_FRAME_DOWN_STOPPED;
 
+    private static final int[] SPRITE_ANIMATION_UP = {
+        SPRITE_FRAME_UP_WALKING_1,
+        SPRITE_FRAME_UP_STOPPED,
+        SPRITE_FRAME_UP_WALKING_2,
+        SPRITE_FRAME_UP_STOPPED
+    };
+    private static final int[] SPRITE_ANIMATION_RIGHT = {
+        SPRITE_FRAME_RIGHT_WALKING_1,
+        SPRITE_FRAME_RIGHT_STOPPED,
+        SPRITE_FRAME_RIGHT_WALKING_2,
+        SPRITE_FRAME_RIGHT_STOPPED
+    };
+    private static final int[] SPRITE_ANIMATION_DOWN = {
+        SPRITE_FRAME_DOWN_WALKING_1,
+        SPRITE_FRAME_DOWN_STOPPED,
+        SPRITE_FRAME_DOWN_WALKING_2,
+        SPRITE_FRAME_DOWN_STOPPED
+    };
+    private static final int[] SPRITE_ANIMATION_LEFT = {
+        SPRITE_FRAME_LEFT_WALKING_1,
+        SPRITE_FRAME_LEFT_STOPPED,
+        SPRITE_FRAME_LEFT_WALKING_2,
+        SPRITE_FRAME_LEFT_STOPPED
+    };
+
     private final Graphics graphics;
     private final Sprite sprite;
     private final GameCharacter character;
+    private byte direction;
 
     public CharacterRenderImpl(
         final Graphics gameGraphics,
@@ -60,21 +86,42 @@ public class CharacterRenderImpl implements CharacterRender {
     }
 
     public void render() {
-        changeSpriteCharacterDirection();
+        changeSpriteAnimation();
+        changeSpriteFrame();
 
         sprite.paint(graphics);
     }
 
-    private void changeSpriteCharacterDirection() {
-        byte direction = character.getDirection();
-        if (Direction.isUp(direction)) {
-            sprite.setFrame(SPRITE_FRAME_UP_STOPPED);
-        } else if (Direction.isRight(direction)) {
-            sprite.setFrame(SPRITE_FRAME_RIGHT_STOPPED);
-        } else if (Direction.isDown(direction)) {
-            sprite.setFrame(SPRITE_FRAME_DOWN_STOPPED);
-        } else {
-            sprite.setFrame(SPRITE_FRAME_LEFT_STOPPED);
+    private void changeSpriteAnimation() {
+        if (direction != character.getDirection()) {
+            direction = character.getDirection();
+            int[] animation;
+            if (Direction.isUp(direction)) {
+                animation = SPRITE_ANIMATION_UP;
+            } else if (Direction.isRight(direction)) {
+                animation = SPRITE_ANIMATION_RIGHT;
+            } else if (Direction.isDown(direction)) {
+                animation = SPRITE_ANIMATION_DOWN;
+            } else {
+                animation = SPRITE_ANIMATION_LEFT;
+            }
+
+            sprite.setFrameSequence(animation);
+        }
+    }
+
+    private void changeSpriteFrame() {
+        int currentFrame = sprite.getFrame();
+        if (
+            character.isMoving()
+            || (
+                currentFrame != SPRITE_FRAME_UP_STOPPED
+                && currentFrame != SPRITE_FRAME_RIGHT_STOPPED
+                && currentFrame != SPRITE_FRAME_DOWN_STOPPED
+                && currentFrame != SPRITE_FRAME_LEFT_STOPPED
+            )
+        ) {
+            sprite.nextFrame();
         }
     }
 }
