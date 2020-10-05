@@ -147,7 +147,7 @@ public class CharacterRenderImpl implements CharacterRender {
         return character.isMoving() || (!isAnimationComplete());
     }
 
-    private boolean isAnimationComplete() {
+    public boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
     }

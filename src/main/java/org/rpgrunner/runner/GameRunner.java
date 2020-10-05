@@ -7,6 +7,7 @@ import javax.microedition.lcdui.game.GameCanvas;
 import org.rpgrunner.game.GameController;
 
 public class GameRunner extends GameCanvas implements Runnable {
+    private static final int FRAMES_PER_SECOND = 100;
     private Thread thread;
     private boolean destroyed;
     private GameController gameController;
@@ -25,7 +26,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     public void run() {
         configure();
 
-        render();
+        executeGame();
     }
 
     private void configure() {
@@ -34,12 +35,17 @@ public class GameRunner extends GameCanvas implements Runnable {
         gameController = new GameController(graphics, getWidth(), getHeight());
     }
 
-    private void render() {
+    private void executeGame() {
         while (isRunning()) {
+            gameController.preRender();
             gameController.render();
+            gameController.posRender();
 
             repaint();
             flushGraphics();
+            try {
+                Thread.sleep(FRAMES_PER_SECOND);
+            } catch (InterruptedException ie) { }
         }
     }
 
@@ -67,11 +73,11 @@ public class GameRunner extends GameCanvas implements Runnable {
         } else {
             gameAction = getGameAction(keyCode);
         }
-        gameController.executeGameAction(gameAction);
+        gameController.setGameAction(gameAction);
     }
 
     protected void keyReleased(final int keyCode) {
         super.keyReleased(keyCode);
-        gameController.executeGameAction(-1);
+        gameController.setGameAction(-1);
     }
 }

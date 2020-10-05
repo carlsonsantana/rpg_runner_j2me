@@ -20,6 +20,7 @@ public class GameController {
     private MapRender mapRender;
     private GameCharacter playerCharacter;
     private CharacterRender characterRender;
+    private int gameAction;
 
     public GameController(
         final Graphics midletGraphics,
@@ -44,7 +45,11 @@ public class GameController {
         characterRender = new CharacterRenderImpl(graphics, playerCharacter);
     }
 
-    public void executeGameAction(final int gameAction) {
+    public void setGameAction(final int newGameAction) {
+        gameAction = newGameAction;
+    }
+
+    public void preRender() {
         if (gameAction == GameCanvas.UP) {
             playerCharacter.moveUp();
         } else if (gameAction == GameCanvas.RIGHT) {
@@ -53,13 +58,25 @@ public class GameController {
             playerCharacter.moveDown();
         } else if (gameAction == GameCanvas.LEFT) {
             playerCharacter.moveLeft();
-        } else {
-            playerCharacter.stop();
+        }
+        if (
+            !map.canMoveTo(
+                playerCharacter.getMapNextPositionX(),
+                playerCharacter.getMapNextPositionY()
+            )
+        ) {
+            playerCharacter.cancelMove();
         }
     }
 
     public void render() {
         mapRender.render();
         characterRender.render();
+    }
+
+    public void posRender() {
+        if (characterRender.isAnimationComplete()) {
+            playerCharacter.finishMove();
+        }
     }
 }

@@ -27,4 +27,13 @@ public class Map {
     public byte[][] getTileMap() {
         return tileMap;
     }
+
+    public boolean canMoveTo(final int toX, final int toY) {
+        return (
+            (toX >= 0)
+            && (toY >= 0)
+            && (toX < getWidth())
+            && (toY < getHeight())
+        );
+    }
 }
