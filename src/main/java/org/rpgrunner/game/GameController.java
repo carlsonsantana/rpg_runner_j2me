@@ -61,8 +61,11 @@ public class GameController {
         }
         if (
             !map.canMoveTo(
+                playerCharacter.getMapPositionX(),
+                playerCharacter.getMapPositionY(),
                 playerCharacter.getMapNextPositionX(),
-                playerCharacter.getMapNextPositionY()
+                playerCharacter.getMapNextPositionY(),
+                playerCharacter.getDirection()
             )
         ) {
             playerCharacter.cancelMove();

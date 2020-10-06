@@ -3,6 +3,9 @@ package org.rpgrunner.game.map;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.game.tileset.TileSet;
+import org.rpgrunner.game.tileset.TileSetLoader;
+
 public final class MapLoader {
     private static final String MAPS_DIRECTORY = "/maps/";
     private static final String MAPS_EXTENSION = ".map";
@@ -29,10 +32,11 @@ public final class MapLoader {
     ) throws IOException {
         String tileSetFileName = extractFileName(mapInputStream);
         byte[][] tileMap = extractTileMap(mapInputStream);
+        TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
 
         mapInputStream.close();
 
-        return new Map(tileSetFileName, tileMap);
+        return new Map(tileSetFileName, tileMap, tileSet);
     }
 
     private static String extractFileName(

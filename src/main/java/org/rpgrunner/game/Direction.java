@@ -23,4 +23,15 @@ public final class Direction {
     public static boolean isLeft(final byte direction) {
         return direction == LEFT;
     }
+
+    public static byte invertDirection(final byte direction) {
+        if (isUp(direction)) {
+            return DOWN;
+        } else if (isRight(direction)) {
+            return LEFT;
+        } else if (isDown(direction)) {
+            return UP;
+        }
+        return RIGHT;
+    }
 }
