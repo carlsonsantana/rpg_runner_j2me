@@ -31,12 +31,13 @@ public final class MapLoader {
         final InputStream mapInputStream
     ) throws IOException {
         String tileSetFileName = extractFileName(mapInputStream);
-        byte[][] tileMap = extractTileMap(mapInputStream);
         TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
+
+        byte[][] tileMap = extractTileMap(mapInputStream);
 
         mapInputStream.close();
 
-        return new Map(tileSetFileName, tileMap, tileSet);
+        return new Map(tileSet, tileMap);
     }
 
     private static String extractFileName(

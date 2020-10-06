@@ -3,22 +3,12 @@ package org.rpgrunner.game.map;
 import org.rpgrunner.game.tileset.TileSet;
 
 public class Map {
-    private final String tileSetFileName;
-    private final byte[][] tileMap;
     private final TileSet tileSet;
+    private final byte[][] tileMap;
 
-    public Map(
-        final String mapTileTileSetFileName,
-        final byte[][] mapTileMap,
-        final TileSet mapTileSet
-    ) {
-        tileSetFileName = mapTileTileSetFileName;
-        tileMap = mapTileMap;
+    public Map(final TileSet mapTileSet, final byte[][] mapTileMap) {
         tileSet = mapTileSet;
-    }
-
-    public String getTileSetFileName() {
-        return tileSetFileName;
+        tileMap = mapTileMap;
     }
 
     public int getWidth() {
@@ -31,6 +21,10 @@ public class Map {
 
     public byte[][] getTileMap() {
         return tileMap;
+    }
+
+    public TileSet getTileSet() {
+        return tileSet;
     }
 
     public boolean canMoveTo(

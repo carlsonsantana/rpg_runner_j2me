@@ -1,6 +1,5 @@
 package org.rpgrunner.game.j2me;
 
-import java.io.IOException;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
@@ -9,10 +8,6 @@ import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapRender;
 
 public class MapRenderImpl implements MapRender {
-    private static final int HEIGHT = 16;
-    private static final int WIDTH = 16;
-    private static final String TILESET_DIRECTORY = "/tilesets/";
-    private static final String TILESET_EXTENSION = ".png";
     private final Graphics graphics;
     private final Map map;
     private final TiledLayer tiledLayer;
@@ -20,29 +15,16 @@ public class MapRenderImpl implements MapRender {
     public MapRenderImpl(final Graphics gameGraphics, final Map gameMap) {
         graphics = gameGraphics;
         map = gameMap;
+        Image tileSetImage = TileSetRender.loadImage(map.getTileSet());
 
         tiledLayer = new TiledLayer(
             map.getWidth(),
             map.getHeight(),
-            loadTileSetImage(),
-            WIDTH,
-            HEIGHT
+            tileSetImage,
+            TileSetRender.TILE_WIDTH,
+            TileSetRender.TILE_HEIGHT
         );
         fillLayer();
-    }
-
-    private Image loadTileSetImage() {
-        String tileSetFileName = (
-            TILESET_DIRECTORY
-            + map.getTileSetFileName()
-            + TILESET_EXTENSION
-        );
-
-        try {
-            return Image.createImage(tileSetFileName);
-        } catch (IOException exception) {
-            throw new RuntimeException(exception.getMessage());
-        }
     }
 
     private void fillLayer() {

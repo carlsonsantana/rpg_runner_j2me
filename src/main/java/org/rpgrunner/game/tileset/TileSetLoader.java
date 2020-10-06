@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 public class TileSetLoader {
-    private static final String TILESET_DIRECTORY = "/tilesets/";
+    public static final String TILESET_DIRECTORY = "/tilesets/";
     private static final String TILESET_EXTENSION = ".tileset";
 
     private TileSetLoader() { }
