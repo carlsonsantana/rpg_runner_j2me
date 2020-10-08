@@ -91,13 +91,15 @@ public class CharacterRenderImpl implements CharacterRender {
         }
     }
 
-    public void render() {
+    public void preRender() {
         if (isAnimationComplete()) {
             changeSpriteAnimation();
         }
         moveSprite();
         changeSpriteFrame();
+    }
 
+    public void render() {
         sprite.paint(graphics);
     }
 
@@ -150,5 +152,25 @@ public class CharacterRenderImpl implements CharacterRender {
     public boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
+    }
+
+    public int getX() {
+        return sprite.getX();
+    }
+
+    public int getY() {
+        return sprite.getY();
+    }
+
+    public int getWidth() {
+        return SPRITE_WIDTH;
+    }
+
+    public int getHeight() {
+        return SPRITE_HEIGHT;
+    }
+
+    public void setPosition(final int x, final int y) {
+        sprite.setPosition(x, y);
     }
 }

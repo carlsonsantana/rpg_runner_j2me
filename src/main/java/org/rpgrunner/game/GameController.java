@@ -13,9 +13,15 @@ import org.rpgrunner.game.character.CharacterRender;
 import org.rpgrunner.game.j2me.CharacterRenderImpl;
 
 public class GameController {
+    private static final int TILE_WIDTH = 16;
+    private static final int SPRITE_SPEED = 4;
     private final Graphics graphics;
     private final int screenWidth;
     private final int screenHeight;
+    private final int screenMiddleWidth;
+    private final int screenMiddleHeight;
+    private int screenMapPositionX;
+    private int screenMapPositionY;
     private Map map;
     private MapRender mapRender;
     private GameCharacter playerCharacter;
@@ -30,6 +36,10 @@ public class GameController {
         graphics = midletGraphics;
         screenWidth = deviceScreenWidth;
         screenHeight = deviceScreenHeight;
+        screenMiddleWidth = screenWidth / 2;
+        screenMiddleHeight = screenHeight / 2;
+        screenMapPositionX = 0;
+        screenMapPositionY = 0;
 
         setMap(MapLoader.loadMap("map"));
         setPlayerCharacter(new GameCharacter("character"));
@@ -37,7 +47,7 @@ public class GameController {
 
     public void setMap(final Map newMap) {
         map = newMap;
-        mapRender = new MapRenderImpl(graphics, map);
+        mapRender = new MapRenderImpl(graphics, map, screenWidth, screenHeight);
     }
 
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
@@ -73,8 +83,90 @@ public class GameController {
     }
 
     public void render() {
+        characterRender.preRender();
+        centerCamera();
         mapRender.render();
         characterRender.render();
+    }
+
+    private void centerCamera() {
+        int screenCharacterPositionX = characterRender.getX();
+        int screenCharacterPositionY = characterRender.getY();
+        int middleCharacterWidth = characterRender.getWidth() / 2;
+        int middleCharacterHeight = characterRender.getHeight() / 2;
+        int middleCharacterPositionScreenX = (
+            screenCharacterPositionX + middleCharacterWidth
+        );
+        int middleCharacterPositionScreenY = (
+            screenCharacterPositionY + middleCharacterHeight
+        );
+        int playerAbsolutePositionX = (
+            screenMapPositionX
+            + screenCharacterPositionX
+            + middleCharacterWidth
+        );
+        int playerAbsolutePositionY = (
+            screenMapPositionY
+            + screenCharacterPositionY
+            + middleCharacterHeight
+        );
+        int mapWidth = map.getWidth() * TILE_WIDTH;
+        int mapHeight = map.getHeight() * TILE_WIDTH;
+        byte direction = playerCharacter.getDirection();
+
+        if (
+            (Direction.isRight(direction))
+            && (screenMiddleWidth < middleCharacterPositionScreenX)
+            && ((playerAbsolutePositionX + screenMiddleWidth) <= mapWidth)
+        ) {
+            screenMapPositionX += SPRITE_SPEED;
+            centerPlayerScreenX();
+        } else if (
+            (Direction.isLeft(direction))
+            && (screenMiddleWidth > middleCharacterPositionScreenX)
+            && (screenMapPositionX > 0)
+        ) {
+            screenMapPositionX -= SPRITE_SPEED;
+            centerPlayerScreenX();
+        } else if (
+            (Direction.isDown(direction))
+            && (screenMiddleHeight < middleCharacterPositionScreenY)
+            && ((playerAbsolutePositionY + screenMiddleHeight) <= mapHeight)
+        ) {
+            screenMapPositionY += SPRITE_SPEED;
+            centerPlayerScreenY();
+        } else if (
+            (Direction.isUp(direction))
+            && (screenMiddleHeight > middleCharacterPositionScreenY)
+            && (screenMapPositionY > 0)
+        ) {
+            screenMapPositionY -= SPRITE_SPEED;
+            centerPlayerScreenY();
+        }
+
+        mapRender.setPosition(screenMapPositionX, screenMapPositionY);
+    }
+
+    private void centerPlayerScreenX() {
+        int middleCharacterWidth = characterRender.getWidth() / 2;
+        int screenCharacterPositionX = screenMiddleWidth - middleCharacterWidth;
+        int screenCharacterPositionY = characterRender.getY();
+        characterRender.setPosition(
+            screenCharacterPositionX,
+            screenCharacterPositionY
+        );
+    }
+
+    private void centerPlayerScreenY() {
+        int middleCharacterHeight = characterRender.getHeight() / 2;
+        int screenCharacterPositionX = characterRender.getX();
+        int screenCharacterPositionY = (
+            screenMiddleHeight - middleCharacterHeight
+        );
+        characterRender.setPosition(
+            screenCharacterPositionX,
+            screenCharacterPositionY
+        );
     }
 
     public void posRender() {
