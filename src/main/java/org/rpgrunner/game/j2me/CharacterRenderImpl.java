@@ -16,6 +16,9 @@ public class CharacterRenderImpl implements CharacterRender {
     private static final short SPRITE_HEIGHT = 32;
     private static final short SPRITE_WIDTH = 16;
     private static final short SPRITE_MOVE_SPEED = 4;
+    private static final short SPRITE_REFERENCE_Y = (
+        SPRITE_HEIGHT - TileSetRender.TILE_HEIGHT
+    );
 
     private static final short SPRITE_FRAME_WALKING_1 = 0;
     private static final short SPRITE_FRAME_STOPPED_1 = 1;
@@ -74,6 +77,8 @@ public class CharacterRenderImpl implements CharacterRender {
         graphics = gameGraphics;
         character = gameCharacter;
         sprite = new Sprite(loadImage(), SPRITE_WIDTH, SPRITE_HEIGHT);
+        sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
+        sprite.setPosition(0, -SPRITE_REFERENCE_Y);
         changeSpriteAnimation();
     }
 
