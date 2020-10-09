@@ -1,30 +1,22 @@
 package org.rpgrunner.game.map;
 
-import org.rpgrunner.game.tileset.TileSet;
-
 public class Map {
-    private final TileSet tileSet;
-    private final byte[][] tileMap;
+    private final Layer[] layers;
 
-    public Map(final TileSet mapTileSet, final byte[][] mapTileMap) {
-        tileSet = mapTileSet;
-        tileMap = mapTileMap;
+    public Map(final Layer[] mapLayers) {
+        layers = mapLayers;
     }
 
     public int getWidth() {
-        return tileMap[0].length;
+        return layers[0].getWidth();
     }
 
     public int getHeight() {
-        return tileMap.length;
+        return layers[0].getHeight();
     }
 
-    public byte[][] getTileMap() {
-        return tileMap;
-    }
-
-    public TileSet getTileSet() {
-        return tileSet;
+    public Layer[] getLayers() {
+        return layers;
     }
 
     public boolean canMoveTo(
@@ -34,16 +26,11 @@ public class Map {
         final int toY,
         final byte direction
     ) {
-        return (
-            (toX >= 0)
-            && (toY >= 0)
-            && (toX < getWidth())
-            && (toY < getHeight())
-            && (!tileSet.canColideOn(
-                tileMap[fromY][fromX],
-                tileMap[toY][toX],
-                direction
-            ))
-        );
+        for (int i = 0; i < layers.length; i++) {
+            if (!layers[i].canMoveTo(fromX, fromY, toX, toY, direction)) {
+                return false;
+            }
+        }
+        return true;
     }
 }

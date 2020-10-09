@@ -7,43 +7,58 @@ import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapRender;
+import org.rpgrunner.game.map.Layer;
 
 public class MapRenderImpl implements MapRender {
     private final Graphics graphics;
-    private final Map map;
     private final LayerManager layerManager;
     private final int screenWidth;
     private final int screenHeight;
 
     public MapRenderImpl(
         final Graphics gameGraphics,
-        final Map gameMap,
+        final Map map,
         final int deviceScreenWidth,
         final int deviceScreenHeight
     ) {
         graphics = gameGraphics;
-        map = gameMap;
         screenWidth = deviceScreenWidth;
         screenHeight = deviceScreenHeight;
-        Image tileSetImage = TileSetRender.loadImage(map.getTileSet());
+
+        layerManager = new LayerManager();
+        setTiledLayers(map);
+    }
+
+    private void setTiledLayers(final Map map) {
+        Layer[] layers = map.getLayers();
+
+        for (int i = layers.length - 1; i >= 0; i--) {
+            layerManager.append(generateTiledLayer(layers[i]));
+        }
+    }
+
+    private static TiledLayer generateTiledLayer(final Layer layer) {
+        Image tileSetImage = TileSetRender.loadImage(layer.getTileSet());
 
         TiledLayer tiledLayer = new TiledLayer(
-            map.getWidth(),
-            map.getHeight(),
+            layer.getWidth(),
+            layer.getHeight(),
             tileSetImage,
             TileSetRender.TILE_WIDTH,
             TileSetRender.TILE_HEIGHT
         );
-        fillLayer(tiledLayer);
+        fillTiledlayer(layer, tiledLayer);
 
-        layerManager = new LayerManager();
-        layerManager.append(tiledLayer);
+        return tiledLayer;
     }
 
-    private void fillLayer(final TiledLayer tiledLayer) {
-        int height = map.getHeight();
-        int width = map.getWidth();
-        byte[][] tileMap = map.getTileMap();
+    private static void fillTiledlayer(
+        final Layer layer,
+        final TiledLayer tiledLayer
+    ) {
+        int height = layer.getHeight();
+        int width = layer.getWidth();
+        byte[][] tileMap = layer.getTileMap();
         for (int row = 0; row < height; row++) {
             for (int cell = 0; cell < width; cell++) {
                 if (tileMap[row][cell] > 0) {

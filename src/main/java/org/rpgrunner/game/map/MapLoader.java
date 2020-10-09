@@ -30,14 +30,31 @@ public final class MapLoader {
     private static Map extractMap(
         final InputStream mapInputStream
     ) throws IOException {
-        String tileSetFileName = extractFileName(mapInputStream);
-        TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
+        int width = mapInputStream.read();
+        int height = mapInputStream.read();
 
-        byte[][] tileMap = extractTileMap(mapInputStream);
+        int layersSize = mapInputStream.read();
+        Layer[] layers = new Layer[layersSize];
+        for (int i = 0; i < layersSize; i++) {
+            layers[i] = extractLayer(mapInputStream, width, height);
+        }
 
         mapInputStream.close();
 
-        return new Map(tileSet, tileMap);
+        return new Map(layers);
+    }
+
+    private static Layer extractLayer(
+        final InputStream mapInputStream,
+        final int width,
+        final int height
+    ) throws IOException {
+        String tileSetFileName = extractFileName(mapInputStream);
+        TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
+
+        byte[][] tileMap = extractTileMap(mapInputStream, width, height);
+
+        return new Layer(tileSet, tileMap);
     }
 
     private static String extractFileName(
@@ -50,11 +67,10 @@ public final class MapLoader {
     }
 
     private static byte[][] extractTileMap(
-        final InputStream mapInputStream
+        final InputStream mapInputStream,
+        final int width,
+        final int height
     ) throws IOException {
-        int height = mapInputStream.read();
-        int width = mapInputStream.read();
-
         byte[][] tileMap = new byte[height][width];
         for (int i = 0; i < height; i++) {
             mapInputStream.read(tileMap[i]);
