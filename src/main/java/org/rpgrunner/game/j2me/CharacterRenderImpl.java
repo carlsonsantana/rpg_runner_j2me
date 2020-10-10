@@ -10,7 +10,7 @@ import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.character.CharacterRender;
 
 public class CharacterRenderImpl implements CharacterRender {
-    private static final String CHARACTER_DIRECTORY = "/character/";
+    private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
     private static final short SPRITE_HEIGHT = 32;
