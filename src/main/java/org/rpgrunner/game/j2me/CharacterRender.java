@@ -1,15 +1,13 @@
 package org.rpgrunner.game.j2me;
 
 import java.io.IOException;
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.game.Direction;
 import org.rpgrunner.game.character.GameCharacter;
-import org.rpgrunner.game.character.CharacterRender;
 
-public class CharacterRenderImpl implements CharacterRender {
+public class CharacterRender {
     private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
@@ -65,16 +63,11 @@ public class CharacterRenderImpl implements CharacterRender {
         SPRITE_FRAME_LEFT_STOPPED
     };
 
-    private final Graphics graphics;
     private final Sprite sprite;
     private final GameCharacter character;
     private byte direction;
 
-    public CharacterRenderImpl(
-        final Graphics gameGraphics,
-        final GameCharacter gameCharacter
-    ) {
-        graphics = gameGraphics;
+    public CharacterRender(final GameCharacter gameCharacter) {
         character = gameCharacter;
         sprite = new Sprite(loadImage(), SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
@@ -104,8 +97,8 @@ public class CharacterRenderImpl implements CharacterRender {
         changeSpriteFrame();
     }
 
-    public void render() {
-        sprite.paint(graphics);
+    public Sprite render() {
+        return sprite;
     }
 
     private void changeSpriteAnimation() {

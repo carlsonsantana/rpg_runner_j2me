@@ -4,14 +4,14 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.TiledLayer;
+import javax.microedition.lcdui.game.Layer;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
 import org.rpgrunner.game.j2me.MapRender;
 
 import org.rpgrunner.game.character.GameCharacter;
-import org.rpgrunner.game.character.CharacterRender;
-import org.rpgrunner.game.j2me.CharacterRenderImpl;
+import org.rpgrunner.game.j2me.CharacterRender;
 
 public class GameController {
     private static final int TILE_WIDTH = 16;
@@ -59,15 +59,18 @@ public class GameController {
 
     private void clearMapLayerManager() {
         int size = layerManager.getSize();
-        for (int i = 0; (i < size) && (i < 2); i++) {
-            layerManager.remove(layerManager.getLayerAt(--size));
-            layerManager.remove(layerManager.getLayerAt(--size));
+        for (int i = 1; (i < size) && (i <= 2); i++) {
+            Layer layer = layerManager.getLayerAt(size - i);
+            if (layer instanceof TiledLayer) {
+                layerManager.remove(layer);
+            }
         }
     }
 
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
         playerCharacter = newPlayerCharacter;
-        characterRender = new CharacterRenderImpl(graphics, playerCharacter);
+        characterRender = new CharacterRender(playerCharacter);
+        layerManager.insert(characterRender.render(), 0);
     }
 
     public void setGameAction(final int newGameAction) {
@@ -107,12 +110,17 @@ public class GameController {
             screenHeight
         );
         layerManager.paint(graphics, 0, 0);
-        characterRender.render();
     }
 
     private void centerCamera() {
-        int screenCharacterPositionX = characterRender.getX();
-        int screenCharacterPositionY = characterRender.getY();
+        int playerAbsolutePositionX = characterRender.getX();
+        int playerAbsolutePositionY = characterRender.getY();
+        int screenCharacterPositionX = (
+            playerAbsolutePositionX - cameraPositionX
+        );
+        int screenCharacterPositionY = (
+            playerAbsolutePositionY - cameraPositionY
+        );
         int middleCharacterWidth = characterRender.getWidth() / 2;
         int middleCharacterHeight = characterRender.getHeight() / 2;
         int middleCharacterPositionScreenX = (
@@ -120,16 +128,6 @@ public class GameController {
         );
         int middleCharacterPositionScreenY = (
             screenCharacterPositionY + middleCharacterHeight
-        );
-        int playerAbsolutePositionX = (
-            cameraPositionX
-            + screenCharacterPositionX
-            + middleCharacterWidth
-        );
-        int playerAbsolutePositionY = (
-            cameraPositionY
-            + screenCharacterPositionY
-            + middleCharacterHeight
         );
         int mapWidth = map.getWidth() * TILE_WIDTH;
         int mapHeight = map.getHeight() * TILE_WIDTH;
@@ -141,51 +139,25 @@ public class GameController {
             && ((playerAbsolutePositionX + screenMiddleWidth) <= mapWidth)
         ) {
             cameraPositionX += SPRITE_SPEED;
-            centerPlayerScreenX();
         } else if (
             (Direction.isLeft(direction))
             && (screenMiddleWidth > middleCharacterPositionScreenX)
             && (cameraPositionX > 0)
         ) {
             cameraPositionX -= SPRITE_SPEED;
-            centerPlayerScreenX();
         } else if (
             (Direction.isDown(direction))
             && (screenMiddleHeight < middleCharacterPositionScreenY)
             && ((playerAbsolutePositionY + screenMiddleHeight) <= mapHeight)
         ) {
             cameraPositionY += SPRITE_SPEED;
-            centerPlayerScreenY();
         } else if (
             (Direction.isUp(direction))
             && (screenMiddleHeight > middleCharacterPositionScreenY)
             && (cameraPositionY > 0)
         ) {
             cameraPositionY -= SPRITE_SPEED;
-            centerPlayerScreenY();
         }
-    }
-
-    private void centerPlayerScreenX() {
-        int middleCharacterWidth = characterRender.getWidth() / 2;
-        int screenCharacterPositionX = screenMiddleWidth - middleCharacterWidth;
-        int screenCharacterPositionY = characterRender.getY();
-        characterRender.setPosition(
-            screenCharacterPositionX,
-            screenCharacterPositionY
-        );
-    }
-
-    private void centerPlayerScreenY() {
-        int middleCharacterHeight = characterRender.getHeight() / 2;
-        int screenCharacterPositionX = characterRender.getX();
-        int screenCharacterPositionY = (
-            screenMiddleHeight - middleCharacterHeight
-        );
-        characterRender.setPosition(
-            screenCharacterPositionX,
-            screenCharacterPositionY
-        );
     }
 
     public void posRender() {
