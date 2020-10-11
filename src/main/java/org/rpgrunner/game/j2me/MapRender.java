@@ -1,40 +1,27 @@
 package org.rpgrunner.game.j2me;
 
-import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
-import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.game.map.Map;
-import org.rpgrunner.game.map.MapRender;
 import org.rpgrunner.game.map.Layer;
 
-public class MapRenderImpl implements MapRender {
-    private final Graphics graphics;
-    private final LayerManager layerManager;
-    private final int screenWidth;
-    private final int screenHeight;
+public class MapRender {
+    private final TiledLayer[] tiledLayers;
 
-    public MapRenderImpl(
-        final Graphics gameGraphics,
-        final Map map,
-        final int deviceScreenWidth,
-        final int deviceScreenHeight
-    ) {
-        graphics = gameGraphics;
-        screenWidth = deviceScreenWidth;
-        screenHeight = deviceScreenHeight;
-
-        layerManager = new LayerManager();
-        setTiledLayers(map);
+    public MapRender(final Map map) {
+        tiledLayers = getTiledLayersFromMap(map);
     }
 
-    private void setTiledLayers(final Map map) {
+    private static TiledLayer[] getTiledLayersFromMap(final Map map) {
         Layer[] layers = map.getLayers();
+        TiledLayer[] mapTiledLayers = new TiledLayer[layers.length];
 
-        for (int i = layers.length - 1; i >= 0; i--) {
-            layerManager.append(generateTiledLayer(layers[i]));
+        for (int i = 0; i < layers.length; i++) {
+            mapTiledLayers[i] = generateTiledLayer(layers[i]);
         }
+
+        return mapTiledLayers;
     }
 
     private static TiledLayer generateTiledLayer(final Layer layer) {
@@ -68,11 +55,7 @@ public class MapRenderImpl implements MapRender {
         }
     }
 
-    public void render() {
-        layerManager.paint(graphics, 0, 0);
-    }
-
-    public void setPosition(final int x, final int y) {
-        layerManager.setViewWindow(x, y, screenWidth, screenHeight);
+    public TiledLayer[] getTiledLayers() {
+        return tiledLayers;
     }
 }

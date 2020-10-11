@@ -2,11 +2,12 @@ package org.rpgrunner.game;
 
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
+import javax.microedition.lcdui.game.LayerManager;
+import javax.microedition.lcdui.game.TiledLayer;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
-import org.rpgrunner.game.map.MapRender;
-import org.rpgrunner.game.j2me.MapRenderImpl;
+import org.rpgrunner.game.j2me.MapRender;
 
 import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.character.CharacterRender;
@@ -16,14 +17,14 @@ public class GameController {
     private static final int TILE_WIDTH = 16;
     private static final int SPRITE_SPEED = 4;
     private final Graphics graphics;
+    private final LayerManager layerManager;
     private final int screenWidth;
     private final int screenHeight;
     private final int screenMiddleWidth;
     private final int screenMiddleHeight;
-    private int screenMapPositionX;
-    private int screenMapPositionY;
+    private int cameraPositionX;
+    private int cameraPositionY;
     private Map map;
-    private MapRender mapRender;
     private GameCharacter playerCharacter;
     private CharacterRender characterRender;
     private int gameAction;
@@ -34,12 +35,13 @@ public class GameController {
         final int deviceScreenHeight
     ) {
         graphics = midletGraphics;
+        layerManager = new LayerManager();
         screenWidth = deviceScreenWidth;
         screenHeight = deviceScreenHeight;
         screenMiddleWidth = screenWidth / 2;
         screenMiddleHeight = screenHeight / 2;
-        screenMapPositionX = 0;
-        screenMapPositionY = 0;
+        cameraPositionX = 0;
+        cameraPositionY = 0;
 
         setMap(MapLoader.loadMap("map"));
         setPlayerCharacter(new GameCharacter("character"));
@@ -47,7 +49,20 @@ public class GameController {
 
     public void setMap(final Map newMap) {
         map = newMap;
-        mapRender = new MapRenderImpl(graphics, map, screenWidth, screenHeight);
+        MapRender mapRender = new MapRender(map);
+        clearMapLayerManager();
+        TiledLayer[] tiledLayers = mapRender.getTiledLayers();
+        for (int i = tiledLayers.length - 1; i >= 0; i--) {
+            layerManager.append(tiledLayers[i]);
+        }
+    }
+
+    private void clearMapLayerManager() {
+        int size = layerManager.getSize();
+        for (int i = 0; (i < size) && (i < 2); i++) {
+            layerManager.remove(layerManager.getLayerAt(--size));
+            layerManager.remove(layerManager.getLayerAt(--size));
+        }
     }
 
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
@@ -85,7 +100,13 @@ public class GameController {
     public void render() {
         characterRender.preRender();
         centerCamera();
-        mapRender.render();
+        layerManager.setViewWindow(
+            cameraPositionX,
+            cameraPositionY,
+            screenWidth,
+            screenHeight
+        );
+        layerManager.paint(graphics, 0, 0);
         characterRender.render();
     }
 
@@ -101,12 +122,12 @@ public class GameController {
             screenCharacterPositionY + middleCharacterHeight
         );
         int playerAbsolutePositionX = (
-            screenMapPositionX
+            cameraPositionX
             + screenCharacterPositionX
             + middleCharacterWidth
         );
         int playerAbsolutePositionY = (
-            screenMapPositionY
+            cameraPositionY
             + screenCharacterPositionY
             + middleCharacterHeight
         );
@@ -119,32 +140,30 @@ public class GameController {
             && (screenMiddleWidth < middleCharacterPositionScreenX)
             && ((playerAbsolutePositionX + screenMiddleWidth) <= mapWidth)
         ) {
-            screenMapPositionX += SPRITE_SPEED;
+            cameraPositionX += SPRITE_SPEED;
             centerPlayerScreenX();
         } else if (
             (Direction.isLeft(direction))
             && (screenMiddleWidth > middleCharacterPositionScreenX)
-            && (screenMapPositionX > 0)
+            && (cameraPositionX > 0)
         ) {
-            screenMapPositionX -= SPRITE_SPEED;
+            cameraPositionX -= SPRITE_SPEED;
             centerPlayerScreenX();
         } else if (
             (Direction.isDown(direction))
             && (screenMiddleHeight < middleCharacterPositionScreenY)
             && ((playerAbsolutePositionY + screenMiddleHeight) <= mapHeight)
         ) {
-            screenMapPositionY += SPRITE_SPEED;
+            cameraPositionY += SPRITE_SPEED;
             centerPlayerScreenY();
         } else if (
             (Direction.isUp(direction))
             && (screenMiddleHeight > middleCharacterPositionScreenY)
-            && (screenMapPositionY > 0)
+            && (cameraPositionY > 0)
         ) {
-            screenMapPositionY -= SPRITE_SPEED;
+            cameraPositionY -= SPRITE_SPEED;
             centerPlayerScreenY();
         }
-
-        mapRender.setPosition(screenMapPositionX, screenMapPositionY);
     }
 
     private void centerPlayerScreenX() {
