@@ -1,6 +1,7 @@
 package org.rpgrunner.game;
 
 public final class Direction {
+    public static final byte NUMBER_DIRECTIONS = 4;
     public static final byte UP = 8;
     public static final byte RIGHT = 4;
     public static final byte DOWN = 2;

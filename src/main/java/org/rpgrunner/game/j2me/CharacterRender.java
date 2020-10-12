@@ -171,4 +171,8 @@ public class CharacterRender {
     public void setPosition(final int x, final int y) {
         sprite.setPosition(x, y);
     }
+
+    public GameCharacter getCharacter() {
+        return character;
+    }
 }
