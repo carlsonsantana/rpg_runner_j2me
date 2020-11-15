@@ -9,6 +9,76 @@ import org.rpgrunner.test.helper.RandomGenerator;
 public class GameCharacterTest extends TestCase {
     private GameCharacter gameCharacter;
 
+    private abstract class TestOnlyExecuteNewMoveWhenLastMoveIsFinished {
+        public abstract void moveToDirection();
+
+        public void test(
+            final byte direction,
+            final int finalPositionX,
+            final int finalPositionY
+        ) {
+            testNewMoveToUpDirection(direction, finalPositionX, finalPositionY);
+
+            testNewMoveToRightDirection(
+                direction,
+                finalPositionX,
+                finalPositionY
+            );
+
+            testNewMoveToDownDirection(
+                direction,
+                finalPositionX,
+                finalPositionY
+            );
+
+            testNewMoveToLeftDirection(
+                direction,
+                finalPositionX,
+                finalPositionY
+            );
+        }
+
+        private void testNewMoveToUpDirection(
+            final byte direction,
+            final int finalPositionX,
+            final int finalPositionY
+        ) {
+            moveToDirection();
+            gameCharacter.moveUp();
+            testFinishMoviment(direction, finalPositionX, finalPositionY);
+        }
+
+        private void testNewMoveToRightDirection(
+            final byte direction,
+            final int finalPositionX,
+            final int finalPositionY
+        ) {
+            moveToDirection();
+            gameCharacter.moveRight();
+            testFinishMoviment(direction, finalPositionX, finalPositionY);
+        }
+
+        private void testNewMoveToDownDirection(
+            final byte direction,
+            final int finalPositionX,
+            final int finalPositionY
+        ) {
+            moveToDirection();
+            gameCharacter.moveDown();
+            testFinishMoviment(direction, finalPositionX, finalPositionY);
+        }
+
+        private void testNewMoveToLeftDirection(
+            final byte direction,
+            final int finalPositionX,
+            final int finalPositionY
+        ) {
+            moveToDirection();
+            gameCharacter.moveLeft();
+            testFinishMoviment(direction, finalPositionX, finalPositionY);
+        }
+    }
+
     public void setUp() {
         gameCharacter = new GameCharacter(null);
     }
@@ -30,8 +100,6 @@ public class GameCharacterTest extends TestCase {
         byte direction = gameCharacter.getDirection();
         int initialPositionX = gameCharacter.getMapPositionX();
         int initialPositionY = gameCharacter.getMapPositionY();
-
-        gameCharacter.finishMove();
 
         testFinishMoviment(direction, initialPositionX, initialPositionY);
     }
@@ -122,8 +190,6 @@ public class GameCharacterTest extends TestCase {
         Assert.assertEquals(newPositionX, gameCharacter.getMapNextPositionX());
         Assert.assertEquals(newPositionY, gameCharacter.getMapNextPositionY());
 
-        gameCharacter.finishMove();
-
         testFinishMoviment(direction, newPositionX, newPositionY);
     }
 
@@ -132,6 +198,8 @@ public class GameCharacterTest extends TestCase {
         final int finalPositionX,
         final int finalPositionY
     ) {
+        gameCharacter.finishMove();
+
         Assert.assertFalse(gameCharacter.isMoving());
         Assert.assertEquals(direction, gameCharacter.getDirection());
         Assert.assertEquals(finalPositionX, gameCharacter.getMapPositionX());
@@ -144,5 +212,73 @@ public class GameCharacterTest extends TestCase {
             finalPositionY,
             gameCharacter.getMapNextPositionY()
         );
+    }
+
+    public void testOnlyExecuteNewMoveWhenMoveToUpIsFinished() {
+        byte direction = Direction.UP;
+        int initialPositionX = gameCharacter.getMapPositionX();
+        int initialPositionY = gameCharacter.getMapPositionY();
+        int newPositionX = initialPositionX;
+        int newPositionY = initialPositionY - 1;
+
+        TestOnlyExecuteNewMoveWhenLastMoveIsFinished test;
+        test = new TestOnlyExecuteNewMoveWhenLastMoveIsFinished() {
+            public void moveToDirection() {
+                gameCharacter = new GameCharacter(null);
+                gameCharacter.moveUp();
+            }
+        };
+        test.test(direction, newPositionX, newPositionY);
+    }
+
+    public void testOnlyExecuteNewMoveWhenMoveToRightIsFinished() {
+        byte direction = Direction.RIGHT;
+        int initialPositionX = gameCharacter.getMapPositionX();
+        int initialPositionY = gameCharacter.getMapPositionY();
+        int newPositionX = initialPositionX + 1;
+        int newPositionY = initialPositionY;
+
+        TestOnlyExecuteNewMoveWhenLastMoveIsFinished test;
+        test = new TestOnlyExecuteNewMoveWhenLastMoveIsFinished() {
+            public void moveToDirection() {
+                gameCharacter = new GameCharacter(null);
+                gameCharacter.moveRight();
+            }
+        };
+        test.test(direction, newPositionX, newPositionY);
+    }
+
+    public void testOnlyExecuteNewMoveWhenMoveToDownIsFinished() {
+        byte direction = Direction.DOWN;
+        int initialPositionX = gameCharacter.getMapPositionX();
+        int initialPositionY = gameCharacter.getMapPositionY();
+        int newPositionX = initialPositionX;
+        int newPositionY = initialPositionY + 1;
+
+        TestOnlyExecuteNewMoveWhenLastMoveIsFinished test;
+        test = new TestOnlyExecuteNewMoveWhenLastMoveIsFinished() {
+            public void moveToDirection() {
+                gameCharacter = new GameCharacter(null);
+                gameCharacter.moveDown();
+            }
+        };
+        test.test(direction, newPositionX, newPositionY);
+    }
+
+    public void testOnlyExecuteNewMoveWhenMoveToLeftIsFinished() {
+        byte direction = Direction.LEFT;
+        int initialPositionX = gameCharacter.getMapPositionX();
+        int initialPositionY = gameCharacter.getMapPositionY();
+        int newPositionX = initialPositionX - 1;
+        int newPositionY = initialPositionY;
+
+        TestOnlyExecuteNewMoveWhenLastMoveIsFinished test;
+        test = new TestOnlyExecuteNewMoveWhenLastMoveIsFinished() {
+            public void moveToDirection() {
+                gameCharacter = new GameCharacter(null);
+                gameCharacter.moveLeft();
+            }
+        };
+        test.test(direction, newPositionX, newPositionY);
     }
 }
