@@ -1,5 +1,7 @@
 package org.rpgrunner.game.character;
 
+import java.util.Random;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -11,14 +13,33 @@ public class GameCharacterTest extends TestCase {
 
     private abstract class TestAllDirections {
         public void test() {
+            testNewCharacterMoveToUp();
+            testNewCharacterMoveToRight();
+            testNewCharacterMoveToDown();
+            testNewCharacterMoveToLeft();
+        }
+
+        private void testNewCharacterMoveToUp() {
+            character = new GameCharacter(null);
             testMoveToUp();
+        }
+
+        private void testNewCharacterMoveToRight() {
+            character = new GameCharacter(null);
             testMoveToRight();
+        }
+
+        private void testNewCharacterMoveToDown() {
+            character = new GameCharacter(null);
             testMoveToDown();
+        }
+
+        private void testNewCharacterMoveToLeft() {
+            character = new GameCharacter(null);
             testMoveToLeft();
         }
 
         public void testMoveToUp() {
-            character = new GameCharacter(null);
             byte direction = Direction.UP;
             int initialPositionX = character.getMapPositionX();
             int initialPositionY = character.getMapPositionY();
@@ -37,7 +58,6 @@ public class GameCharacterTest extends TestCase {
         }
 
         public void testMoveToRight() {
-            character = new GameCharacter(null);
             byte direction = Direction.RIGHT;
             int initialPositionX = character.getMapPositionX();
             int initialPositionY = character.getMapPositionY();
@@ -56,7 +76,6 @@ public class GameCharacterTest extends TestCase {
         }
 
         public void testMoveToDown() {
-            character = new GameCharacter(null);
             byte direction = Direction.DOWN;
             int initialPositionX = character.getMapPositionX();
             int initialPositionY = character.getMapPositionY();
@@ -75,7 +94,6 @@ public class GameCharacterTest extends TestCase {
         }
 
         public void testMoveToLeft() {
-            character = new GameCharacter(null);
             byte direction = Direction.LEFT;
             int initialPositionX = character.getMapPositionX();
             int initialPositionY = character.getMapPositionY();
@@ -320,5 +338,44 @@ public class GameCharacterTest extends TestCase {
             finalPositionX,
             finalPositionY
         );
+    }
+
+    public void testMoveMoreThanOneTime() {
+        TestAllDirections testAllDirections = new TestAllDirections() {
+            public void testMoviment(
+                final byte direction,
+                final int initialPositionX,
+                final int initialPositionY,
+                final int newPositionX,
+                final int newPositionY
+            ) {
+                testChangePositionWhenFinishMoviment(
+                    direction,
+                    newPositionX,
+                    newPositionY
+                );
+
+                testRandomMoviment(direction);
+            }
+
+            private void testRandomMoviment(final byte direction) {
+                Random random = new Random();
+                int randomDirection = random.nextInt(
+                    Direction.NUMBER_DIRECTIONS + 1
+                );
+                if (randomDirection == 1) {
+                    testMoveToUp();
+                } else if (randomDirection == 2) {
+                    testMoveToRight();
+                } else if (randomDirection == 3) {
+                    testMoveToDown();
+                } else if (randomDirection == 4) {
+                    testMoveToLeft();
+                }
+            }
+        };
+        for (int i = 0, numberTests = 100; i < numberTests; i++) {
+            testAllDirections.test();
+        }
     }
 }
