@@ -198,6 +198,14 @@ public class GameCharacterTest extends TestCase {
     ) {
         character.finishMove();
 
+        testCharacterStoppedPosition(direction, finalPositionX, finalPositionY);
+    }
+
+    private void testCharacterStoppedPosition(
+        final byte direction,
+        final int finalPositionX,
+        final int finalPositionY
+    ) {
         Assert.assertFalse(character.isMoving());
         Assert.assertEquals(direction, character.getDirection());
         Assert.assertEquals(finalPositionX, character.getMapPositionX());
@@ -377,5 +385,30 @@ public class GameCharacterTest extends TestCase {
         for (int i = 0, numberTests = 100; i < numberTests; i++) {
             testAllDirections.test();
         }
+    }
+
+    public void testCancelMove() {
+        TestAllDirections testAllDirections = new TestAllDirections() {
+            public void testMoviment(
+                final byte direction,
+                final int initialPositionX,
+                final int initialPositionY,
+                final int newPositionX,
+                final int newPositionY
+            ) {
+                character.cancelMove();
+                testCharacterStoppedPosition(
+                    direction,
+                    initialPositionX,
+                    initialPositionY
+                );
+                testChangePositionWhenFinishMoviment(
+                    direction,
+                    initialPositionX,
+                    initialPositionY
+                );
+            }
+        };
+        testAllDirections.test();
     }
 }
