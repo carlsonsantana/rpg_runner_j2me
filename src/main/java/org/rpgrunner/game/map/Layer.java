@@ -1,5 +1,6 @@
 package org.rpgrunner.game.map;
 
+import org.rpgrunner.game.Direction;
 import org.rpgrunner.game.tileset.TileSet;
 
 public class Layer {
@@ -39,11 +40,15 @@ public class Layer {
             && (toY >= 0)
             && (toX < getWidth())
             && (toY < getHeight())
-            && (!tileSet.canColideOn(
-                tileMap[fromY][fromX],
-                tileMap[toY][toX],
-                direction
-            ))
+            && (
+                (!tileSet.canCollideOn(tileMap[fromY][fromX], direction))
+                || (
+                    !tileSet.canCollideOn(
+                        tileMap[toY][toX],
+                        Direction.invertDirection(direction)
+                    )
+                )
+            )
         );
     }
 }

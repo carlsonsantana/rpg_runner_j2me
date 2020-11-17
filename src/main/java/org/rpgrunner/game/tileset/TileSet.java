@@ -1,7 +1,5 @@
 package org.rpgrunner.game.tileset;
 
-import org.rpgrunner.game.Direction;
-
 public class TileSet {
     private static final byte COLLISION_BITS = 4;
     private final String name;
@@ -16,18 +14,7 @@ public class TileSet {
         return name;
     }
 
-    public boolean canColideOn(
-        final int tileIndexFrom,
-        final int tileIndexTo,
-        final byte direction
-    ) {
-        return (
-            hasCollision(tileIndexFrom, direction)
-            || hasCollision(tileIndexTo, Direction.invertDirection(direction))
-        );
-    }
-
-    private boolean hasCollision(final int tileIndex, final byte direction) {
+    public boolean canCollideOn(final int tileIndex, final byte direction) {
         boolean firstFourBits = (tileIndex % 2) == 0;
         int collisionsIndex = tileIndex / 2;
         int compareDirection;
