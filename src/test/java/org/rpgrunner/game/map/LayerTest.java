@@ -45,57 +45,18 @@ public class LayerTest extends TestCase {
     }
 
     public void testCanMoveToValidPositionsWithoutCollisions() {
-        boolean[] results = new boolean[] {
+        boolean[] tileSetResults = new boolean[] {
             true, true, true, true, true, true, true, true,
             true, true, true, true, true, true, true, true
         };
-        TileSetSpy tileSetSpy = new TileSetSpy(results);
+        TileSetSpy tileSetSpy = new TileSetSpy(tileSetResults);
 
         Layer layer = new Layer(tileSetSpy, tileMap);
+        boolean[] results = getTestsResultsValidPositions(layer);
 
-        Assert.assertTrue(layer.canMoveTo(1, 0, 0, 0, Direction.LEFT));
-        Assert.assertTrue(layer.canMoveTo(0, 1, 0, 0, Direction.UP));
-        Assert.assertTrue(layer.canMoveTo(0, 0, 1, 0, Direction.RIGHT));
-        Assert.assertTrue(layer.canMoveTo(0, 0, 0, 1, Direction.DOWN));
-
-        int borderX = layer.getWidth() - 1;
-        int borderY = layer.getHeight() - 1;
-        Assert.assertTrue(
-            layer.canMoveTo(
-                borderX,
-                borderY,
-                borderX - 1,
-                borderY,
-                Direction.LEFT
-            )
-        );
-        Assert.assertTrue(
-            layer.canMoveTo(
-                borderX,
-                borderY,
-                borderX,
-                borderY - 1,
-                Direction.UP
-            )
-        );
-        Assert.assertTrue(
-            layer.canMoveTo(
-                borderX - 1,
-                borderY,
-                borderX,
-                borderY,
-                Direction.RIGHT
-            )
-        );
-        Assert.assertTrue(
-            layer.canMoveTo(
-                borderX,
-                borderY - 1,
-                borderX,
-                borderY,
-                Direction.DOWN
-            )
-        );
+        for (int i = 0; i < results.length; i++) {
+            Assert.assertTrue(results[i]);
+        }
     }
 
     public void testCantMoveToNegativePositions() {
@@ -132,5 +93,62 @@ public class LayerTest extends TestCase {
                 Direction.DOWN
             )
         );
+    }
+
+    public void testCantMoveToPositionWhenHasCollision() {
+        boolean[] tileSetResults = new boolean[] {
+            false, false, false, false,
+            false, false, false, false
+        };
+        TileSetSpy tileSetSpy = new TileSetSpy(tileSetResults);
+
+        Layer layer = new Layer(tileSetSpy, tileMap);
+        boolean[] results = getTestsResultsValidPositions(layer);
+
+        for (int i = 0; i < results.length; i++) {
+            Assert.assertFalse(results[i]);
+        }
+    }
+
+    private boolean[] getTestsResultsValidPositions(final Layer layer) {
+        boolean[] results = new boolean[8];
+        int index = 0;
+        results[index++] = layer.canMoveTo(1, 0, 0, 0, Direction.LEFT);
+        results[index++] = layer.canMoveTo(0, 1, 0, 0, Direction.UP);
+        results[index++] = layer.canMoveTo(0, 0, 1, 0, Direction.RIGHT);
+        results[index++] = layer.canMoveTo(0, 0, 0, 1, Direction.DOWN);
+
+        int borderX = layer.getWidth() - 1;
+        int borderY = layer.getHeight() - 1;
+        results[index++] = layer.canMoveTo(
+            borderX,
+            borderY,
+            borderX - 1,
+            borderY,
+            Direction.LEFT
+        );
+        results[index++] = layer.canMoveTo(
+            borderX,
+            borderY,
+            borderX,
+            borderY - 1,
+            Direction.UP
+        );
+        results[index++] = layer.canMoveTo(
+            borderX - 1,
+            borderY,
+            borderX,
+            borderY,
+            Direction.RIGHT
+        );
+        results[index++] = layer.canMoveTo(
+            borderX,
+            borderY - 1,
+            borderX,
+            borderY,
+            Direction.DOWN
+        );
+
+        return results;
     }
 }
