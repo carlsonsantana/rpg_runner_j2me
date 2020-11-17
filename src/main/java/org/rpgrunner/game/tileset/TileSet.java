@@ -14,7 +14,7 @@ public class TileSet {
         return name;
     }
 
-    public boolean canCollideOn(final int tileIndex, final byte direction) {
+    public boolean canPassOn(final int tileIndex, final byte direction) {
         boolean firstFourBits = (tileIndex % 2) == 0;
         int collisionsIndex = tileIndex / 2;
         int compareDirection;
@@ -24,6 +24,6 @@ public class TileSet {
             compareDirection = direction;
         }
 
-        return ((collisions[collisionsIndex] & compareDirection) != 0);
+        return ((collisions[collisionsIndex] & compareDirection) == 0);
     }
 }

@@ -61,10 +61,10 @@ public class TileSetTest extends TestCase {
                 )
                 && (i == ALL_POSSIBLE_UP_COLLISIONS[indexDirectionCollisions])
             ) {
-                Assert.assertTrue(tileSet.canCollideOn(i, Direction.UP));
+                Assert.assertFalse(tileSet.canPassOn(i, Direction.UP));
                 indexDirectionCollisions++;
             } else {
-                Assert.assertFalse(tileSet.canCollideOn(i, Direction.UP));
+                Assert.assertTrue(tileSet.canPassOn(i, Direction.UP));
             }
         }
     }
@@ -84,10 +84,10 @@ public class TileSetTest extends TestCase {
                     i == ALL_POSSIBLE_RIGHT_COLLISIONS[indexDirectionCollisions]
                 )
             ) {
-                Assert.assertTrue(tileSet.canCollideOn(i, Direction.RIGHT));
+                Assert.assertFalse(tileSet.canPassOn(i, Direction.RIGHT));
                 indexDirectionCollisions++;
             } else {
-                Assert.assertFalse(tileSet.canCollideOn(i, Direction.RIGHT));
+                Assert.assertTrue(tileSet.canPassOn(i, Direction.RIGHT));
             }
         }
     }
@@ -105,10 +105,10 @@ public class TileSetTest extends TestCase {
                 )
                 && (i == ALL_POSSIBLE_DOWN_COLLISIONS[indexDirectionCollisions])
             ) {
-                Assert.assertTrue(tileSet.canCollideOn(i, Direction.DOWN));
+                Assert.assertFalse(tileSet.canPassOn(i, Direction.DOWN));
                 indexDirectionCollisions++;
             } else {
-                Assert.assertFalse(tileSet.canCollideOn(i, Direction.DOWN));
+                Assert.assertTrue(tileSet.canPassOn(i, Direction.DOWN));
             }
         }
     }
@@ -126,10 +126,10 @@ public class TileSetTest extends TestCase {
                 )
                 && (i == ALL_POSSIBLE_LEFT_COLLISIONS[indexDirectionCollisions])
             ) {
-                Assert.assertTrue(tileSet.canCollideOn(i, Direction.LEFT));
+                Assert.assertFalse(tileSet.canPassOn(i, Direction.LEFT));
                 indexDirectionCollisions++;
             } else {
-                Assert.assertFalse(tileSet.canCollideOn(i, Direction.LEFT));
+                Assert.assertTrue(tileSet.canPassOn(i, Direction.LEFT));
             }
         }
     }

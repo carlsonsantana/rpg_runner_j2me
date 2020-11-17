@@ -40,13 +40,11 @@ public class Layer {
             && (toY >= 0)
             && (toX < getWidth())
             && (toY < getHeight())
+            && (tileSet.canPassOn(tileMap[fromY][fromX], direction))
             && (
-                (!tileSet.canCollideOn(tileMap[fromY][fromX], direction))
-                || (
-                    !tileSet.canCollideOn(
-                        tileMap[toY][toX],
-                        Direction.invertDirection(direction)
-                    )
+                tileSet.canPassOn(
+                    tileMap[toY][toX],
+                    Direction.invertDirection(direction)
                 )
             )
         );

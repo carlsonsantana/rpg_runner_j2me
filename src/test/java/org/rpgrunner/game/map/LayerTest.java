@@ -45,7 +45,7 @@ public class LayerTest extends TestCase {
     }
 
     public void testCantMoveToNegativePositions() {
-        boolean[] results = new boolean[] {false, false, false, false};
+        boolean[] results = new boolean[] {true, true, true, true};
         TileSetSpy tileSetSpy = new TileSetSpy(results);
 
         Layer layerNegativeX = new Layer(tileSetSpy, tileMap);

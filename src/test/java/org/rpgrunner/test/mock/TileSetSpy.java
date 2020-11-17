@@ -16,7 +16,7 @@ public class TileSetSpy extends TileSet {
         return null;
     }
 
-    public boolean canCollideOn(final int tileIndex, final byte direction) {
+    public boolean canPassOn(final int tileIndex, final byte direction) {
         return results[resultsIndex++];
     }
 }
