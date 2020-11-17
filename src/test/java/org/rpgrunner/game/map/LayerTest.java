@@ -44,6 +44,60 @@ public class LayerTest extends TestCase {
         Assert.assertEquals(tileMap.length, layer.getHeight());
     }
 
+    public void testCanMoveToValidPositionsWithoutCollisions() {
+        boolean[] results = new boolean[] {
+            true, true, true, true, true, true, true, true,
+            true, true, true, true, true, true, true, true
+        };
+        TileSetSpy tileSetSpy = new TileSetSpy(results);
+
+        Layer layer = new Layer(tileSetSpy, tileMap);
+
+        Assert.assertTrue(layer.canMoveTo(1, 0, 0, 0, Direction.LEFT));
+        Assert.assertTrue(layer.canMoveTo(0, 1, 0, 0, Direction.UP));
+        Assert.assertTrue(layer.canMoveTo(0, 0, 1, 0, Direction.RIGHT));
+        Assert.assertTrue(layer.canMoveTo(0, 0, 0, 1, Direction.DOWN));
+
+        int borderX = layer.getWidth() - 1;
+        int borderY = layer.getHeight() - 1;
+        Assert.assertTrue(
+            layer.canMoveTo(
+                borderX,
+                borderY,
+                borderX - 1,
+                borderY,
+                Direction.LEFT
+            )
+        );
+        Assert.assertTrue(
+            layer.canMoveTo(
+                borderX,
+                borderY,
+                borderX,
+                borderY - 1,
+                Direction.UP
+            )
+        );
+        Assert.assertTrue(
+            layer.canMoveTo(
+                borderX - 1,
+                borderY,
+                borderX,
+                borderY,
+                Direction.RIGHT
+            )
+        );
+        Assert.assertTrue(
+            layer.canMoveTo(
+                borderX,
+                borderY - 1,
+                borderX,
+                borderY,
+                Direction.DOWN
+            )
+        );
+    }
+
     public void testCantMoveToNegativePositions() {
         boolean[] results = new boolean[] {true, true, true, true};
         TileSetSpy tileSetSpy = new TileSetSpy(results);
