@@ -48,12 +48,35 @@ public class LayerTest extends TestCase {
         boolean[] results = new boolean[] {true, true, true, true};
         TileSetSpy tileSetSpy = new TileSetSpy(results);
 
-        Layer layerNegativeX = new Layer(tileSetSpy, tileMap);
-        Assert.assertFalse(
-            layerNegativeX.canMoveTo(0, 0, -1, 0, Direction.LEFT)
-        );
+        Layer layer = new Layer(tileSetSpy, tileMap);
+        Assert.assertFalse(layer.canMoveTo(0, 0, -1, 0, Direction.LEFT));
+        Assert.assertFalse(layer.canMoveTo(0, 0, 0, -1, Direction.UP));
+    }
 
-        Layer layerNegativeY = new Layer(tileSetSpy, tileMap);
-        Assert.assertFalse(layerNegativeY.canMoveTo(0, 0, 0, -1, Direction.UP));
+    public void testCantMoveToPositionOffTheMap() {
+        boolean[] results = new boolean[] {true, true, true, true};
+        TileSetSpy tileSetSpy = new TileSetSpy(results);
+
+        Layer layer = new Layer(tileSetSpy, tileMap);
+        int borderX = layer.getWidth() - 1;
+        int borderY = layer.getHeight() - 1;
+        Assert.assertFalse(
+            layer.canMoveTo(
+                borderX,
+                borderY,
+                borderX + 1,
+                borderY,
+                Direction.RIGHT
+            )
+        );
+        Assert.assertFalse(
+            layer.canMoveTo(
+                borderX,
+                borderY,
+                borderX,
+                borderY + 1,
+                Direction.DOWN
+            )
+        );
     }
 }
