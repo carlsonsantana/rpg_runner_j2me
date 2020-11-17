@@ -18,6 +18,12 @@ public class LayerTest extends TestCase {
         Assert.assertEquals(tileMap[0].length, layer.getWidth());
     }
 
+    public void testReturnSameHeightOfTileMap() {
+        byte[][] tileMap = generateRandomTileMap();
+        Layer layer = new Layer(null, tileMap);
+        Assert.assertEquals(tileMap.length, layer.getHeight());
+    }
+
     private byte[][] generateRandomTileMap() {
         Random random = new Random();
         int height = random.nextInt(100) + 2;
