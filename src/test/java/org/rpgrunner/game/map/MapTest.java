@@ -11,11 +11,12 @@ public class MapTest extends TestCase {
     private Map map;
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
+    private Layer[] layers;
 
     public void setUp() {
         layerBackground = new LayerSpy();
         layerObjects = new LayerSpy();
-        Layer[] layers = new Layer[] {layerBackground, layerObjects};
+        layers = new Layer[] {layerBackground, layerObjects};
         map = new Map(layers);
     }
 
@@ -43,5 +44,9 @@ public class MapTest extends TestCase {
 
             Assert.assertEquals(height, map.getHeight());
         }
+    }
+
+    public void testReturnSameLayers() {
+        Assert.assertEquals(layers, map.getLayers());
     }
 }
