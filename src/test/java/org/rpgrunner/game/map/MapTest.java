@@ -5,6 +5,7 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.game.Direction;
 import org.rpgrunner.test.mock.LayerSpy;
 
 public class MapTest extends TestCase {
@@ -48,5 +49,29 @@ public class MapTest extends TestCase {
 
     public void testReturnSameLayers() {
         Assert.assertEquals(layers, map.getLayers());
+    }
+
+    public void testCanMoveToPositionWhenAllLayersAllMoveToPosition() {
+        Random random = new Random();
+
+        for (int i = 0; i < 100; i++) {
+            boolean canMoveToBackground = random.nextInt(2) == 1;
+            boolean canMoveToObjects = random.nextInt(2) == 1;
+
+            layerBackground.setCanMove(canMoveToBackground);
+            layerObjects.setCanMove(canMoveToObjects);
+
+            boolean canMove = canMoveToBackground && canMoveToObjects;
+            int fromX = random.nextInt(100);
+            int fromY = random.nextInt(100);
+            int toX = random.nextInt(100);
+            int toY = random.nextInt(100);
+            byte direction = Direction.LEFT;
+
+            Assert.assertEquals(
+                canMove,
+                map.canMoveTo(fromX, fromY, toX, toY, direction)
+            );
+        }
     }
 }
