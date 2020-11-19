@@ -31,4 +31,17 @@ public class MapTest extends TestCase {
             Assert.assertEquals(width, map.getWidth());
         }
     }
+
+    public void testReturnSameHeightLayers() {
+        Random random = new Random();
+
+        for (int i = 0; i < 100; i++) {
+            int height = random.nextInt(255);
+
+            layerBackground.setHeight(height);
+            layerObjects.setHeight(height);
+
+            Assert.assertEquals(height, map.getHeight());
+        }
+    }
 }

@@ -25,7 +25,7 @@ public class LayerSpy extends Layer {
     }
 
     public int getHeight() {
-        return 0;
+        return height;
     }
 
     public byte[][] getTileMap() {
