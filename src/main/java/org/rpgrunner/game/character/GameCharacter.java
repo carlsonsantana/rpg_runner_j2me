@@ -12,7 +12,7 @@ public class GameCharacter {
 
     public GameCharacter(final String characterFileBaseName) {
         fileBaseName = characterFileBaseName;
-        setDirection(Direction.DOWN);
+        direction = Direction.DOWN;
     }
 
     public String getFileBaseName() {
@@ -23,7 +23,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
-        setDirection(Direction.UP);
+        direction = Direction.UP;
         mapNextPositionY = mapPositionY - 1;
     }
 
@@ -31,7 +31,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
-        setDirection(Direction.RIGHT);
+        direction = Direction.RIGHT;
         mapNextPositionX = mapPositionX + 1;
     }
 
@@ -39,7 +39,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
-        setDirection(Direction.DOWN);
+        direction = Direction.DOWN;
         mapNextPositionY = mapPositionY + 1;
     }
 
@@ -47,12 +47,8 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
-        setDirection(Direction.LEFT);
+        direction = Direction.LEFT;
         mapNextPositionX = mapPositionX - 1;
-    }
-
-    public void setDirection(final byte newDirection) {
-        direction = newDirection;
     }
 
     public byte getDirection() {
