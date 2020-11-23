@@ -22,4 +22,14 @@ public class CollisionDetector {
     public GameCharacter[] getCharacters() {
         return characters;
     }
+
+    public boolean canMove(final GameCharacter character) {
+        return map.canMoveTo(
+            character.getMapPositionX(),
+            character.getMapPositionY(),
+            character.getMapNextPositionX(),
+            character.getMapNextPositionY(),
+            character.getDirection()
+        );
+    }
 }

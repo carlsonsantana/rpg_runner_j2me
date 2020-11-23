@@ -4,6 +4,8 @@ import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.Layer;
 
 public class MapSpy extends Map {
+    private boolean canMove;
+
     public MapSpy() {
         super(null);
     }
@@ -20,6 +22,10 @@ public class MapSpy extends Map {
         return null;
     }
 
+    public void setCanMoveTo(final boolean newCanMove) {
+        canMove = newCanMove;
+    }
+
     public boolean canMoveTo(
         final int fromX,
         final int fromY,
@@ -27,6 +33,6 @@ public class MapSpy extends Map {
         final int toY,
         final byte direction
     ) {
-        return true;
+        return canMove;
     }
 }

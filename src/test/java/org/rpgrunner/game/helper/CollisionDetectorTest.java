@@ -33,16 +33,9 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testReturnSameCharacters() {
-        Random random = new Random();
-        int numberCharacters = random.nextInt(100);
-        GameCharacter[] characters = new GameCharacter[numberCharacters];
-        GameCharacter[] copyCharacters = new GameCharacter[numberCharacters];
-
-        for (int i = 0; i < numberCharacters; i++) {
-            GameCharacter character = generateRandomCharacter();
-            characters[i] = character;
-            copyCharacters[i] = character;
-        }
+        GameCharacter[] characters = generateRandomCharacters();
+        GameCharacter[] copyCharacters = cloneArrayCharacters(characters);
+        int numberCharacters = characters.length;
 
         collisionDetector.setCharacters(characters);
         GameCharacter[] sameCharacters = collisionDetector.getCharacters();
@@ -52,6 +45,60 @@ public class CollisionDetectorTest extends TestCase {
         for (int i = 0; i < numberCharacters; i++) {
             Assert.assertEquals(sameCharacters[i], copyCharacters[i]);
         }
+    }
+
+    private GameCharacter[] cloneArrayCharacters(
+        final GameCharacter[] characters
+    ) {
+        int numberCharacters = characters.length;
+        GameCharacter[] copyCharacters = new GameCharacter[numberCharacters];
+        for (int i = 0; i < numberCharacters; i++) {
+            GameCharacter character = characters[i];
+            copyCharacters[i] = character;
+        }
+        return copyCharacters;
+    }
+
+    public void testCantMoveWhenExistsAMapCollision() {
+        MapSpy map = new MapSpy();
+        GameCharacter[] characters = generateRandomCharacters();
+        collisionDetector.setMap(map);
+        collisionDetector.setCharacters(characters);
+
+        map.setCanMoveTo(false);
+        GameCharacter character = getRandomCharacter(characters);
+
+        Assert.assertFalse(collisionDetector.canMove(character));
+    }
+
+    public void testCanMoveWhenNotExistsCollisions() {
+        MapSpy map = new MapSpy();
+        GameCharacter[] characters = generateRandomCharacters();
+        collisionDetector.setMap(map);
+        collisionDetector.setCharacters(characters);
+
+        map.setCanMoveTo(true);
+        GameCharacter character = getRandomCharacter(characters);
+
+        Assert.assertTrue(collisionDetector.canMove(character));
+    }
+
+    private GameCharacter getRandomCharacter(GameCharacter[] characters) {
+        Random random = new Random();
+        int index = random.nextInt(characters.length);
+        return characters[index];
+    }
+
+    private GameCharacter[] generateRandomCharacters() {
+        Random random = new Random();
+        int numberCharacters = random.nextInt(100);
+        GameCharacter[] characters = new GameCharacter[numberCharacters];
+
+        for (int i = 0; i < numberCharacters; i++) {
+            GameCharacter character = generateRandomCharacter();
+            characters[i] = character;
+        }
+        return characters;
     }
 
     private GameCharacter generateRandomCharacter() {
