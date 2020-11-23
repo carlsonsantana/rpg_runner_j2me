@@ -36,10 +36,7 @@ public class Layer {
         final byte direction
     ) {
         return (
-            (toX >= 0)
-            && (toY >= 0)
-            && (toX < getWidth())
-            && (toY < getHeight())
+            isValidPosition(toX, toY)
             && (tileSet.canPassOn(tileMap[fromY][fromX], direction))
             && (
                 tileSet.canPassOn(
@@ -48,5 +45,9 @@ public class Layer {
                 )
             )
         );
+    }
+
+    private boolean isValidPosition(final int x, final int y) {
+        return ((x >= 0) && (y >= 0) && (x < getWidth()) && (y < getHeight()));
     }
 }
