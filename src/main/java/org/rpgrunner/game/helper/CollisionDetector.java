@@ -1,9 +1,11 @@
 package org.rpgrunner.game.helper;
 
+import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.map.Map;
 
 public class CollisionDetector {
     private Map map;
+    private GameCharacter[] characters;
 
     public void setMap(final Map newMap) {
         map = newMap;
@@ -11,5 +13,13 @@ public class CollisionDetector {
 
     public Map getMap() {
         return map;
+    }
+
+    public void setCharacters(final GameCharacter[] newCharacters) {
+        characters = newCharacters;
+    }
+
+    public GameCharacter[] getCharacters() {
+        return characters;
     }
 }
