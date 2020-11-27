@@ -2,6 +2,8 @@ package org.rpgrunner.test.helper;
 
 import java.util.Random;
 
+import org.rpgrunner.test.mock.CharacterSpy;
+
 public class RandomGenerator {
     private static final int STRING_SIZE = 8;
     private static final int CHAR_INTERVAL_PRINTABLE_CHARACTERS = 94;
@@ -9,6 +11,29 @@ public class RandomGenerator {
     private static final Random random = new Random();
 
     private RandomGenerator() {}
+
+    public static CharacterSpy getRandomCharacter(CharacterSpy[] characters) {
+        Random random = new Random();
+        int index = random.nextInt(characters.length);
+        return characters[index];
+    }
+
+    public static CharacterSpy[] generateRandomCharacters() {
+        Random random = new Random();
+        int numberCharacters = random.nextInt(100) + 3;
+        CharacterSpy[] characters = new CharacterSpy[numberCharacters];
+
+        for (int i = 0; i < numberCharacters; i++) {
+            CharacterSpy character = generateRandomCharacter();
+            characters[i] = character;
+        }
+        return characters;
+    }
+
+    public static CharacterSpy generateRandomCharacter() {
+        String randomFileBaseName = getRandomString();
+        return new CharacterSpy(randomFileBaseName);
+    }
 
     public static String getRandomString() {
         char[] charArray = new char[STRING_SIZE];
