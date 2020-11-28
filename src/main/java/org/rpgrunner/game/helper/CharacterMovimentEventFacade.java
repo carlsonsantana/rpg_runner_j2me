@@ -1,5 +1,7 @@
 package org.rpgrunner.game.helper;
 
+import org.rpgrunner.game.character.GameCharacter;
+
 public class CharacterMovimentEventFacade {
     private static CollisionDetector collisionDetector;
 
@@ -13,5 +15,9 @@ public class CharacterMovimentEventFacade {
 
     public static CollisionDetector getCollisionDetector() {
         return collisionDetector;
+    }
+
+    public static boolean onMove(final GameCharacter character) {
+        return collisionDetector.canMove(character);
     }
 }
