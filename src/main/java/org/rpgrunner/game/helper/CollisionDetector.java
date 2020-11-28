@@ -35,10 +35,7 @@ public class CollisionDetector {
 
         for (int i = 0, length = characters.length; i < length; i++) {
             GameCharacter otherCharacter = characters[i];
-            if (
-                (character != otherCharacter)
-                && (hasCharacterCollision(character, otherCharacter))
-            ) {
+            if (hasCharacterCollision(character, otherCharacter)) {
                 return true;
             }
         }
@@ -50,7 +47,8 @@ public class CollisionDetector {
         final GameCharacter otherCharacter
     ) {
         return (
-            hasSameX(movingCharacter, otherCharacter)
+            (movingCharacter != otherCharacter)
+            && hasSameX(movingCharacter, otherCharacter)
             && hasSameY(movingCharacter, otherCharacter)
         );
     }
