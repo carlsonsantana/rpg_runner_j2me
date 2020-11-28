@@ -16,49 +16,6 @@ public class CollisionDetectorTest extends TestCase {
         collisionDetector = new CollisionDetector();
     }
 
-    public void testReturnSameMap() {
-        MapSpy map = new MapSpy();
-        collisionDetector.setMap(map);
-
-        Assert.assertEquals(map, collisionDetector.getMap());
-    }
-
-    public void testReturnSameEmptyCharacters() {
-        CharacterSpy[] characters = new CharacterSpy[0];
-        collisionDetector.setCharacters(characters);
-        GameCharacter[] sameCharacters = collisionDetector.getCharacters();
-
-        Assert.assertEquals(characters, sameCharacters);
-        Assert.assertEquals(0, sameCharacters.length);
-    }
-
-    public void testReturnSameCharacters() {
-        CharacterSpy[] characters = RandomGenerator.generateRandomCharacters();
-        CharacterSpy[] copyCharacters = cloneArrayCharacters(characters);
-        int numberCharacters = characters.length;
-
-        collisionDetector.setCharacters(characters);
-        GameCharacter[] sameCharacters = collisionDetector.getCharacters();
-
-        Assert.assertEquals(characters, sameCharacters);
-        Assert.assertEquals(numberCharacters, sameCharacters.length);
-        for (int i = 0; i < numberCharacters; i++) {
-            Assert.assertEquals(sameCharacters[i], copyCharacters[i]);
-        }
-    }
-
-    private CharacterSpy[] cloneArrayCharacters(
-        final CharacterSpy[] characters
-    ) {
-        int numberCharacters = characters.length;
-        CharacterSpy[] copyCharacters = new CharacterSpy[numberCharacters];
-        for (int i = 0; i < numberCharacters; i++) {
-            CharacterSpy character = characters[i];
-            copyCharacters[i] = character;
-        }
-        return copyCharacters;
-    }
-
     public void testCantMoveWhenExistsAMapCollision() {
         MapSpy map = new MapSpy();
         CharacterSpy[] characters = RandomGenerator.generateRandomCharacters();

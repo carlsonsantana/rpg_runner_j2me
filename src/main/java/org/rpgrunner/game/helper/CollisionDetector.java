@@ -11,16 +11,8 @@ public class CollisionDetector {
         map = newMap;
     }
 
-    public Map getMap() {
-        return map;
-    }
-
     public void setCharacters(final GameCharacter[] newCharacters) {
         characters = newCharacters;
-    }
-
-    public GameCharacter[] getCharacters() {
-        return characters;
     }
 
     public boolean canMove(final GameCharacter character) {
