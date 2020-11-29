@@ -6,8 +6,9 @@ import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.game.Direction;
 import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.game.character.CharacterAnimation;
 
-public class CharacterRender {
+public class CharacterAnimationImpl implements CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
@@ -67,7 +68,7 @@ public class CharacterRender {
     private final GameCharacter character;
     private byte direction;
 
-    public CharacterRender(final GameCharacter gameCharacter) {
+    public CharacterAnimationImpl(final GameCharacter gameCharacter) {
         character = gameCharacter;
         sprite = new Sprite(loadImage(), SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
@@ -89,7 +90,27 @@ public class CharacterRender {
         }
     }
 
-    public void preRender() {
+    public int getScreenX() {
+        return sprite.getX();
+    }
+
+    public int getScreenY() {
+        return sprite.getY();
+    }
+
+    public int getWidth() {
+        return SPRITE_WIDTH;
+    }
+
+    public int getHeight() {
+        return SPRITE_HEIGHT;
+    }
+
+    public void setScreenPosition(final int screenX, final int screenY) {
+        sprite.setPosition(screenX, screenY);
+    }
+
+    public void startAnimation() {
         if (isAnimationComplete()) {
             changeSpriteAnimation();
         }
@@ -97,7 +118,7 @@ public class CharacterRender {
         changeSpriteFrame();
     }
 
-    public Sprite render() {
+    public Object getSprite() {
         return sprite;
     }
 
@@ -150,26 +171,6 @@ public class CharacterRender {
     public boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
-    }
-
-    public int getX() {
-        return sprite.getX();
-    }
-
-    public int getY() {
-        return sprite.getY();
-    }
-
-    public int getWidth() {
-        return SPRITE_WIDTH;
-    }
-
-    public int getHeight() {
-        return SPRITE_HEIGHT;
-    }
-
-    public void setPosition(final int x, final int y) {
-        sprite.setPosition(x, y);
     }
 
     public GameCharacter getCharacter() {

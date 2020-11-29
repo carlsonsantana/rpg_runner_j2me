@@ -6,13 +6,14 @@ import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.TiledLayer;
 import javax.microedition.lcdui.game.Layer;
+import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
 import org.rpgrunner.game.j2me.MapRender;
-
 import org.rpgrunner.game.character.GameCharacter;
-import org.rpgrunner.game.j2me.CharacterRender;
+import org.rpgrunner.game.character.CharacterAnimation;
+import org.rpgrunner.game.j2me.CharacterAnimationImpl;
 
 public class GameController {
     private static final int TILE_WIDTH = 16;
@@ -27,8 +28,8 @@ public class GameController {
     private int cameraPositionY;
     private Map map;
     private GameCharacter playerCharacter;
-    private CharacterRender playerCharacterRender;
-    private CharacterRender[] characters;
+    private CharacterAnimation playerCharacterAnimation;
+    private CharacterAnimation[] characters;
     private int gameAction;
 
     public GameController(
@@ -72,18 +73,20 @@ public class GameController {
 
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
         playerCharacter = newPlayerCharacter;
-        playerCharacterRender = new CharacterRender(playerCharacter);
+        playerCharacterAnimation = new CharacterAnimationImpl(playerCharacter);
     }
 
     private void setCharacters() {
         GameCharacter character = new GameCharacter("character");
-        CharacterRender characterRender = new CharacterRender(character);
+        CharacterAnimation characterAnimation = new CharacterAnimationImpl(
+            character
+        );
 
-        characters = new CharacterRender[2];
-        characters[0] = playerCharacterRender;
-        characters[1] = characterRender;
+        characters = new CharacterAnimation[2];
+        characters[0] = playerCharacterAnimation;
+        characters[1] = characterAnimation;
         for (int i = 0; i < characters.length; i++) {
-            layerManager.insert(characters[i].render(), 0);
+            layerManager.insert((Sprite) characters[i].getSprite(), 0);
         }
     }
 
@@ -108,10 +111,10 @@ public class GameController {
 
     private void moveNPCs() {
         for (int i = 0; i < characters.length; i++) {
-            CharacterRender characterRender = characters[i];
+            CharacterAnimation characterAnimation = characters[i];
 
-            if (characterRender != playerCharacterRender) {
-                GameCharacter character = characterRender.getCharacter();
+            if (characterAnimation != playerCharacterAnimation) {
+                GameCharacter character = characterAnimation.getCharacter();
                 Random random = new Random();
                 int direction = random.nextInt(Direction.NUMBER_DIRECTIONS);
                 if (direction == 0) {
@@ -129,8 +132,8 @@ public class GameController {
 
     private void avoidCollisions() {
         for (int i = 0; i < characters.length; i++) {
-            CharacterRender characterRender = characters[i];
-            GameCharacter character = characterRender.getCharacter();
+            CharacterAnimation characterAnimation = characters[i];
+            GameCharacter character = characterAnimation.getCharacter();
 
             if (
                 !map.canMoveTo(
@@ -160,23 +163,23 @@ public class GameController {
 
     private void preRenderCharacters() {
         for (int i = 0; i < characters.length; i++) {
-            CharacterRender characterRender = characters[i];
+            CharacterAnimation characterAnimation = characters[i];
 
-            characterRender.preRender();
+            characterAnimation.startAnimation();
         }
     }
 
     private void centerCamera() {
-        int playerAbsolutePositionX = playerCharacterRender.getX();
-        int playerAbsolutePositionY = playerCharacterRender.getY();
+        int playerAbsolutePositionX = playerCharacterAnimation.getScreenX();
+        int playerAbsolutePositionY = playerCharacterAnimation.getScreenY();
         int screenCharacterPositionX = (
             playerAbsolutePositionX - cameraPositionX
         );
         int screenCharacterPositionY = (
             playerAbsolutePositionY - cameraPositionY
         );
-        int middleCharacterWidth = playerCharacterRender.getWidth() / 2;
-        int middleCharacterHeight = playerCharacterRender.getHeight() / 2;
+        int middleCharacterWidth = playerCharacterAnimation.getWidth() / 2;
+        int middleCharacterHeight = playerCharacterAnimation.getHeight() / 2;
         int middleCharacterPositionScreenX = (
             screenCharacterPositionX + middleCharacterWidth
         );
@@ -216,10 +219,10 @@ public class GameController {
 
     public void posRender() {
         for (int i = 0; i < characters.length; i++) {
-            CharacterRender characterRender = characters[i];
-            GameCharacter character = characterRender.getCharacter();
+            CharacterAnimation characterAnimation = characters[i];
+            GameCharacter character = characterAnimation.getCharacter();
 
-            if (characterRender.isAnimationComplete()) {
+            if (characterAnimation.isAnimationComplete()) {
                 character.finishMove();
             }
         }
