@@ -5,6 +5,7 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.test.mock.CollisionDetectorSpy;
 import org.rpgrunner.test.mock.CharacterSpy;
+import org.rpgrunner.test.mock.CharacterAnimationSpy;
 
 public class CharacterMovimentEventTest extends TestCase {
     private CharacterMovimentEvent characterMovimentEvent;
@@ -24,11 +25,17 @@ public class CharacterMovimentEventTest extends TestCase {
 
     public void testReturnSameValueOfCanMove() {
         CharacterSpy character = new CharacterSpy(null);
+        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
+        CharacterElement characterElement = new CharacterElement(
+            characterMovimentEvent,
+            character,
+            characterAnimation
+        );
 
         collisionDetector.setCanMove(true);
-        Assert.assertTrue(characterMovimentEvent.onMove(character));
+        Assert.assertTrue(characterMovimentEvent.onMove(characterElement));
 
         collisionDetector.setCanMove(false);
-        Assert.assertFalse(characterMovimentEvent.onMove(character));
+        Assert.assertFalse(characterMovimentEvent.onMove(characterElement));
     }
 }

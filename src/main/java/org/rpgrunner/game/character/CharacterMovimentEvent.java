@@ -15,7 +15,8 @@ public class CharacterMovimentEvent {
         return collisionDetector;
     }
 
-    public boolean onMove(final GameCharacter character) {
+    public boolean onMove(final CharacterElement characterElement) {
+        GameCharacter character = characterElement.getCharacter();
         return collisionDetector.canMove(character);
     }
 }
