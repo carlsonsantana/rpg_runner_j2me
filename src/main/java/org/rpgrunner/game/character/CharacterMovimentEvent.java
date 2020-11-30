@@ -1,6 +1,6 @@
-package org.rpgrunner.game.helper;
+package org.rpgrunner.game.character;
 
-import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.game.helper.CollisionDetector;
 
 public class CharacterMovimentEvent {
     private CollisionDetector collisionDetector;

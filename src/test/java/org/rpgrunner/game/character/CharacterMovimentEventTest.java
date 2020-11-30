@@ -1,4 +1,4 @@
-package org.rpgrunner.game.helper;
+package org.rpgrunner.game.character;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
