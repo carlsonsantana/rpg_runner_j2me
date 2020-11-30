@@ -7,16 +7,6 @@ import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CharacterMovementEventSpy;
 
 public class CharacterElementTest extends TestCase {
-    public void testReturnSameCharacterMovimentEvent() {
-        CharacterMovimentEvent event = new CharacterMovementEventSpy(false);
-        CharacterElement characterElement = new CharacterElement(
-            event,
-            null,
-            null
-        );
-        Assert.assertSame(event, characterElement.getCharacterMovimentEvent());
-    }
-
     public void testReturnSameCharacter() {
         GameCharacter character = RandomGenerator.generateRandomCharacter();
         CharacterElement characterElement = new CharacterElement(

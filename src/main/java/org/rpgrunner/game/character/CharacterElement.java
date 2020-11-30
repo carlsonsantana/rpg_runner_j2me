@@ -15,10 +15,6 @@ public class CharacterElement {
         characterAnimation = newCharacterAnimation;
     }
 
-    public CharacterMovimentEvent getCharacterMovimentEvent() {
-        return characterMovimentEvent;
-    }
-
     public GameCharacter getCharacter() {
         return character;
     }
