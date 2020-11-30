@@ -48,7 +48,7 @@ public class MapTest extends TestCase {
     }
 
     public void testReturnSameLayers() {
-        Assert.assertEquals(layers, map.getLayers());
+        Assert.assertSame(layers, map.getLayers());
     }
 
     public void testCanMoveToPositionWhenAllLayersAllMoveToPosition() {

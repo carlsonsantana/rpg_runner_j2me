@@ -31,7 +31,7 @@ public class LayerTest extends TestCase {
 
     public void testReturnSameTileMap() {
         Layer layer = new Layer(null, tileMap);
-        Assert.assertEquals(tileMap, layer.getTileMap());
+        Assert.assertSame(tileMap, layer.getTileMap());
     }
 
     public void testReturnSameWidthOfTileMap() {
