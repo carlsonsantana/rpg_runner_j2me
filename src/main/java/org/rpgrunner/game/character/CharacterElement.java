@@ -26,4 +26,10 @@ public class CharacterElement {
     public CharacterAnimation getCharacterAnimation() {
         return characterAnimation;
     }
+
+    public void onMove() {
+        if (!characterMovimentEvent.onMove(this)) {
+            character.cancelMove();
+        }
+    }
 }
