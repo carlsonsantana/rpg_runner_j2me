@@ -1,16 +1,18 @@
 package org.rpgrunner.game.character;
 
+import org.rpgrunner.game.helper.CollisionDetector;
+
 public class CharacterElement {
-    private final CharacterMovimentEvent characterMovimentEvent;
+    private final CollisionDetector collisionDetector;
     private final GameCharacter character;
     private final CharacterAnimation characterAnimation;
 
     public CharacterElement(
-        final CharacterMovimentEvent newCharacterMovimentEvent,
+        final CollisionDetector newCollisionDetector,
         final GameCharacter newCharacter,
         final CharacterAnimation newCharacterAnimation
     ) {
-        characterMovimentEvent = newCharacterMovimentEvent;
+        collisionDetector = newCollisionDetector;
         character = newCharacter;
         characterAnimation = newCharacterAnimation;
     }
@@ -24,7 +26,7 @@ public class CharacterElement {
     }
 
     public void onMove() {
-        if (!characterMovimentEvent.onMove(this)) {
+        if (!collisionDetector.canMove(character)) {
             character.cancelMove();
         }
     }

@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.CharacterMovementEventSpy;
+import org.rpgrunner.test.mock.CollisionDetectorSpy;
 
 public class CharacterElementTest extends TestCase {
     public void testReturnSameCharacter() {
@@ -31,12 +31,12 @@ public class CharacterElementTest extends TestCase {
     }
 
     public void testOnMoveFalseCancelCharacterMoviment() {
-        CharacterMovimentEvent event = new CharacterMovementEventSpy(false);
+        CollisionDetectorSpy collisionDetector = new CollisionDetectorSpy();
         GameCharacter character = RandomGenerator.generateRandomCharacter();
         CharacterAnimation characterAnimationSpy = new CharacterAnimationSpy();
 
         CharacterElement characterElement = new CharacterElement(
-            event,
+            collisionDetector,
             character,
             characterAnimationSpy
         );
@@ -52,6 +52,7 @@ public class CharacterElementTest extends TestCase {
 
         Assert.assertTrue(character.isMoving());
 
+        collisionDetector.setCanMove(false);
         characterElement.onMove();
 
         Assert.assertFalse(character.isMoving());

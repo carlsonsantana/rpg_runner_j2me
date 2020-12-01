@@ -7,6 +7,10 @@ import org.rpgrunner.game.helper.CollisionDetector;
 public class CollisionDetectorSpy extends CollisionDetector {
     private boolean canMoveValue;
 
+    public CollisionDetectorSpy() {
+        canMoveValue = true;
+    }
+
     public void setMap(final Map map) {
         throw new RuntimeException();
     }

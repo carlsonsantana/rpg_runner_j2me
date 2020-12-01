@@ -11,7 +11,6 @@ import javax.microedition.lcdui.game.TiledLayer;
 
 import org.rpgrunner.game.character.CharacterAnimation;
 import org.rpgrunner.game.character.CharacterElement;
-import org.rpgrunner.game.character.CharacterMovimentEvent;
 import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.helper.CollisionDetector;
 import org.rpgrunner.game.j2me.CharacterAnimationImpl;
@@ -29,7 +28,6 @@ public class GameController {
     private final int screenMiddleWidth;
     private final int screenMiddleHeight;
     private final CollisionDetector collisionDetector;
-    private final CharacterMovimentEvent characterMovimentEvent;
     private int cameraPositionX;
     private int cameraPositionY;
     private Map map;
@@ -52,7 +50,6 @@ public class GameController {
         cameraPositionY = 0;
 
         collisionDetector = new CollisionDetector();
-        characterMovimentEvent = new CharacterMovimentEvent(collisionDetector);
 
         setMap(MapLoader.loadMap("map"));
         playerCharacterElement = generateCharacterElement("character");
@@ -108,7 +105,7 @@ public class GameController {
             character
         );
         CharacterElement characterElement = new CharacterElement(
-            characterMovimentEvent,
+            collisionDetector,
             character,
             characterAnimation
         );
