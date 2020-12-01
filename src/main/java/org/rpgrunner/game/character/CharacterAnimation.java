@@ -7,6 +7,7 @@ public interface CharacterAnimation {
     int getHeight();
     void setScreenPosition(int screenX, int screenY);
     void startAnimation();
+    void doAnimation();
     boolean isAnimationComplete();
     Object getSprite();
 }

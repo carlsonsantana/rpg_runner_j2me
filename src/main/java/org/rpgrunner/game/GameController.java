@@ -172,7 +172,7 @@ public class GameController {
                 characterElements[i].getCharacterAnimation()
             );
 
-            characterAnimation.startAnimation();
+            characterAnimation.doAnimation();
         }
     }
 

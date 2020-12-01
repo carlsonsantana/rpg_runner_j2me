@@ -32,6 +32,8 @@ public class CharacterAnimationSpy implements CharacterAnimation {
         startAnimationCalled = true;
     }
 
+    public void doAnimation() { }
+
     public boolean isStartAnimationCalled() {
         return startAnimationCalled;
     }

@@ -114,6 +114,9 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         if (isAnimationComplete()) {
             changeSpriteAnimation();
         }
+    }
+
+    public void doAnimation() {
         moveSprite();
         changeSpriteFrame();
     }
