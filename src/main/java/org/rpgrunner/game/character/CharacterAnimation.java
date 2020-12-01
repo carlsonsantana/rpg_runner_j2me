@@ -9,5 +9,4 @@ public interface CharacterAnimation {
     void startAnimation();
     boolean isAnimationComplete();
     Object getSprite();
-    GameCharacter getCharacter();
 }

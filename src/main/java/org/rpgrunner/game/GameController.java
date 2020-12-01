@@ -234,10 +234,11 @@ public class GameController {
 
     public void posRender() {
         for (int i = 0; i < characterElements.length; i++) {
+            CharacterElement characterElement = characterElements[i];
             CharacterAnimation characterAnimation = (
-                characterElements[i].getCharacterAnimation()
+                characterElement.getCharacterAnimation()
             );
-            GameCharacter character = characterAnimation.getCharacter();
+            GameCharacter character = characterElement.getCharacter();
 
             if (characterAnimation.isAnimationComplete()) {
                 character.finishMove();

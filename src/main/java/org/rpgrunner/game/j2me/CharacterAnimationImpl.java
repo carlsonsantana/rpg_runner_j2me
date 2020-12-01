@@ -172,8 +172,4 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
     }
-
-    public GameCharacter getCharacter() {
-        return character;
-    }
 }
