@@ -9,6 +9,7 @@ public class GameCharacter {
     private int mapPositionY;
     private int mapNextPositionX;
     private int mapNextPositionY;
+    private CharacterElement characterElement;
 
     public GameCharacter(final String characterFileBaseName) {
         fileBaseName = characterFileBaseName;
@@ -25,6 +26,7 @@ public class GameCharacter {
         }
         direction = Direction.UP;
         mapNextPositionY = mapPositionY - 1;
+        onMove();
     }
 
     public void moveRight() {
@@ -33,6 +35,7 @@ public class GameCharacter {
         }
         direction = Direction.RIGHT;
         mapNextPositionX = mapPositionX + 1;
+        onMove();
     }
 
     public void moveDown() {
@@ -41,6 +44,7 @@ public class GameCharacter {
         }
         direction = Direction.DOWN;
         mapNextPositionY = mapPositionY + 1;
+        onMove();
     }
 
     public void moveLeft() {
@@ -49,6 +53,11 @@ public class GameCharacter {
         }
         direction = Direction.LEFT;
         mapNextPositionX = mapPositionX - 1;
+        onMove();
+    }
+
+    private void onMove() {
+        characterElement.onMove();
     }
 
     public byte getDirection() {
@@ -86,5 +95,11 @@ public class GameCharacter {
 
     public int getMapNextPositionY() {
         return mapNextPositionY;
+    }
+
+    public void setCharacterElement(
+        final CharacterElement newCharacterElement
+    ) {
+        characterElement = newCharacterElement;
     }
 }

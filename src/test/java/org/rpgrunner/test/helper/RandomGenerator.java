@@ -3,6 +3,7 @@ package org.rpgrunner.test.helper;
 import java.util.Random;
 
 import org.rpgrunner.test.mock.CharacterSpy;
+import org.rpgrunner.test.mock.CharacterElementSpy;
 
 public class RandomGenerator {
     private static final int STRING_SIZE = 8;
@@ -31,8 +32,11 @@ public class RandomGenerator {
     }
 
     public static CharacterSpy generateRandomCharacter() {
+        CharacterElementSpy characterElement = new CharacterElementSpy();
         String randomFileBaseName = getRandomString();
-        return new CharacterSpy(randomFileBaseName);
+        CharacterSpy character = new CharacterSpy(randomFileBaseName);
+        character.setCharacterElement(characterElement);
+        return character;
     }
 
     public static String getRandomString() {

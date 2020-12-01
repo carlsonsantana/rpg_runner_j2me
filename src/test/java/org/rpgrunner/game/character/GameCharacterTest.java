@@ -8,12 +8,16 @@ import junit.framework.TestCase;
 import org.rpgrunner.game.Direction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.helper.TestAllDirections;
+import org.rpgrunner.test.mock.CharacterElementSpy;
 
 public class GameCharacterTest extends TestCase {
+    private CharacterElementSpy characterElement;
     private GameCharacter character;
 
     public void setUp() {
         character = new GameCharacter(null);
+        characterElement = new CharacterElementSpy();
+        character.setCharacterElement(characterElement);
     }
 
     public void testReturnSameFileBaseName() {
@@ -332,5 +336,29 @@ public class GameCharacterTest extends TestCase {
             }
         };
         testAllDirections.test();
+    }
+
+    public void testOnMoveCalledWhenMoveUp() {
+        Assert.assertFalse(characterElement.isOnMoveCalled());
+        character.moveUp();
+        Assert.assertTrue(characterElement.isOnMoveCalled());
+    }
+
+    public void testOnMoveCalledWhenMoveRight() {
+        Assert.assertFalse(characterElement.isOnMoveCalled());
+        character.moveRight();
+        Assert.assertTrue(characterElement.isOnMoveCalled());
+    }
+
+    public void testOnMoveCalledWhenMoveDown() {
+        Assert.assertFalse(characterElement.isOnMoveCalled());
+        character.moveDown();
+        Assert.assertTrue(characterElement.isOnMoveCalled());
+    }
+
+    public void testOnMoveCalledWhenMoveLeft() {
+        Assert.assertFalse(characterElement.isOnMoveCalled());
+        character.moveLeft();
+        Assert.assertTrue(characterElement.isOnMoveCalled());
     }
 }

@@ -2,6 +2,7 @@ package org.rpgrunner.test.helper;
 
 import org.rpgrunner.game.Direction;
 import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.test.helper.RandomGenerator;
 
 public abstract class TestAllDirections {
     private GameCharacter character;
@@ -18,22 +19,22 @@ public abstract class TestAllDirections {
     }
 
     private void testNewCharacterMoveToUp() {
-        character = new GameCharacter(null);
+        character = RandomGenerator.generateRandomCharacter();
         testMoveToUp();
     }
 
     private void testNewCharacterMoveToRight() {
-        character = new GameCharacter(null);
+        character = RandomGenerator.generateRandomCharacter();
         testMoveToRight();
     }
 
     private void testNewCharacterMoveToDown() {
-        character = new GameCharacter(null);
+        character = RandomGenerator.generateRandomCharacter();
         testMoveToDown();
     }
 
     private void testNewCharacterMoveToLeft() {
-        character = new GameCharacter(null);
+        character = RandomGenerator.generateRandomCharacter();
         testMoveToLeft();
     }
 

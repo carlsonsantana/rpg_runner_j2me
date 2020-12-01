@@ -1,19 +1,23 @@
 package org.rpgrunner.game;
 
 import java.util.Random;
+
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
-import javax.microedition.lcdui.game.LayerManager;
-import javax.microedition.lcdui.game.TiledLayer;
 import javax.microedition.lcdui.game.Layer;
+import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
+import javax.microedition.lcdui.game.TiledLayer;
 
+import org.rpgrunner.game.character.CharacterAnimation;
+import org.rpgrunner.game.character.CharacterElement;
+import org.rpgrunner.game.character.CharacterMovimentEvent;
+import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.game.helper.CollisionDetector;
+import org.rpgrunner.game.j2me.CharacterAnimationImpl;
+import org.rpgrunner.game.j2me.MapRender;
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
-import org.rpgrunner.game.j2me.MapRender;
-import org.rpgrunner.game.character.GameCharacter;
-import org.rpgrunner.game.character.CharacterAnimation;
-import org.rpgrunner.game.j2me.CharacterAnimationImpl;
 
 public class GameController {
     private static final int TILE_WIDTH = 16;
@@ -24,6 +28,8 @@ public class GameController {
     private final int screenHeight;
     private final int screenMiddleWidth;
     private final int screenMiddleHeight;
+    private final CollisionDetector collisionDetector;
+    private final CharacterMovimentEvent characterMovimentEvent;
     private int cameraPositionX;
     private int cameraPositionY;
     private Map map;
@@ -46,6 +52,9 @@ public class GameController {
         cameraPositionX = 0;
         cameraPositionY = 0;
 
+        collisionDetector = new CollisionDetector();
+        characterMovimentEvent = new CharacterMovimentEvent(collisionDetector);
+
         setMap(MapLoader.loadMap("map"));
         setPlayerCharacter(new GameCharacter("character"));
         setCharacters();
@@ -59,6 +68,8 @@ public class GameController {
         for (int i = tiledLayers.length - 1; i >= 0; i--) {
             layerManager.append(tiledLayers[i]);
         }
+
+        collisionDetector.setMap(map);
     }
 
     private void clearMapLayerManager() {
@@ -74,6 +85,12 @@ public class GameController {
     public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
         playerCharacter = newPlayerCharacter;
         playerCharacterAnimation = new CharacterAnimationImpl(playerCharacter);
+        CharacterElement characterElement = new CharacterElement(
+            characterMovimentEvent,
+            playerCharacter,
+            playerCharacterAnimation
+        );
+        playerCharacter.setCharacterElement(characterElement);
     }
 
     private void setCharacters() {
@@ -81,6 +98,12 @@ public class GameController {
         CharacterAnimation characterAnimation = new CharacterAnimationImpl(
             character
         );
+        CharacterElement characterElement = new CharacterElement(
+            characterMovimentEvent,
+            character,
+            characterAnimation
+        );
+        character.setCharacterElement(characterElement);
 
         characters = new CharacterAnimation[2];
         characters[0] = playerCharacterAnimation;
@@ -88,6 +111,10 @@ public class GameController {
         for (int i = 0; i < characters.length; i++) {
             layerManager.insert((Sprite) characters[i].getSprite(), 0);
         }
+
+        collisionDetector.setCharacters(
+            new GameCharacter[] {playerCharacter, character}
+        );
     }
 
     public void setGameAction(final int newGameAction) {
