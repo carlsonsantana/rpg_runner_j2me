@@ -133,7 +133,6 @@ public class GameController {
         }
 
         moveNPCs();
-        avoidCollisions();
     }
 
     private void moveNPCs() {
@@ -153,25 +152,6 @@ public class GameController {
                 } else {
                     character.moveLeft();
                 }
-            }
-        }
-    }
-
-    private void avoidCollisions() {
-        for (int i = 0; i < characters.length; i++) {
-            CharacterAnimation characterAnimation = characters[i];
-            GameCharacter character = characterAnimation.getCharacter();
-
-            if (
-                !map.canMoveTo(
-                    character.getMapPositionX(),
-                    character.getMapPositionY(),
-                    character.getMapNextPositionX(),
-                    character.getMapNextPositionY(),
-                    character.getDirection()
-                )
-            ) {
-                character.cancelMove();
             }
         }
     }
