@@ -31,4 +31,8 @@ public class CharacterElement {
         }
         characterAnimation.startAnimation();
     }
+
+    public void onAnimationComplete() {
+        character.finishMove();
+    }
 }

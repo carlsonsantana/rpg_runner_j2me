@@ -36,48 +36,41 @@ public class CharacterElementTest extends TestCase {
     }
 
     public void testOnMoveFalseCancelCharacterMovement() {
-        int x = character.getMapPositionX();
+        collisionDetector.setCanMove(false);
         int y = character.getMapPositionY();
-        int nextX = character.getMapNextPositionX();
-        int nextY = character.getMapNextPositionY();
-
-        Assert.assertFalse(character.isMoving());
 
         character.moveUp();
-
-        Assert.assertTrue(character.isMoving());
-
-        collisionDetector.setCanMove(false);
         characterElement.onMove();
 
         Assert.assertFalse(character.isMoving());
-        Assert.assertEquals(x, character.getMapPositionX());
         Assert.assertEquals(y, character.getMapPositionY());
-        Assert.assertEquals(nextX, character.getMapNextPositionX());
-        Assert.assertEquals(nextY, character.getMapNextPositionY());
+        Assert.assertEquals(y, character.getMapNextPositionY());
         Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 
     public void testOnMoveTrueContinueCharacterMovement() {
-        int x = character.getMapPositionX();
+        collisionDetector.setCanMove(true);
         int y = character.getMapPositionY();
-
-        Assert.assertFalse(character.isMoving());
+        int nextY = y - 1;
 
         character.moveUp();
-        int nextX = character.getMapNextPositionX();
-        int nextY = character.getMapNextPositionY();
-
-        Assert.assertTrue(character.isMoving());
-
-        collisionDetector.setCanMove(true);
         characterElement.onMove();
 
         Assert.assertTrue(character.isMoving());
-        Assert.assertEquals(x, character.getMapPositionX());
         Assert.assertEquals(y, character.getMapPositionY());
-        Assert.assertEquals(nextX, character.getMapNextPositionX());
         Assert.assertEquals(nextY, character.getMapNextPositionY());
         Assert.assertTrue(characterAnimation.isStartAnimationCalled());
+    }
+
+    public void testOnAnimationCompleteFinishCharacterMovement() {
+        collisionDetector.setCanMove(true);
+        int y = character.getMapPositionY();
+        int nextY = y - 1;
+
+        character.moveUp();
+        characterElement.onAnimationComplete();
+
+        Assert.assertFalse(character.isMoving());
+        Assert.assertEquals(nextY, character.getMapPositionY());
     }
 }
