@@ -33,9 +33,8 @@ public class GameController {
     private int cameraPositionX;
     private int cameraPositionY;
     private Map map;
-    private GameCharacter playerCharacter;
-    private CharacterAnimation playerCharacterAnimation;
-    private CharacterAnimation[] characters;
+    private CharacterElement playerCharacterElement;
+    private CharacterElement[] characterElements;
     private int gameAction;
 
     public GameController(
@@ -56,7 +55,7 @@ public class GameController {
         characterMovimentEvent = new CharacterMovimentEvent(collisionDetector);
 
         setMap(MapLoader.loadMap("map"));
-        setPlayerCharacter(new GameCharacter("character"));
+        playerCharacterElement = generateCharacterElement("character");
         setCharacters();
     }
 
@@ -82,19 +81,29 @@ public class GameController {
         }
     }
 
-    public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
-        playerCharacter = newPlayerCharacter;
-        playerCharacterAnimation = new CharacterAnimationImpl(playerCharacter);
-        CharacterElement characterElement = new CharacterElement(
-            characterMovimentEvent,
-            playerCharacter,
-            playerCharacterAnimation
+    private void setCharacters() {
+        CharacterElement characterElement = generateCharacterElement(
+            "character"
         );
-        playerCharacter.setCharacterElement(characterElement);
+
+        characterElements = new CharacterElement[2];
+        characterElements[0] = playerCharacterElement;
+        characterElements[1] = characterElement;
+        for (int i = 0; i < characterElements.length; i++) {
+            CharacterAnimation characterAnimation = (
+                characterElements[i].getCharacterAnimation()
+            );
+            layerManager.insert((Sprite) characterAnimation.getSprite(), 0);
+        }
+
+        collisionDetector.setCharacters(new GameCharacter[] {
+            playerCharacterElement.getCharacter(),
+            characterElement.getCharacter()
+        });
     }
 
-    private void setCharacters() {
-        GameCharacter character = new GameCharacter("character");
+    public CharacterElement generateCharacterElement(final String baseName) {
+        GameCharacter character = new GameCharacter(baseName);
         CharacterAnimation characterAnimation = new CharacterAnimationImpl(
             character
         );
@@ -105,16 +114,7 @@ public class GameController {
         );
         character.setCharacterElement(characterElement);
 
-        characters = new CharacterAnimation[2];
-        characters[0] = playerCharacterAnimation;
-        characters[1] = characterAnimation;
-        for (int i = 0; i < characters.length; i++) {
-            layerManager.insert((Sprite) characters[i].getSprite(), 0);
-        }
-
-        collisionDetector.setCharacters(
-            new GameCharacter[] {playerCharacter, character}
-        );
+        return characterElement;
     }
 
     public void setGameAction(final int newGameAction) {
@@ -122,6 +122,7 @@ public class GameController {
     }
 
     public void preRender() {
+        GameCharacter playerCharacter = playerCharacterElement.getCharacter();
         if (gameAction == GameCanvas.UP) {
             playerCharacter.moveUp();
         } else if (gameAction == GameCanvas.RIGHT) {
@@ -136,11 +137,11 @@ public class GameController {
     }
 
     private void moveNPCs() {
-        for (int i = 0; i < characters.length; i++) {
-            CharacterAnimation characterAnimation = characters[i];
+        for (int i = 0; i < characterElements.length; i++) {
+            CharacterElement characterElement = characterElements[i];
 
-            if (characterAnimation != playerCharacterAnimation) {
-                GameCharacter character = characterAnimation.getCharacter();
+            if (characterElement != playerCharacterElement) {
+                GameCharacter character = characterElement.getCharacter();
                 Random random = new Random();
                 int direction = random.nextInt(Direction.NUMBER_DIRECTIONS);
                 if (direction == 0) {
@@ -169,14 +170,21 @@ public class GameController {
     }
 
     private void preRenderCharacters() {
-        for (int i = 0; i < characters.length; i++) {
-            CharacterAnimation characterAnimation = characters[i];
+        for (int i = 0; i < characterElements.length; i++) {
+            CharacterAnimation characterAnimation = (
+                characterElements[i].getCharacterAnimation()
+            );
 
             characterAnimation.startAnimation();
         }
     }
 
     private void centerCamera() {
+        GameCharacter playerCharacter = playerCharacterElement.getCharacter();
+        CharacterAnimation playerCharacterAnimation = (
+            playerCharacterElement.getCharacterAnimation()
+        );
+
         int playerAbsolutePositionX = playerCharacterAnimation.getScreenX();
         int playerAbsolutePositionY = playerCharacterAnimation.getScreenY();
         int screenCharacterPositionX = (
@@ -225,8 +233,10 @@ public class GameController {
     }
 
     public void posRender() {
-        for (int i = 0; i < characters.length; i++) {
-            CharacterAnimation characterAnimation = characters[i];
+        for (int i = 0; i < characterElements.length; i++) {
+            CharacterAnimation characterAnimation = (
+                characterElements[i].getCharacterAnimation()
+            );
             GameCharacter character = characterAnimation.getCharacter();
 
             if (characterAnimation.isAnimationComplete()) {
