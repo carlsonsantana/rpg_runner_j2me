@@ -4,6 +4,12 @@ import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.character.CharacterAnimation;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
+    private boolean startAnimationCalled;
+
+    public CharacterAnimationSpy() {
+        startAnimationCalled = false;
+    }
+
     public int getScreenX() {
         return 0;
     }
@@ -22,7 +28,13 @@ public class CharacterAnimationSpy implements CharacterAnimation {
 
     public void setScreenPosition(int screenX, int screenY) { }
 
-    public void startAnimation() { }
+    public void startAnimation() {
+        startAnimationCalled = true;
+    }
+
+    public boolean isStartAnimationCalled() {
+        return startAnimationCalled;
+    }
 
     public boolean isAnimationComplete() {
         return false;

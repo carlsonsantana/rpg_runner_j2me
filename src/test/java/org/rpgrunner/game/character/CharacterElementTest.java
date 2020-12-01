@@ -7,40 +7,35 @@ import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CollisionDetectorSpy;
 
 public class CharacterElementTest extends TestCase {
-    public void testReturnSameCharacter() {
-        GameCharacter character = RandomGenerator.generateRandomCharacter();
-        CharacterElement characterElement = new CharacterElement(
-            null,
+    private CharacterElement characterElement;
+    private CollisionDetectorSpy collisionDetector;
+    private GameCharacter character;
+    private CharacterAnimationSpy characterAnimation;
+
+    public void setUp() {
+        collisionDetector = new CollisionDetectorSpy();
+        character = RandomGenerator.generateRandomCharacter();
+        characterAnimation = new CharacterAnimationSpy();
+
+        characterElement = new CharacterElement(
+            collisionDetector,
             character,
-            null
+            characterAnimation
         );
+    }
+
+    public void testReturnSameCharacter() {
         Assert.assertSame(character, characterElement.getCharacter());
     }
 
     public void testReturnSameCharacterAnimation() {
-        CharacterAnimation characterAnimationSpy = new CharacterAnimationSpy();
-        CharacterElement characterElement = new CharacterElement(
-            null,
-            null,
-            characterAnimationSpy
-        );
         Assert.assertSame(
-            characterAnimationSpy,
+            characterAnimation,
             characterElement.getCharacterAnimation()
         );
     }
 
-    public void testOnMoveFalseCancelCharacterMoviment() {
-        CollisionDetectorSpy collisionDetector = new CollisionDetectorSpy();
-        GameCharacter character = RandomGenerator.generateRandomCharacter();
-        CharacterAnimation characterAnimationSpy = new CharacterAnimationSpy();
-
-        CharacterElement characterElement = new CharacterElement(
-            collisionDetector,
-            character,
-            characterAnimationSpy
-        );
-
+    public void testOnMoveFalseCancelCharacterMovement() {
         int x = character.getMapPositionX();
         int y = character.getMapPositionY();
         int nextX = character.getMapNextPositionX();
@@ -60,5 +55,29 @@ public class CharacterElementTest extends TestCase {
         Assert.assertEquals(y, character.getMapPositionY());
         Assert.assertEquals(nextX, character.getMapNextPositionX());
         Assert.assertEquals(nextY, character.getMapNextPositionY());
+        Assert.assertFalse(characterAnimation.isStartAnimationCalled());
+    }
+
+    public void testOnMoveTrueStartCharacterMovement() {
+        int x = character.getMapPositionX();
+        int y = character.getMapPositionY();
+
+        Assert.assertFalse(character.isMoving());
+
+        character.moveUp();
+        int nextX = character.getMapNextPositionX();
+        int nextY = character.getMapNextPositionY();
+
+        Assert.assertTrue(character.isMoving());
+
+        collisionDetector.setCanMove(true);
+        characterElement.onMove();
+
+        Assert.assertTrue(character.isMoving());
+        Assert.assertEquals(x, character.getMapPositionX());
+        Assert.assertEquals(y, character.getMapPositionY());
+        Assert.assertEquals(nextX, character.getMapNextPositionX());
+        Assert.assertEquals(nextY, character.getMapNextPositionY());
+        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 }
