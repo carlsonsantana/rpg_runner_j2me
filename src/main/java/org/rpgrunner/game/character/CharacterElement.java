@@ -28,8 +28,7 @@ public class CharacterElement {
     public void onMove() {
         if (!collisionDetector.canMove(character)) {
             character.cancelMove();
-        } else {
-            characterAnimation.startAnimation();
         }
+        characterAnimation.startAnimation();
     }
 }
