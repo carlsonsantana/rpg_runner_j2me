@@ -7,6 +7,7 @@ import javax.microedition.lcdui.game.Sprite;
 import org.rpgrunner.game.Direction;
 import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.character.CharacterAnimation;
+import org.rpgrunner.game.character.CharacterElement;
 
 public class CharacterAnimationImpl implements CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";
@@ -65,18 +66,18 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     };
 
     private final Sprite sprite;
-    private final GameCharacter character;
+    private CharacterElement characterElement;
     private byte direction;
 
-    public CharacterAnimationImpl(final GameCharacter gameCharacter) {
-        character = gameCharacter;
-        sprite = new Sprite(loadImage(), SPRITE_WIDTH, SPRITE_HEIGHT);
+    public CharacterAnimationImpl(final GameCharacter character) {
+        Image image = loadImage(character);
+        sprite = new Sprite(image, SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
         sprite.setPosition(0, -SPRITE_REFERENCE_Y);
-        changeSpriteAnimation();
+        changeSpriteAnimation(character);
     }
 
-    private Image loadImage() {
+    private Image loadImage(final GameCharacter character) {
         String fileName = (
             CHARACTER_DIRECTORY
             + character.getFileBaseName()
@@ -112,22 +113,26 @@ public class CharacterAnimationImpl implements CharacterAnimation {
 
     public void startAnimation() {
         if (isAnimationComplete()) {
-            changeSpriteAnimation();
+            changeSpriteAnimation(characterElement.getCharacter());
         }
     }
 
     public void doAnimation() {
         moveSprite();
         changeSpriteFrame();
+        if (isAnimationComplete()) {
+            characterElement.onAnimationComplete();
+        }
     }
 
     public Object getSprite() {
         return sprite;
     }
 
-    private void changeSpriteAnimation() {
-        if (direction != character.getDirection()) {
-            direction = character.getDirection();
+    private void changeSpriteAnimation(final GameCharacter character) {
+        byte characterCurrentDirection = character.getDirection();
+        if (direction != characterCurrentDirection) {
+            direction = characterCurrentDirection;
             int[] animation;
             if (Direction.isUp(direction)) {
                 animation = SPRITE_ANIMATION_UP;
@@ -168,11 +173,18 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     }
 
     private boolean isAnimationRunning() {
+        GameCharacter character = characterElement.getCharacter();
         return character.isMoving() || (!isAnimationComplete());
     }
 
     public boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
+    }
+
+    public void setCharacterElement(
+        final CharacterElement newCharacterElement
+    ) {
+        characterElement = newCharacterElement;
     }
 }

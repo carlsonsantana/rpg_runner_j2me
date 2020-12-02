@@ -39,7 +39,6 @@ public class GameRunner extends GameCanvas implements Runnable {
         while (isRunning()) {
             gameController.preRender();
             gameController.render();
-            gameController.posRender();
 
             repaint();
             flushGraphics();

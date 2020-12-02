@@ -10,4 +10,5 @@ public interface CharacterAnimation {
     void doAnimation();
     boolean isAnimationComplete();
     Object getSprite();
+    void setCharacterElement(CharacterElement characterElement);
 }

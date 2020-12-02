@@ -110,6 +110,7 @@ public class GameController {
             characterAnimation
         );
         character.setCharacterElement(characterElement);
+        characterAnimation.setCharacterElement(characterElement);
 
         return characterElement;
     }
@@ -226,20 +227,6 @@ public class GameController {
             && (cameraPositionY > 0)
         ) {
             cameraPositionY -= SPRITE_SPEED;
-        }
-    }
-
-    public void posRender() {
-        for (int i = 0; i < characterElements.length; i++) {
-            CharacterElement characterElement = characterElements[i];
-            CharacterAnimation characterAnimation = (
-                characterElement.getCharacterAnimation()
-            );
-            GameCharacter character = characterElement.getCharacter();
-
-            if (characterAnimation.isAnimationComplete()) {
-                character.finishMove();
-            }
         }
     }
 }
