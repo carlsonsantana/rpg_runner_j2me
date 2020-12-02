@@ -6,13 +6,15 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class CameraTest extends TestCase {
-    public void testReturnSameScreenWidth() {
+    public void testReturnSameScreenWidthAndHeight() {
         Random random = new Random();
 
         for (int i = 0; i < 100; i++) {
             int randomWidth = random.nextInt(100);
-            Camera camera = new Camera(randomWidth);
+            int randomHeight = random.nextInt(100);
+            Camera camera = new Camera(randomWidth, randomHeight);
             Assert.assertEquals(randomWidth, camera.getScreenWidth());
+            Assert.assertEquals(randomHeight, camera.getScreenHeight());
         }
     }
 }
