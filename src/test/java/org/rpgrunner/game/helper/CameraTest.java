@@ -6,9 +6,13 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 public class CameraTest extends TestCase {
-    public void testReturnSameScreenWidthAndHeight() {
-        Random random = new Random();
+    private Random random;
 
+    public void setUp() {
+        random = new Random();
+    }
+
+    public void testReturnSameScreenWidthAndHeight() {
         for (int i = 0; i < 100; i++) {
             int randomWidth = random.nextInt(100);
             int randomHeight = random.nextInt(100);
@@ -16,5 +20,13 @@ public class CameraTest extends TestCase {
             Assert.assertEquals(randomWidth, camera.getScreenWidth());
             Assert.assertEquals(randomHeight, camera.getScreenHeight());
         }
+    }
+
+    public void testReturnZerosForInitialCameraPositions() {
+        int randomWidth = random.nextInt(100);
+        int randomHeight = random.nextInt(100);
+        Camera camera = new Camera(randomWidth, randomHeight);
+        Assert.assertEquals(0, camera.getX());
+        Assert.assertEquals(0, camera.getY());
     }
 }
