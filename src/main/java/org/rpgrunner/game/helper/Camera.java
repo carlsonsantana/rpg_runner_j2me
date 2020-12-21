@@ -45,30 +45,24 @@ public class Camera {
         );
 
         x = getCenterCamera(
-            character.getMapPositionX(),
             characterAnimation.getScreenX(),
             screenWidth,
             map.getWidth()
         );
         y = getCenterCamera(
-            character.getMapPositionY(),
             characterAnimation.getScreenY(),
             screenHeight,
             map.getHeight()
         );
     }
 
-    public int getCenterCamera(
-        final int characterMapPosition,
+    private int getCenterCamera(
         final int characterScreenPosition,
         final int screenSize,
         final int mapSize
     ) {
         int screenMiddle = screenSize / 2;
-        int characterPosition = (
-            (characterMapPosition * TILE_WIDTH)
-            + (characterScreenPosition % TILE_WIDTH)
-        );
+        int characterPosition = characterScreenPosition;
         int max = (mapSize * TILE_WIDTH) - screenMiddle;
         int cameraPositionWithoutCorrection = (
             characterPosition - screenMiddle
