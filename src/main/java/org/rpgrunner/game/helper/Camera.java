@@ -63,7 +63,7 @@ public class Camera {
     ) {
         int screenMiddle = screenSize / 2;
         int characterPosition = characterScreenPosition;
-        int max = (mapSize * TILE_WIDTH) - screenMiddle;
+        int max = (mapSize * TILE_WIDTH) - screenSize;
         int cameraPositionWithoutCorrection = (
             characterPosition - screenMiddle
         );

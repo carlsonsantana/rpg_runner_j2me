@@ -64,7 +64,7 @@ public class CameraTest extends TestCase {
         characterAnimation.setScreenPosition(304, 0);
 
         camera.centerCamera(map, characterElement);
-        Assert.assertEquals(224, camera.getX());
+        Assert.assertEquals(160, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
         character.setInitialPosition(0, 0);
@@ -91,7 +91,7 @@ public class CameraTest extends TestCase {
 
         camera.centerCamera(map, characterElement);
         Assert.assertEquals(0, camera.getX());
-        Assert.assertEquals(224, camera.getY());
+        Assert.assertEquals(160, camera.getY());
 
         character.setInitialPosition(0, 0);
         characterAnimation.setScreenPosition(0, 0);
