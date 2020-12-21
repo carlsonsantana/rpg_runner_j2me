@@ -49,7 +49,22 @@ public class CameraTest extends TestCase {
         Assert.assertEquals(0, camera.getY());
     }
 
-    public void testCenterCameraHorizontal() {
+    public void testCenterCameraHorizontalMiddle() {
+        int randomWidth = 320;
+        int randomHeight = 320;
+        map.setWidth(randomWidth/16);
+        map.setHeight(randomHeight/16);
+
+        Camera camera = new Camera(160, 160);
+        character.setInitialPosition(10, 0);
+        characterAnimation.setScreenPosition(160, 0);
+        camera.centerCamera(map, characterElement);
+
+        Assert.assertEquals(88, camera.getX());
+        Assert.assertEquals(0, camera.getY());
+    }
+
+    public void testCenterCameraHorizontalCorners() {
         int randomWidth = 320;
         int randomHeight = 320;
         map.setWidth(randomWidth/16);
@@ -75,7 +90,22 @@ public class CameraTest extends TestCase {
         Assert.assertEquals(0, camera.getY());
     }
 
-    public void testCenterCameraVertical() {
+    public void testCenterCameraVerticalMiddle() {
+        int randomWidth = 320;
+        int randomHeight = 320;
+        map.setWidth(randomWidth/16);
+        map.setHeight(randomHeight/16);
+
+        Camera camera = new Camera(160, 160);
+        character.setInitialPosition(0, 10);
+        characterAnimation.setScreenPosition(0, 160);
+        camera.centerCamera(map, characterElement);
+
+        Assert.assertEquals(0, camera.getX());
+        Assert.assertEquals(80, camera.getY());
+    }
+
+    public void testCenterCameraVerticalCorners() {
         int randomWidth = 320;
         int randomHeight = 320;
         map.setWidth(randomWidth/16);

@@ -45,7 +45,7 @@ public class Camera {
         );
 
         x = getCenterCamera(
-            characterAnimation.getScreenX(),
+            characterAnimation.getScreenX() + (TILE_WIDTH / 2),
             screenWidth,
             map.getWidth()
         );
