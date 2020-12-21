@@ -17,19 +17,13 @@ import org.rpgrunner.game.j2me.CharacterAnimationImpl;
 import org.rpgrunner.game.j2me.MapRender;
 import org.rpgrunner.game.map.Map;
 import org.rpgrunner.game.map.MapLoader;
+import org.rpgrunner.game.helper.Camera;
 
 public class GameController {
-    private static final int TILE_WIDTH = 16;
-    private static final int SPRITE_SPEED = 4;
     private final Graphics graphics;
     private final LayerManager layerManager;
-    private final int screenWidth;
-    private final int screenHeight;
-    private final int screenMiddleWidth;
-    private final int screenMiddleHeight;
+    private final Camera camera;
     private final CollisionDetector collisionDetector;
-    private int cameraPositionX;
-    private int cameraPositionY;
     private Map map;
     private CharacterElement playerCharacterElement;
     private CharacterElement[] characterElements;
@@ -37,17 +31,12 @@ public class GameController {
 
     public GameController(
         final Graphics midletGraphics,
-        final int deviceScreenWidth,
-        final int deviceScreenHeight
+        final int screenWidth,
+        final int screenHeight
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
-        screenWidth = deviceScreenWidth;
-        screenHeight = deviceScreenHeight;
-        screenMiddleWidth = screenWidth / 2;
-        screenMiddleHeight = screenHeight / 2;
-        cameraPositionX = 0;
-        cameraPositionY = 0;
+        camera = new Camera(screenWidth, screenHeight);
 
         collisionDetector = new CollisionDetector();
 
@@ -158,12 +147,6 @@ public class GameController {
     public void render() {
         preRenderCharacters();
         centerCamera();
-        layerManager.setViewWindow(
-            cameraPositionX,
-            cameraPositionY,
-            screenWidth,
-            screenHeight
-        );
         layerManager.paint(graphics, 0, 0);
     }
 
@@ -178,55 +161,12 @@ public class GameController {
     }
 
     private void centerCamera() {
-        GameCharacter playerCharacter = playerCharacterElement.getCharacter();
-        CharacterAnimation playerCharacterAnimation = (
-            playerCharacterElement.getCharacterAnimation()
+        camera.centerCamera(map, playerCharacterElement);
+        layerManager.setViewWindow(
+            camera.getX(),
+            camera.getY(),
+            camera.getScreenWidth(),
+            camera.getScreenHeight()
         );
-
-        int playerAbsolutePositionX = playerCharacterAnimation.getScreenX();
-        int playerAbsolutePositionY = playerCharacterAnimation.getScreenY();
-        int screenCharacterPositionX = (
-            playerAbsolutePositionX - cameraPositionX
-        );
-        int screenCharacterPositionY = (
-            playerAbsolutePositionY - cameraPositionY
-        );
-        int middleCharacterWidth = playerCharacterAnimation.getWidth() / 2;
-        int middleCharacterHeight = playerCharacterAnimation.getHeight() / 2;
-        int middleCharacterPositionScreenX = (
-            screenCharacterPositionX + middleCharacterWidth
-        );
-        int middleCharacterPositionScreenY = (
-            screenCharacterPositionY + middleCharacterHeight
-        );
-        int mapWidth = map.getWidth() * TILE_WIDTH;
-        int mapHeight = map.getHeight() * TILE_WIDTH;
-        byte direction = playerCharacter.getDirection();
-
-        if (
-            (Direction.isRight(direction))
-            && (screenMiddleWidth < middleCharacterPositionScreenX)
-            && ((playerAbsolutePositionX + screenMiddleWidth) <= mapWidth)
-        ) {
-            cameraPositionX += SPRITE_SPEED;
-        } else if (
-            (Direction.isLeft(direction))
-            && (screenMiddleWidth > middleCharacterPositionScreenX)
-            && (cameraPositionX > 0)
-        ) {
-            cameraPositionX -= SPRITE_SPEED;
-        } else if (
-            (Direction.isDown(direction))
-            && (screenMiddleHeight < middleCharacterPositionScreenY)
-            && ((playerAbsolutePositionY + screenMiddleHeight) <= mapHeight)
-        ) {
-            cameraPositionY += SPRITE_SPEED;
-        } else if (
-            (Direction.isUp(direction))
-            && (screenMiddleHeight > middleCharacterPositionScreenY)
-            && (cameraPositionY > 0)
-        ) {
-            cameraPositionY -= SPRITE_SPEED;
-        }
     }
 }
