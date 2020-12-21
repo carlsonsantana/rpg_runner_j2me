@@ -5,17 +5,21 @@ import org.rpgrunner.game.character.CharacterElement;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
     private boolean startAnimationCalled;
+    private int screenX;
+    private int screenY;
 
     public CharacterAnimationSpy() {
         startAnimationCalled = false;
+        screenX = 0;
+        screenY = 0;
     }
 
     public int getScreenX() {
-        return 0;
+        return screenX;
     }
 
     public int getScreenY() {
-        return 0;
+        return screenY;
     }
 
     public int getWidth() {
@@ -26,7 +30,10 @@ public class CharacterAnimationSpy implements CharacterAnimation {
         return 0;
     }
 
-    public void setScreenPosition(int screenX, int screenY) { }
+    public void setScreenPosition(final int newScreenX, final int newScreenY) {
+        screenX = newScreenX;
+        screenY = newScreenY;
+    }
 
     public void startAnimation() {
         startAnimationCalled = true;

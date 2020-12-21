@@ -96,7 +96,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     }
 
     public int getScreenY() {
-        return sprite.getY();
+        return sprite.getY() + SPRITE_REFERENCE_Y;
     }
 
     public int getWidth() {

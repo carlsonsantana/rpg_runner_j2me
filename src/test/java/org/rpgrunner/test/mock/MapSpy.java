@@ -5,17 +5,29 @@ import org.rpgrunner.game.map.Layer;
 
 public class MapSpy extends Map {
     private boolean canMove;
+    private int width;
+    private int height;
 
     public MapSpy() {
         super(null);
+        width = 0;
+        height = 0;
+    }
+
+    public void setWidth(final int newWidth) {
+        width = newWidth;
     }
 
     public int getWidth() {
-        return 0;
+        return width;
+    }
+
+    public void setHeight(final int newHeight) {
+        height = newHeight;
     }
 
     public int getHeight() {
-        return 0;
+        return height;
     }
 
     public Layer[] getLayers() {
