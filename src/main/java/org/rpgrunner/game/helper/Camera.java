@@ -1,9 +1,7 @@
 package org.rpgrunner.game.helper;
 
 import org.rpgrunner.game.map.Map;
-import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.game.character.CharacterAnimation;
-import org.rpgrunner.game.character.CharacterElement;
 
 public class Camera {
     private static final int TILE_WIDTH = 16;
@@ -37,13 +35,8 @@ public class Camera {
 
     public void centerCamera(
         final Map map,
-        final CharacterElement characterElement
+        final CharacterAnimation characterAnimation
     ) {
-        GameCharacter character = characterElement.getCharacter();
-        CharacterAnimation characterAnimation = (
-            characterElement.getCharacterAnimation()
-        );
-
         x = getCenterCamera(
             characterAnimation.getScreenX() + (TILE_WIDTH / 2),
             screenWidth,

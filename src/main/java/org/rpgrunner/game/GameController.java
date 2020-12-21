@@ -161,7 +161,10 @@ public class GameController {
     }
 
     private void centerCamera() {
-        camera.centerCamera(map, playerCharacterElement);
+        camera.centerCamera(
+            map,
+            playerCharacterElement.getCharacterAnimation()
+        );
         layerManager.setViewWindow(
             camera.getX(),
             camera.getY(),

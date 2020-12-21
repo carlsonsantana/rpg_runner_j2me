@@ -4,31 +4,19 @@ import java.util.Random;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
-import org.rpgrunner.game.character.CharacterElement;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.CharacterSpy;
-import org.rpgrunner.test.mock.CollisionDetectorSpy;
 import org.rpgrunner.test.mock.MapSpy;
 
 public class CameraTest extends TestCase {
     private Random random;
-    private CharacterSpy character;
     private CharacterAnimationSpy characterAnimation;
-    private CharacterElement characterElement;
     private MapSpy map;
 
     public void setUp() {
         random = new Random();
         map = new MapSpy();
 
-        character = new CharacterSpy(null);
         characterAnimation = new CharacterAnimationSpy();
-        CollisionDetectorSpy collisionDetector = new CollisionDetectorSpy();
-        characterElement = new CharacterElement(
-            collisionDetector,
-            character,
-            characterAnimation
-        );
     }
 
     public void testReturnSameScreenWidthAndHeight() {
@@ -56,9 +44,8 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        character.setInitialPosition(10, 0);
         characterAnimation.setScreenPosition(160, 0);
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
 
         Assert.assertEquals(88, camera.getX());
         Assert.assertEquals(0, camera.getY());
@@ -71,21 +58,19 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
-        character.setInitialPosition(19, 0);
         characterAnimation.setScreenPosition(304, 0);
 
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(160, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
-        character.setInitialPosition(0, 0);
         characterAnimation.setScreenPosition(0, 0);
 
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
     }
@@ -97,9 +82,8 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        character.setInitialPosition(0, 10);
         characterAnimation.setScreenPosition(0, 160);
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
 
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(80, camera.getY());
@@ -112,21 +96,19 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
-        character.setInitialPosition(0, 19);
         characterAnimation.setScreenPosition(0, 304);
 
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(160, camera.getY());
 
-        character.setInitialPosition(0, 0);
         characterAnimation.setScreenPosition(0, 0);
 
-        camera.centerCamera(map, characterElement);
+        camera.centerCamera(map, characterAnimation);
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
     }
