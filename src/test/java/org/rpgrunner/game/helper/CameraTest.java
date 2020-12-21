@@ -49,6 +49,32 @@ public class CameraTest extends TestCase {
         Assert.assertEquals(0, camera.getY());
     }
 
+    public void testCenterCameraHorizontal() {
+        int randomWidth = 320;
+        int randomHeight = 320;
+        map.setWidth(randomWidth/16);
+        map.setHeight(randomHeight/16);
+
+        Camera camera = new Camera(160, 160);
+        camera.centerCamera(map, characterElement);
+        Assert.assertEquals(0, camera.getX());
+        Assert.assertEquals(0, camera.getY());
+
+        character.setInitialPosition(19, 0);
+        characterAnimation.setScreenPosition(304, 0);
+
+        camera.centerCamera(map, characterElement);
+        Assert.assertEquals(224, camera.getX());
+        Assert.assertEquals(0, camera.getY());
+
+        character.setInitialPosition(0, 0);
+        characterAnimation.setScreenPosition(0, 0);
+
+        camera.centerCamera(map, characterElement);
+        Assert.assertEquals(0, camera.getX());
+        Assert.assertEquals(0, camera.getY());
+    }
+
     public void testCenterCameraVertical() {
         int randomWidth = 320;
         int randomHeight = 320;
