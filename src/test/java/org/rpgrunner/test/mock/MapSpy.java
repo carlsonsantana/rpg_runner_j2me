@@ -1,7 +1,7 @@
 package org.rpgrunner.test.mock;
 
-import org.rpgrunner.game.map.Map;
-import org.rpgrunner.game.map.Layer;
+import org.rpgrunner.map.Map;
+import org.rpgrunner.map.Layer;
 
 public class MapSpy extends Map {
     private boolean canMove;

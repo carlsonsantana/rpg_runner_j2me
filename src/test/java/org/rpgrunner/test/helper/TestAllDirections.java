@@ -1,7 +1,7 @@
 package org.rpgrunner.test.helper;
 
-import org.rpgrunner.game.Direction;
-import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.Direction;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 
 public abstract class TestAllDirections {

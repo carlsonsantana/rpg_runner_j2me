@@ -2,12 +2,12 @@ package org.rpgrunner.test.helper;
 
 import java.util.Random;
 
-import org.rpgrunner.game.Direction;
 import org.rpgrunner.test.mock.MapSpy;
 import org.rpgrunner.test.mock.CharacterSpy;
-import org.rpgrunner.game.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.game.helper.CollisionDetector;
+import org.rpgrunner.Direction;
+import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.helper.CollisionDetector;
 
 public abstract class TestCollisionAllDirections {
     private final CollisionDetector collisionDetector;

@@ -1,6 +1,6 @@
 package org.rpgrunner.test.mock;
 
-import org.rpgrunner.game.tileset.TileSet;
+import org.rpgrunner.tileset.TileSet;
 
 public class TileSetSpy extends TileSet {
     private int resultsIndex;

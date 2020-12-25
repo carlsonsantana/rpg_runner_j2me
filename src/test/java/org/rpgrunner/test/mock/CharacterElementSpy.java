@@ -1,6 +1,6 @@
 package org.rpgrunner.test.mock;
 
-import org.rpgrunner.game.character.CharacterElement;
+import org.rpgrunner.character.CharacterElement;
 
 public class CharacterElementSpy extends CharacterElement {
     private boolean onMoveCalled;

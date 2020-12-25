@@ -15,7 +15,7 @@
   </properties>
 
   <groupId>org.rpgrunner</groupId>
-  <artifactId>runner</artifactId>
+  <artifactId>j2me</artifactId>
   <version>1.0.0</version>
 
   <name>RPG Runner</name>

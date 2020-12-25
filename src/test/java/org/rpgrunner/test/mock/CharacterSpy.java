@@ -1,6 +1,6 @@
 package org.rpgrunner.test.mock;
 
-import org.rpgrunner.game.character.GameCharacter;
+import org.rpgrunner.character.GameCharacter;
 
 public class CharacterSpy extends GameCharacter {
     private int initialPositionX;
