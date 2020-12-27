@@ -18,6 +18,10 @@ public class PlayerCommandImpl implements PlayerCommand {
     }
 
     public void execute() {
+        if (keySize == 0) {
+            return;
+        }
+
         int key = keys[keySize - 1];
         if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
             character.moveUp();

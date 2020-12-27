@@ -9,6 +9,16 @@ import org.rpgrunner.j2me.command.PlayerCommandImpl;
 import org.rpgrunner.test.mock.SimpleCharacter;
 
 public class PlayerCharacterImplTest extends TestCase {
+    public void testExecuteWithoutPressedButton() {
+        SimpleCharacter character = new SimpleCharacter();
+        PlayerCommand playerCommand = new PlayerCommandImpl(character);
+        byte direction = character.getDirection();
+
+        playerCommand.execute();
+
+        Assert.assertEquals(direction, character.getDirection());
+    }
+
     public void testMoveUp() {
         testMove(Direction.UP, GameCanvas.UP, GameCanvas.KEY_NUM2);
     }
