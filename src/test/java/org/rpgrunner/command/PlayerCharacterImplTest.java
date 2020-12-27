@@ -46,4 +46,77 @@ public class PlayerCharacterImplTest extends TestCase {
 
         Assert.assertEquals(direction, character.getDirection());
     }
+
+    public void testMoveUpReleaseKey() {
+        testReleaseKey(Direction.UP, GameCanvas.UP, GameCanvas.KEY_NUM2);
+    }
+
+    public void testMoveRightReleaseKey() {
+        testReleaseKey(Direction.RIGHT, GameCanvas.RIGHT, GameCanvas.KEY_NUM6);
+    }
+
+    public void testMoveDownReleaseKey() {
+        testReleaseKey(Direction.DOWN, GameCanvas.DOWN, GameCanvas.KEY_NUM8);
+    }
+
+    public void testMoveLeftReleaseKey() {
+        testReleaseKey(Direction.LEFT, GameCanvas.LEFT, GameCanvas.KEY_NUM4);
+    }
+
+    private void testReleaseKey(
+        final byte direction,
+        final int directDirection,
+        final int numberDirection
+    ) {
+        testReleaseKeyFirst(direction, directDirection);
+        testReleaseKeyFirst(direction, numberDirection);
+        testReleaseKeyLast(direction, directDirection);
+        testReleaseKeyLast(direction, numberDirection);
+    }
+
+    private void testReleaseKeyFirst(
+        final byte direction,
+        final int keyDirection
+    ) {
+        SimpleCharacter character = new SimpleCharacter();
+        PlayerCommand playerCommand = new PlayerCommandImpl(character);
+
+        byte reverseDirection = Direction.invertDirection(direction);
+        int keyReverseDirection = getKeyDirection(reverseDirection);
+        playerCommand.pressKey(keyReverseDirection);
+        playerCommand.pressKey(keyDirection);
+        playerCommand.releaseKey(keyReverseDirection);
+        playerCommand.execute();
+
+        Assert.assertEquals(direction, character.getDirection());
+    }
+
+    private void testReleaseKeyLast(
+        final byte direction,
+        final int keyDirection
+    ) {
+        SimpleCharacter character = new SimpleCharacter();
+        PlayerCommand playerCommand = new PlayerCommandImpl(character);
+
+        byte reverseDirection = Direction.invertDirection(direction);
+        int keyReverseDirection = getKeyDirection(reverseDirection);
+        playerCommand.pressKey(keyDirection);
+        playerCommand.pressKey(keyReverseDirection);
+        playerCommand.releaseKey(keyReverseDirection);
+        playerCommand.execute();
+
+        Assert.assertEquals(direction, character.getDirection());
+    }
+
+    private int getKeyDirection(byte direction) {
+        if (Direction.isUp(direction)) {
+            return GameCanvas.UP;
+        } else if (Direction.isRight(direction)) {
+            return GameCanvas.RIGHT;
+        } else if (Direction.isRight(direction)) {
+            return GameCanvas.DOWN;
+        } else {
+            return GameCanvas.LEFT;
+        }
+    }
 }

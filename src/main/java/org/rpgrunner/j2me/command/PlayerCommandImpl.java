@@ -6,15 +6,19 @@ import org.rpgrunner.command.PlayerCommand;
 import org.rpgrunner.character.GameCharacter;
 
 public class PlayerCommandImpl implements PlayerCommand {
+    private static final int MAX_KEY_SIZE = 10;
     private final GameCharacter character;
-    private int key;
+    private final int[] keys;
+    private int keySize;
 
     public PlayerCommandImpl(final GameCharacter playerCharacter) {
         character = playerCharacter;
-        key = -1;
+        keys = new int[MAX_KEY_SIZE];
+        keySize = 0;
     }
 
     public void execute() {
+        int key = keys[keySize - 1];
         if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
             character.moveUp();
         } else if ((key == GameCanvas.RIGHT) || (key == GameCanvas.KEY_NUM6)) {
@@ -27,6 +31,28 @@ public class PlayerCommandImpl implements PlayerCommand {
     }
 
     public void pressKey(final int keyPressed) {
-        key = keyPressed;
+        keys[keySize++] = keyPressed;
+    }
+
+    public void releaseKey(final int keyReleased) {
+        int indexKeyReleased = getKeyIndex(keyReleased);
+
+        if (indexKeyReleased >= 0) {
+            for (int i = indexKeyReleased + 1; i < keySize; i++) {
+                int key = keys[i];
+                keys[i - 1] = key;
+            }
+            keySize--;
+        }
+    }
+
+    private int getKeyIndex(final int keySearched) {
+        for (int i = 0; i < keySize; i++) {
+            int key = keys[i];
+            if (key == keySearched) {
+                return i;
+            }
+        }
+        return -1;
     }
 }
