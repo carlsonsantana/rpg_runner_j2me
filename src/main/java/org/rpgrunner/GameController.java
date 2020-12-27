@@ -13,11 +13,15 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.CharacterAnimationImpl;
 import org.rpgrunner.j2me.MapRender;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
-import org.rpgrunner.helper.Camera;
+import org.rpgrunner.command.Command;
+import org.rpgrunner.command.RandomCommand;
+import org.rpgrunner.command.PlayerCommand;
+import org.rpgrunner.j2me.command.PlayerCommandImpl;
 
 public class GameController {
     private final Graphics graphics;
@@ -41,7 +45,7 @@ public class GameController {
         collisionDetector = new CollisionDetector();
 
         setMap(MapLoader.loadMap("map"));
-        playerCharacterElement = generateCharacterElement("character");
+        playerCharacterElement = generatePlayerCharacterElement("character");
         setCharacters();
     }
 
@@ -68,7 +72,7 @@ public class GameController {
     }
 
     private void setCharacters() {
-        CharacterElement characterElement = generateCharacterElement(
+        CharacterElement characterElement = generateNPCCharacterElement(
             "character"
         );
 
@@ -88,15 +92,36 @@ public class GameController {
         });
     }
 
-    public CharacterElement generateCharacterElement(final String baseName) {
+    private CharacterElement generateNPCCharacterElement(
+        final String baseName
+    ) {
         GameCharacter character = new GameCharacter(baseName);
+        RandomCommand command = new RandomCommand(character);
+
+        return generateCharacterElement(character, command);
+    }
+
+    private CharacterElement generatePlayerCharacterElement(
+        final String baseName
+    ) {
+        GameCharacter character = new GameCharacter(baseName);
+        PlayerCommand command = new PlayerCommandImpl(character);
+
+        return generateCharacterElement(character, command);
+    }
+
+    private CharacterElement generateCharacterElement(
+        final GameCharacter character,
+        final Command command
+    ) {
         CharacterAnimation characterAnimation = new CharacterAnimationImpl(
             character
         );
         CharacterElement characterElement = new CharacterElement(
             collisionDetector,
             character,
-            characterAnimation
+            characterAnimation,
+            command
         );
         character.setCharacterElement(characterElement);
         characterAnimation.setCharacterElement(characterElement);

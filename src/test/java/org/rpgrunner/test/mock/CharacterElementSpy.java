@@ -6,7 +6,7 @@ public class CharacterElementSpy extends CharacterElement {
     private boolean onMoveCalled;
 
     public CharacterElementSpy() {
-        super(null, null, null);
+        super(null, null, null, null);
         onMoveCalled = false;
     }
 

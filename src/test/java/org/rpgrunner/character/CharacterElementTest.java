@@ -2,6 +2,9 @@ package org.rpgrunner.character;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
+import org.rpgrunner.command.Command;
+import org.rpgrunner.command.RandomCommand;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CollisionDetectorSpy;
@@ -11,16 +14,19 @@ public class CharacterElementTest extends TestCase {
     private CollisionDetectorSpy collisionDetector;
     private GameCharacter character;
     private CharacterAnimationSpy characterAnimation;
+    private Command command;
 
     public void setUp() {
         collisionDetector = new CollisionDetectorSpy();
         character = RandomGenerator.generateRandomCharacter();
         characterAnimation = new CharacterAnimationSpy();
+        command = new RandomCommand(character);
 
         characterElement = new CharacterElement(
             collisionDetector,
             character,
-            characterAnimation
+            characterAnimation,
+            command
         );
     }
 
@@ -33,6 +39,10 @@ public class CharacterElementTest extends TestCase {
             characterAnimation,
             characterElement.getCharacterAnimation()
         );
+    }
+
+    public void testReturnSameCommand() {
+        Assert.assertSame(command, characterElement.getCommand());
     }
 
     public void testOnMoveFalseCancelCharacterMovement() {
