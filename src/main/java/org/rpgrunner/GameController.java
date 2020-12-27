@@ -1,9 +1,6 @@
 package org.rpgrunner;
 
-import java.util.Random;
-
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.GameCanvas;
 import javax.microedition.lcdui.game.Layer;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
@@ -30,6 +27,7 @@ public class GameController {
     private final CollisionDetector collisionDetector;
     private Map map;
     private CharacterElement playerCharacterElement;
+    private PlayerCommand playerCommand;
     private CharacterElement[] characterElements;
     private int gameAction;
 
@@ -105,9 +103,9 @@ public class GameController {
         final String baseName
     ) {
         GameCharacter character = new GameCharacter(baseName);
-        PlayerCommand command = new PlayerCommandImpl(character);
+        playerCommand = new PlayerCommandImpl(character);
 
-        return generateCharacterElement(character, command);
+        return generateCharacterElement(character, playerCommand);
     }
 
     private CharacterElement generateCharacterElement(
@@ -129,43 +127,20 @@ public class GameController {
         return characterElement;
     }
 
-    public void setGameAction(final int newGameAction) {
-        gameAction = newGameAction;
+    public void pressKey(final int key) {
+        playerCommand.pressKey(key);
+    }
+
+    public void releaseKey(final int key) {
+        playerCommand.releaseKey(key);
     }
 
     public void preRender() {
-        GameCharacter playerCharacter = playerCharacterElement.getCharacter();
-        if (gameAction == GameCanvas.UP) {
-            playerCharacter.moveUp();
-        } else if (gameAction == GameCanvas.RIGHT) {
-            playerCharacter.moveRight();
-        } else if (gameAction == GameCanvas.DOWN) {
-            playerCharacter.moveDown();
-        } else if (gameAction == GameCanvas.LEFT) {
-            playerCharacter.moveLeft();
-        }
-
-        moveNPCs();
-    }
-
-    private void moveNPCs() {
         for (int i = 0; i < characterElements.length; i++) {
             CharacterElement characterElement = characterElements[i];
+            Command command = characterElement.getCommand();
 
-            if (characterElement != playerCharacterElement) {
-                GameCharacter character = characterElement.getCharacter();
-                Random random = new Random();
-                int direction = random.nextInt(Direction.NUMBER_DIRECTIONS);
-                if (direction == 0) {
-                    character.moveUp();
-                } else if (direction == 1) {
-                    character.moveRight();
-                } else if (direction == 2) {
-                    character.moveDown();
-                } else {
-                    character.moveLeft();
-                }
-            }
+            command.execute();
         }
     }
 

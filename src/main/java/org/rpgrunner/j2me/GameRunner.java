@@ -8,6 +8,21 @@ import org.rpgrunner.GameController;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
+    private static final int[] ALLOWED_KEYS = new int[]{
+        KEY_NUM0,
+        KEY_NUM1,
+        KEY_NUM2,
+        KEY_NUM3,
+        KEY_NUM4,
+        KEY_NUM5,
+        KEY_NUM6,
+        KEY_NUM7,
+        KEY_NUM8,
+        KEY_NUM9,
+        KEY_POUND,
+        KEY_STAR
+    };
+
     private Thread thread;
     private boolean destroyed;
     private GameController gameController;
@@ -58,25 +73,30 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     protected void keyPressed(final int keyCode) {
         super.keyPressed(keyCode);
-        int gameAction;
-        if (keyCode == GameCanvas.KEY_NUM2) {
-            gameAction = GameCanvas.UP;
-        } else if (keyCode == GameCanvas.KEY_NUM4) {
-            gameAction = GameCanvas.LEFT;
-        } else if (keyCode == GameCanvas.KEY_NUM6) {
-            gameAction = GameCanvas.RIGHT;
-        } else if (keyCode == GameCanvas.KEY_NUM8) {
-            gameAction = GameCanvas.DOWN;
-        } else if (keyCode == GameCanvas.KEY_NUM5) {
-            gameAction = GameCanvas.FIRE;
+        if (isAllowedKey(keyCode)) {
+            gameController.pressKey(keyCode);
         } else {
-            gameAction = getGameAction(keyCode);
+            gameController.pressKey(getGameAction(keyCode));
         }
-        gameController.setGameAction(gameAction);
     }
 
     protected void keyReleased(final int keyCode) {
         super.keyReleased(keyCode);
-        gameController.setGameAction(-1);
+        if (isAllowedKey(keyCode)) {
+            gameController.releaseKey(keyCode);
+        } else {
+            gameController.releaseKey(getGameAction(keyCode));
+        }
+    }
+
+    private boolean isAllowedKey(final int keyCode) {
+        for (int i = 0, lenght = ALLOWED_KEYS.length; i < lenght; i++) {
+            int key = ALLOWED_KEYS[i];
+
+            if (key == keyCode) {
+                return true;
+            }
+        }
+        return false;
     }
 }
