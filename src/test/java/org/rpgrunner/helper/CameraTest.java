@@ -45,7 +45,9 @@ public class CameraTest extends TestCase {
 
         Camera camera = new Camera(160, 160);
         characterAnimation.setScreenPosition(160, 0);
-        camera.centerCamera(map, characterAnimation);
+        camera.setMap(map);
+        camera.setCharacterAnimation(characterAnimation);
+        camera.centerCamera();
 
         Assert.assertEquals(88, camera.getX());
         Assert.assertEquals(0, camera.getY());
@@ -58,19 +60,21 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        camera.centerCamera(map, characterAnimation);
+        camera.setMap(map);
+        camera.setCharacterAnimation(characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
         characterAnimation.setScreenPosition(304, 0);
 
-        camera.centerCamera(map, characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(160, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
         characterAnimation.setScreenPosition(0, 0);
 
-        camera.centerCamera(map, characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
     }
@@ -83,7 +87,9 @@ public class CameraTest extends TestCase {
 
         Camera camera = new Camera(160, 160);
         characterAnimation.setScreenPosition(0, 160);
-        camera.centerCamera(map, characterAnimation);
+        camera.setMap(map);
+        camera.setCharacterAnimation(characterAnimation);
+        camera.centerCamera();
 
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(80, camera.getY());
@@ -96,19 +102,21 @@ public class CameraTest extends TestCase {
         map.setHeight(randomHeight/16);
 
         Camera camera = new Camera(160, 160);
-        camera.centerCamera(map, characterAnimation);
+        camera.setMap(map);
+        camera.setCharacterAnimation(characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
 
         characterAnimation.setScreenPosition(0, 304);
 
-        camera.centerCamera(map, characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(160, camera.getY());
 
         characterAnimation.setScreenPosition(0, 0);
 
-        camera.centerCamera(map, characterAnimation);
+        camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
     }
