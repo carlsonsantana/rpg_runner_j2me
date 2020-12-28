@@ -5,6 +5,8 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.helper.Camera;
+import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
@@ -47,7 +49,12 @@ public class GameRunner extends GameCanvas implements Runnable {
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
-        gameController = new GameController(graphics, getWidth(), getHeight());
+        Camera camera = new Camera(getWidth(), getHeight());
+        GraphicsRenderImpl graphicsRender = new GraphicsRenderImpl(
+            graphics,
+            camera
+        );
+        gameController = new GameController(graphicsRender, camera);
     }
 
     private void executeGame() {

@@ -1,7 +1,5 @@
 package org.rpgrunner;
 
-import javax.microedition.lcdui.Graphics;
-
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
@@ -13,7 +11,6 @@ import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.j2me.CharacterAnimationImpl;
 import org.rpgrunner.j2me.command.PlayerCommandImpl;
-import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 
@@ -28,13 +25,11 @@ public class GameController {
     private int gameAction;
 
     public GameController(
-        final Graphics graphics,
-        final int screenWidth,
-        final int screenHeight
+        final GraphicsRender gameGraphicsRender,
+        final Camera gameCamera
     ) {
-        camera = new Camera(screenWidth, screenHeight);
-        graphicsRender = new GraphicsRenderImpl(graphics, camera);
-
+        camera = gameCamera;
+        graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
 
         setMap(MapLoader.loadMap("map"));
