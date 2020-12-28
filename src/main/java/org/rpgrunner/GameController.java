@@ -1,30 +1,26 @@
 package org.rpgrunner;
 
 import javax.microedition.lcdui.Graphics;
-import javax.microedition.lcdui.game.Layer;
-import javax.microedition.lcdui.game.LayerManager;
-import javax.microedition.lcdui.game.Sprite;
-import javax.microedition.lcdui.game.TiledLayer;
 
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.command.Command;
+import org.rpgrunner.command.PlayerCommand;
+import org.rpgrunner.command.RandomCommand;
+import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
+import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.j2me.CharacterAnimationImpl;
-import org.rpgrunner.j2me.MapRender;
+import org.rpgrunner.j2me.command.PlayerCommandImpl;
+import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
-import org.rpgrunner.command.Command;
-import org.rpgrunner.command.RandomCommand;
-import org.rpgrunner.command.PlayerCommand;
-import org.rpgrunner.j2me.command.PlayerCommandImpl;
 
 public class GameController {
-    private final Graphics graphics;
-    private final LayerManager layerManager;
     private final Camera camera;
     private final CollisionDetector collisionDetector;
+    private final GraphicsRender graphicsRender;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerCommand playerCommand;
@@ -32,13 +28,12 @@ public class GameController {
     private int gameAction;
 
     public GameController(
-        final Graphics midletGraphics,
+        final Graphics graphics,
         final int screenWidth,
         final int screenHeight
     ) {
-        graphics = midletGraphics;
-        layerManager = new LayerManager();
         camera = new Camera(screenWidth, screenHeight);
+        graphicsRender = new GraphicsRenderImpl(graphics, camera);
 
         collisionDetector = new CollisionDetector();
 
@@ -49,24 +44,10 @@ public class GameController {
 
     public void setMap(final Map newMap) {
         map = newMap;
-        MapRender mapRender = new MapRender(map);
-        clearMapLayerManager();
-        TiledLayer[] tiledLayers = mapRender.getTiledLayers();
-        for (int i = tiledLayers.length - 1; i >= 0; i--) {
-            layerManager.append(tiledLayers[i]);
-        }
 
         collisionDetector.setMap(map);
-    }
-
-    private void clearMapLayerManager() {
-        int size = layerManager.getSize();
-        for (int i = 1; (i < size) && (i <= 2); i++) {
-            Layer layer = layerManager.getLayerAt(size - i);
-            if (layer instanceof TiledLayer) {
-                layerManager.remove(layer);
-            }
-        }
+        camera.setMap(map);
+        graphicsRender.setMap(map);
     }
 
     private void setCharacters() {
@@ -77,17 +58,12 @@ public class GameController {
         characterElements = new CharacterElement[2];
         characterElements[0] = playerCharacterElement;
         characterElements[1] = characterElement;
-        for (int i = 0; i < characterElements.length; i++) {
-            CharacterAnimation characterAnimation = (
-                characterElements[i].getCharacterAnimation()
-            );
-            layerManager.insert((Sprite) characterAnimation.getSprite(), 0);
-        }
 
         collisionDetector.setCharacters(new GameCharacter[] {
             playerCharacterElement.getCharacter(),
             characterElement.getCharacter()
         });
+        graphicsRender.setCharacterElements(characterElements);
     }
 
     private CharacterElement generateNPCCharacterElement(
@@ -104,8 +80,13 @@ public class GameController {
     ) {
         GameCharacter character = new GameCharacter(baseName);
         playerCommand = new PlayerCommandImpl(character);
+        CharacterElement characterElement = generateCharacterElement(
+            character,
+            playerCommand
+        );
+        camera.setCharacterAnimation(characterElement.getCharacterAnimation());
 
-        return generateCharacterElement(character, playerCommand);
+        return characterElement;
     }
 
     private CharacterElement generateCharacterElement(
@@ -146,8 +127,7 @@ public class GameController {
 
     public void render() {
         preRenderCharacters();
-        centerCamera();
-        layerManager.paint(graphics, 0, 0);
+        graphicsRender.render();
     }
 
     private void preRenderCharacters() {
@@ -158,18 +138,5 @@ public class GameController {
 
             characterAnimation.doAnimation();
         }
-    }
-
-    private void centerCamera() {
-        camera.centerCamera(
-            map,
-            playerCharacterElement.getCharacterAnimation()
-        );
-        layerManager.setViewWindow(
-            camera.getX(),
-            camera.getY(),
-            camera.getScreenWidth(),
-            camera.getScreenHeight()
-        );
     }
 }
