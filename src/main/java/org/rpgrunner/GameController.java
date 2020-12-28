@@ -116,27 +116,29 @@ public class GameController {
         playerCommand.releaseKey(key);
     }
 
-    public void preRender() {
+    public void executeCharacterActions() {
         for (int i = 0; i < characterElements.length; i++) {
             CharacterElement characterElement = characterElements[i];
-            Command command = characterElement.getCommand();
-
-            command.execute();
+            executeCommand(characterElement);
+            executeAnimation(characterElement);
         }
+    }
+
+    private void executeCommand(final CharacterElement characterElement) {
+        Command command = characterElement.getCommand();
+
+        command.execute();
+    }
+
+    private void executeAnimation(final CharacterElement characterElement) {
+        CharacterAnimation characterAnimation = (
+            characterElement.getCharacterAnimation()
+        );
+
+        characterAnimation.doAnimation();
     }
 
     public void render() {
-        preRenderCharacters();
         graphicsRender.render();
-    }
-
-    private void preRenderCharacters() {
-        for (int i = 0; i < characterElements.length; i++) {
-            CharacterAnimation characterAnimation = (
-                characterElements[i].getCharacterAnimation()
-            );
-
-            characterAnimation.doAnimation();
-        }
     }
 }

@@ -52,7 +52,7 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     private void executeGame() {
         while (isRunning()) {
-            gameController.preRender();
+            gameController.executeCharacterActions();
             gameController.render();
 
             repaint();
