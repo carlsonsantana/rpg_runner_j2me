@@ -1,6 +1,7 @@
 package org.rpgrunner;
 
 import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.command.Command;
@@ -9,7 +10,6 @@ import org.rpgrunner.command.RandomCommand;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
-import org.rpgrunner.j2me.CharacterAnimationImpl;
 import org.rpgrunner.j2me.command.PlayerCommandImpl;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
@@ -18,6 +18,7 @@ public class GameController {
     private final Camera camera;
     private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
+    private final CharacterAnimationFactory characterAnimationFactory;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerCommand playerCommand;
@@ -26,11 +27,13 @@ public class GameController {
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
-        final Camera gameCamera
+        final Camera gameCamera,
+        final CharacterAnimationFactory gameCharacterAnimationFactory
     ) {
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
+        characterAnimationFactory = gameCharacterAnimationFactory;
 
         setMap(MapLoader.loadMap("map"));
         playerCharacterElement = generatePlayerCharacterElement("character");
@@ -88,8 +91,8 @@ public class GameController {
         final GameCharacter character,
         final Command command
     ) {
-        CharacterAnimation characterAnimation = new CharacterAnimationImpl(
-            character
+        CharacterAnimation characterAnimation = (
+            characterAnimationFactory.createCharacterAnimation(character)
         );
         CharacterElement characterElement = new CharacterElement(
             collisionDetector,

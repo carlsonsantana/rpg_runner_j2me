@@ -7,6 +7,7 @@ import javax.microedition.lcdui.game.GameCanvas;
 import org.rpgrunner.GameController;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
+import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
@@ -25,6 +26,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         KEY_STAR
     };
 
+    private final CharacterAnimationFactoryImpl characterAnimationFactory;
     private Thread thread;
     private boolean destroyed;
     private GameController gameController;
@@ -33,6 +35,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         super(false);
 
         destroyed = false;
+        characterAnimationFactory = new CharacterAnimationFactoryImpl();
     }
 
     public void start() {
@@ -54,7 +57,11 @@ public class GameRunner extends GameCanvas implements Runnable {
             graphics,
             camera
         );
-        gameController = new GameController(graphicsRender, camera);
+        gameController = new GameController(
+            graphicsRender,
+            camera,
+            characterAnimationFactory
+        );
     }
 
     private void executeGame() {
