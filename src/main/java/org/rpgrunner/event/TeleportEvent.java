@@ -17,7 +17,15 @@ public class TeleportEvent {
     }
 
     public void call() {
-        Map map = MapLoader.loadMap(mapName);
-        gameController.setMap(map);
+        if (isOtherMap()) {
+            Map map = MapLoader.loadMap(mapName);
+            gameController.setMap(map);
+        }
+    }
+
+    private boolean isOtherMap() {
+        Map map = gameController.getMap();
+
+        return ((map == null) || (!mapName.equals(map.getFileBaseName())));
     }
 }

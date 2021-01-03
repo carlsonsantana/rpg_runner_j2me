@@ -53,6 +53,10 @@ public class GameController {
         graphicsRender.setMap(map);
     }
 
+    public Map getMap() {
+        return map;
+    }
+
     private void setCharacters() {
         CharacterElement characterElement = generateNPCCharacterElement(
             "character"
