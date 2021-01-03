@@ -6,11 +6,11 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.command.Command;
 import org.rpgrunner.command.PlayerCommand;
+import org.rpgrunner.command.PlayerCommandFactory;
 import org.rpgrunner.command.RandomCommand;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
-import org.rpgrunner.j2me.command.PlayerCommandImpl;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 
@@ -19,6 +19,7 @@ public class GameController {
     private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
     private final CharacterAnimationFactory characterAnimationFactory;
+    private final PlayerCommandFactory playerCommandFactory;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerCommand playerCommand;
@@ -28,12 +29,14 @@ public class GameController {
     public GameController(
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera,
-        final CharacterAnimationFactory gameCharacterAnimationFactory
+        final CharacterAnimationFactory gameCharacterAnimationFactory,
+        final PlayerCommandFactory gamePlayerCommandFactory
     ) {
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
         characterAnimationFactory = gameCharacterAnimationFactory;
+        playerCommandFactory = gamePlayerCommandFactory;
 
         setMap(MapLoader.loadMap("map"));
         playerCharacterElement = generatePlayerCharacterElement("character");
@@ -77,7 +80,7 @@ public class GameController {
         final String baseName
     ) {
         GameCharacter character = new GameCharacter(baseName);
-        playerCommand = new PlayerCommandImpl(character);
+        playerCommand = playerCommandFactory.createPlayerCommand(character);
         CharacterElement characterElement = generateCharacterElement(
             character,
             playerCommand
