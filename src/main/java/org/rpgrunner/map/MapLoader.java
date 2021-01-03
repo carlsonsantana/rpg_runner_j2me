@@ -16,7 +16,7 @@ public final class MapLoader {
         InputStream mapInputStream = loadFile(fileBaseName);
 
         try {
-            return extractMap(mapInputStream);
+            return extractMap(fileBaseName, mapInputStream);
         } catch (IOException exception) {
             throw new RuntimeException(exception.getMessage());
         }
@@ -28,6 +28,7 @@ public final class MapLoader {
     }
 
     private static Map extractMap(
+        final String fileBaseName,
         final InputStream mapInputStream
     ) throws IOException {
         int width = mapInputStream.read();
@@ -41,7 +42,7 @@ public final class MapLoader {
 
         mapInputStream.close();
 
-        return new Map(layers);
+        return new Map(fileBaseName, layers);
     }
 
     private static Layer extractLayer(

@@ -9,7 +9,7 @@ public class MapSpy extends Map {
     private int height;
 
     public MapSpy() {
-        super(null);
+        super(null, null);
         width = 0;
         height = 0;
     }

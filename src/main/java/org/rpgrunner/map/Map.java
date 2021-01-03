@@ -1,10 +1,16 @@
 package org.rpgrunner.map;
 
 public class Map {
+    private final String fileBaseName;
     private final Layer[] layers;
 
-    public Map(final Layer[] mapLayers) {
+    public Map(final String mapFileBaseName, final Layer[] mapLayers) {
+        fileBaseName = mapFileBaseName;
         layers = mapLayers;
+    }
+
+    public String getFileBaseName() {
+        return fileBaseName;
     }
 
     public int getWidth() {

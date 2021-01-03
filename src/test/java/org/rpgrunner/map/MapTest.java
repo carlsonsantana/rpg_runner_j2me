@@ -6,10 +6,12 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.LayerSpy;
 
 public class MapTest extends TestCase {
     private Map map;
+    private String mapFileBaseName;
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
@@ -18,7 +20,12 @@ public class MapTest extends TestCase {
         layerBackground = new LayerSpy();
         layerObjects = new LayerSpy();
         layers = new Layer[] {layerBackground, layerObjects};
-        map = new Map(layers);
+        mapFileBaseName = RandomGenerator.getRandomString();
+        map = new Map(mapFileBaseName, layers);
+    }
+
+    public void testReturnSame() {
+        Assert.assertSame(mapFileBaseName, map.getFileBaseName());
     }
 
     public void testReturnSameWidthLayers() {
