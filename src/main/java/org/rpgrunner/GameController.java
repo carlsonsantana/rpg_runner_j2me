@@ -37,7 +37,9 @@ public class GameController {
         collisionDetector = new CollisionDetector();
         characterAnimationFactory = gameCharacterAnimationFactory;
         playerCommandFactory = gamePlayerCommandFactory;
+    }
 
+    public void init() {
         setMap(MapLoader.loadMap("map"));
         playerCharacterElement = generatePlayerCharacterElement("character");
         setCharacters();

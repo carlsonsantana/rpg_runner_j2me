@@ -66,6 +66,7 @@ public class GameRunner extends GameCanvas implements Runnable {
             characterAnimationFactory,
             playerCommandFactory
         );
+        gameController.init();
     }
 
     private void executeGame() {
