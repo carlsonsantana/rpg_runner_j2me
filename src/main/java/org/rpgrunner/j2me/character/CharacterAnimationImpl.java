@@ -100,6 +100,17 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         return sprite.getY() + SPRITE_REFERENCE_Y;
     }
 
+    public void updateScreenPositionFromMapPosition() {
+        GameCharacter character = characterElement.getCharacter();
+        int mapPositionX = character.getMapPositionX();
+        int mapPositionY = character.getMapPositionY();
+        int spritePositionX = mapPositionX * SPRITE_WIDTH;
+        int spritePositionY = mapPositionY * SPRITE_WIDTH;
+
+        changeSpriteAnimation(character);
+        sprite.setPosition(spritePositionX, spritePositionY);
+    }
+
     public void startAnimation() {
         if (isAnimationComplete()) {
             changeSpriteAnimation(characterElement.getCharacter());
