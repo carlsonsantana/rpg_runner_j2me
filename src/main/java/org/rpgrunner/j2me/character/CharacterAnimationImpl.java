@@ -100,18 +100,6 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         return sprite.getY() + SPRITE_REFERENCE_Y;
     }
 
-    public int getWidth() {
-        return SPRITE_WIDTH;
-    }
-
-    public int getHeight() {
-        return SPRITE_HEIGHT;
-    }
-
-    public void setScreenPosition(final int screenX, final int screenY) {
-        sprite.setPosition(screenX, screenY);
-    }
-
     public void startAnimation() {
         if (isAnimationComplete()) {
             changeSpriteAnimation(characterElement.getCharacter());
@@ -178,7 +166,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         return character.isMoving() || (!isAnimationComplete());
     }
 
-    public boolean isAnimationComplete() {
+    private boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
         return currentFrame == SPRITE_FRAME_STOPPED_2;
     }
