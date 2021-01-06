@@ -22,13 +22,7 @@ public class CharacterAnimationSpy implements CharacterAnimation {
         return screenY;
     }
 
-    public int getWidth() {
-        return 0;
-    }
-
-    public int getHeight() {
-        return 0;
-    }
+    public void updateScreenPositionFromMapPosition() { }
 
     public void setScreenPosition(final int newScreenX, final int newScreenY) {
         screenX = newScreenX;
