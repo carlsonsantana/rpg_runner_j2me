@@ -81,6 +81,16 @@ public class GameCharacter {
         mapNextPositionY = mapPositionY;
     }
 
+    public void setMapPosition(
+        final int newMapPositionX,
+        final int newMapPositionY
+    ) {
+        mapPositionX = newMapPositionX;
+        mapNextPositionX = newMapPositionX;
+        mapPositionY = newMapPositionY;
+        mapNextPositionY = newMapPositionY;
+    }
+
     public int getMapPositionX() {
         return mapPositionX;
     }

@@ -361,4 +361,20 @@ public class GameCharacterTest extends TestCase {
         character.moveLeft();
         Assert.assertTrue(characterElement.isOnMoveCalled());
     }
+
+    public void testSetMapPosition() {
+        Random random = new Random();
+
+        for (int i = 0; i < 100; i++) {
+            int mapPositionX = random.nextInt(1000);
+            int mapPositionY = random.nextInt(1000);
+
+            character.setMapPosition(mapPositionX, mapPositionY);
+
+            Assert.assertEquals(mapPositionX, character.getMapPositionX());
+            Assert.assertEquals(mapPositionY, character.getMapPositionY());
+            Assert.assertEquals(mapPositionX, character.getMapNextPositionX());
+            Assert.assertEquals(mapPositionY, character.getMapNextPositionY());
+        }
+    }
 }
