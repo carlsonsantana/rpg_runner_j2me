@@ -1,14 +1,14 @@
-package org.rpgrunner.event;
+package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 
-public class TeleportEvent {
+public class Teleport {
     private final GameController gameController;
     private final String mapName;
 
-    public TeleportEvent(
+    public Teleport(
         final GameController currentGameController,
         final String toMapName
     ) {

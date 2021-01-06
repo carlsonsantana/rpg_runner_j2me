@@ -1,4 +1,4 @@
-package org.rpgrunner.event;
+package org.rpgrunner.event.action;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -6,13 +6,13 @@ import junit.framework.TestCase;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.mock.GameControllerSpy;
 
-public class TeleportEventTest extends TestCase {
+public class TeleportTest extends TestCase {
     private GameControllerSpy gameController;
-    private TeleportEvent event;
+    private Teleport event;
 
     public void setUp() {
         gameController = new GameControllerSpy();
-        event = new TeleportEvent(gameController, "example");
+        event = new Teleport(gameController, "example");
     }
 
     public void testChangeMap() {
@@ -24,7 +24,7 @@ public class TeleportEventTest extends TestCase {
     }
 
     public void testChangeMapTwice() {
-        TeleportEvent eventTeleportAnotherMap = new TeleportEvent(
+        Teleport eventTeleportAnotherMap = new Teleport(
             gameController,
             "another"
         );
@@ -39,7 +39,7 @@ public class TeleportEventTest extends TestCase {
     }
 
     public void testNotChangeTeleportSameMap() {
-        TeleportEvent eventTeleportSameMap = new TeleportEvent(
+        Teleport eventTeleportSameMap = new Teleport(
             gameController,
             "example"
         );
