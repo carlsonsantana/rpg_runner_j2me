@@ -23,6 +23,7 @@ public class PlayerCommandImpl implements PlayerCommand {
         }
 
         int key = keys[keySize - 1];
+
         if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
             character.moveUp();
         } else if ((key == GameCanvas.RIGHT) || (key == GameCanvas.KEY_NUM6)) {
@@ -46,6 +47,7 @@ public class PlayerCommandImpl implements PlayerCommand {
                 int key = keys[i];
                 keys[i - 1] = key;
             }
+
             keySize--;
         }
     }
@@ -53,10 +55,12 @@ public class PlayerCommandImpl implements PlayerCommand {
     private int getKeyIndex(final int keySearched) {
         for (int i = 0; i < keySize; i++) {
             int key = keys[i];
+
             if (key == keySearched) {
                 return i;
             }
         }
+
         return -1;
     }
 }

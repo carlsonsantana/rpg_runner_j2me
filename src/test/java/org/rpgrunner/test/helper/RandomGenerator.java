@@ -11,11 +11,12 @@ public class RandomGenerator {
     private static final int CHAR_START_PRINTABLE_CHARACTERS = 32;
     private static final Random random = new Random();
 
-    private RandomGenerator() {}
+    private RandomGenerator() { }
 
     public static CharacterSpy getRandomCharacter(CharacterSpy[] characters) {
         Random random = new Random();
         int index = random.nextInt(characters.length);
+
         return characters[index];
     }
 
@@ -28,6 +29,7 @@ public class RandomGenerator {
             CharacterSpy character = generateRandomCharacter();
             characters[i] = character;
         }
+
         return characters;
     }
 
@@ -36,6 +38,7 @@ public class RandomGenerator {
         String randomFileBaseName = getRandomString();
         CharacterSpy character = new CharacterSpy(randomFileBaseName);
         character.setCharacterElement(characterElement);
+
         return character;
     }
 

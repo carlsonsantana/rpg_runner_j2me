@@ -31,6 +31,7 @@ public class GraphicsRenderImpl implements GraphicsRender {
         clearMapLayerManager();
         MapRender mapRender = new MapRender(map);
         TiledLayer[] tiledLayers = mapRender.getTiledLayers();
+
         for (int i = tiledLayers.length - 1; i >= 0; i--) {
             layerManager.append(tiledLayers[i]);
         }
@@ -38,8 +39,10 @@ public class GraphicsRenderImpl implements GraphicsRender {
 
     private void clearMapLayerManager() {
         int size = layerManager.getSize();
+
         for (int i = 1; i < size; i++) {
             Layer layer = layerManager.getLayerAt(size - i);
+
             if (layer instanceof TiledLayer) {
                 layerManager.remove(layer);
             }
@@ -59,8 +62,10 @@ public class GraphicsRenderImpl implements GraphicsRender {
 
     private void clearCharacterLayerManager() {
         int size = layerManager.getSize();
+
         for (int i = 1; i < size; i++) {
             Layer layer = layerManager.getLayerAt(size - i);
+
             if (layer instanceof Sprite) {
                 layerManager.remove(layer);
             }

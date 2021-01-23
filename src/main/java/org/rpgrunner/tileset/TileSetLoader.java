@@ -21,6 +21,7 @@ public class TileSetLoader {
 
     private static InputStream loadFile(final String fileBaseName) {
         String filePath = TILESET_DIRECTORY + fileBaseName + TILESET_EXTENSION;
+
         return TileSetLoader.class.getResourceAsStream(filePath);
     }
 

@@ -33,6 +33,7 @@ public final class Direction {
         } else if (isDown(direction)) {
             return UP;
         }
+
         return RIGHT;
     }
 }

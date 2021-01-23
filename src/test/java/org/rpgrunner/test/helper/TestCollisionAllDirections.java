@@ -196,6 +196,7 @@ public abstract class TestCollisionAllDirections {
         do {
             collisionCharacter = RandomGenerator.getRandomCharacter(characters);
         } while (collisionCharacter == character);
+
         collisionCharacter.setInitialPosition(
             initialPositionX,
             initialPositionY

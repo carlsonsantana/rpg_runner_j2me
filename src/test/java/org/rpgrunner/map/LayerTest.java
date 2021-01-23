@@ -26,6 +26,7 @@ public class LayerTest extends TestCase {
                 newTileMap[y][x] = (byte) random.nextInt(256);
             }
         }
+
         return newTileMap;
     }
 

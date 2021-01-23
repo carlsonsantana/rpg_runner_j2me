@@ -20,7 +20,7 @@ public class MidletCommands {
     public void setCommands() {
         Command exit = new Command("Exit", Command.EXIT, 0);
         gameRunner.addCommand(exit);
-        gameRunner.setCommandListener(new CommandListener() {
+        CommandListener exitCommand = new CommandListener() {
             public void commandAction(
                 final Command command,
                 final Displayable displayable
@@ -31,6 +31,7 @@ public class MidletCommands {
                     midlet.notifyDestroyed();
                 }
             }
-        });
+        };
+        gameRunner.setCommandListener(exitCommand);
     }
 }

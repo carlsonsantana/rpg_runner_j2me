@@ -35,10 +35,12 @@ public class CollisionDetector {
 
         for (int i = 0, length = characters.length; i < length; i++) {
             GameCharacter otherCharacter = characters[i];
+
             if (hasCharacterCollision(character, otherCharacter)) {
                 return true;
             }
         }
+
         return false;
     }
 

@@ -12,7 +12,7 @@ import org.rpgrunner.j2me.command.PlayerCommandFactoryImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
-    private static final int[] ALLOWED_KEYS = new int[]{
+    private static final int[] ALLOWED_KEYS = new int[] {
         KEY_NUM0,
         KEY_NUM1,
         KEY_NUM2,
@@ -92,6 +92,7 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     protected void keyPressed(final int keyCode) {
         super.keyPressed(keyCode);
+
         if (isAllowedKey(keyCode)) {
             gameController.pressKey(keyCode);
         } else {
@@ -101,6 +102,7 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     protected void keyReleased(final int keyCode) {
         super.keyReleased(keyCode);
+
         if (isAllowedKey(keyCode)) {
             gameController.releaseKey(keyCode);
         } else {
@@ -116,6 +118,7 @@ public class GameRunner extends GameCanvas implements Runnable {
                 return true;
             }
         }
+
         return false;
     }
 }

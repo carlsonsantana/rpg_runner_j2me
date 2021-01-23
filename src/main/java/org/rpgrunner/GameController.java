@@ -66,10 +66,12 @@ public class GameController {
         characterElements[0] = playerCharacterElement;
         characterElements[1] = characterElement;
 
-        collisionDetector.setCharacters(new GameCharacter[] {
+        GameCharacter[] characters = new GameCharacter[] {
             playerCharacterElement.getCharacter(),
             characterElement.getCharacter()
-        });
+        };
+
+        collisionDetector.setCharacters(characters);
         graphicsRender.setCharacterElements(characterElements);
     }
 

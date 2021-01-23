@@ -16,6 +16,7 @@ public class RandomCommand implements Command {
 
     public void execute() {
         int direction = random.nextInt(Direction.NUMBER_DIRECTIONS);
+
         if (direction == 0) {
             character.moveUp();
         } else if (direction == 1) {

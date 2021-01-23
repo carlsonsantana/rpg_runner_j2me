@@ -53,6 +53,7 @@ public class TileSetTest extends TestCase {
         TileSet tileSet = new TileSet(null, collisions);
 
         int indexDirectionCollisions = 0;
+
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if (
                 (
@@ -74,6 +75,7 @@ public class TileSetTest extends TestCase {
         TileSet tileSet = new TileSet(null, collisions);
 
         int indexDirectionCollisions = 0;
+
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if (
                 (
@@ -97,6 +99,7 @@ public class TileSetTest extends TestCase {
         TileSet tileSet = new TileSet(null, collisions);
 
         int indexDirectionCollisions = 0;
+
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if (
                 (
@@ -118,6 +121,7 @@ public class TileSetTest extends TestCase {
         TileSet tileSet = new TileSet(null, collisions);
 
         int indexDirectionCollisions = 0;
+
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if (
                 (
@@ -136,6 +140,7 @@ public class TileSetTest extends TestCase {
 
     private byte[] generateCollisions() {
         byte[] collisions = new byte[ALL_POSSIBLE_COLLISIONS.length / 2];
+
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if ((i % 2) == 0) {
                 collisions[i / 2] = (byte) (ALL_POSSIBLE_COLLISIONS[i] << 4);
@@ -146,6 +151,7 @@ public class TileSetTest extends TestCase {
                 );
             }
         }
+
         return collisions;
     }
 }

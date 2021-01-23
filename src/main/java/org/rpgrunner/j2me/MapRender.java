@@ -46,6 +46,7 @@ public class MapRender {
         int height = layer.getHeight();
         int width = layer.getWidth();
         byte[][] tileMap = layer.getTileMap();
+
         for (int row = 0; row < height; row++) {
             for (int cell = 0; cell < width; cell++) {
                 if (tileMap[row][cell] > 0) {

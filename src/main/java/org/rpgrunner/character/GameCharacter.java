@@ -24,6 +24,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
+
         direction = Direction.UP;
         mapNextPositionY = mapPositionY - 1;
         onMove();
@@ -33,6 +34,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
+
         direction = Direction.RIGHT;
         mapNextPositionX = mapPositionX + 1;
         onMove();
@@ -42,6 +44,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
+
         direction = Direction.DOWN;
         mapNextPositionY = mapPositionY + 1;
         onMove();
@@ -51,6 +54,7 @@ public class GameCharacter {
         if (isMoving()) {
             return;
         }
+
         direction = Direction.LEFT;
         mapNextPositionX = mapPositionX - 1;
         onMove();

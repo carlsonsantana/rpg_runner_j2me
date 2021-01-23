@@ -294,6 +294,7 @@ public class GameCharacterTest extends TestCase {
                 int randomDirection = random.nextInt(
                     Direction.NUMBER_DIRECTIONS + 1
                 );
+
                 if (randomDirection == 1) {
                     testMoveToUp();
                 } else if (randomDirection == 2) {
@@ -305,6 +306,7 @@ public class GameCharacterTest extends TestCase {
                 }
             }
         };
+
         for (int i = 0, numberTests = 100; i < numberTests; i++) {
             testAllDirections.test();
         }

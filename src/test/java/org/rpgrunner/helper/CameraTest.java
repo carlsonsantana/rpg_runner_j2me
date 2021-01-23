@@ -40,8 +40,8 @@ public class CameraTest extends TestCase {
     public void testCenterCameraHorizontalMiddle() {
         int randomWidth = 320;
         int randomHeight = 320;
-        map.setWidth(randomWidth/16);
-        map.setHeight(randomHeight/16);
+        map.setWidth(randomWidth / 16);
+        map.setHeight(randomHeight / 16);
 
         Camera camera = new Camera(160, 160);
         characterAnimation.setScreenPosition(160, 0);
@@ -56,8 +56,8 @@ public class CameraTest extends TestCase {
     public void testCenterCameraHorizontalCorners() {
         int randomWidth = 320;
         int randomHeight = 320;
-        map.setWidth(randomWidth/16);
-        map.setHeight(randomHeight/16);
+        map.setWidth(randomWidth / 16);
+        map.setHeight(randomHeight / 16);
 
         Camera camera = new Camera(160, 160);
         camera.setMap(map);
@@ -82,8 +82,8 @@ public class CameraTest extends TestCase {
     public void testCenterCameraVerticalMiddle() {
         int randomWidth = 320;
         int randomHeight = 320;
-        map.setWidth(randomWidth/16);
-        map.setHeight(randomHeight/16);
+        map.setWidth(randomWidth / 16);
+        map.setHeight(randomHeight / 16);
 
         Camera camera = new Camera(160, 160);
         characterAnimation.setScreenPosition(0, 160);
@@ -98,8 +98,8 @@ public class CameraTest extends TestCase {
     public void testCenterCameraVerticalCorners() {
         int randomWidth = 320;
         int randomHeight = 320;
-        map.setWidth(randomWidth/16);
-        map.setHeight(randomHeight/16);
+        map.setWidth(randomWidth / 16);
+        map.setHeight(randomHeight / 16);
 
         Camera camera = new Camera(160, 160);
         camera.setMap(map);

@@ -120,6 +120,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     public void doAnimation() {
         moveSprite();
         changeSpriteFrame();
+
         if (isAnimationComplete()) {
             characterElement.onAnimationComplete();
         }
@@ -131,9 +132,11 @@ public class CharacterAnimationImpl implements CharacterAnimation {
 
     private void changeSpriteAnimation(final GameCharacter character) {
         byte characterCurrentDirection = character.getDirection();
+
         if (direction != characterCurrentDirection) {
             direction = characterCurrentDirection;
             int[] animation;
+
             if (Direction.isUp(direction)) {
                 animation = SPRITE_ANIMATION_UP;
             } else if (Direction.isRight(direction)) {
@@ -159,6 +162,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         if (isAnimationRunning()) {
             int x = sprite.getX();
             int y = sprite.getY();
+
             if (Direction.isUp(direction)) {
                 y -= SPRITE_MOVE_SPEED;
             } else if (Direction.isRight(direction)) {
@@ -168,17 +172,20 @@ public class CharacterAnimationImpl implements CharacterAnimation {
             } else {
                 x -= SPRITE_MOVE_SPEED;
             }
+
             sprite.setPosition(x, y);
         }
     }
 
     private boolean isAnimationRunning() {
         GameCharacter character = characterElement.getCharacter();
+
         return character.isMoving() || (!isAnimationComplete());
     }
 
     private boolean isAnimationComplete() {
         int currentFrame = sprite.getFrame();
+
         return currentFrame == SPRITE_FRAME_STOPPED_2;
     }
 

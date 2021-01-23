@@ -26,6 +26,7 @@ public class RandomCommandTest extends TestCase {
             moveLeft = moveLeft || Direction.isLeft(direction);
 
             moveAllDirections = moveUp && moveRight && moveDown && moveLeft;
+
             if (moveAllDirections) {
                 break;
             }

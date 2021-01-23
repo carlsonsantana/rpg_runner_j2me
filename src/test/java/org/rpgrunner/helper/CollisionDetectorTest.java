@@ -29,12 +29,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCantMoveUpWhenExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                0,
-                -1
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 0, -1) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveUp();
                 }
@@ -50,12 +48,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCantMoveRightWhenExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                1,
-                0
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 1, 0) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveRight();
                 }
@@ -71,12 +67,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCantMoveDownWhenExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                0,
-                1
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 0, 1) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveDown();
                 }
@@ -92,12 +86,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCantMoveLeftWhenExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                -1,
-                0
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, -1, 0) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveLeft();
                 }
@@ -113,12 +105,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCanMoveUpWhenNotExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                0,
-                -2
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 0, -2) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveUp();
                 }
@@ -132,12 +122,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCanMoveRightWhenNotExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                2,
-                0
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 2, 0) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveRight();
                 }
@@ -151,12 +139,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCanMoveDownWhenNotExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                0,
-                2
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, 0, 2) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveDown();
                 }
@@ -170,12 +156,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void testCanMoveLeftWhenNotExistsACharacterCollision() {
+        TestCollisionAllDirections test;
+
         for (int i = 0; i < 100; i++) {
-            TestCollisionAllDirections test = new TestCollisionAllDirections(
-                collisionDetector,
-                -2,
-                0
-            ) {
+            test = new TestCollisionAllDirections(collisionDetector, -2, 0) {
                 public void moveCharacter(final GameCharacter characterTest) {
                     characterTest.moveLeft();
                 }

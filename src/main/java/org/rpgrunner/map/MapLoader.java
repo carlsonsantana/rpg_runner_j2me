@@ -24,6 +24,7 @@ public final class MapLoader {
 
     private static InputStream loadFile(final String fileBaseName) {
         String filePath = MAPS_DIRECTORY + fileBaseName + MAPS_EXTENSION;
+
         return MapLoader.class.getResourceAsStream(filePath);
     }
 
@@ -36,6 +37,7 @@ public final class MapLoader {
 
         int layersSize = mapInputStream.read();
         Layer[] layers = new Layer[layersSize];
+
         for (int i = 0; i < layersSize; i++) {
             layers[i] = extractLayer(mapInputStream, width, height);
         }
@@ -64,6 +66,7 @@ public final class MapLoader {
         int lengthString = mapInputStream.read();
         byte[] stringBytes = new byte[lengthString];
         mapInputStream.read(stringBytes);
+
         return new String(stringBytes);
     }
 
@@ -73,6 +76,7 @@ public final class MapLoader {
         final int height
     ) throws IOException {
         byte[][] tileMap = new byte[height][width];
+
         for (int i = 0; i < height; i++) {
             mapInputStream.read(tileMap[i]);
         }
