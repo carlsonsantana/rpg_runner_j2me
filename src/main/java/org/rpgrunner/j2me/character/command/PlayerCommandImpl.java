@@ -1,9 +1,9 @@
-package org.rpgrunner.j2me.command;
+package org.rpgrunner.j2me.character.command;
 
 import javax.microedition.lcdui.game.GameCanvas;
 
-import org.rpgrunner.command.PlayerCommand;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.command.PlayerCommand;
 
 public class PlayerCommandImpl implements PlayerCommand {
     private static final int MAX_KEY_SIZE = 10;

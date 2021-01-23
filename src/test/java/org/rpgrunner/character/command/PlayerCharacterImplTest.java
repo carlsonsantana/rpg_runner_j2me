@@ -1,11 +1,11 @@
-package org.rpgrunner.command;
+package org.rpgrunner.character.command;
 
 import javax.microedition.lcdui.game.GameCanvas;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.rpgrunner.Direction;
-import org.rpgrunner.j2me.command.PlayerCommandImpl;
+import org.rpgrunner.j2me.character.command.PlayerCommandImpl;
 import org.rpgrunner.test.mock.SimpleCharacter;
 
 public class PlayerCharacterImplTest extends TestCase {

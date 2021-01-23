@@ -1,4 +1,4 @@
-package org.rpgrunner.command;
+package org.rpgrunner.character.command;
 
 public interface PlayerCommand extends Command {
     void pressKey(int key);

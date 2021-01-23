@@ -1,8 +1,8 @@
-package org.rpgrunner.j2me.command;
+package org.rpgrunner.j2me.character.command;
 
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.command.PlayerCommand;
-import org.rpgrunner.command.PlayerCommandFactory;
+import org.rpgrunner.character.command.PlayerCommand;
+import org.rpgrunner.character.command.PlayerCommandFactory;
 
 public class PlayerCommandFactoryImpl implements PlayerCommandFactory {
     public PlayerCommand createPlayerCommand(

@@ -1,4 +1,4 @@
-package org.rpgrunner.command;
+package org.rpgrunner.character.command;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;

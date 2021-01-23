@@ -3,8 +3,8 @@ package org.rpgrunner.character;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.command.Command;
-import org.rpgrunner.command.RandomCommand;
+import org.rpgrunner.character.command.Command;
+import org.rpgrunner.character.command.RandomCommand;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CollisionDetectorSpy;

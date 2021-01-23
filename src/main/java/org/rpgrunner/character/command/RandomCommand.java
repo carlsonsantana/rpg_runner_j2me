@@ -1,4 +1,4 @@
-package org.rpgrunner.command;
+package org.rpgrunner.character.command;
 
 import java.util.Random;
 

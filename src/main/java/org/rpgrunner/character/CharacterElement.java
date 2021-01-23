@@ -1,7 +1,7 @@
 package org.rpgrunner.character;
 
 import org.rpgrunner.helper.CollisionDetector;
-import org.rpgrunner.command.Command;
+import org.rpgrunner.character.command.Command;
 
 public class CharacterElement {
     private final CollisionDetector collisionDetector;

@@ -8,7 +8,7 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
-import org.rpgrunner.j2me.command.PlayerCommandFactoryImpl;
+import org.rpgrunner.j2me.character.command.PlayerCommandFactoryImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
