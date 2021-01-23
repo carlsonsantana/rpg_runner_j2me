@@ -8,7 +8,7 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
-import org.rpgrunner.j2me.character.command.PlayerCommandFactoryImpl;
+import org.rpgrunner.j2me.character.command.PlayerMovimentCommandFactoryImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
@@ -28,7 +28,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     };
 
     private final CharacterAnimationFactoryImpl characterAnimationFactory;
-    private final PlayerCommandFactoryImpl playerCommandFactory;
+    private final PlayerMovimentCommandFactoryImpl playerMovimentCommandFactory;
     private Thread thread;
     private boolean destroyed;
     private GameController gameController;
@@ -38,7 +38,7 @@ public class GameRunner extends GameCanvas implements Runnable {
 
         destroyed = false;
         characterAnimationFactory = new CharacterAnimationFactoryImpl();
-        playerCommandFactory = new PlayerCommandFactoryImpl();
+        playerMovimentCommandFactory = new PlayerMovimentCommandFactoryImpl();
     }
 
     public void start() {
@@ -64,7 +64,7 @@ public class GameRunner extends GameCanvas implements Runnable {
             graphicsRender,
             camera,
             characterAnimationFactory,
-            playerCommandFactory
+            playerMovimentCommandFactory
         );
         gameController.init();
     }

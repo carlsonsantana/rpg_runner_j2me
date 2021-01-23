@@ -1,5 +1,5 @@
 package org.rpgrunner.character.command;
 
-public interface Command {
+public interface MovimentCommand {
     void execute();
 }

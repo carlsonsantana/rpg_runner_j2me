@@ -5,11 +5,11 @@ import java.util.Random;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 
-public class RandomCommand implements Command {
+public class RandomMovimentCommand implements MovimentCommand {
     private final GameCharacter character;
     private final Random random;
 
-    public RandomCommand(final GameCharacter controlledCharacter) {
+    public RandomMovimentCommand(final GameCharacter controlledCharacter) {
         character = controlledCharacter;
         random = new Random();
     }

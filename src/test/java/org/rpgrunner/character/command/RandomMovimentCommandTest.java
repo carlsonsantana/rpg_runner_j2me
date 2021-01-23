@@ -6,10 +6,12 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.mock.SimpleCharacter;
 
-public class RandomCommandTest extends TestCase {
+public class RandomMovimentCommandTest extends TestCase {
     public void testCharacterCanMoveAllDirections() {
         SimpleCharacter character = new SimpleCharacter();
-        RandomCommand randomCommand = new RandomCommand(character);
+        RandomMovimentCommand randomMovimentCommand = new RandomMovimentCommand(
+            character
+        );
         boolean moveUp = false;
         boolean moveRight = false;
         boolean moveDown = false;
@@ -17,7 +19,7 @@ public class RandomCommandTest extends TestCase {
         boolean moveAllDirections = false;
 
         for (int i = 0; i < 1000; i++) {
-            randomCommand.execute();
+            randomMovimentCommand.execute();
 
             byte direction = character.getDirection();
             moveUp = moveUp || Direction.isUp(direction);
@@ -38,13 +40,17 @@ public class RandomCommandTest extends TestCase {
     public void testCharacterRandomMoviments() {
         SimpleCharacter character1 = new SimpleCharacter();
         SimpleCharacter character2 = new SimpleCharacter();
-        RandomCommand randomCommandCharacter1 = new RandomCommand(character1);
-        RandomCommand randomCommandCharacter2 = new RandomCommand(character2);
+        RandomMovimentCommand randomMovimentCommandCharacter1 = (
+            new RandomMovimentCommand(character1)
+        );
+        RandomMovimentCommand randomMovimentCommandCharacter2 = (
+            new RandomMovimentCommand(character2)
+        );
         boolean directionsEquals = true;
 
         for (int i = 0; i < 100; i++) {
-            randomCommandCharacter1.execute();
-            randomCommandCharacter2.execute();
+            randomMovimentCommandCharacter1.execute();
+            randomMovimentCommandCharacter2.execute();
 
             directionsEquals = (
                 directionsEquals

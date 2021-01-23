@@ -3,8 +3,8 @@ package org.rpgrunner.character;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.character.command.Command;
-import org.rpgrunner.character.command.RandomCommand;
+import org.rpgrunner.character.command.MovimentCommand;
+import org.rpgrunner.character.command.RandomMovimentCommand;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CollisionDetectorSpy;
@@ -14,13 +14,13 @@ public class CharacterElementTest extends TestCase {
     private CollisionDetectorSpy collisionDetector;
     private GameCharacter character;
     private CharacterAnimationSpy characterAnimation;
-    private Command command;
+    private MovimentCommand command;
 
     public void setUp() {
         collisionDetector = new CollisionDetectorSpy();
         character = RandomGenerator.generateRandomCharacter();
         characterAnimation = new CharacterAnimationSpy();
-        command = new RandomCommand(character);
+        command = new RandomMovimentCommand(character);
 
         characterElement = new CharacterElement(
             collisionDetector,
@@ -42,7 +42,7 @@ public class CharacterElementTest extends TestCase {
     }
 
     public void testReturnSameCommand() {
-        Assert.assertSame(command, characterElement.getCommand());
+        Assert.assertSame(command, characterElement.getMovimentCommand());
     }
 
     public void testOnMoveFalseCancelCharacterMovement() {

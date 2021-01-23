@@ -1,6 +1,6 @@
 package org.rpgrunner.character.command;
 
-public interface PlayerCommand extends Command {
+public interface PlayerMovimentCommand extends MovimentCommand {
     void pressKey(int key);
     void releaseKey(int key);
 }

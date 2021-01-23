@@ -3,15 +3,15 @@ package org.rpgrunner.j2me.character.command;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.character.command.PlayerCommand;
+import org.rpgrunner.character.command.PlayerMovimentCommand;
 
-public class PlayerCommandImpl implements PlayerCommand {
+public class PlayerMovimentCommandImpl implements PlayerMovimentCommand {
     private static final int MAX_KEY_SIZE = 10;
     private final GameCharacter character;
     private final int[] keys;
     private int keySize;
 
-    public PlayerCommandImpl(final GameCharacter playerCharacter) {
+    public PlayerMovimentCommandImpl(final GameCharacter playerCharacter) {
         character = playerCharacter;
         keys = new int[MAX_KEY_SIZE];
         keySize = 0;

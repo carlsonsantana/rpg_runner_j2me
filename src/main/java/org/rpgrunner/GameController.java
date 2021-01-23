@@ -4,10 +4,10 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.character.command.Command;
-import org.rpgrunner.character.command.PlayerCommand;
-import org.rpgrunner.character.command.PlayerCommandFactory;
-import org.rpgrunner.character.command.RandomCommand;
+import org.rpgrunner.character.command.MovimentCommand;
+import org.rpgrunner.character.command.PlayerMovimentCommand;
+import org.rpgrunner.character.command.PlayerMovimentCommandFactory;
+import org.rpgrunner.character.command.RandomMovimentCommand;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
@@ -19,10 +19,10 @@ public class GameController {
     private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
     private final CharacterAnimationFactory characterAnimationFactory;
-    private final PlayerCommandFactory playerCommandFactory;
+    private final PlayerMovimentCommandFactory playerMovimentCommandFactory;
     private Map map;
     private CharacterElement playerCharacterElement;
-    private PlayerCommand playerCommand;
+    private PlayerMovimentCommand playerMovimentCommand;
     private CharacterElement[] characterElements;
     private int gameAction;
 
@@ -30,13 +30,13 @@ public class GameController {
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera,
         final CharacterAnimationFactory gameCharacterAnimationFactory,
-        final PlayerCommandFactory gamePlayerCommandFactory
+        final PlayerMovimentCommandFactory gamePlayerMovimentCommandFactory
     ) {
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
         characterAnimationFactory = gameCharacterAnimationFactory;
-        playerCommandFactory = gamePlayerCommandFactory;
+        playerMovimentCommandFactory = gamePlayerMovimentCommandFactory;
     }
 
     public void init() {
@@ -79,7 +79,7 @@ public class GameController {
         final String baseName
     ) {
         GameCharacter character = new GameCharacter(baseName);
-        RandomCommand command = new RandomCommand(character);
+        RandomMovimentCommand command = new RandomMovimentCommand(character);
 
         return generateCharacterElement(character, command);
     }
@@ -88,10 +88,12 @@ public class GameController {
         final String baseName
     ) {
         GameCharacter character = new GameCharacter(baseName);
-        playerCommand = playerCommandFactory.createPlayerCommand(character);
+        playerMovimentCommand = (
+            playerMovimentCommandFactory.createPlayerMovimentCommand(character)
+        );
         CharacterElement characterElement = generateCharacterElement(
             character,
-            playerCommand
+            playerMovimentCommand
         );
         camera.setCharacterAnimation(characterElement.getCharacterAnimation());
 
@@ -100,7 +102,7 @@ public class GameController {
 
     private CharacterElement generateCharacterElement(
         final GameCharacter character,
-        final Command command
+        final MovimentCommand movimentCommand
     ) {
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
@@ -109,7 +111,7 @@ public class GameController {
             collisionDetector,
             character,
             characterAnimation,
-            command
+            movimentCommand
         );
         character.setCharacterElement(characterElement);
         characterAnimation.setCharacterElement(characterElement);
@@ -118,11 +120,11 @@ public class GameController {
     }
 
     public void pressKey(final int key) {
-        playerCommand.pressKey(key);
+        playerMovimentCommand.pressKey(key);
     }
 
     public void releaseKey(final int key) {
-        playerCommand.releaseKey(key);
+        playerMovimentCommand.releaseKey(key);
     }
 
     public void executeCharacterActions() {
@@ -134,7 +136,7 @@ public class GameController {
     }
 
     private void executeCommand(final CharacterElement characterElement) {
-        Command command = characterElement.getCommand();
+        MovimentCommand command = characterElement.getMovimentCommand();
 
         command.execute();
     }
