@@ -1,11 +1,13 @@
 package org.rpgrunner.test.mock;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.map.Map;
 
 public class GameControllerSpy extends GameController {
     private Map map;
     private int countMapChanged;
+    private CharacterElement playerCharacterElement;
 
     public GameControllerSpy() {
         super(null, null, null, null);
@@ -24,5 +26,15 @@ public class GameControllerSpy extends GameController {
 
     public int getCountMapChanged() {
         return countMapChanged;
+    }
+
+    public void setPlayerCharacterElement(
+        final CharacterElement newPlayerCharacterElement
+    ) {
+        playerCharacterElement = newPlayerCharacterElement;
+    }
+
+    public CharacterElement getPlayerCharacterElement() {
+        return playerCharacterElement;
     }
 }

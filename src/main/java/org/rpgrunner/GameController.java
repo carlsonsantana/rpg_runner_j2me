@@ -152,4 +152,8 @@ public class GameController {
     public void render() {
         graphicsRender.render();
     }
+
+    public CharacterElement getPlayerCharacterElement() {
+        return playerCharacterElement;
+    }
 }
