@@ -81,7 +81,7 @@ public class TeleportTest extends TestCase {
         Assert.assertEquals(nextMapPositionY, character.getMapNextPositionY());
     }
 
-    public void testNotChangeTeleportSameMap() {
+    public void testChangeTeleportSameMap() {
         int nextMapPositionX = random.nextInt(100);
         int nextMapPositionY = random.nextInt(100);
         Teleport eventTeleportSameMap = new Teleport(
@@ -95,7 +95,7 @@ public class TeleportTest extends TestCase {
         eventTeleportSameMap.execute();
 
         Map map = gameController.getMap();
-        Assert.assertEquals(1, gameController.getCountMapChanged());
+        Assert.assertEquals(2, gameController.getCountMapChanged());
         Assert.assertEquals(nextMapPositionX, character.getMapPositionX());
         Assert.assertEquals(nextMapPositionY, character.getMapPositionY());
         Assert.assertEquals(nextMapPositionX, character.getMapNextPositionX());

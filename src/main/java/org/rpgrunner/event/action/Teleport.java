@@ -21,20 +21,32 @@ public class Teleport implements Action {
     }
 
     public void execute() {
+        loadMap();
+        changePlayerCharacterPosition();
+    }
+
+    private void loadMap() {
+        Map map;
+
         if (isOtherMap()) {
-            Map map = MapLoader.loadMap(mapName);
-            gameController.setMap(map);
+            map = MapLoader.loadMap(mapName);
+        } else {
+            map = gameController.getMap();
         }
 
-        localTeleport.setCharacterElement(
-            gameController.getPlayerCharacterElement()
-        );
-        localTeleport.execute();
+        gameController.setMap(map);
     }
 
     private boolean isOtherMap() {
         Map map = gameController.getMap();
 
         return ((map == null) || (!mapName.equals(map.getFileBaseName())));
+    }
+
+    private void changePlayerCharacterPosition() {
+        localTeleport.setCharacterElement(
+            gameController.getPlayerCharacterElement()
+        );
+        localTeleport.execute();
     }
 }
