@@ -4,7 +4,7 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 
-public class LocalTeleport {
+public class LocalTeleport implements Action {
     private final int mapPositionX;
     private final int mapPositionY;
     private CharacterElement characterElement;
@@ -23,7 +23,7 @@ public class LocalTeleport {
         characterElement = newCharacterElement;
     }
 
-    public void call() {
+    public void execute() {
         updateCharacterMapPosition();
         updateCharacterAnimationMapPosition();
     }

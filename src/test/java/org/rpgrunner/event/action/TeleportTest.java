@@ -16,7 +16,7 @@ public class TeleportTest extends TestCase {
     }
 
     public void testChangeMap() {
-        event.call();
+        event.execute();
 
         Map map = gameController.getMap();
         Assert.assertEquals(32, map.getHeight());
@@ -29,8 +29,8 @@ public class TeleportTest extends TestCase {
             "another"
         );
 
-        event.call();
-        eventTeleportAnotherMap.call();
+        event.execute();
+        eventTeleportAnotherMap.execute();
 
         Map map = gameController.getMap();
         Assert.assertEquals(16, map.getHeight());
@@ -44,8 +44,8 @@ public class TeleportTest extends TestCase {
             "example"
         );
 
-        event.call();
-        eventTeleportSameMap.call();
+        event.execute();
+        eventTeleportSameMap.execute();
 
         Map map = gameController.getMap();
         Assert.assertEquals(1, gameController.getCountMapChanged());

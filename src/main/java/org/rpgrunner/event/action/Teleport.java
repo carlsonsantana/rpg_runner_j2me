@@ -4,7 +4,7 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 
-public class Teleport {
+public class Teleport implements Action {
     private final GameController gameController;
     private final String mapName;
 
@@ -16,7 +16,7 @@ public class Teleport {
         mapName = toMapName;
     }
 
-    public void call() {
+    public void execute() {
         if (isOtherMap()) {
             Map map = MapLoader.loadMap(mapName);
             gameController.setMap(map);

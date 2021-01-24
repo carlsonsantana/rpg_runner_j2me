@@ -31,7 +31,7 @@ public class LocalTeleportTest extends TestCase {
             );
 
             localTeleport.setCharacterElement(characterElement);
-            localTeleport.call();
+            localTeleport.execute();
 
             Assert.assertTrue(
                 characterAnimation.isUpdateScreenPositionFromMapPositionCalled()
