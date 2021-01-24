@@ -12,7 +12,7 @@ import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.map.MapLoader;
+import org.rpgrunner.event.action.Teleport;
 
 public class GameController {
     private final Camera camera;
@@ -40,8 +40,9 @@ public class GameController {
     }
 
     public void init() {
-        setMap(MapLoader.loadMap("map"));
         playerCharacterElement = generatePlayerCharacterElement("character");
+        Teleport teleport = new Teleport(this, "map", 1, 1);
+        teleport.execute();
         setCharacters();
     }
 
