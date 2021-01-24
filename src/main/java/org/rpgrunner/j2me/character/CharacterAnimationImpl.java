@@ -105,7 +105,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         int mapPositionX = character.getMapPositionX();
         int mapPositionY = character.getMapPositionY();
         int spritePositionX = mapPositionX * SPRITE_WIDTH;
-        int spritePositionY = mapPositionY * SPRITE_WIDTH;
+        int spritePositionY = mapPositionY * SPRITE_WIDTH - SPRITE_REFERENCE_Y;
 
         changeSpriteAnimation(character);
         sprite.setPosition(spritePositionX, spritePositionY);
