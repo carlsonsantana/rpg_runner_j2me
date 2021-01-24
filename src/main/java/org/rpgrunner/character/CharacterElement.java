@@ -1,24 +1,24 @@
 package org.rpgrunner.character;
 
 import org.rpgrunner.helper.CollisionDetector;
-import org.rpgrunner.character.command.MovimentCommand;
+import org.rpgrunner.character.movement.MovementCommand;
 
 public class CharacterElement {
     private final CollisionDetector collisionDetector;
     private final GameCharacter character;
     private final CharacterAnimation characterAnimation;
-    private final MovimentCommand movimentCommand;
+    private final MovementCommand movementCommand;
 
     public CharacterElement(
         final CollisionDetector newCollisionDetector,
         final GameCharacter newCharacter,
         final CharacterAnimation newCharacterAnimation,
-        final MovimentCommand characterCommand
+        final MovementCommand characterCommand
     ) {
         collisionDetector = newCollisionDetector;
         character = newCharacter;
         characterAnimation = newCharacterAnimation;
-        movimentCommand = characterCommand;
+        movementCommand = characterCommand;
     }
 
     public GameCharacter getCharacter() {
@@ -29,8 +29,8 @@ public class CharacterElement {
         return characterAnimation;
     }
 
-    public MovimentCommand getMovimentCommand() {
-        return movimentCommand;
+    public MovementCommand getMovementCommand() {
+        return movementCommand;
     }
 
     public void onMove() {

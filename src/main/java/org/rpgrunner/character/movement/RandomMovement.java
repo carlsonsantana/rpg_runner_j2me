@@ -1,15 +1,15 @@
-package org.rpgrunner.character.command;
+package org.rpgrunner.character.movement;
 
 import java.util.Random;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 
-public class RandomMovimentCommand implements MovimentCommand {
+public class RandomMovement implements MovementCommand {
     private final GameCharacter character;
     private final Random random;
 
-    public RandomMovimentCommand(final GameCharacter controlledCharacter) {
+    public RandomMovement(final GameCharacter controlledCharacter) {
         character = controlledCharacter;
         random = new Random();
     }

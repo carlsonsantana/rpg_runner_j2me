@@ -1,22 +1,20 @@
-package org.rpgrunner.character.command;
+package org.rpgrunner.character.movement;
 
 import javax.microedition.lcdui.game.GameCanvas;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 import org.rpgrunner.Direction;
-import org.rpgrunner.j2me.character.command.PlayerMovimentCommandImpl;
+import org.rpgrunner.j2me.character.movement.PlayerMovementImpl;
 import org.rpgrunner.test.mock.SimpleCharacter;
 
-public class PlayerMovimentCommandImplTest extends TestCase {
+public class PlayerMovementImplTest extends TestCase {
     public void testExecuteWithoutPressedButton() {
         SimpleCharacter character = new SimpleCharacter();
-        PlayerMovimentCommand playerMovimentCommand = (
-            new PlayerMovimentCommandImpl(character)
-        );
+        PlayerMovement playerMovement = new PlayerMovementImpl(character);
         byte direction = character.getDirection();
 
-        playerMovimentCommand.execute();
+        playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
     }
@@ -51,12 +49,10 @@ public class PlayerMovimentCommandImplTest extends TestCase {
         final int keyDirection
     ) {
         SimpleCharacter character = new SimpleCharacter();
-        PlayerMovimentCommand playerMovimentCommand = (
-            new PlayerMovimentCommandImpl(character)
-        );
+        PlayerMovement playerMovement = new PlayerMovementImpl(character);
 
-        playerMovimentCommand.pressKey(keyDirection);
-        playerMovimentCommand.execute();
+        playerMovement.pressKey(keyDirection);
+        playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
     }
@@ -93,16 +89,14 @@ public class PlayerMovimentCommandImplTest extends TestCase {
         final int keyDirection
     ) {
         SimpleCharacter character = new SimpleCharacter();
-        PlayerMovimentCommand playerMovimentCommand = (
-            new PlayerMovimentCommandImpl(character)
-        );
+        PlayerMovement playerMovement = new PlayerMovementImpl(character);
 
         byte reverseDirection = Direction.invertDirection(direction);
         int keyReverseDirection = getKeyDirection(reverseDirection);
-        playerMovimentCommand.pressKey(keyReverseDirection);
-        playerMovimentCommand.pressKey(keyDirection);
-        playerMovimentCommand.releaseKey(keyReverseDirection);
-        playerMovimentCommand.execute();
+        playerMovement.pressKey(keyReverseDirection);
+        playerMovement.pressKey(keyDirection);
+        playerMovement.releaseKey(keyReverseDirection);
+        playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
     }
@@ -112,16 +106,14 @@ public class PlayerMovimentCommandImplTest extends TestCase {
         final int keyDirection
     ) {
         SimpleCharacter character = new SimpleCharacter();
-        PlayerMovimentCommand playerMovimentCommand = (
-            new PlayerMovimentCommandImpl(character)
-        );
+        PlayerMovement playerMovement = new PlayerMovementImpl(character);
 
         byte reverseDirection = Direction.invertDirection(direction);
         int keyReverseDirection = getKeyDirection(reverseDirection);
-        playerMovimentCommand.pressKey(keyDirection);
-        playerMovimentCommand.pressKey(keyReverseDirection);
-        playerMovimentCommand.releaseKey(keyReverseDirection);
-        playerMovimentCommand.execute();
+        playerMovement.pressKey(keyDirection);
+        playerMovement.pressKey(keyReverseDirection);
+        playerMovement.releaseKey(keyReverseDirection);
+        playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
     }
