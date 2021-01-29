@@ -8,11 +8,11 @@ import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.character.movement.RandomMovement;
+import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.event.action.Teleport;
 
 public class GameController {
     private final Camera camera;
@@ -156,5 +156,23 @@ public class GameController {
 
     public CharacterElement getPlayerCharacterElement() {
         return playerCharacterElement;
+    }
+
+    public PlayerMovementFactory getPlayerMovementFactory() {
+        return playerMovementFactory;
+    }
+
+    public CharacterAnimationFactory getCharacterAnimationFactory() {
+        return characterAnimationFactory;
+    }
+
+    public CollisionDetector getCollisionDetector() {
+        return collisionDetector;
+    }
+
+    public void setPlayerCharacterElement(
+        final CharacterElement newPlayerCharacterElement
+    ) {
+        playerCharacterElement = newPlayerCharacterElement;
     }
 }
