@@ -1,18 +1,21 @@
 package org.rpgrunner.helper;
 
+import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
 
 public class CollisionDetector {
     private Map map;
-    private GameCharacter[] characters;
+    private CharacterElement[] characterElements;
 
     public void setMap(final Map newMap) {
         map = newMap;
     }
 
-    public void setCharacters(final GameCharacter[] newCharacters) {
-        characters = newCharacters;
+    public void setCharacterElements(
+        final CharacterElement[] newCharacterElements
+    ) {
+        characterElements = newCharacterElements;
     }
 
     public boolean canMove(final GameCharacter character) {
@@ -33,8 +36,8 @@ public class CollisionDetector {
             return true;
         }
 
-        for (int i = 0, length = characters.length; i < length; i++) {
-            GameCharacter otherCharacter = characters[i];
+        for (int i = 0, length = characterElements.length; i < length; i++) {
+            GameCharacter otherCharacter = characterElements[i].getCharacter();
 
             if (hasCharacterCollision(character, otherCharacter)) {
                 return true;

@@ -3,11 +3,11 @@ package org.rpgrunner.helper;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.test.mock.MapSpy;
-import org.rpgrunner.test.mock.CharacterSpy;
-import org.rpgrunner.test.helper.TestCollisionAllDirections;
-import org.rpgrunner.test.helper.RandomGenerator;
+import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.test.helper.RandomGenerator;
+import org.rpgrunner.test.helper.TestCollisionAllDirections;
+import org.rpgrunner.test.mock.MapSpy;
 
 public class CollisionDetectorTest extends TestCase {
     private CollisionDetector collisionDetector;
@@ -18,12 +18,18 @@ public class CollisionDetectorTest extends TestCase {
 
     public void testCantMoveWhenExistsAMapCollision() {
         MapSpy map = new MapSpy();
-        CharacterSpy[] characters = RandomGenerator.generateRandomCharacters();
+        CharacterElement[] characterElements = (
+            RandomGenerator.generateRandomCharacterElements()
+        );
+
         collisionDetector.setMap(map);
-        collisionDetector.setCharacters(characters);
+        collisionDetector.setCharacterElements(characterElements);
 
         map.setCanMoveTo(false);
-        CharacterSpy character = RandomGenerator.getRandomCharacter(characters);
+        CharacterElement characterElement = (
+            RandomGenerator.getRandomCharacterElement(characterElements)
+        );
+        GameCharacter character = characterElement.getCharacter();
 
         Assert.assertFalse(collisionDetector.canMove(character));
     }

@@ -2,8 +2,10 @@ package org.rpgrunner.test.helper;
 
 import java.util.Random;
 
-import org.rpgrunner.test.mock.CharacterSpy;
+import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.CharacterElementSpy;
+import org.rpgrunner.test.mock.CharacterSpy;
 
 public class RandomGenerator {
     private static final int STRING_SIZE = 8;
@@ -31,6 +33,33 @@ public class RandomGenerator {
         }
 
         return characters;
+    }
+
+    public static CharacterElement[] generateRandomCharacterElements() {
+        GameCharacter[] characters = generateRandomCharacters();
+        int length = characters.length;
+        CharacterElement[] characterElements = new CharacterElement[length];
+
+        for (int i = 0; i < length; i++) {
+            GameCharacter character = characters[i];
+            characterElements[i] = new CharacterElement(
+                null,
+                character,
+                null,
+                null
+            );
+        }
+
+        return characterElements;
+    }
+
+    public static CharacterElement getRandomCharacterElement(
+        CharacterElement[] characterElements
+    ) {
+        Random random = new Random();
+        int index = random.nextInt(characterElements.length);
+
+        return characterElements[index];
     }
 
     public static CharacterSpy generateRandomCharacter() {
