@@ -15,26 +15,6 @@ public class RandomGenerator {
 
     private RandomGenerator() { }
 
-    public static CharacterSpy getRandomCharacter(CharacterSpy[] characters) {
-        Random random = new Random();
-        int index = random.nextInt(characters.length);
-
-        return characters[index];
-    }
-
-    public static CharacterSpy[] generateRandomCharacters() {
-        Random random = new Random();
-        int numberCharacters = random.nextInt(100) + 3;
-        CharacterSpy[] characters = new CharacterSpy[numberCharacters];
-
-        for (int i = 0; i < numberCharacters; i++) {
-            CharacterSpy character = generateRandomCharacter();
-            characters[i] = character;
-        }
-
-        return characters;
-    }
-
     public static CharacterElement[] generateRandomCharacterElements() {
         GameCharacter[] characters = generateRandomCharacters();
         int length = characters.length;
@@ -51,6 +31,19 @@ public class RandomGenerator {
         }
 
         return characterElements;
+    }
+
+    private static CharacterSpy[] generateRandomCharacters() {
+        Random random = new Random();
+        int numberCharacters = random.nextInt(100) + 3;
+        CharacterSpy[] characters = new CharacterSpy[numberCharacters];
+
+        for (int i = 0; i < numberCharacters; i++) {
+            CharacterSpy character = generateRandomCharacter();
+            characters[i] = character;
+        }
+
+        return characters;
     }
 
     public static CharacterElement getRandomCharacterElement(
