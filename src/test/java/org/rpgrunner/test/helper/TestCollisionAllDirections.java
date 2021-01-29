@@ -1,6 +1,7 @@
 package org.rpgrunner.test.helper;
 
 import java.util.Random;
+import java.util.Vector;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
@@ -34,7 +35,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private void testCollisionCharacterStopped() {
-        CharacterElement[] characterElements = generateCommonScenario();
+        Vector characterElements = generateCommonScenario();
         CharacterSpy character = getCharacterTest(characterElements);
         moveCharacter(character);
         int initialPositionX = character.getMapPositionX() + additionalX;
@@ -50,7 +51,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private void testCollisionCharacterMoveUp() {
-        CharacterElement[] characterElements = generateCommonScenario();
+        Vector characterElements = generateCommonScenario();
         CharacterSpy character = getCharacterTest(characterElements);
         moveCharacter(character);
         int initialPositionX = character.getMapPositionX() + additionalX;
@@ -73,7 +74,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private void testCollisionCharacterMoveRight() {
-        CharacterElement[] characterElements = generateCommonScenario();
+        Vector characterElements = generateCommonScenario();
         CharacterSpy character = getCharacterTest(characterElements);
         moveCharacter(character);
         int initialPositionX = calculateInitialPositionMoveAxis(
@@ -96,7 +97,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private void testCollisionCharacterMoveDown() {
-        CharacterElement[] characterElements = generateCommonScenario();
+        Vector characterElements = generateCommonScenario();
         CharacterSpy character = getCharacterTest(characterElements);
         moveCharacter(character);
         int initialPositionX = character.getMapPositionX() + additionalX;
@@ -119,7 +120,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private void testCollisionCharacterMoveLeft() {
-        CharacterElement[] characterElements = generateCommonScenario();
+        Vector characterElements = generateCommonScenario();
         CharacterSpy character = getCharacterTest(characterElements);
         moveCharacter(character);
         int initialPositionX = calculateInitialPositionMoveAxis(
@@ -163,9 +164,9 @@ public abstract class TestCollisionAllDirections {
         }
     }
 
-    private CharacterElement[] generateCommonScenario() {
+    private Vector generateCommonScenario() {
         MapSpy map = new MapSpy();
-        CharacterElement[] characterElements = (
+        Vector characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
         collisionDetector.setMap(map);
@@ -176,9 +177,7 @@ public abstract class TestCollisionAllDirections {
         return characterElements;
     }
 
-    private CharacterSpy getCharacterTest(
-        final CharacterElement[] characterElements
-    ) {
+    private CharacterSpy getCharacterTest(final Vector characterElements) {
         CharacterElement characterElement = (
             RandomGenerator.getRandomCharacterElement(characterElements)
         );
@@ -193,7 +192,7 @@ public abstract class TestCollisionAllDirections {
     }
 
     private CharacterSpy getCollisionCharacter(
-        final CharacterElement[] characterElements,
+        final Vector characterElements,
         final CharacterSpy character,
         final int initialPositionX,
         final int initialPositionY

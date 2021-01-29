@@ -1,5 +1,8 @@
 package org.rpgrunner;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
@@ -23,7 +26,7 @@ public class GameController {
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
-    private CharacterElement[] characterElements;
+    private Vector characterElements;
     private int gameAction;
 
     public GameController(
@@ -37,6 +40,7 @@ public class GameController {
         collisionDetector = new CollisionDetector();
         characterAnimationFactory = gameCharacterAnimationFactory;
         playerMovementFactory = gamePlayerMovementFactory;
+        characterElements = new Vector(1);
     }
 
     public void init() {
@@ -63,9 +67,8 @@ public class GameController {
             "character"
         );
 
-        characterElements = new CharacterElement[2];
-        characterElements[0] = playerCharacterElement;
-        characterElements[1] = characterElement;
+        characterElements.addElement(playerCharacterElement);
+        characterElements.addElement(characterElement);
 
         collisionDetector.setCharacterElements(characterElements);
         graphicsRender.setCharacterElements(characterElements);
@@ -122,8 +125,13 @@ public class GameController {
     }
 
     public void executeCharacterActions() {
-        for (int i = 0; i < characterElements.length; i++) {
-            CharacterElement characterElement = characterElements[i];
+        for (
+            Enumeration enumeration = characterElements.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement characterElement = (
+                (CharacterElement) enumeration.nextElement()
+            );
             executeMovementCommand(characterElement);
             executeAnimation(characterElement);
         }

@@ -1,5 +1,7 @@
 package org.rpgrunner.helper;
 
+import java.util.Vector;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -18,7 +20,7 @@ public class CollisionDetectorTest extends TestCase {
 
     public void testCantMoveWhenExistsAMapCollision() {
         MapSpy map = new MapSpy();
-        CharacterElement[] characterElements = (
+        Vector characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
 

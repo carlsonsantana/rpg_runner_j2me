@@ -1,10 +1,11 @@
 package org.rpgrunner.graphics;
 
-import org.rpgrunner.character.CharacterElement;
+import java.util.Vector;
+
 import org.rpgrunner.map.Map;
 
 public interface GraphicsRender {
     void setMap(Map map);
-    void setCharacterElements(CharacterElement[] characterElements);
+    void setCharacterElements(Vector characterElements);
     void render();
 }

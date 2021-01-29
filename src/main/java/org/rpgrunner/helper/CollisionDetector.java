@@ -1,20 +1,21 @@
 package org.rpgrunner.helper;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
 
 public class CollisionDetector {
     private Map map;
-    private CharacterElement[] characterElements;
+    private Vector characterElements;
 
     public void setMap(final Map newMap) {
         map = newMap;
     }
 
-    public void setCharacterElements(
-        final CharacterElement[] newCharacterElements
-    ) {
+    public void setCharacterElements(final Vector newCharacterElements) {
         characterElements = newCharacterElements;
     }
 
@@ -36,8 +37,14 @@ public class CollisionDetector {
             return true;
         }
 
-        for (int i = 0, length = characterElements.length; i < length; i++) {
-            GameCharacter otherCharacter = characterElements[i].getCharacter();
+        for (
+            Enumeration enumeration = characterElements.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement otherCharacterElement = (
+                (CharacterElement) enumeration.nextElement()
+            );
+            GameCharacter otherCharacter = otherCharacterElement.getCharacter();
 
             if (hasCharacterCollision(character, otherCharacter)) {
                 return true;

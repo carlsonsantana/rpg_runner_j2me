@@ -1,6 +1,7 @@
 package org.rpgrunner.test.helper;
 
 import java.util.Random;
+import java.util.Vector;
 
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
@@ -15,18 +16,14 @@ public class RandomGenerator {
 
     private RandomGenerator() { }
 
-    public static CharacterElement[] generateRandomCharacterElements() {
+    public static Vector generateRandomCharacterElements() {
         GameCharacter[] characters = generateRandomCharacters();
-        int length = characters.length;
-        CharacterElement[] characterElements = new CharacterElement[length];
+        Vector characterElements = new Vector();
 
-        for (int i = 0; i < length; i++) {
+        for (int i = 0, length = characters.length; i < length; i++) {
             GameCharacter character = characters[i];
-            characterElements[i] = new CharacterElement(
-                null,
-                character,
-                null,
-                null
+            characterElements.addElement(
+                new CharacterElement(null, character, null, null)
             );
         }
 
@@ -47,12 +44,12 @@ public class RandomGenerator {
     }
 
     public static CharacterElement getRandomCharacterElement(
-        CharacterElement[] characterElements
+        Vector characterElements
     ) {
         Random random = new Random();
-        int index = random.nextInt(characterElements.length);
+        int index = random.nextInt(characterElements.size());
 
-        return characterElements[index];
+        return (CharacterElement) characterElements.elementAt(index);
     }
 
     public static CharacterSpy generateRandomCharacter() {

@@ -1,17 +1,20 @@
 package org.rpgrunner.j2me.graphics;
 
+import java.util.Enumeration;
+import java.util.Vector;
+
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.Layer;
 import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 import javax.microedition.lcdui.game.TiledLayer;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.helper.Camera;
+import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.graphics.GraphicsRender;
-import org.rpgrunner.map.Map;
+import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.MapRender;
+import org.rpgrunner.map.Map;
 
 public class GraphicsRenderImpl implements GraphicsRender {
     private final Graphics graphics;
@@ -49,12 +52,16 @@ public class GraphicsRenderImpl implements GraphicsRender {
         }
     }
 
-    public void setCharacterElements(
-        final CharacterElement[] characterElements
-    ) {
-        for (int i = 0; i < characterElements.length; i++) {
+    public void setCharacterElements(final Vector characterElements) {
+        for (
+            Enumeration enumeration = characterElements.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement characterElement = (
+                (CharacterElement) enumeration.nextElement()
+            );
             CharacterAnimation characterAnimation = (
-                characterElements[i].getCharacterAnimation()
+                characterElement.getCharacterAnimation()
             );
             layerManager.insert((Sprite) characterAnimation.getSprite(), 0);
         }
