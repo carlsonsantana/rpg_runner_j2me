@@ -11,6 +11,7 @@ import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.character.movement.RandomMovement;
+import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -44,7 +45,7 @@ public class GameController {
     }
 
     public void init() {
-        playerCharacterElement = generatePlayerCharacterElement("character");
+        generatePlayerCharacterElement("character");
         Teleport teleport = new Teleport(this, "map", 1, 1);
         teleport.execute();
         setCharacters();
@@ -83,18 +84,11 @@ public class GameController {
         return generateCharacterElement(character, movementCommand);
     }
 
-    private CharacterElement generatePlayerCharacterElement(
-        final String baseName
-    ) {
-        GameCharacter character = new GameCharacter(baseName);
-        playerMovement = playerMovementFactory.createPlayerMovement(character);
-        CharacterElement characterElement = generateCharacterElement(
-            character,
-            playerMovement
+    private void generatePlayerCharacterElement(final String baseName) {
+        PlayerCharacterCreator playerCharacterCreator = (
+            new PlayerCharacterCreator(this, baseName, 0, 0)
         );
-        camera.setCharacterAnimation(characterElement.getCharacterAnimation());
-
-        return characterElement;
+        playerCharacterCreator.execute();
     }
 
     private CharacterElement generateCharacterElement(
@@ -177,5 +171,11 @@ public class GameController {
         final CharacterElement newPlayerCharacterElement
     ) {
         playerCharacterElement = newPlayerCharacterElement;
+        playerMovement = (
+            (PlayerMovement) playerCharacterElement.getMovementCommand()
+        );
+        camera.setCharacterAnimation(
+            playerCharacterElement.getCharacterAnimation()
+        );
     }
 }
