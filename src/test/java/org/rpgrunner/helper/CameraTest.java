@@ -5,6 +5,7 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.map.Map;
 import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.MapSpy;
 
@@ -13,8 +14,11 @@ public class CameraTest extends TestCase {
     private CharacterAnimationSpy characterAnimation;
     private MapSpy map;
 
-    public void setUp() {
+    public CameraTest() {
         random = new Random();
+    }
+
+    public void setUp() {
         map = new MapSpy();
         map.setWidth(20);
         map.setHeight(20);
@@ -112,5 +116,61 @@ public class CameraTest extends TestCase {
         camera.centerCamera();
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
+    }
+
+    public void testCenterCameraOnMiddle() {
+        for (int i = 0; i < 1000; i++) {
+            checkCenterCameraOnMiddleOnce();
+        }
+    }
+
+    private void checkCenterCameraOnMiddleOnce() {
+        Map newMap = generateMap();
+
+        int mapWidthPixels = newMap.getWidth() * 16;
+        int mapHeightPixels = newMap.getHeight() * 16;
+        int randomScreenWidth = (random.nextInt(10) + 2) * 16;
+        int randomScreenHeight = (random.nextInt(10) + 2) * 16;
+        int middleScreenWidth = randomScreenWidth / 2;
+        int middleScreenHeight = randomScreenHeight / 2;
+
+        int randomCharacterPositionX = (
+            random.nextInt(mapWidthPixels - randomScreenWidth)
+            + middleScreenWidth
+            - 8
+        );
+        int randomCharacterPositionY = (
+            random.nextInt(mapHeightPixels - randomScreenHeight)
+            + middleScreenHeight
+        );
+
+        Camera camera = new Camera(randomScreenWidth, randomScreenHeight);
+        camera.setMap(newMap);
+        camera.setCharacterAnimation(characterAnimation);
+
+        characterAnimation.setScreenPosition(
+            randomCharacterPositionX,
+            randomCharacterPositionY
+        );
+        camera.centerCamera();
+
+        int characterScreenPositionX = (
+            randomCharacterPositionX - camera.getX() + 8
+        );
+        int characterScreenPositionY = randomCharacterPositionY - camera.getY();
+
+        Assert.assertEquals(characterScreenPositionX, middleScreenWidth);
+        Assert.assertEquals(characterScreenPositionY, middleScreenHeight);
+    }
+
+    private Map generateMap() {
+        MapSpy newMap = new MapSpy();
+        int randomMapWidth = random.nextInt(100) + 20;
+        int randomMapHeight = random.nextInt(100) + 20;
+
+        newMap.setWidth(randomMapWidth);
+        newMap.setHeight(randomMapHeight);
+
+        return newMap;
     }
 }
