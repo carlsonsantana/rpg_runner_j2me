@@ -39,72 +39,40 @@ public abstract class TestAllDirections {
     }
 
     public void testMoveToUp() {
-        byte direction = Direction.UP;
-        int initialPositionX = character.getMapPositionX();
-        int initialPositionY = character.getMapPositionY();
-        int newPositionX = initialPositionX;
-        int newPositionY = initialPositionY - 1;
-
         character.moveUp();
 
-        testMoviment(
-            character,
-            direction,
-            initialPositionX,
-            initialPositionY,
-            newPositionX,
-            newPositionY
-        );
+        testMoveToDirection(Direction.UP, 0, -1);
     }
 
     public void testMoveToRight() {
-        byte direction = Direction.RIGHT;
-        int initialPositionX = character.getMapPositionX();
-        int initialPositionY = character.getMapPositionY();
-        int newPositionX = initialPositionX + 1;
-        int newPositionY = initialPositionY;
-
         character.moveRight();
 
-        testMoviment(
-            character,
-            direction,
-            initialPositionX,
-            initialPositionY,
-            newPositionX,
-            newPositionY
-        );
+        testMoveToDirection(Direction.RIGHT, 1, 0);
     }
 
     public void testMoveToDown() {
-        byte direction = Direction.DOWN;
-        int initialPositionX = character.getMapPositionX();
-        int initialPositionY = character.getMapPositionY();
-        int newPositionX = initialPositionX;
-        int newPositionY = initialPositionY + 1;
-
         character.moveDown();
 
-        testMoviment(
-            character,
-            direction,
-            initialPositionX,
-            initialPositionY,
-            newPositionX,
-            newPositionY
-        );
+        testMoveToDirection(Direction.DOWN, 0, 1);
     }
 
     public void testMoveToLeft() {
-        byte direction = Direction.LEFT;
-        int initialPositionX = character.getMapPositionX();
-        int initialPositionY = character.getMapPositionY();
-        int newPositionX = initialPositionX - 1;
-        int newPositionY = initialPositionY;
-
         character.moveLeft();
 
-        testMoviment(
+        testMoveToDirection(Direction.LEFT, -1, 0);
+    }
+
+    private void testMoveToDirection(
+        final byte direction,
+        final int increaseX,
+        final int increaseY
+    ) {
+        int initialPositionX = character.getMapPositionX();
+        int initialPositionY = character.getMapPositionY();
+        int newPositionX = initialPositionX + increaseX;
+        int newPositionY = initialPositionY + increaseY;
+
+        testMovement(
             character,
             direction,
             initialPositionX,
@@ -114,7 +82,7 @@ public abstract class TestAllDirections {
         );
     }
 
-    public abstract void testMoviment(
+    public abstract void testMovement(
         final GameCharacter characterTest,
         final byte direction,
         final int initialPositionX,
