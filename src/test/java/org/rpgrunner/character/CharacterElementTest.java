@@ -49,41 +49,38 @@ public class CharacterElementTest extends TestCase {
     }
 
     public void testOnMoveFalseCancelCharacterMovement() {
-        collisionDetector.setCanMove(false);
-        int y = character.getMapPositionY();
-
-        character.moveUp();
-        characterElement.onMove();
-
-        Assert.assertFalse(character.isMoving());
-        Assert.assertEquals(y, character.getMapPositionY());
-        Assert.assertEquals(y, character.getMapNextPositionY());
-        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
+        testOnMove(false);
     }
 
     public void testOnMoveTrueContinueCharacterMovement() {
-        collisionDetector.setCanMove(true);
-        int y = character.getMapPositionY();
-        int nextY = y - 1;
+        testOnMove(true);
+    }
 
+    private void testOnMove(final boolean canMove) {
+        int y = character.getMapPositionY();
+        int movementDifference = canMove ? -1 : 0;
+        int nextY = y + movementDifference;
+
+        collisionDetector.setCanMove(canMove);
         character.moveUp();
         characterElement.onMove();
 
-        Assert.assertTrue(character.isMoving());
+        Assert.assertEquals(canMove, character.isMoving());
         Assert.assertEquals(y, character.getMapPositionY());
         Assert.assertEquals(nextY, character.getMapNextPositionY());
         Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 
     public void testOnAnimationCompleteFinishCharacterMovement() {
-        collisionDetector.setCanMove(true);
         int y = character.getMapPositionY();
         int nextY = y - 1;
 
+        collisionDetector.setCanMove(true);
         character.moveUp();
         characterElement.onAnimationComplete();
 
         Assert.assertFalse(character.isMoving());
         Assert.assertEquals(nextY, character.getMapPositionY());
+        Assert.assertEquals(nextY, character.getMapNextPositionY());
     }
 }
