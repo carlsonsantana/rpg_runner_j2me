@@ -13,17 +13,17 @@ import org.rpgrunner.test.mock.CharacterElementSpy;
 public class GameCharacterTest extends TestCase {
     private CharacterElementSpy characterElement;
     private GameCharacter character;
+    private String characterBaseName;
 
     public void setUp() {
-        character = new GameCharacter(null);
+        characterBaseName = RandomGenerator.getRandomString();
+        character = new GameCharacter(characterBaseName);
         characterElement = new CharacterElementSpy();
         character.setCharacterElement(characterElement);
     }
 
     public void testReturnSameFileBaseName() {
-        String randomFileBaseName = RandomGenerator.getRandomString();
-        character = new GameCharacter(randomFileBaseName);
-        Assert.assertEquals(randomFileBaseName, character.getFileBaseName());
+        Assert.assertEquals(characterBaseName, character.getFileBaseName());
     }
 
     public void testCharacterStartStopped() {
