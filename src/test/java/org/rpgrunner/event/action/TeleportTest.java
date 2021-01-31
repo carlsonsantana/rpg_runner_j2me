@@ -17,7 +17,7 @@ public class TeleportTest extends TestCase {
     private CharacterElement characterElement;
     private GameCharacter character;
     private GameControllerSpy gameController;
-    private Teleport event;
+    private Teleport teleport;
     private int mapPositionX;
     private int mapPositionY;
 
@@ -38,7 +38,7 @@ public class TeleportTest extends TestCase {
         gameController.setPlayerCharacterElement(characterElement);
         mapPositionX = random.nextInt(100);
         mapPositionY = random.nextInt(100);
-        event = new Teleport(
+        teleport = new Teleport(
             gameController,
             "example",
             mapPositionX,
@@ -47,58 +47,74 @@ public class TeleportTest extends TestCase {
     }
 
     public void testChangeMap() {
-        event.execute();
-
-        Map map = gameController.getMap();
-        Assert.assertEquals(32, map.getHeight());
-        Assert.assertEquals(32, map.getWidth());
-        Assert.assertEquals(mapPositionX, character.getMapPositionX());
-        Assert.assertEquals(mapPositionY, character.getMapPositionY());
-        Assert.assertEquals(mapPositionX, character.getMapNextPositionX());
-        Assert.assertEquals(mapPositionY, character.getMapNextPositionY());
+        testTeleport(teleport, 32, 32, mapPositionX, mapPositionY);
     }
 
     public void testChangeMapTwice() {
         int nextMapPositionX = random.nextInt(100);
         int nextMapPositionY = random.nextInt(100);
-        Teleport eventTeleportAnotherMap = new Teleport(
+        Teleport teleportAnotherMap = new Teleport(
             gameController,
             "another",
             nextMapPositionX,
             nextMapPositionY
         );
 
-        event.execute();
-        eventTeleportAnotherMap.execute();
+        teleport.execute();
 
-        Map map = gameController.getMap();
-        Assert.assertEquals(16, map.getHeight());
-        Assert.assertEquals(16, map.getWidth());
+        testTeleport(
+            teleportAnotherMap,
+            16,
+            16,
+            nextMapPositionX,
+            nextMapPositionY
+        );
         Assert.assertEquals(2, gameController.getCountMapChanged());
-        Assert.assertEquals(nextMapPositionX, character.getMapPositionX());
-        Assert.assertEquals(nextMapPositionY, character.getMapPositionY());
-        Assert.assertEquals(nextMapPositionX, character.getMapNextPositionX());
-        Assert.assertEquals(nextMapPositionY, character.getMapNextPositionY());
     }
 
     public void testChangeTeleportSameMap() {
         int nextMapPositionX = random.nextInt(100);
         int nextMapPositionY = random.nextInt(100);
-        Teleport eventTeleportSameMap = new Teleport(
+        Teleport teleportSameMap = new Teleport(
             gameController,
             "example",
             nextMapPositionX,
             nextMapPositionY
         );
 
-        event.execute();
-        eventTeleportSameMap.execute();
+        teleport.execute();
+
+        testTeleport(
+            teleportSameMap,
+            32,
+            32,
+            nextMapPositionX,
+            nextMapPositionY
+        );
+        Assert.assertEquals(2, gameController.getCountMapChanged());
+    }
+
+    private void testTeleport(
+        final Teleport teleportToExecute,
+        final int currentMapHeight,
+        final int currentMapWidth,
+        final int characterMapPositionX,
+        final int characterMapPositionY
+    ) {
+        teleportToExecute.execute();
 
         Map map = gameController.getMap();
-        Assert.assertEquals(2, gameController.getCountMapChanged());
-        Assert.assertEquals(nextMapPositionX, character.getMapPositionX());
-        Assert.assertEquals(nextMapPositionY, character.getMapPositionY());
-        Assert.assertEquals(nextMapPositionX, character.getMapNextPositionX());
-        Assert.assertEquals(nextMapPositionY, character.getMapNextPositionY());
+        Assert.assertEquals(currentMapHeight, map.getHeight());
+        Assert.assertEquals(currentMapWidth, map.getWidth());
+        Assert.assertEquals(characterMapPositionX, character.getMapPositionX());
+        Assert.assertEquals(characterMapPositionY, character.getMapPositionY());
+        Assert.assertEquals(
+            characterMapPositionX,
+            character.getMapNextPositionX()
+        );
+        Assert.assertEquals(
+            characterMapPositionY,
+            character.getMapNextPositionY()
+        );
     }
 }
