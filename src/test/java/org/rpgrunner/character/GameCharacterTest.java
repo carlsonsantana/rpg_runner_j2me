@@ -44,7 +44,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testMoveWhenAnimationIsCompleted() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -126,7 +126,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testOnlyExecuteNewMoveToUpWhenMoveIsFinished() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -162,7 +162,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testOnlyExecuteNewMoveToRightWhenMoveIsFinished() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -198,7 +198,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testOnlyExecuteNewMoveToDownWhenMoveIsFinished() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -234,7 +234,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testOnlyExecuteNewMoveToLeftWhenMoveIsFinished() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -270,7 +270,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testMoveMoreThanOneTime() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,
@@ -286,23 +286,26 @@ public class GameCharacterTest extends TestCase {
                     newPositionY
                 );
 
-                testRandomMovement(direction);
+                testRandomMovement(characterTest, direction);
             }
 
-            private void testRandomMovement(final byte direction) {
+            private void testRandomMovement(
+                final GameCharacter characterTest,
+                final byte direction
+            ) {
                 Random random = new Random();
                 int randomDirection = random.nextInt(
                     Direction.NUMBER_DIRECTIONS + 1
                 );
 
                 if (randomDirection == 1) {
-                    testMoveToUp();
+                    testMoveToUp(characterTest);
                 } else if (randomDirection == 2) {
-                    testMoveToRight();
+                    testMoveToRight(characterTest);
                 } else if (randomDirection == 3) {
-                    testMoveToDown();
+                    testMoveToDown(characterTest);
                 } else if (randomDirection == 4) {
-                    testMoveToLeft();
+                    testMoveToLeft(characterTest);
                 }
             }
         };
@@ -313,7 +316,7 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testCancelMove() {
-        TestAllDirections testAllDirections = new TestAllDirections(character) {
+        TestAllDirections testAllDirections = new TestAllDirections() {
             public void testMovement(
                 final GameCharacter characterTest,
                 final byte direction,

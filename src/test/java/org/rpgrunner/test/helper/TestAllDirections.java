@@ -5,12 +5,6 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 
 public abstract class TestAllDirections {
-    private GameCharacter character;
-
-    public TestAllDirections(final GameCharacter characterTest) {
-        character = characterTest;
-    }
-
     public void test() {
         testNewCharacterMoveToUp();
         testNewCharacterMoveToRight();
@@ -19,50 +13,47 @@ public abstract class TestAllDirections {
     }
 
     private void testNewCharacterMoveToUp() {
-        character = RandomGenerator.generateRandomCharacter();
-        testMoveToUp();
+        testMoveToUp(RandomGenerator.generateRandomCharacter());
     }
 
     private void testNewCharacterMoveToRight() {
-        character = RandomGenerator.generateRandomCharacter();
-        testMoveToRight();
+        testMoveToRight(RandomGenerator.generateRandomCharacter());
     }
 
     private void testNewCharacterMoveToDown() {
-        character = RandomGenerator.generateRandomCharacter();
-        testMoveToDown();
+        testMoveToDown(RandomGenerator.generateRandomCharacter());
     }
 
     private void testNewCharacterMoveToLeft() {
-        character = RandomGenerator.generateRandomCharacter();
-        testMoveToLeft();
+        testMoveToLeft(RandomGenerator.generateRandomCharacter());
     }
 
-    public void testMoveToUp() {
+    public void testMoveToUp(final GameCharacter character) {
         character.moveUp();
 
-        testMoveToDirection(Direction.UP, 0, -1);
+        testMoveToDirection(character, Direction.UP, 0, -1);
     }
 
-    public void testMoveToRight() {
+    public void testMoveToRight(final GameCharacter character) {
         character.moveRight();
 
-        testMoveToDirection(Direction.RIGHT, 1, 0);
+        testMoveToDirection(character, Direction.RIGHT, 1, 0);
     }
 
-    public void testMoveToDown() {
+    public void testMoveToDown(final GameCharacter character) {
         character.moveDown();
 
-        testMoveToDirection(Direction.DOWN, 0, 1);
+        testMoveToDirection(character, Direction.DOWN, 0, 1);
     }
 
-    public void testMoveToLeft() {
+    public void testMoveToLeft(final GameCharacter character) {
         character.moveLeft();
 
-        testMoveToDirection(Direction.LEFT, -1, 0);
+        testMoveToDirection(character, Direction.LEFT, -1, 0);
     }
 
     private void testMoveToDirection(
+        final GameCharacter character,
         final byte direction,
         final int increaseX,
         final int increaseY
@@ -83,7 +74,7 @@ public abstract class TestAllDirections {
     }
 
     public abstract void testMovement(
-        final GameCharacter characterTest,
+        final GameCharacter character,
         final byte direction,
         final int initialPositionX,
         final int initialPositionY,
