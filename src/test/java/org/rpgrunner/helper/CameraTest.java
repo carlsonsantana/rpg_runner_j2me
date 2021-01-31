@@ -36,8 +36,26 @@ public class CameraTest extends TestCase {
         int randomWidth = random.nextInt(100);
         int randomHeight = random.nextInt(100);
         Camera camera = new Camera(randomWidth, randomHeight);
+
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
+    }
+
+    public void testReturnZerosForCharacterOnTopRightCorner() {
+        for (int i = 0; i < 100; i++) {
+            int randomWidth = random.nextInt(100) + 16;
+            int randomHeight = random.nextInt(100) + 16;
+            Camera camera = new Camera(randomWidth, randomHeight);
+            camera.setMap(map);
+            camera.setCharacterAnimation(characterAnimation);
+            camera.centerCamera();
+            characterAnimation.setScreenPosition(0, 0);
+
+            camera.centerCamera();
+
+            Assert.assertEquals(0, camera.getX());
+            Assert.assertEquals(0, camera.getY());
+        }
     }
 
     public void testCenterCameraHorizontalMiddle() {
@@ -55,9 +73,6 @@ public class CameraTest extends TestCase {
         Camera camera = new Camera(160, 160);
         camera.setMap(map);
         camera.setCharacterAnimation(characterAnimation);
-        camera.centerCamera();
-        Assert.assertEquals(0, camera.getX());
-        Assert.assertEquals(0, camera.getY());
 
         characterAnimation.setScreenPosition(304, 0);
 
@@ -87,9 +102,6 @@ public class CameraTest extends TestCase {
         Camera camera = new Camera(160, 160);
         camera.setMap(map);
         camera.setCharacterAnimation(characterAnimation);
-        camera.centerCamera();
-        Assert.assertEquals(0, camera.getX());
-        Assert.assertEquals(0, camera.getY());
 
         characterAnimation.setScreenPosition(0, 304);
 
