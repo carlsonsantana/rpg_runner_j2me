@@ -54,40 +54,34 @@ public class GameCharacterTest extends TestCase {
                 final int newPositionX,
                 final int newPositionY
             ) {
-                testChangePositionOnMovement(
+                Assert.assertTrue(characterTest.isMoving());
+                Assert.assertEquals(direction, characterTest.getDirection());
+                Assert.assertEquals(
+                    initialPositionX,
+                    characterTest.getMapPositionX()
+                );
+                Assert.assertEquals(
+                    initialPositionY,
+                    characterTest.getMapPositionY()
+                );
+                Assert.assertEquals(
+                    newPositionX,
+                    characterTest.getMapNextPositionX()
+                );
+                Assert.assertEquals(
+                    newPositionY,
+                    characterTest.getMapNextPositionY()
+                );
+
+                testChangePositionWhenFinishMovement(
                     characterTest,
                     direction,
-                    initialPositionX,
-                    initialPositionY,
                     newPositionX,
                     newPositionY
                 );
             }
         };
         testAllDirections.test();
-    }
-
-    private void testChangePositionOnMovement(
-        final GameCharacter characterTest,
-        final byte direction,
-        final int initialPositionX,
-        final int initialPositionY,
-        final int newPositionX,
-        final int newPositionY
-    ) {
-        Assert.assertTrue(characterTest.isMoving());
-        Assert.assertEquals(direction, characterTest.getDirection());
-        Assert.assertEquals(initialPositionX, characterTest.getMapPositionX());
-        Assert.assertEquals(initialPositionY, characterTest.getMapPositionY());
-        Assert.assertEquals(newPositionX, characterTest.getMapNextPositionX());
-        Assert.assertEquals(newPositionY, characterTest.getMapNextPositionY());
-
-        testChangePositionWhenFinishMovement(
-            characterTest,
-            direction,
-            newPositionX,
-            newPositionY
-        );
     }
 
     private void testChangePositionWhenFinishMovement(
@@ -136,26 +130,12 @@ public class GameCharacterTest extends TestCase {
                 final int newPositionX,
                 final int newPositionY
             ) {
-                testNewMoveToUpDirection(
-                    characterTest,
-                    direction,
-                    newPositionX,
-                    newPositionY
-                );
-            }
-
-            private void testNewMoveToUpDirection(
-                final GameCharacter characterTest,
-                final byte direction,
-                final int finalPositionX,
-                final int finalPositionY
-            ) {
                 characterTest.moveUp();
                 testChangePositionWhenFinishMovement(
                     characterTest,
                     direction,
-                    finalPositionX,
-                    finalPositionY
+                    newPositionX,
+                    newPositionY
                 );
             }
         };
@@ -172,26 +152,12 @@ public class GameCharacterTest extends TestCase {
                 final int newPositionX,
                 final int newPositionY
             ) {
-                testNewMoveToRightDirection(
-                    characterTest,
-                    direction,
-                    newPositionX,
-                    newPositionY
-                );
-            }
-
-            private void testNewMoveToRightDirection(
-                final GameCharacter characterTest,
-                final byte direction,
-                final int finalPositionX,
-                final int finalPositionY
-            ) {
                 characterTest.moveRight();
                 testChangePositionWhenFinishMovement(
                     characterTest,
                     direction,
-                    finalPositionX,
-                    finalPositionY
+                    newPositionX,
+                    newPositionY
                 );
             }
         };
@@ -208,26 +174,12 @@ public class GameCharacterTest extends TestCase {
                 final int newPositionX,
                 final int newPositionY
             ) {
-                testNewMoveToDownDirection(
-                    characterTest,
-                    direction,
-                    newPositionX,
-                    newPositionY
-                );
-            }
-
-            private void testNewMoveToDownDirection(
-                final GameCharacter characterTest,
-                final byte direction,
-                final int finalPositionX,
-                final int finalPositionY
-            ) {
                 characterTest.moveDown();
                 testChangePositionWhenFinishMovement(
                     characterTest,
                     direction,
-                    finalPositionX,
-                    finalPositionY
+                    newPositionX,
+                    newPositionY
                 );
             }
         };
@@ -244,26 +196,12 @@ public class GameCharacterTest extends TestCase {
                 final int newPositionX,
                 final int newPositionY
             ) {
-                testNewMoveToLeftDirection(
-                    characterTest,
-                    direction,
-                    newPositionX,
-                    newPositionY
-                );
-            }
-
-            private void testNewMoveToLeftDirection(
-                final GameCharacter characterTest,
-                final byte direction,
-                final int finalPositionX,
-                final int finalPositionY
-            ) {
                 characterTest.moveLeft();
                 testChangePositionWhenFinishMovement(
                     characterTest,
                     direction,
-                    finalPositionX,
-                    finalPositionY
+                    newPositionX,
+                    newPositionY
                 );
             }
         };
