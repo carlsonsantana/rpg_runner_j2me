@@ -23,12 +23,16 @@ public class CameraTest extends TestCase {
 
     public void testReturnSameScreenWidthAndHeightLoop() {
         for (int i = 0; i < 100; i++) {
-            int randomWidth = random.nextInt(100);
-            int randomHeight = random.nextInt(100);
-            Camera camera = new Camera(randomWidth, randomHeight);
-            Assert.assertEquals(randomWidth, camera.getScreenWidth());
-            Assert.assertEquals(randomHeight, camera.getScreenHeight());
+            checkReturnSameScreenWidthAndHeight();
         }
+    }
+
+    private void checkReturnSameScreenWidthAndHeight() {
+        int randomWidth = random.nextInt(100);
+        int randomHeight = random.nextInt(100);
+        Camera camera = new Camera(randomWidth, randomHeight);
+        Assert.assertEquals(randomWidth, camera.getScreenWidth());
+        Assert.assertEquals(randomHeight, camera.getScreenHeight());
     }
 
     public void testReturnZerosForInitialCameraPositions() {
