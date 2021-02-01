@@ -12,21 +12,16 @@ import org.rpgrunner.test.mock.MapSpy;
 public class CameraTest extends TestCase {
     private Random random;
     private CharacterAnimationSpy characterAnimation;
-    private MapSpy map;
 
     public CameraTest() {
         random = new Random();
     }
 
     public void setUp() {
-        map = new MapSpy();
-        map.setWidth(20);
-        map.setHeight(20);
-
         characterAnimation = new CharacterAnimationSpy();
     }
 
-    public void testReturnSameScreenWidthAndHeight() {
+    public void testReturnSameScreenWidthAndHeightLoop() {
         for (int i = 0; i < 100; i++) {
             int randomWidth = random.nextInt(100);
             int randomHeight = random.nextInt(100);
@@ -37,21 +32,16 @@ public class CameraTest extends TestCase {
     }
 
     public void testReturnZerosForInitialCameraPositions() {
-        int randomWidth = random.nextInt(100);
-        int randomHeight = random.nextInt(100);
-        Camera camera = new Camera(randomWidth, randomHeight);
+        Map newMap = generateMap();
+        Camera camera = generateCamera(newMap);
 
         Assert.assertEquals(0, camera.getX());
         Assert.assertEquals(0, camera.getY());
     }
 
     public void testReturnZerosForCharacterOnTopRightCorner() {
-        int randomWidth = random.nextInt(100) + 16;
-        int randomHeight = random.nextInt(100) + 16;
-        Camera camera = new Camera(randomWidth, randomHeight);
-        camera.setMap(map);
-        camera.setCharacterAnimation(characterAnimation);
-        camera.centerCamera();
+        Map newMap = generateMap();
+        Camera camera = generateCamera(newMap);
         characterAnimation.setScreenPosition(0, 0);
 
         camera.centerCamera();
@@ -60,67 +50,29 @@ public class CameraTest extends TestCase {
         Assert.assertEquals(0, camera.getY());
     }
 
-    public void testCenterCameraHorizontalMiddle() {
-        Camera camera = new Camera(160, 160);
-        characterAnimation.setScreenPosition(160, 0);
-        camera.setMap(map);
-        camera.setCharacterAnimation(characterAnimation);
-        camera.centerCamera();
-
-        Assert.assertEquals(88, camera.getX());
-        Assert.assertEquals(0, camera.getY());
-    }
-
-    public void testCenterCameraHorizontalCorners() {
-        Camera camera = new Camera(160, 160);
-        camera.setMap(map);
-        camera.setCharacterAnimation(characterAnimation);
-
-        characterAnimation.setScreenPosition(304, 0);
-
-        camera.centerCamera();
-        Assert.assertEquals(160, camera.getX());
-        Assert.assertEquals(0, camera.getY());
-    }
-
-    public void testCenterCameraVerticalMiddle() {
-        Camera camera = new Camera(160, 160);
-        characterAnimation.setScreenPosition(0, 160);
-        camera.setMap(map);
-        camera.setCharacterAnimation(characterAnimation);
-        camera.centerCamera();
-
-        Assert.assertEquals(0, camera.getX());
-        Assert.assertEquals(80, camera.getY());
-    }
-
-    public void testCenterCameraVerticalCorners() {
-        Camera camera = new Camera(160, 160);
-        camera.setMap(map);
-        camera.setCharacterAnimation(characterAnimation);
-
-        characterAnimation.setScreenPosition(0, 304);
-
-        camera.centerCamera();
-        Assert.assertEquals(0, camera.getX());
-        Assert.assertEquals(160, camera.getY());
-    }
-
-    public void testCenterCameraOnMiddle() {
+    public void testCenterCameraOnceLoop() {
         for (int i = 0; i < 1000; i++) {
-            Map newMap = generateMap();
-            Camera camera = generateCamera(newMap);
-            checkCenterCameraOnMiddleOnce(camera, newMap);
+            checkCenterCameraOnce();
         }
     }
 
-    public void testCenterCameraOnMiddleAfterCenterCameraBefore() {
+    private void checkCenterCameraOnce() {
+        Map newMap = generateMap();
+        Camera camera = generateCamera(newMap);
+        checkCenterCamera(camera, newMap);
+    }
+
+    public void testCenterCameraTwiceLoop() {
         for (int i = 0; i < 1000; i++) {
-            Map newMap = generateMap();
-            Camera camera = generateCamera(newMap);
-            centerCameraOnCharacterOnRandomPosition(camera, newMap);
-            checkCenterCameraOnMiddleOnce(camera, newMap);
+            checkCenterCameraTwice();
         }
+    }
+
+    private void checkCenterCameraTwice() {
+        Map newMap = generateMap();
+        Camera camera = generateCamera(newMap);
+        centerCameraOnCharacterOnRandomPosition(camera, newMap);
+        checkCenterCamera(camera, newMap);
     }
 
     private Map generateMap() {
@@ -160,23 +112,21 @@ public class CameraTest extends TestCase {
         camera.centerCamera();
     }
 
-    private void checkCenterCameraOnMiddleOnce(
-        final Camera camera,
-        final Map newMap
-    ) {
+    private void checkCenterCamera(final Camera camera, final Map newMap) {
         int mapWidthPixels = newMap.getWidth() * 16;
         int mapHeightPixels = newMap.getHeight() * 16;
-        int middleScreenWidth = camera.getScreenWidth() / 2;
-        int middleScreenHeight = camera.getScreenHeight() / 2;
+        int screenWidth = camera.getScreenWidth();
+        int screenHeight = camera.getScreenHeight();
+        int middleScreenWidth = screenWidth / 2;
+        int middleScreenHeight = screenHeight / 2;
+        int maxCameraPositionX = mapWidthPixels - screenWidth;
+        int maxCameraPositionY = mapHeightPixels - screenHeight;
 
         int randomCharacterPositionX = (
-            random.nextInt(mapWidthPixels - camera.getScreenWidth())
-            + middleScreenWidth
-            - 8
+            random.nextInt(mapWidthPixels)
         );
         int randomCharacterPositionY = (
-            random.nextInt(mapHeightPixels - camera.getScreenHeight())
-            + middleScreenHeight
+            random.nextInt(mapHeightPixels)
         );
 
         characterAnimation.setScreenPosition(
@@ -185,12 +135,16 @@ public class CameraTest extends TestCase {
         );
         camera.centerCamera();
 
-        int characterScreenPositionX = (
-            randomCharacterPositionX - camera.getX() + 8
+        int characterScreenPositionX = Math.min(
+            Math.max(randomCharacterPositionX - middleScreenWidth + 8, 0),
+            maxCameraPositionX
         );
-        int characterScreenPositionY = randomCharacterPositionY - camera.getY();
+        int characterScreenPositionY = Math.min(
+            Math.max(randomCharacterPositionY - middleScreenHeight, 0),
+            maxCameraPositionY
+        );
 
-        Assert.assertEquals(characterScreenPositionX, middleScreenWidth);
-        Assert.assertEquals(characterScreenPositionY, middleScreenHeight);
+        Assert.assertEquals(characterScreenPositionX, camera.getX());
+        Assert.assertEquals(characterScreenPositionY, camera.getY());
     }
 }
