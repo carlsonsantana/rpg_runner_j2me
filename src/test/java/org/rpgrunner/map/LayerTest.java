@@ -10,9 +10,25 @@ import org.rpgrunner.test.mock.TileSetSpy;
 
 public class LayerTest extends TestCase {
     private byte[][] tileMap;
+    private boolean[] tileSetResults;
+    private TileSetSpy tileSetSpy;
+    private Layer layer;
 
     public void setUp() {
+        tileSetResults = generateTileSetResults();
+        tileSetSpy = new TileSetSpy(tileSetResults);
         tileMap = generateRandomTileMap();
+        layer = new Layer(tileSetSpy, tileMap);
+    }
+
+    private boolean[] generateTileSetResults() {
+        boolean[] newTileSetResults = new boolean[100];
+
+        for (int i = 0; i < 100; i++) {
+            newTileSetResults[i] = true;
+        }
+
+        return newTileSetResults;
     }
 
     private byte[][] generateRandomTileMap() {
@@ -31,28 +47,18 @@ public class LayerTest extends TestCase {
     }
 
     public void testReturnSameTileMap() {
-        Layer layer = new Layer(null, tileMap);
         Assert.assertSame(tileMap, layer.getTileMap());
     }
 
     public void testReturnSameWidthOfTileMap() {
-        Layer layer = new Layer(null, tileMap);
         Assert.assertEquals(tileMap[0].length, layer.getWidth());
     }
 
     public void testReturnSameHeightOfTileMap() {
-        Layer layer = new Layer(null, tileMap);
         Assert.assertEquals(tileMap.length, layer.getHeight());
     }
 
     public void testCanMoveToValidPositionsWithoutCollisions() {
-        boolean[] tileSetResults = new boolean[] {
-            true, true, true, true, true, true, true, true,
-            true, true, true, true, true, true, true, true
-        };
-        TileSetSpy tileSetSpy = new TileSetSpy(tileSetResults);
-
-        Layer layer = new Layer(tileSetSpy, tileMap);
         boolean[] results = getTestsResultsValidPositions(layer);
 
         for (int i = 0; i < results.length; i++) {
@@ -61,19 +67,11 @@ public class LayerTest extends TestCase {
     }
 
     public void testCantMoveToNegativePositions() {
-        boolean[] results = new boolean[] {true, true, true, true};
-        TileSetSpy tileSetSpy = new TileSetSpy(results);
-
-        Layer layer = new Layer(tileSetSpy, tileMap);
         Assert.assertFalse(layer.canMoveTo(0, 0, -1, 0, Direction.LEFT));
         Assert.assertFalse(layer.canMoveTo(0, 0, 0, -1, Direction.UP));
     }
 
     public void testCantMoveToPositionOffTheMap() {
-        boolean[] results = new boolean[] {true, true, true, true};
-        TileSetSpy tileSetSpy = new TileSetSpy(results);
-
-        Layer layer = new Layer(tileSetSpy, tileMap);
         int borderX = layer.getWidth() - 1;
         int borderY = layer.getHeight() - 1;
         Assert.assertFalse(
@@ -97,17 +95,17 @@ public class LayerTest extends TestCase {
     }
 
     public void testCantMoveToPositionWhenHasCollision() {
-        boolean[] tileSetResults = new boolean[] {
-            false, false, false, false,
-            false, false, false, false
-        };
-        TileSetSpy tileSetSpy = new TileSetSpy(tileSetResults);
-
-        Layer layer = new Layer(tileSetSpy, tileMap);
+        forceTileSetCollision();
         boolean[] results = getTestsResultsValidPositions(layer);
 
         for (int i = 0; i < results.length; i++) {
             Assert.assertFalse(results[i]);
+        }
+    }
+
+    private void forceTileSetCollision() {
+        for (int i = 0; i < 100; i++) {
+            tileSetResults[i] = false;
         }
     }
 
