@@ -41,17 +41,38 @@ public class TileSetTest extends TestCase {
     private static final int[] ALL_POSSIBLE_LEFT_COLLISIONS = new int[] {
         4, 5, 7, 8, 11, 12, 14, 15
     };
+    private String tileSetName;
+    private byte[] collisions;
+    private TileSet tileSet;
+
+    public void setUp() {
+        tileSetName = RandomGenerator.getRandomString();
+        collisions = generateCollisions();
+        tileSet = new TileSet(tileSetName, collisions);
+    }
+
+    private byte[] generateCollisions() {
+        byte[] newCollisions = new byte[ALL_POSSIBLE_COLLISIONS.length / 2];
+
+        for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
+            if ((i % 2) == 0) {
+                newCollisions[i / 2] = (byte) (ALL_POSSIBLE_COLLISIONS[i] << 4);
+            } else {
+                newCollisions[i / 2] = (byte) (
+                    newCollisions[i / 2]
+                    | ALL_POSSIBLE_COLLISIONS[i]
+                );
+            }
+        }
+
+        return newCollisions;
+    }
 
     public void testReturnSameName() {
-        String randomName = RandomGenerator.getRandomString();
-        TileSet tileSet = new TileSet(randomName, null);
-        Assert.assertEquals(randomName, tileSet.getName());
+        Assert.assertEquals(tileSetName, tileSet.getName());
     }
 
     public void testCollisionUp() {
-        byte[] collisions = generateCollisions();
-        TileSet tileSet = new TileSet(null, collisions);
-
         int indexDirectionCollisions = 0;
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
@@ -71,9 +92,6 @@ public class TileSetTest extends TestCase {
     }
 
     public void testCollisionRight() {
-        byte[] collisions = generateCollisions();
-        TileSet tileSet = new TileSet(null, collisions);
-
         int indexDirectionCollisions = 0;
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
@@ -95,9 +113,6 @@ public class TileSetTest extends TestCase {
     }
 
     public void testCollisionDown() {
-        byte[] collisions = generateCollisions();
-        TileSet tileSet = new TileSet(null, collisions);
-
         int indexDirectionCollisions = 0;
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
@@ -117,9 +132,6 @@ public class TileSetTest extends TestCase {
     }
 
     public void testCollisionLeft() {
-        byte[] collisions = generateCollisions();
-        TileSet tileSet = new TileSet(null, collisions);
-
         int indexDirectionCollisions = 0;
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
@@ -136,22 +148,5 @@ public class TileSetTest extends TestCase {
                 Assert.assertTrue(tileSet.canPassOn(i, Direction.LEFT));
             }
         }
-    }
-
-    private byte[] generateCollisions() {
-        byte[] collisions = new byte[ALL_POSSIBLE_COLLISIONS.length / 2];
-
-        for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
-            if ((i % 2) == 0) {
-                collisions[i / 2] = (byte) (ALL_POSSIBLE_COLLISIONS[i] << 4);
-            } else {
-                collisions[i / 2] = (byte) (
-                    collisions[i / 2]
-                    | ALL_POSSIBLE_COLLISIONS[i]
-                );
-            }
-        }
-
-        return collisions;
     }
 }
