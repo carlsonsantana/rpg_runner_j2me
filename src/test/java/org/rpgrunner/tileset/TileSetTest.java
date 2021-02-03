@@ -73,79 +73,36 @@ public class TileSetTest extends TestCase {
     }
 
     public void testCollisionUp() {
-        int indexDirectionCollisions = 0;
-
-        for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
-            if (
-                (
-                    indexDirectionCollisions
-                    < ALL_POSSIBLE_UP_COLLISIONS.length
-                )
-                && (i == ALL_POSSIBLE_UP_COLLISIONS[indexDirectionCollisions])
-            ) {
-                Assert.assertFalse(tileSet.canPassOn(i, Direction.UP));
-                indexDirectionCollisions++;
-            } else {
-                Assert.assertTrue(tileSet.canPassOn(i, Direction.UP));
-            }
-        }
+        checkCollisionDirection(Direction.UP, ALL_POSSIBLE_UP_COLLISIONS);
     }
 
     public void testCollisionRight() {
-        int indexDirectionCollisions = 0;
-
-        for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
-            if (
-                (
-                    indexDirectionCollisions
-                    < ALL_POSSIBLE_RIGHT_COLLISIONS.length
-                )
-                && (
-                    i == ALL_POSSIBLE_RIGHT_COLLISIONS[indexDirectionCollisions]
-                )
-            ) {
-                Assert.assertFalse(tileSet.canPassOn(i, Direction.RIGHT));
-                indexDirectionCollisions++;
-            } else {
-                Assert.assertTrue(tileSet.canPassOn(i, Direction.RIGHT));
-            }
-        }
+        checkCollisionDirection(Direction.RIGHT, ALL_POSSIBLE_RIGHT_COLLISIONS);
     }
 
     public void testCollisionDown() {
-        int indexDirectionCollisions = 0;
-
-        for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
-            if (
-                (
-                    indexDirectionCollisions
-                    < ALL_POSSIBLE_DOWN_COLLISIONS.length
-                )
-                && (i == ALL_POSSIBLE_DOWN_COLLISIONS[indexDirectionCollisions])
-            ) {
-                Assert.assertFalse(tileSet.canPassOn(i, Direction.DOWN));
-                indexDirectionCollisions++;
-            } else {
-                Assert.assertTrue(tileSet.canPassOn(i, Direction.DOWN));
-            }
-        }
+        checkCollisionDirection(Direction.DOWN, ALL_POSSIBLE_DOWN_COLLISIONS);
     }
 
     public void testCollisionLeft() {
+        checkCollisionDirection(Direction.LEFT, ALL_POSSIBLE_LEFT_COLLISIONS);
+    }
+
+    private void checkCollisionDirection(
+        final byte direction,
+        final int[] allDirectionCollisions
+    ) {
         int indexDirectionCollisions = 0;
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if (
-                (
-                    indexDirectionCollisions
-                    < ALL_POSSIBLE_LEFT_COLLISIONS.length
-                )
-                && (i == ALL_POSSIBLE_LEFT_COLLISIONS[indexDirectionCollisions])
+                (indexDirectionCollisions < allDirectionCollisions.length)
+                && (i == allDirectionCollisions[indexDirectionCollisions])
             ) {
-                Assert.assertFalse(tileSet.canPassOn(i, Direction.LEFT));
+                Assert.assertFalse(tileSet.canPassOn(i, direction));
                 indexDirectionCollisions++;
             } else {
-                Assert.assertTrue(tileSet.canPassOn(i, Direction.LEFT));
+                Assert.assertTrue(tileSet.canPassOn(i, direction));
             }
         }
     }
