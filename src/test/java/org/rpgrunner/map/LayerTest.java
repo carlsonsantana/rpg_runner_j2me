@@ -9,10 +9,17 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.test.mock.TileSetSpy;
 
 public class LayerTest extends TestCase {
+    private static int TEST_REPEAT_LOOP = 100;
+    private static int TILE_SET_RESULTS_SIZE = 2 * TEST_REPEAT_LOOP;
+    private Random random;
     private byte[][] tileMap;
     private boolean[] tileSetResults;
     private TileSetSpy tileSetSpy;
     private Layer layer;
+
+    public LayerTest() {
+        random = new Random();
+    }
 
     public void setUp() {
         tileSetResults = generateTileSetResults();
@@ -22,9 +29,9 @@ public class LayerTest extends TestCase {
     }
 
     private boolean[] generateTileSetResults() {
-        boolean[] newTileSetResults = new boolean[100];
+        boolean[] newTileSetResults = new boolean[TILE_SET_RESULTS_SIZE];
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < TILE_SET_RESULTS_SIZE; i++) {
             newTileSetResults[i] = true;
         }
 
@@ -32,7 +39,6 @@ public class LayerTest extends TestCase {
     }
 
     private byte[][] generateRandomTileMap() {
-        Random random = new Random();
         int height = random.nextInt(100) + 2;
         int width = random.nextInt(100) + 2;
         byte[][] newTileMap = new byte[height][width];
@@ -58,12 +64,14 @@ public class LayerTest extends TestCase {
         Assert.assertEquals(tileMap.length, layer.getHeight());
     }
 
-    public void testCanMoveToValidPositionsWithoutCollisions() {
-        boolean[] results = getTestsResultsValidPositions(layer);
-
-        for (int i = 0; i < results.length; i++) {
-            Assert.assertTrue(results[i]);
+    public void testCanMoveToValidPositionsWithoutCollisionsLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkCanMoveToValidPositionsWithoutCollisions();
         }
+    }
+
+    private void checkCanMoveToValidPositionsWithoutCollisions() {
+        checkMoveToValidPositionsWithoutCollisions(true);
     }
 
     public void testCantMoveToNegativePositions() {
@@ -94,60 +102,86 @@ public class LayerTest extends TestCase {
         );
     }
 
-    public void testCantMoveToPositionWhenHasCollision() {
+    public void testCantMoveToPositionWhenHasCollisionLoop() {
         forceTileSetCollision();
-        boolean[] results = getTestsResultsValidPositions(layer);
 
-        for (int i = 0; i < results.length; i++) {
-            Assert.assertFalse(results[i]);
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkCantMoveToValidPositionsWithoutCollisions();
         }
     }
 
     private void forceTileSetCollision() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < TILE_SET_RESULTS_SIZE; i++) {
             tileSetResults[i] = false;
         }
     }
 
-    private boolean[] getTestsResultsValidPositions(final Layer layer) {
-        boolean[] results = new boolean[8];
-        int index = 0;
-        results[index++] = layer.canMoveTo(1, 0, 0, 0, Direction.LEFT);
-        results[index++] = layer.canMoveTo(0, 1, 0, 0, Direction.UP);
-        results[index++] = layer.canMoveTo(0, 0, 1, 0, Direction.RIGHT);
-        results[index++] = layer.canMoveTo(0, 0, 0, 1, Direction.DOWN);
+    private void checkCantMoveToValidPositionsWithoutCollisions() {
+        checkMoveToValidPositionsWithoutCollisions(false);
+    }
 
-        int borderX = layer.getWidth() - 1;
-        int borderY = layer.getHeight() - 1;
-        results[index++] = layer.canMoveTo(
-            borderX,
-            borderY,
-            borderX - 1,
-            borderY,
-            Direction.LEFT
-        );
-        results[index++] = layer.canMoveTo(
-            borderX,
-            borderY,
-            borderX,
-            borderY - 1,
-            Direction.UP
-        );
-        results[index++] = layer.canMoveTo(
-            borderX - 1,
-            borderY,
-            borderX,
-            borderY,
-            Direction.RIGHT
-        );
-        results[index++] = layer.canMoveTo(
-            borderX,
-            borderY - 1,
-            borderX,
-            borderY,
-            Direction.DOWN
-        );
+    private void checkMoveToValidPositionsWithoutCollisions(
+        boolean expectedValue
+    ) {
+        int maxX = layer.getWidth();
+        int maxY = layer.getHeight();
+        int randomValidX = random.nextInt(maxX);
+        int randomValidY = random.nextInt(maxY);
+        byte direction;
+        int targetX;
+        int targetY;
+        boolean invalidPosition;
 
-        return results;
+        do {
+            direction = getRandomDirection();
+            targetX = randomValidX;
+            targetY = randomValidY;
+
+            if (direction == Direction.UP) {
+                targetY--;
+            } else if (direction == Direction.RIGHT) {
+                targetX++;
+            } else if (direction == Direction.DOWN) {
+                targetY++;
+            } else {
+                targetX--;
+            }
+
+            invalidPosition = (
+                (targetX < 0)
+                || (targetX >= maxX)
+                || (targetY < 0)
+                || (targetY >= maxY)
+            );
+        } while (invalidPosition);
+
+        Assert.assertEquals(
+            expectedValue,
+            layer.canMoveTo(
+                randomValidX,
+                randomValidY,
+                targetX,
+                targetY,
+                direction
+            )
+        );
+    }
+
+    private byte getRandomDirection() {
+        int randomNumber = random.nextInt(4);
+
+        if (randomNumber == 0) {
+            return Direction.UP;
+        }
+
+        if (randomNumber == 1) {
+            return Direction.RIGHT;
+        }
+
+        if (randomNumber == 2) {
+            return Direction.DOWN;
+        }
+
+        return Direction.LEFT;
     }
 }
