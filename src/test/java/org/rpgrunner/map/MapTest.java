@@ -10,11 +10,16 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.LayerSpy;
 
 public class MapTest extends TestCase {
+    private Random random;
     private Map map;
     private String mapFileBaseName;
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
+
+    public MapTest() {
+        random = new Random();
+    }
 
     public void setUp() {
         layerBackground = new LayerSpy();
@@ -29,8 +34,6 @@ public class MapTest extends TestCase {
     }
 
     public void testReturnSameWidthLayers() {
-        Random random = new Random();
-
         for (int i = 0; i < 100; i++) {
             int width = random.nextInt(255);
 
@@ -42,8 +45,6 @@ public class MapTest extends TestCase {
     }
 
     public void testReturnSameHeightLayers() {
-        Random random = new Random();
-
         for (int i = 0; i < 100; i++) {
             int height = random.nextInt(255);
 
@@ -59,8 +60,6 @@ public class MapTest extends TestCase {
     }
 
     public void testCanMoveToPositionWhenAllLayersAllMoveToPosition() {
-        Random random = new Random();
-
         for (int i = 0; i < 100; i++) {
             boolean canMoveToBackground = random.nextInt(2) == 1;
             boolean canMoveToObjects = random.nextInt(2) == 1;
