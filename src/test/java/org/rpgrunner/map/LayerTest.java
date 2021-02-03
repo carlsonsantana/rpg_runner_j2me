@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.TileSetSpy;
 
 public class LayerTest extends TestCase {
@@ -133,7 +134,7 @@ public class LayerTest extends TestCase {
         boolean invalidPosition;
 
         do {
-            direction = getRandomDirection();
+            direction = RandomGenerator.getRandomDirection();
             targetX = randomValidX;
             targetY = randomValidY;
 
@@ -165,23 +166,5 @@ public class LayerTest extends TestCase {
                 direction
             )
         );
-    }
-
-    private byte getRandomDirection() {
-        int randomNumber = random.nextInt(4);
-
-        if (randomNumber == 0) {
-            return Direction.UP;
-        }
-
-        if (randomNumber == 1) {
-            return Direction.RIGHT;
-        }
-
-        if (randomNumber == 2) {
-            return Direction.DOWN;
-        }
-
-        return Direction.LEFT;
     }
 }

@@ -5,7 +5,6 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.Direction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.LayerSpy;
 
@@ -68,13 +67,13 @@ public class MapTest extends TestCase {
         Assert.assertSame(layers, map.getLayers());
     }
 
-    public void testCanMoveToPositionWhenAllLayersAllMoveToPositionLoop() {
+    public void testCanMoveToPositionWhenAllLayersAllowMoveToPositionLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
-            checkCanMoveToPositionWhenAllLayersAllMoveToPosition();
+            checkCanMoveToPositionWhenAllLayersAllowMoveToPosition();
         }
     }
 
-    private void checkCanMoveToPositionWhenAllLayersAllMoveToPosition() {
+    private void checkCanMoveToPositionWhenAllLayersAllowMoveToPosition() {
         boolean canMoveToBackground = random.nextInt(2) == 1;
         boolean canMoveToObjects = random.nextInt(2) == 1;
         boolean canMove = canMoveToBackground && canMoveToObjects;
@@ -82,7 +81,7 @@ public class MapTest extends TestCase {
         int fromY = random.nextInt(100);
         int toX = random.nextInt(100);
         int toY = random.nextInt(100);
-        byte direction = Direction.LEFT;
+        byte direction = RandomGenerator.getRandomDirection();
 
         layerBackground.setCanMove(canMoveToBackground);
         layerObjects.setCanMove(canMoveToObjects);
