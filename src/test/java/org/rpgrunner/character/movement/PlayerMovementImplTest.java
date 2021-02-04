@@ -4,9 +4,10 @@ import javax.microedition.lcdui.game.GameCanvas;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
+
 import org.rpgrunner.Direction;
 import org.rpgrunner.j2me.character.movement.PlayerMovementImpl;
-import org.rpgrunner.test.mock.SimpleCharacter;
+import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class PlayerMovementImplTest extends TestCase {
     public void testExecuteWithoutPressedButton() {

@@ -1,4 +1,4 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;

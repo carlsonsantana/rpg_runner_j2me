@@ -8,9 +8,9 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.GameControllerSpy;
-import org.rpgrunner.test.mock.SimpleCharacter;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class TeleportTest extends TestCase {
     private final Random random;

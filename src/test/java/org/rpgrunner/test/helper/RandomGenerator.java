@@ -6,8 +6,8 @@ import java.util.Vector;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.test.mock.CharacterElementSpy;
-import org.rpgrunner.test.mock.CharacterSpy;
+import org.rpgrunner.test.mock.character.CharacterElementSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 
 public class RandomGenerator {
     private static final int STRING_SIZE = 8;

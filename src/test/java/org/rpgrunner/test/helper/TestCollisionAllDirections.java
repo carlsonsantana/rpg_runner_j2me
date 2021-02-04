@@ -8,8 +8,8 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.CharacterSpy;
 import org.rpgrunner.test.mock.MapSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 
 public abstract class TestCollisionAllDirections {
     private final CollisionDetector collisionDetector;

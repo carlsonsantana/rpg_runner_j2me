@@ -6,8 +6,8 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.RandomMovement;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.CollisionDetectorSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 
 public class CharacterElementTest extends TestCase {
     private CharacterElement characterElement;

@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.test.mock.SimpleCharacter;
+import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class RandomMovementTest extends TestCase {
     public void testCharacterCanMoveAllDirections() {

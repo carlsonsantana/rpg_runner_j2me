@@ -1,4 +1,4 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;

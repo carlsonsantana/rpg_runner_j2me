@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.helper.TestAllDirections;
-import org.rpgrunner.test.mock.CharacterElementSpy;
+import org.rpgrunner.test.mock.character.CharacterElementSpy;
 
 public class GameCharacterTest extends TestCase {
     private CharacterElementSpy characterElement;
