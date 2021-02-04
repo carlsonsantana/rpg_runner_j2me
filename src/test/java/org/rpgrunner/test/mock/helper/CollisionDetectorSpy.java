@@ -1,8 +1,8 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.helper;
 
-import org.rpgrunner.map.Map;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.map.Map;
 
 public class CollisionDetectorSpy extends CollisionDetector {
     private boolean canMoveValue;
