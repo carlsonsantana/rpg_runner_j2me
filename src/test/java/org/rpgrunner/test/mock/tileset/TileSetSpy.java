@@ -1,4 +1,4 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.tileset;
 
 import org.rpgrunner.tileset.TileSet;
 
