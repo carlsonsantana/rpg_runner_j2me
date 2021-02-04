@@ -6,7 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.LayerSpy;
+import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
     private static int TEST_REPEAT_LOOP = 100;

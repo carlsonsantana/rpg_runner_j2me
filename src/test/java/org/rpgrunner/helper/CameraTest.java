@@ -6,8 +6,8 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.map.Map;
-import org.rpgrunner.test.mock.MapSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CameraTest extends TestCase {
     private Random random;

@@ -1,15 +1,17 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.map;
 
 import org.rpgrunner.map.Layer;
-import org.rpgrunner.tileset.TileSet;
+import org.rpgrunner.map.Map;
 
-public class LayerSpy extends Layer {
+public class MapSpy extends Map {
+    private boolean canMove;
     private int width;
     private int height;
-    private boolean canMove;
 
-    public LayerSpy() {
+    public MapSpy() {
         super(null, null);
+        width = 0;
+        height = 0;
     }
 
     public void setWidth(final int newWidth) {
@@ -28,15 +30,11 @@ public class LayerSpy extends Layer {
         return height;
     }
 
-    public byte[][] getTileMap() {
+    public Layer[] getLayers() {
         return null;
     }
 
-    public TileSet getTileSet() {
-        return null;
-    }
-
-    public void setCanMove(final boolean newCanMove) {
+    public void setCanMoveTo(final boolean newCanMove) {
         canMove = newCanMove;
     }
 
