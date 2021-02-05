@@ -10,6 +10,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CameraTest extends TestCase {
+    private static int TEST_REPEAT_LOOP = 100;
     private Random random;
     private CharacterAnimationSpy characterAnimation;
 
@@ -22,7 +23,7 @@ public class CameraTest extends TestCase {
     }
 
     public void testReturnSameScreenWidthAndHeightLoop() {
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkReturnSameScreenWidthAndHeight();
         }
     }
@@ -55,7 +56,7 @@ public class CameraTest extends TestCase {
     }
 
     public void testCenterCameraOnceLoop() {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkCenterCameraOnce();
         }
     }
@@ -67,7 +68,7 @@ public class CameraTest extends TestCase {
     }
 
     public void testCenterCameraTwiceLoop() {
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkCenterCameraTwice();
         }
     }
@@ -126,12 +127,8 @@ public class CameraTest extends TestCase {
         int maxCameraPositionX = mapWidthPixels - screenWidth;
         int maxCameraPositionY = mapHeightPixels - screenHeight;
 
-        int randomCharacterPositionX = (
-            random.nextInt(mapWidthPixels)
-        );
-        int randomCharacterPositionY = (
-            random.nextInt(mapHeightPixels)
-        );
+        int randomCharacterPositionX = random.nextInt(mapWidthPixels);
+        int randomCharacterPositionY = random.nextInt(mapHeightPixels);
 
         characterAnimation.setScreenPosition(
             randomCharacterPositionX,
