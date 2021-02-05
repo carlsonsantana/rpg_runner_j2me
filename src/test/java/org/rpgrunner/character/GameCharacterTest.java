@@ -48,7 +48,7 @@ public class GameCharacterTest extends TestCase {
         );
     }
 
-    public void testMoveWhenAnimationIsCompleted() {
+    public void testMoveWhenAnimationIsCompletedLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkMoveWhenAnimationIsCompleted();
         }
@@ -77,7 +77,7 @@ public class GameCharacterTest extends TestCase {
         );
     }
 
-    public void testOnlyExecuteNewMoveWhenMoveIsFinished() {
+    public void testOnlyExecuteNewMoveWhenMoveIsFinishedLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkOnlyExecuteNewMoveWhenMoveIsFinished();
         }
@@ -123,7 +123,7 @@ public class GameCharacterTest extends TestCase {
         }
     }
 
-    public void testCancelMove() {
+    public void testCancelMoveLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkCancelMove();
         }
@@ -212,17 +212,21 @@ public class GameCharacterTest extends TestCase {
         Assert.assertTrue(characterElement.isOnMoveCalled());
     }
 
-    public void testSetMapPosition() {
+    public void testSetMapPositionLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
-            int mapPositionX = random.nextInt(1000);
-            int mapPositionY = random.nextInt(1000);
-
-            character.setMapPosition(mapPositionX, mapPositionY);
-
-            Assert.assertEquals(mapPositionX, character.getMapPositionX());
-            Assert.assertEquals(mapPositionY, character.getMapPositionY());
-            Assert.assertEquals(mapPositionX, character.getMapNextPositionX());
-            Assert.assertEquals(mapPositionY, character.getMapNextPositionY());
+            checkSetMapPosition();
         }
+    }
+
+    private void checkSetMapPosition() {
+        int mapPositionX = random.nextInt(1000);
+        int mapPositionY = random.nextInt(1000);
+
+        character.setMapPosition(mapPositionX, mapPositionY);
+
+        Assert.assertEquals(mapPositionX, character.getMapPositionX());
+        Assert.assertEquals(mapPositionY, character.getMapPositionY());
+        Assert.assertEquals(mapPositionX, character.getMapNextPositionX());
+        Assert.assertEquals(mapPositionY, character.getMapNextPositionY());
     }
 }
