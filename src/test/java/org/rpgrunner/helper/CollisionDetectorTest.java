@@ -21,15 +21,10 @@ public class CollisionDetectorTest extends TestCase {
     private CharacterSpy collisionCharacter;
 
     private abstract class TestCollisionAllDirections {
-        private final int additionalX;
-        private final int additionalY;
+        private final int additional;
 
-        public TestCollisionAllDirections(
-            final int additionalXTest,
-            final int additionalYTest
-        ) {
-            additionalX = additionalXTest;
-            additionalY = additionalYTest;
+        public TestCollisionAllDirections(final int additionalTest) {
+            additional = additionalTest;
         }
 
         public void test() {
@@ -43,8 +38,12 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterStopped() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = character.getMapPositionX() + additionalX;
-            int initialPositionY = character.getMapPositionY() + additionalY;
+            int initialPositionX = (
+                character.getMapPositionX() + getAdditionalXValue()
+            );
+            int initialPositionY = (
+                character.getMapPositionY() + getAdditionalYValue()
+            );
             collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
@@ -56,14 +55,10 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveUp() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = character.getMapPositionX() + additionalX;
-            int initialPositionY = calculateInitialPositionMoveAxis(
-                character.getDirection(),
-                Direction.UP,
-                character.getMapPositionY(),
-                additionalY,
-                1
+            int initialPositionX = (
+                character.getMapPositionX() + getAdditionalXValue()
             );
+            int initialPositionY = calculateInitialPositionY(Direction.UP, 1);
             collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
@@ -76,14 +71,13 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveRight() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = calculateInitialPositionMoveAxis(
-                character.getDirection(),
+            int initialPositionX = calculateInitialPositionX(
                 Direction.RIGHT,
-                character.getMapPositionX(),
-                additionalX,
                 -1
             );
-            int initialPositionY = character.getMapPositionY() + additionalY;
+            int initialPositionY = (
+                character.getMapPositionY() + getAdditionalYValue()
+            );
             collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
@@ -96,12 +90,11 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveDown() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = character.getMapPositionX() + additionalX;
-            int initialPositionY = calculateInitialPositionMoveAxis(
-                character.getDirection(),
+            int initialPositionX = (
+                character.getMapPositionX() + getAdditionalXValue()
+            );
+            int initialPositionY = calculateInitialPositionY(
                 Direction.DOWN,
-                character.getMapPositionY(),
-                additionalY,
                 -1
             );
             collisionCharacter.setInitialPosition(
@@ -116,14 +109,10 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveLeft() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = calculateInitialPositionMoveAxis(
-                character.getDirection(),
-                Direction.LEFT,
-                character.getMapPositionX(),
-                additionalX,
-                1
+            int initialPositionX = calculateInitialPositionX(Direction.LEFT, 1);
+            int initialPositionY = (
+                character.getMapPositionY() + getAdditionalYValue()
             );
-            int initialPositionY = character.getMapPositionY() + additionalY;
             collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
@@ -133,25 +122,77 @@ public class CollisionDetectorTest extends TestCase {
             testOperation();
         }
 
-        private int calculateInitialPositionMoveAxis(
-            final byte direction,
+        private int calculateInitialPositionX(
             final byte collisionCharacterDirection,
-            final int characterPosition,
-            final int additional,
             final int directionAdditional
         ) {
+            byte direction = character.getDirection();
             byte invertedDirection = Direction.invertDirection(direction);
+            int characterPosition = character.getMapPositionX();
 
             if (direction == collisionCharacterDirection) {
                 return (
                     characterPosition
-                    + (additional * 2)
+                    + (getAdditionalXValue() * 2)
                     + (directionAdditional * 2)
                 );
             } else if (invertedDirection == collisionCharacterDirection) {
-                return (characterPosition + (additional * 2));
+                return (characterPosition + (getAdditionalXValue() * 2));
             } else {
-                return (characterPosition + additional + directionAdditional);
+                return (
+                    characterPosition
+                    + getAdditionalXValue()
+                    + directionAdditional
+                );
+            }
+        }
+
+        private int getAdditionalXValue() {
+            switch (character.getDirection()) {
+                case Direction.RIGHT:
+                    return additional;
+                case Direction.LEFT:
+                    return -additional;
+                default:
+                    return 0;
+            }
+        }
+
+        private int calculateInitialPositionY(
+            final byte collisionCharacterDirection,
+            final int directionAdditional
+        ) {
+            byte direction = character.getDirection();
+            byte invertedDirection = Direction.invertDirection(direction);
+            int characterPosition = character.getMapPositionY();
+
+            if (direction == collisionCharacterDirection) {
+                return (
+                    characterPosition
+                    + (getAdditionalYValue() * 2)
+                    + (directionAdditional * 2)
+                );
+            }
+
+            if (invertedDirection == collisionCharacterDirection) {
+                return (characterPosition + (getAdditionalYValue() * 2));
+            }
+
+            return (
+                characterPosition
+                + getAdditionalYValue()
+                + directionAdditional
+            );
+        }
+
+        private int getAdditionalYValue() {
+            switch (character.getDirection()) {
+                case Direction.UP:
+                    return -additional;
+                case Direction.DOWN:
+                    return additional;
+                default:
+                    return 0;
             }
         }
 
@@ -221,8 +262,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveUpWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-        test = new TestCollisionAllDirections(0, -1) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(1) {
             public void moveCharacter() {
                 character.moveUp();
             }
@@ -241,7 +281,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveRightWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test = new TestCollisionAllDirections(1, 0) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(1) {
             public void moveCharacter() {
                 character.moveRight();
             }
@@ -260,7 +300,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveDownWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test = new TestCollisionAllDirections(0, 1) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(1) {
             public void moveCharacter() {
                 character.moveDown();
             }
@@ -279,9 +319,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveLeftWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(-1, 0) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(1) {
             public void moveCharacter() {
                 character.moveLeft();
             }
@@ -300,9 +338,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveUpWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(0, -2) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(2) {
             public void moveCharacter() {
                 character.moveUp();
             }
@@ -321,7 +357,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveRightWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test = new TestCollisionAllDirections(2, 0) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(2) {
             public void moveCharacter() {
                 character.moveRight();
             }
@@ -340,7 +376,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveDownWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test = new TestCollisionAllDirections(0, 2) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(2) {
             public void moveCharacter() {
                 character.moveDown();
             }
@@ -359,9 +395,7 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveLeftWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(-2, 0) {
+        TestCollisionAllDirections test = new TestCollisionAllDirections(2) {
             public void moveCharacter() {
                 character.moveLeft();
             }
