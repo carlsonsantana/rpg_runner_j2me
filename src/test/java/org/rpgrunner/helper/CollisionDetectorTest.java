@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -16,18 +15,19 @@ import org.rpgrunner.test.mock.map.MapSpy;
 public class CollisionDetectorTest extends TestCase {
     private static int TEST_REPEAT_LOOP = 100;
     private CollisionDetector collisionDetector;
+    private MapSpy map;
+    private Vector characterElements;
+    private CharacterSpy character;
+    private CharacterSpy collisionCharacter;
 
     private abstract class TestCollisionAllDirections {
-        private final CollisionDetector collisionDetector;
         private final int additionalX;
         private final int additionalY;
 
         public TestCollisionAllDirections(
-            final CollisionDetector collisionDetectorTest,
             final int additionalXTest,
             final int additionalYTest
         ) {
-            collisionDetector = collisionDetectorTest;
             additionalX = additionalXTest;
             additionalY = additionalYTest;
         }
@@ -41,25 +41,21 @@ public class CollisionDetectorTest extends TestCase {
         }
 
         private void testCollisionCharacterStopped() {
-            Vector characterElements = generateCommonScenario();
-            CharacterSpy character = getCharacterTest(characterElements);
-            moveCharacter(character);
+            generateNewScenario();
+            moveCharacter();
             int initialPositionX = character.getMapPositionX() + additionalX;
             int initialPositionY = character.getMapPositionY() + additionalY;
-            CharacterSpy collisionCharacter = getCollisionCharacter(
-                characterElements,
-                character,
+            collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
             );
 
-            testOperation(character);
+            testOperation();
         }
 
         private void testCollisionCharacterMoveUp() {
-            Vector characterElements = generateCommonScenario();
-            CharacterSpy character = getCharacterTest(characterElements);
-            moveCharacter(character);
+            generateNewScenario();
+            moveCharacter();
             int initialPositionX = character.getMapPositionX() + additionalX;
             int initialPositionY = calculateInitialPositionMoveAxis(
                 character.getDirection(),
@@ -68,21 +64,18 @@ public class CollisionDetectorTest extends TestCase {
                 additionalY,
                 1
             );
-            CharacterSpy collisionCharacter = getCollisionCharacter(
-                characterElements,
-                character,
+            collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
             );
 
             collisionCharacter.moveUp();
-            testOperation(character);
+            testOperation();
         }
 
         private void testCollisionCharacterMoveRight() {
-            Vector characterElements = generateCommonScenario();
-            CharacterSpy character = getCharacterTest(characterElements);
-            moveCharacter(character);
+            generateNewScenario();
+            moveCharacter();
             int initialPositionX = calculateInitialPositionMoveAxis(
                 character.getDirection(),
                 Direction.RIGHT,
@@ -91,21 +84,18 @@ public class CollisionDetectorTest extends TestCase {
                 -1
             );
             int initialPositionY = character.getMapPositionY() + additionalY;
-            CharacterSpy collisionCharacter = getCollisionCharacter(
-                characterElements,
-                character,
+            collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
             );
 
             collisionCharacter.moveRight();
-            testOperation(character);
+            testOperation();
         }
 
         private void testCollisionCharacterMoveDown() {
-            Vector characterElements = generateCommonScenario();
-            CharacterSpy character = getCharacterTest(characterElements);
-            moveCharacter(character);
+            generateNewScenario();
+            moveCharacter();
             int initialPositionX = character.getMapPositionX() + additionalX;
             int initialPositionY = calculateInitialPositionMoveAxis(
                 character.getDirection(),
@@ -114,21 +104,18 @@ public class CollisionDetectorTest extends TestCase {
                 additionalY,
                 -1
             );
-            CharacterSpy collisionCharacter = getCollisionCharacter(
-                characterElements,
-                character,
+            collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
             );
 
             collisionCharacter.moveDown();
-            testOperation(character);
+            testOperation();
         }
 
         private void testCollisionCharacterMoveLeft() {
-            Vector characterElements = generateCommonScenario();
-            CharacterSpy character = getCharacterTest(characterElements);
-            moveCharacter(character);
+            generateNewScenario();
+            moveCharacter();
             int initialPositionX = calculateInitialPositionMoveAxis(
                 character.getDirection(),
                 Direction.LEFT,
@@ -137,15 +124,13 @@ public class CollisionDetectorTest extends TestCase {
                 1
             );
             int initialPositionY = character.getMapPositionY() + additionalY;
-            CharacterSpy collisionCharacter = getCollisionCharacter(
-                characterElements,
-                character,
+            collisionCharacter.setInitialPosition(
                 initialPositionX,
                 initialPositionY
             );
 
             collisionCharacter.moveLeft();
-            testOperation(character);
+            testOperation();
         }
 
         private int calculateInitialPositionMoveAxis(
@@ -170,82 +155,61 @@ public class CollisionDetectorTest extends TestCase {
             }
         }
 
-        private Vector generateCommonScenario() {
-            MapSpy map = new MapSpy();
-            Vector characterElements = (
-                RandomGenerator.generateRandomCharacterElements()
-            );
-            collisionDetector.setMap(map);
-            collisionDetector.setCharacterElements(characterElements);
+        public abstract void moveCharacter();
 
-            map.setCanMoveTo(true);
-
-            return characterElements;
-        }
-
-        private CharacterSpy getCharacterTest(final Vector characterElements) {
-            CharacterElement characterElement = (
-                RandomGenerator.getRandomCharacterElement(characterElements)
-            );
-            CharacterSpy character =
-                (CharacterSpy) characterElement.getCharacter();
-
-            Random random = new Random();
-            int x = random.nextInt(100) + 3;
-            int y = random.nextInt(100) + 3;
-            character.setInitialPosition(x, y);
-
-            return character;
-        }
-
-        private CharacterSpy getCollisionCharacter(
-            final Vector characterElements,
-            final CharacterSpy character,
-            final int initialPositionX,
-            final int initialPositionY
-        ) {
-            CharacterSpy collisionCharacter;
-
-            do {
-                CharacterElement collisionCharacterElement = (
-                    RandomGenerator.getRandomCharacterElement(characterElements)
-                );
-                collisionCharacter = (
-                    (CharacterSpy) collisionCharacterElement.getCharacter()
-                );
-            } while (collisionCharacter == character);
-
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
-
-            return collisionCharacter;
-        }
-
-        public abstract void moveCharacter(GameCharacter characterTest);
-
-        public abstract void testOperation(GameCharacter characterTest);
+        public abstract void testOperation();
     }
 
     public void setUp() {
         collisionDetector = new CollisionDetector();
+        map = new MapSpy();
+        map.setCanMoveTo(true);
+        collisionDetector.setMap(map);
+        generateNewScenario();
     }
 
-    public void testCantMoveWhenExistsAMapCollision() {
-        MapSpy map = new MapSpy();
-        Vector characterElements = (
+    private void generateNewScenario() {
+        characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
-
-        collisionDetector.setMap(map);
         collisionDetector.setCharacterElements(characterElements);
+        character = getCharacterTest();
+        collisionCharacter = getCollisionCharacter();
+    }
 
-        map.setCanMoveTo(false);
+    private CharacterSpy getCharacterTest() {
         CharacterElement characterElement = (
             RandomGenerator.getRandomCharacterElement(characterElements)
         );
-        GameCharacter character = characterElement.getCharacter();
+        CharacterSpy newCharacter = (
+            (CharacterSpy) characterElement.getCharacter()
+        );
+
+        Random random = new Random();
+        int x = random.nextInt(100) + 3;
+        int y = random.nextInt(100) + 3;
+        newCharacter.setInitialPosition(x, y);
+
+        return newCharacter;
+    }
+
+    private CharacterSpy getCollisionCharacter() {
+        CharacterSpy newCollisionCharacter;
+
+        do {
+            CharacterElement collisionCharacterElement = (
+                RandomGenerator.getRandomCharacterElement(characterElements)
+            );
+            newCollisionCharacter = (
+                (CharacterSpy) collisionCharacterElement.getCharacter()
+            );
+        } while (newCollisionCharacter == character);
+
+        return newCollisionCharacter;
+    }
+
+    public void testCantMoveWhenExistsAMapCollision() {
+        map.setCanMoveTo(false);
 
         Assert.assertFalse(collisionDetector.canMove(character));
     }
@@ -258,13 +222,13 @@ public class CollisionDetectorTest extends TestCase {
 
     private void checkCantMoveUpWhenExistsACharacterCollision() {
         TestCollisionAllDirections test;
-        test = new TestCollisionAllDirections(collisionDetector, 0, -1) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveUp();
+        test = new TestCollisionAllDirections(0, -1) {
+            public void moveCharacter() {
+                character.moveUp();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertFalse(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertFalse(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -277,15 +241,13 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveRightWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(collisionDetector, 1, 0) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveRight();
+        TestCollisionAllDirections test = new TestCollisionAllDirections(1, 0) {
+            public void moveCharacter() {
+                character.moveRight();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertFalse(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertFalse(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -298,15 +260,13 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCantMoveDownWhenExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(collisionDetector, 0, 1) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveDown();
+        TestCollisionAllDirections test = new TestCollisionAllDirections(0, 1) {
+            public void moveCharacter() {
+                character.moveDown();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertFalse(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertFalse(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -321,13 +281,13 @@ public class CollisionDetectorTest extends TestCase {
     private void checkCantMoveLeftWhenExistsACharacterCollision() {
         TestCollisionAllDirections test;
 
-        test = new TestCollisionAllDirections(collisionDetector, -1, 0) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveLeft();
+        test = new TestCollisionAllDirections(-1, 0) {
+            public void moveCharacter() {
+                character.moveLeft();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertFalse(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertFalse(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -342,13 +302,13 @@ public class CollisionDetectorTest extends TestCase {
     private void checkCanMoveUpWhenNotExistsACharacterCollision() {
         TestCollisionAllDirections test;
 
-        test = new TestCollisionAllDirections(collisionDetector, 0, -2) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveUp();
+        test = new TestCollisionAllDirections(0, -2) {
+            public void moveCharacter() {
+                character.moveUp();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertTrue(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertTrue(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -361,15 +321,13 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveRightWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(collisionDetector, 2, 0) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveRight();
+        TestCollisionAllDirections test = new TestCollisionAllDirections(2, 0) {
+            public void moveCharacter() {
+                character.moveRight();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertTrue(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertTrue(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -382,15 +340,13 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     private void checkCanMoveDownWhenNotExistsACharacterCollision() {
-        TestCollisionAllDirections test;
-
-        test = new TestCollisionAllDirections(collisionDetector, 0, 2) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveDown();
+        TestCollisionAllDirections test = new TestCollisionAllDirections(0, 2) {
+            public void moveCharacter() {
+                character.moveDown();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertTrue(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertTrue(collisionDetector.canMove(character));
             }
         };
         test.test();
@@ -405,13 +361,13 @@ public class CollisionDetectorTest extends TestCase {
     private void checkCanMoveLeftWhenNotExistsACharacterCollision() {
         TestCollisionAllDirections test;
 
-        test = new TestCollisionAllDirections(collisionDetector, -2, 0) {
-            public void moveCharacter(final GameCharacter characterTest) {
-                characterTest.moveLeft();
+        test = new TestCollisionAllDirections(-2, 0) {
+            public void moveCharacter() {
+                character.moveLeft();
             }
 
-            public void testOperation(final GameCharacter characterTest) {
-                Assert.assertTrue(collisionDetector.canMove(characterTest));
+            public void testOperation() {
+                Assert.assertTrue(collisionDetector.canMove(character));
             }
         };
         test.test();
