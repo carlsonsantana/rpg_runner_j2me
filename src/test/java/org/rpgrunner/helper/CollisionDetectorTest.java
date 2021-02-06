@@ -14,6 +14,7 @@ import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CollisionDetectorTest extends TestCase {
     private static int TEST_REPEAT_LOOP = 100;
+    private static byte STOPPED_DIRECTION = (byte) 0;
     private CollisionDetector collisionDetector;
     private MapSpy map;
     private Vector characterElements;
@@ -38,16 +39,7 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterStopped() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = (
-                character.getMapPositionX() + getAdditionalXValue()
-            );
-            int initialPositionY = (
-                character.getMapPositionY() + getAdditionalYValue()
-            );
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
+            setInitialPosition(STOPPED_DIRECTION);
 
             testOperation();
         }
@@ -55,14 +47,7 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveUp() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = (
-                character.getMapPositionX() + getAdditionalXValue()
-            );
-            int initialPositionY = calculateInitialPositionY(Direction.UP, 1);
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
+            setInitialPosition(Direction.UP);
 
             collisionCharacter.moveUp();
             testOperation();
@@ -71,17 +56,7 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveRight() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = calculateInitialPositionX(
-                Direction.RIGHT,
-                -1
-            );
-            int initialPositionY = (
-                character.getMapPositionY() + getAdditionalYValue()
-            );
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
+            setInitialPosition(Direction.RIGHT);
 
             collisionCharacter.moveRight();
             testOperation();
@@ -90,17 +65,7 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveDown() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = (
-                character.getMapPositionX() + getAdditionalXValue()
-            );
-            int initialPositionY = calculateInitialPositionY(
-                Direction.DOWN,
-                -1
-            );
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
+            setInitialPosition(Direction.DOWN);
 
             collisionCharacter.moveDown();
             testOperation();
@@ -109,91 +74,102 @@ public class CollisionDetectorTest extends TestCase {
         private void testCollisionCharacterMoveLeft() {
             generateNewScenario();
             moveCharacter();
-            int initialPositionX = calculateInitialPositionX(Direction.LEFT, 1);
-            int initialPositionY = (
-                character.getMapPositionY() + getAdditionalYValue()
-            );
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
+            setInitialPosition(Direction.LEFT);
 
             collisionCharacter.moveLeft();
             testOperation();
         }
 
-        private int calculateInitialPositionX(
-            final byte collisionCharacterDirection,
-            final int directionAdditional
-        ) {
-            byte direction = character.getDirection();
-            byte invertedDirection = Direction.invertDirection(direction);
-            int characterPosition = character.getMapPositionX();
+        private void setInitialPosition(final byte direction) {
+            int additionalXValue = getAdditionalXValue();
+            int additionalXCollisionCharacterValue = (
+                getDirectionAdditionalX(direction)
+            );
+            int additionalYValue = getAdditionalYValue();
+            int additionalYCollisionCharacterValue = (
+                getDirectionAdditionalY(direction)
+            );
+            int initialPositionX = calculateInitialPosition(
+                direction,
+                character.getMapPositionX(),
+                additionalXValue,
+                additionalXCollisionCharacterValue
+            );
+            int initialPositionY = calculateInitialPosition(
+                direction,
+                character.getMapPositionY(),
+                additionalYValue,
+                additionalYCollisionCharacterValue
+            );
 
-            if (direction == collisionCharacterDirection) {
-                return (
-                    characterPosition
-                    + (getAdditionalXValue() * 2)
-                    + (directionAdditional * 2)
-                );
-            } else if (invertedDirection == collisionCharacterDirection) {
-                return (characterPosition + (getAdditionalXValue() * 2));
-            } else {
-                return (
-                    characterPosition
-                    + getAdditionalXValue()
-                    + directionAdditional
-                );
-            }
+            collisionCharacter.setInitialPosition(
+                initialPositionX,
+                initialPositionY
+            );
         }
 
         private int getAdditionalXValue() {
-            switch (character.getDirection()) {
+            return (
+                additional
+                * getDirectionAdditionalX(character.getDirection())
+            );
+        }
+
+        private int getDirectionAdditionalX(final byte direction) {
+            switch (direction) {
                 case Direction.RIGHT:
-                    return additional;
+                    return 1;
                 case Direction.LEFT:
-                    return -additional;
+                    return -1;
                 default:
                     return 0;
             }
         }
 
-        private int calculateInitialPositionY(
+        private int getAdditionalYValue() {
+            return (
+                additional
+                * getDirectionAdditionalY(character.getDirection())
+            );
+        }
+
+        private int getDirectionAdditionalY(final byte direction) {
+            switch (direction) {
+                case Direction.DOWN:
+                    return 1;
+                case Direction.UP:
+                    return -1;
+                default:
+                    return 0;
+            }
+        }
+
+        private int calculateInitialPosition(
             final byte collisionCharacterDirection,
-            final int directionAdditional
+            final int characterPosition,
+            final int additionalValue,
+            final int additionalCollisionCharacterValue
         ) {
             byte direction = character.getDirection();
             byte invertedDirection = Direction.invertDirection(direction);
-            int characterPosition = character.getMapPositionY();
 
             if (direction == collisionCharacterDirection) {
                 return (
                     characterPosition
-                    + (getAdditionalYValue() * 2)
-                    + (directionAdditional * 2)
+                    + (additionalValue * 2)
+                    - (additionalCollisionCharacterValue * 2)
                 );
             }
 
             if (invertedDirection == collisionCharacterDirection) {
-                return (characterPosition + (getAdditionalYValue() * 2));
+                return (characterPosition + (additionalValue * 2));
             }
 
             return (
                 characterPosition
-                + getAdditionalYValue()
-                + directionAdditional
+                + additionalValue
+                - additionalCollisionCharacterValue
             );
-        }
-
-        private int getAdditionalYValue() {
-            switch (character.getDirection()) {
-                case Direction.UP:
-                    return -additional;
-                case Direction.DOWN:
-                    return additional;
-                default:
-                    return 0;
-            }
         }
 
         public abstract void moveCharacter();
