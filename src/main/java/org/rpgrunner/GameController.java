@@ -10,7 +10,7 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
-import org.rpgrunner.character.movement.RandomMovement;
+import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.graphics.GraphicsRender;
@@ -48,7 +48,9 @@ public class GameController {
         generatePlayerCharacterElement("character");
         Teleport teleport = new Teleport(this, "map", 1, 1);
         teleport.execute();
-        setCharacters();
+        generateNPCCharacters();
+        collisionDetector.setCharacterElements(characterElements);
+        graphicsRender.setCharacterElements(characterElements);
     }
 
     public void setMap(final Map newMap) {
@@ -63,25 +65,14 @@ public class GameController {
         return map;
     }
 
-    private void setCharacters() {
-        CharacterElement characterElement = generateNPCCharacterElement(
-            "character"
+    private void generateNPCCharacters() {
+        CharacterCreator characterCreator = new CharacterCreator(
+            this,
+            "character",
+            0,
+            0
         );
-
-        characterElements.addElement(playerCharacterElement);
-        characterElements.addElement(characterElement);
-
-        collisionDetector.setCharacterElements(characterElements);
-        graphicsRender.setCharacterElements(characterElements);
-    }
-
-    private CharacterElement generateNPCCharacterElement(
-        final String baseName
-    ) {
-        GameCharacter character = new GameCharacter(baseName);
-        RandomMovement movementCommand = new RandomMovement(character);
-
-        return generateCharacterElement(character, movementCommand);
+        characterCreator.execute();
     }
 
     private void generatePlayerCharacterElement(final String baseName) {
@@ -174,6 +165,7 @@ public class GameController {
         playerMovement = (
             (PlayerMovement) playerCharacterElement.getMovementCommand()
         );
+        addCharacterElement(newPlayerCharacterElement);
         camera.setCharacterAnimation(
             playerCharacterElement.getCharacterAnimation()
         );
