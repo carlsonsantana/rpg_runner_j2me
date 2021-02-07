@@ -178,4 +178,8 @@ public class GameController {
             playerCharacterElement.getCharacterAnimation()
         );
     }
+
+    public void addCharacterElement(final CharacterElement characterElement) {
+        characterElements.addElement(characterElement);
+    }
 }

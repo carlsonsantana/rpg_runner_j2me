@@ -13,6 +13,7 @@ public class GameControllerSpy extends GameController {
     private Map map;
     private int countMapChanged;
     private CharacterElement playerCharacterElement;
+    private CharacterElement lastCharacterElementAdded;
 
     public GameControllerSpy() {
         super(null, null, null, null);
@@ -53,5 +54,13 @@ public class GameControllerSpy extends GameController {
 
     public CollisionDetector getCollisionDetector() {
         return new CollisionDetector();
+    }
+
+    public void addCharacterElement(final CharacterElement characterElement) {
+        lastCharacterElementAdded = characterElement;
+    }
+
+    public CharacterElement getLastCharacterElementAdded() {
+        return lastCharacterElementAdded;
     }
 }

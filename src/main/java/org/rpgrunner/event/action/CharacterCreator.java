@@ -4,12 +4,12 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.character.movement.RandomMovement;
 
-public class PlayerCharacterCreator extends AbstractCharacterCreator {
+public class CharacterCreator extends AbstractCharacterCreator {
     private final GameController gameController;
 
-    public PlayerCharacterCreator(
+    public CharacterCreator(
         final GameController currentGameController,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
@@ -25,16 +25,12 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
     }
 
     public void displayCharacter(final CharacterElement characterElement) {
-        gameController.setPlayerCharacterElement(characterElement);
+        gameController.addCharacterElement(characterElement);
     }
 
     public MovementCommand createMovementCommand(
         final GameCharacter character
     ) {
-        PlayerMovementFactory playerMovementFactory = (
-            gameController.getPlayerMovementFactory()
-        );
-
-        return playerMovementFactory.createPlayerMovement(character);
+        return new RandomMovement(character);
     }
 }
