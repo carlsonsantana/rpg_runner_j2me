@@ -44,7 +44,7 @@ public final class MapLoader {
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers);
+        return new Map(fileBaseName, layers, null);
     }
 
     private static Layer extractLayer(

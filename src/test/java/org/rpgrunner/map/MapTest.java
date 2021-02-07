@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.test.helper.RandomGenerator;
+import org.rpgrunner.test.mock.event.action.ActionListSpy;
 import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
@@ -16,6 +17,7 @@ public class MapTest extends TestCase {
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
+    private ActionListSpy actionList;
 
     public MapTest() {
         random = new Random();
@@ -24,9 +26,10 @@ public class MapTest extends TestCase {
     public void setUp() {
         layerBackground = new LayerSpy();
         layerObjects = new LayerSpy();
-        layers = new Layer[] {layerBackground, layerObjects};
         mapFileBaseName = RandomGenerator.getRandomString();
-        map = new Map(mapFileBaseName, layers);
+        layers = new Layer[] {layerBackground, layerObjects};
+        actionList = new ActionListSpy();
+        map = new Map(mapFileBaseName, layers, actionList);
     }
 
     public void testReturnSameMapFileBaseName() {
@@ -90,5 +93,11 @@ public class MapTest extends TestCase {
             canMove,
             map.canMoveTo(fromX, fromY, toX, toY, direction)
         );
+    }
+
+    public void testExecuteStartActionList() {
+        map.executeStartActions();
+
+        Assert.assertTrue(actionList.isExecuteCalled());
     }
 }

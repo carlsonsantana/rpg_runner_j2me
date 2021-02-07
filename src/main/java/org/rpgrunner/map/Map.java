@@ -1,12 +1,20 @@
 package org.rpgrunner.map;
 
+import org.rpgrunner.event.action.ActionList;
+
 public class Map {
     private final String fileBaseName;
     private final Layer[] layers;
+    private final ActionList startActionList;
 
-    public Map(final String mapFileBaseName, final Layer[] mapLayers) {
+    public Map(
+        final String mapFileBaseName,
+        final Layer[] mapLayers,
+        final ActionList mapStartActionList
+    ) {
         fileBaseName = mapFileBaseName;
         layers = mapLayers;
+        startActionList = mapStartActionList;
     }
 
     public String getFileBaseName() {
@@ -39,5 +47,9 @@ public class Map {
         }
 
         return true;
+    }
+
+    public void executeStartActions() {
+        startActionList.execute();
     }
 }
