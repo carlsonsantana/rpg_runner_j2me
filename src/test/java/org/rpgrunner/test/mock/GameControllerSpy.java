@@ -6,6 +6,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
@@ -62,5 +63,9 @@ public class GameControllerSpy extends GameController {
 
     public CharacterElement getLastCharacterElementAdded() {
         return lastCharacterElementAdded;
+    }
+
+    public MapLoader getMapLoader() {
+        return new MapLoader();
     }
 }

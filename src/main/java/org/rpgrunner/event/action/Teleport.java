@@ -26,10 +26,11 @@ public class Teleport implements Action {
     }
 
     private void loadMap() {
+        MapLoader mapLoader = gameController.getMapLoader();
         Map map;
 
         if (isOtherMap()) {
-            map = MapLoader.loadMap(mapName);
+            map = mapLoader.loadMap(mapName);
         } else {
             map = gameController.getMap();
         }

@@ -10,9 +10,7 @@ public final class MapLoader {
     private static final String MAPS_DIRECTORY = "/maps/";
     private static final String MAPS_EXTENSION = ".map";
 
-    private MapLoader() { }
-
-    public static Map loadMap(final String fileBaseName) {
+    public Map loadMap(final String fileBaseName) {
         InputStream mapInputStream = loadFile(fileBaseName);
 
         try {
@@ -22,13 +20,13 @@ public final class MapLoader {
         }
     }
 
-    private static InputStream loadFile(final String fileBaseName) {
+    private InputStream loadFile(final String fileBaseName) {
         String filePath = MAPS_DIRECTORY + fileBaseName + MAPS_EXTENSION;
 
         return MapLoader.class.getResourceAsStream(filePath);
     }
 
-    private static Map extractMap(
+    private Map extractMap(
         final String fileBaseName,
         final InputStream mapInputStream
     ) throws IOException {
@@ -47,7 +45,7 @@ public final class MapLoader {
         return new Map(fileBaseName, layers, null);
     }
 
-    private static Layer extractLayer(
+    private Layer extractLayer(
         final InputStream mapInputStream,
         final int width,
         final int height
@@ -60,7 +58,7 @@ public final class MapLoader {
         return new Layer(tileSet, tileMap);
     }
 
-    private static String extractFileName(
+    private String extractFileName(
         final InputStream mapInputStream
     ) throws IOException {
         int lengthString = mapInputStream.read();
@@ -70,7 +68,7 @@ public final class MapLoader {
         return new String(stringBytes);
     }
 
-    private static byte[][] extractTileMap(
+    private byte[][] extractTileMap(
         final InputStream mapInputStream,
         final int width,
         final int height
