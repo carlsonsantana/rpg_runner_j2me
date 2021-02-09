@@ -6,9 +6,9 @@ import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.helper.Camera;
-import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
+import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
@@ -71,15 +71,33 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     private void executeGame() {
         while (isRunning()) {
-            gameController.executeCharacterActions();
-            gameController.render();
-
-            repaint();
-            flushGraphics();
-            try {
-                Thread.sleep(FRAMES_PER_SECOND);
-            } catch (InterruptedException ie) { }
+            executeFrame();
         }
+    }
+
+    private void executeFrame() {
+        long startFrameTime = System.currentTimeMillis();
+        gameController.executeCharacterActions();
+        renderFrame();
+        waitUntilEndTimeFrame(startFrameTime);
+    }
+
+    private void renderFrame() {
+        gameController.render();
+        repaint();
+        flushGraphics();
+    }
+
+    private void waitUntilEndTimeFrame(final long startFrameTime) {
+        try {
+            long currentTime = System.currentTimeMillis();
+            long diffTime = currentTime - startFrameTime;
+            long sleepTime = FRAMES_PER_SECOND - diffTime;
+
+            if (sleepTime > 0) {
+                Thread.sleep(sleepTime);
+            }
+        } catch (InterruptedException ie) { }
     }
 
     private boolean isRunning() {
