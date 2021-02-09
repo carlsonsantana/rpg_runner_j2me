@@ -13,8 +13,8 @@ import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CollisionDetectorTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
-    private static byte STOPPED_DIRECTION = (byte) 0;
+    private static final int TEST_REPEAT_LOOP = 100;
+    private static final byte STOPPED_DIRECTION = (byte) 0;
     private CollisionDetector collisionDetector;
     private MapSpy map;
     private Vector characterElements;

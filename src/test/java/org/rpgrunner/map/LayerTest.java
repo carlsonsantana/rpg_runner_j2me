@@ -10,8 +10,8 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.tileset.TileSetSpy;
 
 public class LayerTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
-    private static int TILE_SET_RESULTS_SIZE = 2 * TEST_REPEAT_LOOP;
+    private static final int TEST_REPEAT_LOOP = 100;
+    private static final int TILE_SET_RESULTS_SIZE = 2 * TEST_REPEAT_LOOP;
     private Random random;
     private byte[][] tileMap;
     private boolean[] tileSetResults;
@@ -122,7 +122,7 @@ public class LayerTest extends TestCase {
     }
 
     private void checkMoveToValidPositionsWithoutCollisions(
-        boolean expectedValue
+        final boolean expectedValue
     ) {
         int maxX = layer.getWidth();
         int maxY = layer.getHeight();

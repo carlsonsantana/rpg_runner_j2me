@@ -45,7 +45,7 @@ public class RandomGenerator {
     }
 
     public static CharacterElement getRandomCharacterElement(
-        Vector characterElements
+        final Vector characterElements
     ) {
         Random random = new Random();
         int index = random.nextInt(characterElements.size());

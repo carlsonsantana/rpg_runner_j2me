@@ -119,7 +119,7 @@ public class PlayerMovementImplTest extends TestCase {
         Assert.assertEquals(direction, character.getDirection());
     }
 
-    private int getKeyDirection(byte direction) {
+    private int getKeyDirection(final byte direction) {
         if (Direction.isUp(direction)) {
             return GameCanvas.UP;
         } else if (Direction.isRight(direction)) {

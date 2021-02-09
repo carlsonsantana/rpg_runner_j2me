@@ -10,7 +10,7 @@ import org.rpgrunner.test.mock.event.action.ActionListSpy;
 import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
+    private static final int TEST_REPEAT_LOOP = 100;
     private Random random;
     private Map map;
     private String mapFileBaseName;

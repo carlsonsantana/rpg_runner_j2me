@@ -10,7 +10,7 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 
 public class GameCharacterTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
+    private static final int TEST_REPEAT_LOOP = 100;
     private CharacterElementSpy characterElement;
     private GameCharacter character;
     private String characterBaseName;

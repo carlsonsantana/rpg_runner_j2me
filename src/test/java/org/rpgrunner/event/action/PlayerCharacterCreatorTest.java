@@ -13,7 +13,7 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 
 public class PlayerCharacterCreatorTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
+    private static final int TEST_REPEAT_LOOP = 100;
     private Random random;
 
     public PlayerCharacterCreatorTest() {

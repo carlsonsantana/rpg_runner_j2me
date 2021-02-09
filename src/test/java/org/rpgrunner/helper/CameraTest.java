@@ -10,7 +10,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CameraTest extends TestCase {
-    private static int TEST_REPEAT_LOOP = 100;
+    private static final int TEST_REPEAT_LOOP = 100;
     private Random random;
     private CharacterAnimationSpy characterAnimation;
 
