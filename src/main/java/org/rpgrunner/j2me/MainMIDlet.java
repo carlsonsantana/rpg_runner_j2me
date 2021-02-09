@@ -17,7 +17,6 @@ public class MainMIDlet extends MIDlet {
         Display display = Display.getDisplay(this);
         display.setCurrent(gameRunner);
         gameRunner.start();
-        midletCommands.setCommands();
     }
 
     protected void pauseApp() { }
@@ -25,6 +24,7 @@ public class MainMIDlet extends MIDlet {
     protected void destroyApp(
         final boolean unconditional
     ) throws MIDletStateChangeException {
+        gameRunner.destroy();
         notifyDestroyed();
     }
 }

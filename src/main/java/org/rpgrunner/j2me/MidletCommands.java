@@ -5,33 +5,26 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.midlet.MIDlet;
 
-public class MidletCommands {
+public class MidletCommands implements CommandListener {
     private final MIDlet midlet;
-    private final GameRunner gameRunner;
+    private final Command exitCommand;
 
     public MidletCommands(
         final MIDlet gameMidlet,
-        final GameRunner game
+        final GameRunner gameRunner
     ) {
-        this.midlet = gameMidlet;
-        this.gameRunner = game;
+        midlet = gameMidlet;
+        exitCommand = new Command("Exit", Command.EXIT, 0);
+        gameRunner.addCommand(exitCommand);
+        gameRunner.setCommandListener(this);
     }
 
-    public void setCommands() {
-        Command exit = new Command("Exit", Command.EXIT, 0);
-        gameRunner.addCommand(exit);
-        CommandListener exitCommand = new CommandListener() {
-            public void commandAction(
-                final Command command,
-                final Displayable displayable
-            ) {
-                if (command.getCommandType() == Command.EXIT) {
-                    GameRunner game = (GameRunner) displayable;
-                    game.destroy();
-                    midlet.notifyDestroyed();
-                }
-            }
-        };
-        gameRunner.setCommandListener(exitCommand);
+    public void commandAction(
+        final Command command,
+        final Displayable displayable
+    ) {
+        if (command == exitCommand) {
+            midlet.notifyDestroyed();
+        }
     }
 }
