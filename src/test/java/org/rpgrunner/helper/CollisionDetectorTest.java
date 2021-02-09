@@ -15,6 +15,8 @@ import org.rpgrunner.test.mock.map.MapSpy;
 public class CollisionDetectorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final byte STOPPED_DIRECTION = (byte) 0;
+    private static final int MINIMUM_POSITION = 3;
+    private static final int MAXIMUM_POSITION = 100;
     private CollisionDetector collisionDetector;
     private MapSpy map;
     private Vector characterElements;
@@ -203,8 +205,8 @@ public class CollisionDetectorTest extends TestCase {
         );
 
         Random random = new Random();
-        int x = random.nextInt(100) + 3;
-        int y = random.nextInt(100) + 3;
+        int x = random.nextInt(MAXIMUM_POSITION) + MINIMUM_POSITION;
+        int y = random.nextInt(MAXIMUM_POSITION) + MINIMUM_POSITION;
         newCharacter.setInitialPosition(x, y);
 
         return newCharacter;

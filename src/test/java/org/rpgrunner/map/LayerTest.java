@@ -12,6 +12,11 @@ import org.rpgrunner.test.mock.tileset.TileSetSpy;
 public class LayerTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final int TILE_SET_RESULTS_SIZE = 2 * TEST_REPEAT_LOOP;
+    private static final int MINIMUM_LAYER_WIDTH = 2;
+    private static final int MINIMUM_LAYER_HEIGHT = 2;
+    private static final int MAXIMUM_LAYER_WIDTH = 100;
+    private static final int MAXIMUM_LAYER_HEIGHT = 100;
+    private static final int MAXIMUM_TILE_VALUE = 256;
     private Random random;
     private byte[][] tileMap;
     private boolean[] tileSetResults;
@@ -40,13 +45,16 @@ public class LayerTest extends TestCase {
     }
 
     private byte[][] generateRandomTileMap() {
-        int height = random.nextInt(100) + 2;
-        int width = random.nextInt(100) + 2;
+        int height = (
+            random.nextInt(MAXIMUM_LAYER_HEIGHT)
+            + MINIMUM_LAYER_HEIGHT
+        );
+        int width = random.nextInt(MAXIMUM_LAYER_WIDTH) + MINIMUM_LAYER_WIDTH;
         byte[][] newTileMap = new byte[height][width];
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                newTileMap[y][x] = (byte) random.nextInt(256);
+                newTileMap[y][x] = (byte) random.nextInt(MAXIMUM_TILE_VALUE);
             }
         }
 

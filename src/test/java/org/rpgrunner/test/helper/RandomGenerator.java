@@ -13,6 +13,8 @@ public class RandomGenerator {
     private static final int STRING_SIZE = 8;
     private static final int CHAR_INTERVAL_PRINTABLE_CHARACTERS = 94;
     private static final int CHAR_START_PRINTABLE_CHARACTERS = 32;
+    private static final int MINIMUM_NUMBER_CHARACTERS = 3;
+    private static final int MAXIMUM_NUMBER_CHARACTERS = 100;
     private static final Random RANDOM = new Random();
 
     private RandomGenerator() { }
@@ -32,7 +34,10 @@ public class RandomGenerator {
     }
 
     private static CharacterSpy[] generateRandomCharacters() {
-        int numberCharacters = RANDOM.nextInt(100) + 3;
+        int numberCharacters = (
+            RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
+            + MINIMUM_NUMBER_CHARACTERS
+        );
         CharacterSpy[] characters = new CharacterSpy[numberCharacters];
 
         for (int i = 0; i < numberCharacters; i++) {
@@ -78,7 +83,7 @@ public class RandomGenerator {
     }
 
     public static byte getRandomDirection() {
-        int randomNumber = RANDOM.nextInt(4);
+        int randomNumber = RANDOM.nextInt(Direction.NUMBER_DIRECTIONS);
 
         if (randomNumber == 0) {
             return Direction.UP;

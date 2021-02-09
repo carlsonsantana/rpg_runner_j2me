@@ -11,6 +11,7 @@ import org.rpgrunner.test.mock.character.CharacterElementSpy;
 
 public class GameCharacterTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MAXIMUM_RANDOM_POSITION = 1000;
     private CharacterElementSpy characterElement;
     private GameCharacter character;
     private String characterBaseName;
@@ -219,8 +220,8 @@ public class GameCharacterTest extends TestCase {
     }
 
     private void checkSetMapPosition() {
-        int mapPositionX = random.nextInt(1000);
-        int mapPositionY = random.nextInt(1000);
+        int mapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        int mapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
 
         character.setMapPosition(mapPositionX, mapPositionY);
 

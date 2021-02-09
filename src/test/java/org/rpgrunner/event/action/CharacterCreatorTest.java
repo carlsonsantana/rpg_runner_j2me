@@ -12,6 +12,8 @@ import org.rpgrunner.test.mock.GameControllerSpy;
 
 public class CharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MINIMUM_INITIAL_POSITION = 2;
+    private static final int MAXIMUM_INITIAL_POSITION = 100;
     private final Random random;
 
     public CharacterCreatorTest() {
@@ -27,8 +29,14 @@ public class CharacterCreatorTest extends TestCase {
     private void checkCreateCharacter() {
         GameControllerSpy gameController = new GameControllerSpy();
         String randomFileBaseName = RandomGenerator.getRandomString();
-        int initialMapPositionX = random.nextInt(100) + 2;
-        int initialMapPositionY = random.nextInt(100) + 2;
+        int initialMapPositionX = (
+            random.nextInt(MAXIMUM_INITIAL_POSITION)
+            + MINIMUM_INITIAL_POSITION
+        );
+        int initialMapPositionY = (
+            random.nextInt(MAXIMUM_INITIAL_POSITION)
+            + MINIMUM_INITIAL_POSITION
+        );
         CharacterCreator characterCreator = new CharacterCreator(
             gameController,
             randomFileBaseName,

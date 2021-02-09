@@ -11,6 +11,7 @@ import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class LocalTeleportTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MAXIMUM_RANDOM_POSITION = 1000;
     private Random random;
     private SimpleCharacter character;
     private CharacterAnimationSpy characterAnimation;
@@ -38,8 +39,8 @@ public class LocalTeleportTest extends TestCase {
     }
 
     private void checkChangeCharacterPosition() {
-        int mapPositionX = random.nextInt(1000);
-        int mapPositionY = random.nextInt(1000);
+        int mapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        int mapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
         LocalTeleport localTeleport = new LocalTeleport(
             mapPositionX,
             mapPositionY

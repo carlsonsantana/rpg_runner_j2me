@@ -11,6 +11,16 @@ import org.rpgrunner.test.mock.map.MapSpy;
 
 public class CameraTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MINIMUM_SCREEN_WIDTH = 10;
+    private static final int MINIMUM_SCREEN_HEIGHT = 10;
+    private static final int MAXIMUM_SCREEN_WIDTH = 10;
+    private static final int MAXIMUM_SCREEN_HEIGHT = 10;
+    private static final int MINIMUM_MAP_WIDTH = 20;
+    private static final int MINIMUM_MAP_HEIGHT = 20;
+    private static final int MAXIMUM_MAP_WIDTH = 100;
+    private static final int MAXIMUM_MAP_HEIGHT = 100;
+    private static final int TILE_SIZE = 16;
+    private static final int TILE_MIDDLE = TILE_SIZE / 2;
     private Random random;
     private CharacterAnimationSpy characterAnimation;
 
@@ -29,8 +39,8 @@ public class CameraTest extends TestCase {
     }
 
     private void checkReturnSameScreenWidthAndHeight() {
-        int randomWidth = random.nextInt(100);
-        int randomHeight = random.nextInt(100);
+        int randomWidth = random.nextInt(MAXIMUM_SCREEN_WIDTH);
+        int randomHeight = random.nextInt(MAXIMUM_SCREEN_HEIGHT);
         Camera camera = new Camera(randomWidth, randomHeight);
         Assert.assertEquals(randomWidth, camera.getScreenWidth());
         Assert.assertEquals(randomHeight, camera.getScreenHeight());
@@ -82,8 +92,14 @@ public class CameraTest extends TestCase {
 
     private Map generateMap() {
         MapSpy newMap = new MapSpy();
-        int randomMapWidth = random.nextInt(100) + 20;
-        int randomMapHeight = random.nextInt(100) + 20;
+        int randomMapWidth = (
+            random.nextInt(MAXIMUM_MAP_WIDTH)
+            + MINIMUM_MAP_WIDTH
+        );
+        int randomMapHeight = (
+            random.nextInt(MAXIMUM_MAP_HEIGHT)
+            + MINIMUM_MAP_HEIGHT
+        );
 
         newMap.setWidth(randomMapWidth);
         newMap.setHeight(randomMapHeight);
@@ -92,8 +108,14 @@ public class CameraTest extends TestCase {
     }
 
     private Camera generateCamera(final Map newMap) {
-        int randomScreenWidth = (random.nextInt(10) + 2) * 16;
-        int randomScreenHeight = (random.nextInt(10) + 2) * 16;
+        int randomScreenWidth = (
+            (random.nextInt(MAXIMUM_SCREEN_WIDTH) + MINIMUM_SCREEN_WIDTH)
+            * TILE_SIZE
+        );
+        int randomScreenHeight = (
+            (random.nextInt(MAXIMUM_SCREEN_HEIGHT) + MINIMUM_SCREEN_HEIGHT)
+            * TILE_SIZE
+        );
 
         Camera camera = new Camera(randomScreenWidth, randomScreenHeight);
         camera.setMap(newMap);
@@ -106,8 +128,8 @@ public class CameraTest extends TestCase {
         final Camera camera,
         final Map newMap
     ) {
-        int mapWidthPixels = newMap.getWidth() * 16;
-        int mapHeightPixels = newMap.getHeight() * 16;
+        int mapWidthPixels = newMap.getWidth() * TILE_SIZE;
+        int mapHeightPixels = newMap.getHeight() * TILE_SIZE;
         int randomCharacterPositionX = random.nextInt(mapWidthPixels);
         int randomCharacterPositionY = random.nextInt(mapHeightPixels);
         characterAnimation.setScreenPosition(
@@ -118,8 +140,8 @@ public class CameraTest extends TestCase {
     }
 
     private void checkCenterCamera(final Camera camera, final Map newMap) {
-        int mapWidthPixels = newMap.getWidth() * 16;
-        int mapHeightPixels = newMap.getHeight() * 16;
+        int mapWidthPixels = newMap.getWidth() * TILE_SIZE;
+        int mapHeightPixels = newMap.getHeight() * TILE_SIZE;
         int screenWidth = camera.getScreenWidth();
         int screenHeight = camera.getScreenHeight();
         int middleScreenWidth = screenWidth / 2;
@@ -137,7 +159,10 @@ public class CameraTest extends TestCase {
         camera.centerCamera();
 
         int characterScreenPositionX = Math.min(
-            Math.max(randomCharacterPositionX - middleScreenWidth + 8, 0),
+            Math.max(
+                randomCharacterPositionX - middleScreenWidth + TILE_MIDDLE,
+                0
+            ),
             maxCameraPositionX
         );
         int characterScreenPositionY = Math.min(

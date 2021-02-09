@@ -13,6 +13,11 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class TeleportTest extends TestCase {
+    private static final int MAXIMUM_RANDOM_POSITION = 100;
+    private static final int EXAMPLE_MAP_WIDTH = 32;
+    private static final int EXAMPLE_MAP_HEIGHT = 32;
+    private static final int ANOTHER_MAP_WIDTH = 16;
+    private static final int ANOTHER_MAP_HEIGHT = 16;
     private final Random random;
     private CharacterElement characterElement;
     private GameCharacter character;
@@ -36,8 +41,8 @@ public class TeleportTest extends TestCase {
         );
         gameController = new GameControllerSpy();
         gameController.setPlayerCharacterElement(characterElement);
-        mapPositionX = random.nextInt(100);
-        mapPositionY = random.nextInt(100);
+        mapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        mapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
         teleport = new Teleport(
             gameController,
             "example",
@@ -47,12 +52,18 @@ public class TeleportTest extends TestCase {
     }
 
     public void testChangeMap() {
-        testTeleport(teleport, 32, 32, mapPositionX, mapPositionY);
+        testTeleport(
+            teleport,
+            EXAMPLE_MAP_WIDTH,
+            EXAMPLE_MAP_HEIGHT,
+            mapPositionX,
+            mapPositionY
+        );
     }
 
     public void testChangeMapTwice() {
-        int nextMapPositionX = random.nextInt(100);
-        int nextMapPositionY = random.nextInt(100);
+        int nextMapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        int nextMapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
         Teleport teleportAnotherMap = new Teleport(
             gameController,
             "another",
@@ -64,8 +75,8 @@ public class TeleportTest extends TestCase {
 
         testTeleport(
             teleportAnotherMap,
-            16,
-            16,
+            ANOTHER_MAP_WIDTH,
+            ANOTHER_MAP_HEIGHT,
             nextMapPositionX,
             nextMapPositionY
         );
@@ -73,8 +84,8 @@ public class TeleportTest extends TestCase {
     }
 
     public void testChangeTeleportSameMap() {
-        int nextMapPositionX = random.nextInt(100);
-        int nextMapPositionY = random.nextInt(100);
+        int nextMapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        int nextMapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
         Teleport teleportSameMap = new Teleport(
             gameController,
             "example",
@@ -86,8 +97,8 @@ public class TeleportTest extends TestCase {
 
         testTeleport(
             teleportSameMap,
-            32,
-            32,
+            EXAMPLE_MAP_WIDTH,
+            EXAMPLE_MAP_HEIGHT,
             nextMapPositionX,
             nextMapPositionY
         );

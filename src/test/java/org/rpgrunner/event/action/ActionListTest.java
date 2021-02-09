@@ -8,6 +8,8 @@ import junit.framework.TestCase;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class ActionListTest extends TestCase {
+    private static final int MINIMUM_NUMBER_ACTIONS = 2;
+    private static final int MAXIMUM_NUMBER_ACTIONS = 100;
     private Random random;
 
     public ActionListTest() {
@@ -40,7 +42,10 @@ public class ActionListTest extends TestCase {
 
     public void testExecuteActionListWithManyActions() {
         ActionSpy.clearCallOrder();
-        int numberOfActions = random.nextInt(100) + 10;
+        int numberOfActions = (
+            random.nextInt(MAXIMUM_NUMBER_ACTIONS)
+            + MINIMUM_NUMBER_ACTIONS
+        );
         ActionSpy[] actionArray = new ActionSpy[numberOfActions];
 
         for (int i = 0; i < numberOfActions; i++) {

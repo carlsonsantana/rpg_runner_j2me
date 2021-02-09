@@ -11,6 +11,9 @@ import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MAXIMUM_LAYER_WIDTH = 100;
+    private static final int MAXIMUM_LAYER_HEIGHT = 100;
+    private static final int MAXIMUM_POSITION = 100;
     private Random random;
     private Map map;
     private String mapFileBaseName;
@@ -43,7 +46,7 @@ public class MapTest extends TestCase {
     }
 
     private void checkReturnSameWidthLayers() {
-        int width = random.nextInt(255);
+        int width = random.nextInt(MAXIMUM_LAYER_WIDTH);
 
         layerBackground.setWidth(width);
         layerObjects.setWidth(width);
@@ -58,7 +61,7 @@ public class MapTest extends TestCase {
     }
 
     private void checkReturnSameHeightLayers() {
-        int height = random.nextInt(255);
+        int height = random.nextInt(MAXIMUM_LAYER_HEIGHT);
 
         layerBackground.setHeight(height);
         layerObjects.setHeight(height);
@@ -80,10 +83,10 @@ public class MapTest extends TestCase {
         boolean canMoveToBackground = random.nextInt(2) == 1;
         boolean canMoveToObjects = random.nextInt(2) == 1;
         boolean canMove = canMoveToBackground && canMoveToObjects;
-        int fromX = random.nextInt(100);
-        int fromY = random.nextInt(100);
-        int toX = random.nextInt(100);
-        int toY = random.nextInt(100);
+        int fromX = random.nextInt(MAXIMUM_POSITION);
+        int fromY = random.nextInt(MAXIMUM_POSITION);
+        int toX = random.nextInt(MAXIMUM_POSITION);
+        int toY = random.nextInt(MAXIMUM_POSITION);
         byte direction = RandomGenerator.getRandomDirection();
 
         layerBackground.setCanMove(canMoveToBackground);

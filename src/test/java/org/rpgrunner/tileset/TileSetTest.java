@@ -41,6 +41,7 @@ public class TileSetTest extends TestCase {
     private static final int[] ALL_POSSIBLE_LEFT_COLLISIONS = new int[] {
         4, 5, 7, 8, 11, 12, 14, 15
     };
+    private static final byte COLLISION_BITS = 4;
     private String tileSetName;
     private byte[] collisions;
     private TileSet tileSet;
@@ -56,11 +57,12 @@ public class TileSetTest extends TestCase {
 
         for (int i = 0; i < ALL_POSSIBLE_COLLISIONS.length; i++) {
             if ((i % 2) == 0) {
-                newCollisions[i / 2] = (byte) (ALL_POSSIBLE_COLLISIONS[i] << 4);
+                newCollisions[i / 2] = (
+                    (byte) (ALL_POSSIBLE_COLLISIONS[i] << COLLISION_BITS)
+                );
             } else {
-                newCollisions[i / 2] = (byte) (
-                    newCollisions[i / 2]
-                    | ALL_POSSIBLE_COLLISIONS[i]
+                newCollisions[i / 2] = (
+                    (byte) (newCollisions[i / 2] | ALL_POSSIBLE_COLLISIONS[i])
                 );
             }
         }
