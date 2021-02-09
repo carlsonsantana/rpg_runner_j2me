@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 

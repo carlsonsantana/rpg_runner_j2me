@@ -6,7 +6,6 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.event.action.LocalTeleport;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
