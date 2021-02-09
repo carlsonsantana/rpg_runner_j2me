@@ -24,7 +24,7 @@ public class CollisionDetectorTest extends TestCase {
     private abstract class TestCollisionAllDirections {
         private final int additional;
 
-        public TestCollisionAllDirections(final int additionalTest) {
+        TestCollisionAllDirections(final int additionalTest) {
             additional = additionalTest;
         }
 
