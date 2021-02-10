@@ -6,6 +6,7 @@ import java.util.Vector;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 
@@ -20,32 +21,31 @@ public class RandomGenerator {
     private RandomGenerator() { }
 
     public static Vector generateRandomCharacterElements() {
-        GameCharacter[] characters = generateRandomCharacters();
+        int numberCharacters = (
+            RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
+            + MINIMUM_NUMBER_CHARACTERS
+        );
         Vector characterElements = new Vector();
 
-        for (int i = 0, length = characters.length; i < length; i++) {
-            GameCharacter character = characters[i];
-            characterElements.addElement(
-                new CharacterElement(null, character, null, null)
-            );
+        for (int i = 0; i < numberCharacters; i++) {
+            characterElements.addElement(generateRandomCharacterElement());
         }
 
         return characterElements;
     }
 
-    private static CharacterSpy[] generateRandomCharacters() {
-        int numberCharacters = (
-            RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
-            + MINIMUM_NUMBER_CHARACTERS
+    public static CharacterElement generateRandomCharacterElement() {
+        GameCharacter character = generateRandomCharacter();
+        CharacterAnimationSpy characterAnimationSpy = (
+            new CharacterAnimationSpy()
         );
-        CharacterSpy[] characters = new CharacterSpy[numberCharacters];
 
-        for (int i = 0; i < numberCharacters; i++) {
-            CharacterSpy character = generateRandomCharacter();
-            characters[i] = character;
-        }
-
-        return characters;
+        return new CharacterElement(
+            null,
+            character,
+            characterAnimationSpy,
+            null
+        );
     }
 
     public static CharacterElement getRandomCharacterElement(

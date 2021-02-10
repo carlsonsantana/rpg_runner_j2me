@@ -30,10 +30,6 @@ public class CharacterCreatorFactoryTest extends TestCase {
     }
 
     public void testCharacterCreatorFactory() throws IOException {
-        CharacterCreatorFactory characterCreatorFactory = (
-            new CharacterCreatorFactory(gameController)
-        );
-
         String characterFileName = RandomGenerator.getRandomString();
         int initialMapPositionX = random.nextInt(BYTE_MAX_VALUE);
         int initialMapPositionY = random.nextInt(BYTE_MAX_VALUE);
@@ -43,6 +39,9 @@ public class CharacterCreatorFactoryTest extends TestCase {
             initialMapPositionY
         );
 
+        CharacterCreatorFactory characterCreatorFactory = (
+            new CharacterCreatorFactory(gameController)
+        );
         Action action = characterCreatorFactory.create(inputStream);
         action.execute();
 
