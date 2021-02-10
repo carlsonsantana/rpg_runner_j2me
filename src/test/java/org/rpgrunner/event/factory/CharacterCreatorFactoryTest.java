@@ -29,7 +29,7 @@ public class CharacterCreatorFactoryTest extends TestCase {
         gameController = new GameControllerSpy();
     }
 
-    public void test() throws IOException {
+    public void testCharacterCreatorFactory() throws IOException {
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(gameController)
         );
