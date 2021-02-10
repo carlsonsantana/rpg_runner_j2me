@@ -56,24 +56,13 @@ public class CharacterCreatorFactoryTest extends TestCase {
         int stringLength = InputStreamHelper.getStringLength(characterFileName);
         byte[] byteArray = new byte[stringLength + ADDITIONAL_BYTES];
         InputStreamHelper.setByteArray(byteArray, characterFileName);
-        setMapPositions(
+        InputStreamHelper.setPosition(
             byteArray,
-            stringLength,
+            (stringLength + 1),
             initialMapPositionX,
             initialMapPositionY
         );
 
         return new ByteArrayInputStream(byteArray);
-    }
-
-    private void setMapPositions(
-        final byte[] arrayStream,
-        final int stringLength,
-        final int initialMapPositionX,
-        final int initialMapPositionY
-    ) {
-        int i = 1;
-        arrayStream[stringLength + i++] = (byte) initialMapPositionX;
-        arrayStream[stringLength + i++] = (byte) initialMapPositionY;
     }
 }

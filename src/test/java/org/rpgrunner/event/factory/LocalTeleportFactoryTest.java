@@ -11,6 +11,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.LocalTeleport;
+import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 
 public class LocalTeleportFactoryTest extends TestCase {
@@ -39,18 +40,8 @@ public class LocalTeleportFactoryTest extends TestCase {
         final int mapPositionY
     ) {
         byte[] byteArray = new byte[2];
-        setMapPositions(byteArray, mapPositionX, mapPositionY);
+        InputStreamHelper.setPosition(byteArray, 0, mapPositionX, mapPositionY);
 
         return new ByteArrayInputStream(byteArray);
-    }
-
-    private void setMapPositions(
-        final byte[] byteArray,
-        final int mapPositionX,
-        final int mapPositionY
-    ) {
-        int i = 0;
-        byteArray[i++] = (byte) mapPositionX;
-        byteArray[i] = (byte) mapPositionY;
     }
 }

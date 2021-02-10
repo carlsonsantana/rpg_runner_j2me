@@ -28,4 +28,15 @@ public class InputStreamHelper {
     public static int getStringLength(final String string) {
         return string.getBytes().length;
     }
+
+    public static void setPosition(
+        final byte[] byteArray,
+        final int index,
+        final int positionX,
+        final int positionY
+    ) {
+        int i = index;
+        byteArray[i++] = (byte) positionX;
+        byteArray[i] = (byte) positionY;
+    }
 }
