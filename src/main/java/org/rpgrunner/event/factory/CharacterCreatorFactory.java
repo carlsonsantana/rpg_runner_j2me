@@ -6,6 +6,7 @@ import java.io.InputStream;
 import org.rpgrunner.GameController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.CharacterCreator;
+import org.rpgrunner.helper.Loader;
 
 public class CharacterCreatorFactory {
     private final GameController gameController;
@@ -15,7 +16,7 @@ public class CharacterCreatorFactory {
     }
 
     public Action create(final InputStream inputStream) throws IOException {
-        String fileBaseName = extractName(inputStream);
+        String fileBaseName = Loader.extractString(inputStream);
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();
         CharacterCreator characterCreator = new CharacterCreator(
@@ -26,15 +27,5 @@ public class CharacterCreatorFactory {
         );
 
         return characterCreator;
-    }
-
-    private String extractName(
-        final InputStream inputStream
-    ) throws IOException {
-        int lengthString = inputStream.read();
-        byte[] stringBytes = new byte[lengthString];
-        inputStream.read(stringBytes);
-
-        return new String(stringBytes);
     }
 }

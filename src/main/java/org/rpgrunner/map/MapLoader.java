@@ -3,6 +3,7 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.helper.Loader;
 import org.rpgrunner.tileset.TileSet;
 import org.rpgrunner.tileset.TileSetLoader;
 
@@ -50,22 +51,12 @@ public final class MapLoader {
         final int width,
         final int height
     ) throws IOException {
-        String tileSetFileName = extractFileName(mapInputStream);
+        String tileSetFileName = Loader.extractString(mapInputStream);
         TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
 
         byte[][] tileMap = extractTileMap(mapInputStream, width, height);
 
         return new Layer(tileSet, tileMap);
-    }
-
-    private String extractFileName(
-        final InputStream mapInputStream
-    ) throws IOException {
-        int lengthString = mapInputStream.read();
-        byte[] stringBytes = new byte[lengthString];
-        mapInputStream.read(stringBytes);
-
-        return new String(stringBytes);
     }
 
     private byte[][] extractTileMap(

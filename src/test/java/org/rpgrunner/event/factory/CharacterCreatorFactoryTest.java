@@ -11,6 +11,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 
@@ -60,35 +61,17 @@ public class CharacterCreatorFactoryTest extends TestCase {
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
-        int stringLength = getStringLength(characterFileName);
-        byte[] arrayStream = new byte[stringLength + ADDITIONAL_BYTES];
-        setCharacterFileName(arrayStream, characterFileName);
+        int stringLength = InputStreamHelper.getStringLength(characterFileName);
+        byte[] byteArray = new byte[stringLength + ADDITIONAL_BYTES];
+        InputStreamHelper.setByteArray(byteArray, characterFileName);
         setMapPositions(
-            arrayStream,
+            byteArray,
             stringLength,
             initialMapPositionX,
             initialMapPositionY
         );
 
-        return new ByteArrayInputStream(arrayStream);
-    }
-
-    private void setCharacterFileName(
-        final byte[] arrayStream,
-        final String characterFileName
-    ) {
-        byte[] byteFileName = characterFileName.getBytes();
-        int stringLength = getStringLength(characterFileName);
-
-        arrayStream[0] = (byte) stringLength;
-
-        for (int i = 0; i < stringLength; i++) {
-            arrayStream[i + 1] = byteFileName[i];
-        }
-    }
-
-    private int getStringLength(final String string) {
-        return string.getBytes().length;
+        return new ByteArrayInputStream(byteArray);
     }
 
     private void setMapPositions(

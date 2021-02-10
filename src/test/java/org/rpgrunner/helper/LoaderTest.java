@@ -7,6 +7,7 @@ import java.io.InputStream;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 
 public class LoaderTest extends TestCase {
@@ -18,20 +19,8 @@ public class LoaderTest extends TestCase {
     }
 
     private InputStream getInputStreamFromString(final String string) {
-        int stringLength = getStringLength(string);
-        byte[] arrayStream = new byte[stringLength + 1];
-        byte[] byteFileName = string.getBytes();
+        byte[] byteArray = InputStreamHelper.getByteArray(string);
 
-        arrayStream[0] = (byte) stringLength;
-
-        for (int i = 0; i < stringLength; i++) {
-            arrayStream[i + 1] = byteFileName[i];
-        }
-
-        return new ByteArrayInputStream(arrayStream);
-    }
-
-    private int getStringLength(final String string) {
-        return string.getBytes().length;
+        return new ByteArrayInputStream(byteArray);
     }
 }
