@@ -1,25 +1,18 @@
 package org.rpgrunner.event.action;
 
-import java.util.Random;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class LocalTeleportTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
-    private static final int MAXIMUM_RANDOM_POSITION = 1000;
-    private Random random;
     private SimpleCharacter character;
     private CharacterAnimationSpy characterAnimation;
     private CharacterElement characterElement;
-
-    public LocalTeleportTest() {
-        random = new Random();
-    }
 
     public void setUp() {
         character = new SimpleCharacter();
@@ -39,8 +32,8 @@ public class LocalTeleportTest extends TestCase {
     }
 
     private void checkChangeCharacterPosition() {
-        int mapPositionX = random.nextInt(MAXIMUM_RANDOM_POSITION);
-        int mapPositionY = random.nextInt(MAXIMUM_RANDOM_POSITION);
+        int mapPositionX = RandomGenerator.getRandomPosition();
+        int mapPositionY = RandomGenerator.getRandomPosition();
         LocalTeleport localTeleport = new LocalTeleport(
             mapPositionX,
             mapPositionY

@@ -3,7 +3,6 @@ package org.rpgrunner.event.factory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -16,14 +15,8 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 
 public class CharacterCreatorFactoryTest extends TestCase {
-    private static final int BYTE_MAX_VALUE = 256;
     private static final int ADDITIONAL_BYTES = 3;
-    private Random random;
     private GameControllerSpy gameController;
-
-    public CharacterCreatorFactoryTest() {
-        random = new Random();
-    }
 
     public void setUp() {
         gameController = new GameControllerSpy();
@@ -31,8 +24,8 @@ public class CharacterCreatorFactoryTest extends TestCase {
 
     public void testCharacterCreatorFactory() throws IOException {
         String characterFileName = RandomGenerator.getRandomString();
-        int initialMapPositionX = random.nextInt(BYTE_MAX_VALUE);
-        int initialMapPositionY = random.nextInt(BYTE_MAX_VALUE);
+        int initialMapPositionX = RandomGenerator.getRandomPosition();
+        int initialMapPositionY = RandomGenerator.getRandomPosition();
         InputStream inputStream = generateInputStream(
             characterFileName,
             initialMapPositionX,

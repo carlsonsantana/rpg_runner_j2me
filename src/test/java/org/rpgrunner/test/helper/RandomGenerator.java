@@ -16,6 +16,7 @@ public class RandomGenerator {
     private static final int CHAR_START_PRINTABLE_CHARACTERS = 32;
     private static final int MINIMUM_NUMBER_CHARACTERS = 3;
     private static final int MAXIMUM_NUMBER_CHARACTERS = 100;
+    private static final int BYTE_MAX_VALUE = 256;
     private static final Random RANDOM = new Random();
 
     private RandomGenerator() { }
@@ -98,5 +99,13 @@ public class RandomGenerator {
         }
 
         return Direction.LEFT;
+    }
+
+    public static byte getRandomByte() {
+        return (byte) RANDOM.nextInt(BYTE_MAX_VALUE);
+    }
+
+    public static int getRandomPosition() {
+        return RANDOM.nextInt(BYTE_MAX_VALUE);
     }
 }

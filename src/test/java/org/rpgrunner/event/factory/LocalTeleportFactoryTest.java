@@ -3,7 +3,6 @@ package org.rpgrunner.event.factory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Random;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -15,26 +14,22 @@ import org.rpgrunner.event.action.LocalTeleport;
 import org.rpgrunner.test.helper.RandomGenerator;
 
 public class LocalTeleportFactoryTest extends TestCase {
-    private static final int BYTE_MAX_VALUE = 256;
     private static final int ARRAY_SIZE = 2;
-    private Random random;
-
-    public LocalTeleportFactoryTest() {
-        random = new Random();
-    }
 
     public void testLocalTeleportFactory() throws IOException {
         CharacterElement characterElement = (
             RandomGenerator.generateRandomCharacterElement()
         );
-        int mapPositionX = random.nextInt(BYTE_MAX_VALUE);
-        int mapPositionY = random.nextInt(BYTE_MAX_VALUE);
+        int mapPositionX = RandomGenerator.getRandomPosition();
+        int mapPositionY = RandomGenerator.getRandomPosition();
         InputStream inputStream = getInputStream(mapPositionX, mapPositionY);
+
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
         Action action = localTeleportFactory.create(inputStream);
         ((LocalTeleport) action).setCharacterElement(characterElement);
         action.execute();
         GameCharacter character = characterElement.getCharacter();
+
         Assert.assertEquals(mapPositionX, character.getMapPositionX());
         Assert.assertEquals(mapPositionY, character.getMapPositionY());
     }

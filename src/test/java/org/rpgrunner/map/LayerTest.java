@@ -16,7 +16,6 @@ public class LayerTest extends TestCase {
     private static final int MINIMUM_LAYER_HEIGHT = 2;
     private static final int MAXIMUM_LAYER_WIDTH = 100;
     private static final int MAXIMUM_LAYER_HEIGHT = 100;
-    private static final int MAXIMUM_TILE_VALUE = 256;
     private Random random;
     private byte[][] tileMap;
     private boolean[] tileSetResults;
@@ -54,7 +53,7 @@ public class LayerTest extends TestCase {
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                newTileMap[y][x] = (byte) random.nextInt(MAXIMUM_TILE_VALUE);
+                newTileMap[y][x] = RandomGenerator.getRandomByte();
             }
         }
 
