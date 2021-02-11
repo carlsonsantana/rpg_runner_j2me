@@ -6,7 +6,7 @@ import java.io.InputStream;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.LocalTeleport;
 
-public class LocalTeleportFactory {
+public class LocalTeleportFactory implements ActionFactory {
     public Action create(final InputStream inputStream) throws IOException {
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();

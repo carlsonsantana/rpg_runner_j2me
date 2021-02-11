@@ -8,7 +8,7 @@ import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.Loader;
 
-public abstract class AbstractCharacterCreatorFactory {
+public abstract class AbstractCharacterCreatorFactory implements ActionFactory {
     private final GameController gameController;
 
     public AbstractCharacterCreatorFactory(

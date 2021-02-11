@@ -22,11 +22,6 @@ public class TeleportFactoryTest extends TestCase {
     private static final int ADDITIONAL_BYTES = 3;
 
     public void testTeleportFactory() throws IOException {
-        GameControllerSpy gameController = new GameControllerSpy();
-        CharacterElement characterElement = (
-            RandomGenerator.generateRandomCharacterElement()
-        );
-        gameController.setPlayerCharacterElement(characterElement);
         String mapFileName = "example";
         int mapPositionX = RandomGenerator.getRandomPosition();
         int mapPositionY = RandomGenerator.getRandomPosition();
@@ -36,17 +31,23 @@ public class TeleportFactoryTest extends TestCase {
             mapPositionY
         );
 
+        GameControllerSpy gameController = new GameControllerSpy();
+        CharacterElement characterElement = (
+            RandomGenerator.generateRandomCharacterElement()
+        );
+        gameController.setPlayerCharacterElement(characterElement);
         TeleportFactory teleportFactory = new TeleportFactory(gameController);
         Action action = teleportFactory.create(inputStream);
-        action.execute();
-        GameCharacter character = characterElement.getCharacter();
-        Map map = gameController.getMap();
 
-        Assert.assertTrue(action instanceof Teleport);
-        Assert.assertEquals(EXAMPLE_MAP_WIDTH, map.getHeight());
-        Assert.assertEquals(EXAMPLE_MAP_HEIGHT, map.getWidth());
-        Assert.assertEquals(mapPositionX, character.getMapPositionX());
-        Assert.assertEquals(mapPositionY, character.getMapPositionY());
+        checkTeleportFactory(
+            action,
+            gameController,
+            characterElement,
+            EXAMPLE_MAP_WIDTH,
+            EXAMPLE_MAP_HEIGHT,
+            mapPositionX,
+            mapPositionY
+        );
     }
 
     private InputStream getInputStream(
@@ -65,5 +66,25 @@ public class TeleportFactoryTest extends TestCase {
         );
 
         return new ByteArrayInputStream(byteArray);
+    }
+
+    public static void checkTeleportFactory(
+        final Action action,
+        final GameControllerSpy gameController,
+        final CharacterElement characterElement,
+        final int mapWidth,
+        final int mapHeight,
+        final int mapPositionX,
+        final int mapPositionY
+    ) {
+        action.execute();
+        GameCharacter character = characterElement.getCharacter();
+        Map map = gameController.getMap();
+
+        Assert.assertTrue(action instanceof Teleport);
+        Assert.assertEquals(mapWidth, map.getWidth());
+        Assert.assertEquals(mapHeight, map.getHeight());
+        Assert.assertEquals(mapPositionX, character.getMapPositionX());
+        Assert.assertEquals(mapPositionY, character.getMapPositionY());
     }
 }

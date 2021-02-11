@@ -27,12 +27,13 @@ public class LocalTeleportFactoryTest extends TestCase {
 
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
         Action action = localTeleportFactory.create(inputStream);
-        ((LocalTeleport) action).setCharacterElement(characterElement);
-        action.execute();
-        GameCharacter character = characterElement.getCharacter();
 
-        Assert.assertEquals(mapPositionX, character.getMapPositionX());
-        Assert.assertEquals(mapPositionY, character.getMapPositionY());
+        checkLocalTeleportFactory(
+            action,
+            characterElement,
+            mapPositionX,
+            mapPositionY
+        );
     }
 
     private InputStream getInputStream(
@@ -43,5 +44,19 @@ public class LocalTeleportFactoryTest extends TestCase {
         InputStreamHelper.setPosition(byteArray, 0, mapPositionX, mapPositionY);
 
         return new ByteArrayInputStream(byteArray);
+    }
+
+    public static void checkLocalTeleportFactory(
+        final Action action,
+        final CharacterElement characterElement,
+        final int mapPositionX,
+        final int mapPositionY
+    ) {
+        ((LocalTeleport) action).setCharacterElement(characterElement);
+        action.execute();
+        GameCharacter character = characterElement.getCharacter();
+
+        Assert.assertEquals(mapPositionX, character.getMapPositionX());
+        Assert.assertEquals(mapPositionY, character.getMapPositionY());
     }
 }

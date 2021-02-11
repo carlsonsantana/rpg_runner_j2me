@@ -26,7 +26,7 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
         String characterFileName = RandomGenerator.getRandomString();
         int initialMapPositionX = RandomGenerator.getRandomPosition();
         int initialMapPositionY = RandomGenerator.getRandomPosition();
-        InputStream inputStream = generateInputStream(
+        InputStream inputStream = getInputStream(
             characterFileName,
             initialMapPositionX,
             initialMapPositionY
@@ -36,20 +36,17 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
             gameController
         );
         Action action = characterCreatorFactory.create(inputStream);
-        action.execute();
 
-        CharacterElement characterElement = getCharacterCreated(
-            gameController
+        checkCharacterCreatorFactory(
+            action,
+            gameController,
+            characterFileName,
+            initialMapPositionX,
+            initialMapPositionY
         );
-        GameCharacter character = characterElement.getCharacter();
-
-        Assert.assertTrue(instanceOfCharacterCreator(action));
-        Assert.assertEquals(characterFileName, character.getFileBaseName());
-        Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
-        Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
     }
 
-    private InputStream generateInputStream(
+    private InputStream getInputStream(
         final String characterFileName,
         final int initialMapPositionX,
         final int initialMapPositionY
@@ -70,6 +67,26 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
     protected abstract AbstractCharacterCreatorFactory createFactory(
         GameControllerSpy currentGameController
     );
+
+    public void checkCharacterCreatorFactory(
+        final Action action,
+        final GameControllerSpy currentGameController,
+        final String characterFileName,
+        final int initialMapPositionX,
+        final int initialMapPositionY
+    ) {
+        action.execute();
+
+        CharacterElement characterElement = getCharacterCreated(
+            currentGameController
+        );
+        GameCharacter character = characterElement.getCharacter();
+
+        Assert.assertTrue(instanceOfCharacterCreator(action));
+        Assert.assertEquals(characterFileName, character.getFileBaseName());
+        Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
+        Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
+    }
 
     protected abstract CharacterElement getCharacterCreated(
         GameControllerSpy currentGameController

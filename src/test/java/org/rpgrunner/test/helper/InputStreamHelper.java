@@ -15,13 +15,21 @@ public class InputStreamHelper {
         final byte[] byteArray,
         final String string
     ) {
+        setByteArray(byteArray, 0, string);
+    }
+
+    public static void setByteArray(
+        final byte[] byteArray,
+        final int index,
+        final String string
+    ) {
         byte[] byteArrayStringRaw = string.getBytes();
         int stringArrayLength = getStringLength(string);
 
-        byteArray[0] = (byte) stringArrayLength;
+        byteArray[index] = (byte) stringArrayLength;
 
         for (int i = 0; i < stringArrayLength; i++) {
-            byteArray[i + 1] = byteArrayStringRaw[i];
+            byteArray[i + index + 1] = byteArrayStringRaw[i];
         }
     }
 

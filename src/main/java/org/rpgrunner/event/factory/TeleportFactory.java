@@ -8,7 +8,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.helper.Loader;
 
-public class TeleportFactory {
+public class TeleportFactory implements ActionFactory {
     private final GameController gameController;
 
     public TeleportFactory(final GameController currentGameController) {
