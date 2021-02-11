@@ -2,10 +2,11 @@ package org.rpgrunner.event.factory;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.event.action.AbstractCharacterCreator;
-import org.rpgrunner.event.action.CharacterCreator;
+import org.rpgrunner.event.action.PlayerCharacterCreator;
 
-public class CharacterCreatorFactory extends AbstractCharacterCreatorFactory {
-    public CharacterCreatorFactory(final GameController gameController) {
+public class PlayerCharacterCreatorFactory
+        extends AbstractCharacterCreatorFactory {
+    public PlayerCharacterCreatorFactory(final GameController gameController) {
         super(gameController);
     }
 
@@ -15,7 +16,7 @@ public class CharacterCreatorFactory extends AbstractCharacterCreatorFactory {
         final int mapPositionX,
         final int mapPositionY
     ) {
-        CharacterCreator characterCreator = new CharacterCreator(
+        PlayerCharacterCreator characterCreator = new PlayerCharacterCreator(
             gameController,
             fileBaseName,
             mapPositionX,
