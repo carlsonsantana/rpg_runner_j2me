@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
@@ -41,6 +42,7 @@ public class TeleportFactoryTest extends TestCase {
         GameCharacter character = characterElement.getCharacter();
         Map map = gameController.getMap();
 
+        Assert.assertTrue(action instanceof Teleport);
         Assert.assertEquals(EXAMPLE_MAP_WIDTH, map.getHeight());
         Assert.assertEquals(EXAMPLE_MAP_HEIGHT, map.getWidth());
         Assert.assertEquals(mapPositionX, character.getMapPositionX());

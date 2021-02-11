@@ -43,6 +43,7 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
         );
         GameCharacter character = characterElement.getCharacter();
 
+        Assert.assertTrue(instanceOfCharacterCreator(action));
         Assert.assertEquals(characterFileName, character.getFileBaseName());
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
         Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
@@ -66,11 +67,13 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
         return new ByteArrayInputStream(byteArray);
     }
 
-    public abstract AbstractCharacterCreatorFactory createFactory(
+    protected abstract AbstractCharacterCreatorFactory createFactory(
         GameControllerSpy currentGameController
     );
 
-    public abstract CharacterElement getCharacterCreated(
+    protected abstract CharacterElement getCharacterCreated(
         GameControllerSpy currentGameController
     );
+
+    protected abstract boolean instanceOfCharacterCreator(Action action);
 }
