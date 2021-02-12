@@ -9,17 +9,20 @@ import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
+import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class GameControllerSpy extends GameController {
     private Map map;
     private int countMapChanged;
     private CharacterElement playerCharacterElement;
     private CharacterElement lastCharacterElementAdded;
+    private ActionAbstractFactorySpy actionAbstractFactory;
 
     public GameControllerSpy() {
         super(null, null, null, null);
         map = null;
         countMapChanged = 0;
+        actionAbstractFactory = new ActionAbstractFactorySpy();
     }
 
     public void setMap(final Map newMap) {
@@ -66,6 +69,6 @@ public class GameControllerSpy extends GameController {
     }
 
     public MapLoader getMapLoader() {
-        return new MapLoader();
+        return new MapLoader(actionAbstractFactory);
     }
 }

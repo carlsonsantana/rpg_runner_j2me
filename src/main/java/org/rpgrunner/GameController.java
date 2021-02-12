@@ -13,6 +13,7 @@ import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.event.action.Teleport;
+import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.CollisionDetector;
@@ -31,6 +32,7 @@ public class GameController {
     private Vector characterElements;
     private int gameAction;
     private MapLoader mapLoader;
+    private ActionAbstractFactory actionAbstractFactory;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
@@ -38,7 +40,8 @@ public class GameController {
         final CharacterAnimationFactory gameCharacterAnimationFactory,
         final PlayerMovementFactory gamePlayerMovementFactory
     ) {
-        mapLoader = new MapLoader();
+        actionAbstractFactory = new ActionAbstractFactory(this);
+        mapLoader = new MapLoader(actionAbstractFactory);
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();

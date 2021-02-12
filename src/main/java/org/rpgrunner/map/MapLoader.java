@@ -3,13 +3,20 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.event.action.Action;
+import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Loader;
 import org.rpgrunner.tileset.TileSet;
 import org.rpgrunner.tileset.TileSetLoader;
 
-public final class MapLoader {
+public class MapLoader {
     private static final String MAPS_DIRECTORY = "/maps/";
     private static final String MAPS_EXTENSION = ".map";
+    private final ActionAbstractFactory actionAbstractFactory;
+
+    public MapLoader(final ActionAbstractFactory currentActionAbstractFactory) {
+        actionAbstractFactory = currentActionAbstractFactory;
+    }
 
     public Map loadMap(final String fileBaseName) {
         InputStream mapInputStream = loadFile(fileBaseName);
@@ -41,9 +48,11 @@ public final class MapLoader {
             layers[i] = extractLayer(mapInputStream, width, height);
         }
 
+        Action action = actionAbstractFactory.create(mapInputStream);
+
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, null);
+        return new Map(fileBaseName, layers, action);
     }
 
     private Layer extractLayer(
