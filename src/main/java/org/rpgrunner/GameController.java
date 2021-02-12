@@ -10,7 +10,6 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
-import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
@@ -54,7 +53,6 @@ public class GameController {
         generatePlayerCharacterElement("character");
         Teleport teleport = new Teleport(this, "map", 1, 1);
         teleport.execute();
-        generateNPCCharacters();
         collisionDetector.setCharacterElements(characterElements);
         graphicsRender.setCharacterElements(characterElements);
     }
@@ -65,20 +63,12 @@ public class GameController {
         collisionDetector.setMap(map);
         camera.setMap(map);
         graphicsRender.setMap(map);
+
+        map.executeStartActions();
     }
 
     public Map getMap() {
         return map;
-    }
-
-    private void generateNPCCharacters() {
-        CharacterCreator characterCreator = new CharacterCreator(
-            this,
-            "character",
-            0,
-            0
-        );
-        characterCreator.execute();
     }
 
     private void generatePlayerCharacterElement(final String baseName) {
