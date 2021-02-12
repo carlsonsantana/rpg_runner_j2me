@@ -10,6 +10,7 @@ public class ActionAbstractFactory implements ActionFactory {
     private final ActionFactory[] actionFactories;
 
     public ActionAbstractFactory(final GameController gameController) {
+        ActionListFactory actionListFactory = new ActionListFactory(this);
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(gameController)
         );
@@ -20,6 +21,7 @@ public class ActionAbstractFactory implements ActionFactory {
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
 
         actionFactories = new ActionFactory[] {
+            actionListFactory,
             playerCharacterCreatorFactory,
             characterCreatorFactory,
             teleportFactory,

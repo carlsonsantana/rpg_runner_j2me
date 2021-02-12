@@ -18,7 +18,10 @@ public class ActionAbstractFactorySpy extends ActionAbstractFactory {
     }
 
     public Action create(final InputStream inputStream) throws IOException {
-        return new ActionSpy();
+        Action action = new ActionSpy();
+        actionsCreated.addElement(action);
+
+        return action;
     }
 
     public ActionSpy[] getActionsCreated() {

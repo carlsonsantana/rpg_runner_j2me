@@ -9,6 +9,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.event.action.ActionList;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
@@ -34,14 +35,8 @@ public class ActionListFactoryTest extends TestCase {
             actionAbstractFactory
         );
         Action action = actionListFactory.create(inputStream);
-        action.execute();
 
-        ActionSpy[] actionsCreated = actionAbstractFactory.getActionsCreated();
-
-        for (int i = 0, length = actionsCreated.length; i < length; i++) {
-            ActionSpy actionSpy = actionsCreated[i];
-            Assert.assertTrue(actionSpy.isExecuteCalled());
-        }
+        checkActionListFactory(action, actionAbstractFactory, numberActions);
     }
 
     private InputStream getInputStream(final int numberActions) {
@@ -49,5 +44,25 @@ public class ActionListFactoryTest extends TestCase {
         byteArray[0] = (byte) numberActions;
 
         return new ByteArrayInputStream(byteArray);
+    }
+
+    public static void checkActionListFactory(
+        final Action action,
+        final ActionAbstractFactorySpy actionAbstractFactorySpy,
+        final int numberActions
+    ) {
+        action.execute();
+
+        ActionSpy[] actionsCreated = (
+            actionAbstractFactorySpy.getActionsCreated()
+        );
+
+        Assert.assertTrue(action instanceof ActionList);
+        Assert.assertEquals(numberActions, actionsCreated.length);
+
+        for (int i = 0, length = actionsCreated.length; i < length; i++) {
+            ActionSpy actionSpy = actionsCreated[i];
+            Assert.assertTrue(actionSpy.isExecuteCalled());
+        }
     }
 }
