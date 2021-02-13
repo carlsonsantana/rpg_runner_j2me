@@ -8,14 +8,17 @@ public class Teleport implements Action {
     private final GameController gameController;
     private final String mapName;
     private final LocalTeleport localTeleport;
+    private final MapLoader mapLoader;
 
     public Teleport(
         final GameController currentGameController,
+        final MapLoader currentMapLoader,
         final String toMapName,
         final int toMapPositionX,
         final int toMapPositionY
     ) {
         gameController = currentGameController;
+        mapLoader = currentMapLoader;
         mapName = toMapName;
         localTeleport = new LocalTeleport(toMapPositionX, toMapPositionY);
     }
@@ -26,7 +29,6 @@ public class Teleport implements Action {
     }
 
     private void loadMap() {
-        MapLoader mapLoader = gameController.getMapLoader();
         Map map;
 
         if (isOtherMap()) {

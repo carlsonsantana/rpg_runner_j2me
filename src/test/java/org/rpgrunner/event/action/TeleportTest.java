@@ -6,22 +6,29 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
+import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class TeleportTest extends TestCase {
     private static final int EXAMPLE_MAP_WIDTH = 32;
     private static final int EXAMPLE_MAP_HEIGHT = 32;
     private static final int ANOTHER_MAP_WIDTH = 16;
     private static final int ANOTHER_MAP_HEIGHT = 16;
+    private final MapLoader mapLoader;
     private CharacterElement characterElement;
     private GameCharacter character;
     private GameControllerSpy gameController;
     private Teleport teleport;
     private int mapPositionX;
     private int mapPositionY;
+
+    public TeleportTest() {
+        mapLoader = new MapLoader(new ActionAbstractFactorySpy());
+    }
 
     public void setUp() {
         character = new SimpleCharacter();
@@ -38,6 +45,7 @@ public class TeleportTest extends TestCase {
         mapPositionY = RandomGenerator.getRandomPosition();
         teleport = new Teleport(
             gameController,
+            mapLoader,
             "example",
             mapPositionX,
             mapPositionY
@@ -59,6 +67,7 @@ public class TeleportTest extends TestCase {
         int nextMapPositionY = RandomGenerator.getRandomPosition();
         Teleport teleportAnotherMap = new Teleport(
             gameController,
+            mapLoader,
             "another",
             nextMapPositionX,
             nextMapPositionY
@@ -81,6 +90,7 @@ public class TeleportTest extends TestCase {
         int nextMapPositionY = RandomGenerator.getRandomPosition();
         Teleport teleportSameMap = new Teleport(
             gameController,
+            mapLoader,
             "example",
             nextMapPositionX,
             nextMapPositionY

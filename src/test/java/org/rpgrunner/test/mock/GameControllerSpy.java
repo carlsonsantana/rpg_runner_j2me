@@ -4,7 +4,6 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class GameControllerSpy extends GameController {
@@ -54,9 +53,5 @@ public class GameControllerSpy extends GameController {
 
     public CharacterElement getLastCharacterElementAdded() {
         return lastCharacterElementAdded;
-    }
-
-    public MapLoader getMapLoader() {
-        return new MapLoader(actionAbstractFactory);
     }
 }

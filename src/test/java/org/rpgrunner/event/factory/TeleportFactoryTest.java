@@ -12,14 +12,21 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class TeleportFactoryTest extends TestCase {
     private static final int EXAMPLE_MAP_WIDTH = 32;
     private static final int EXAMPLE_MAP_HEIGHT = 32;
     private static final int ADDITIONAL_BYTES = 3;
+    private final MapLoader mapLoader;
+
+    public TeleportFactoryTest() {
+        mapLoader = new MapLoader(new ActionAbstractFactorySpy());
+    }
 
     public void testTeleportFactory() throws IOException {
         String mapFileName = "example";
@@ -36,7 +43,10 @@ public class TeleportFactoryTest extends TestCase {
             RandomGenerator.generateRandomCharacterElement()
         );
         gameController.setPlayerCharacterElement(characterElement);
-        TeleportFactory teleportFactory = new TeleportFactory(gameController);
+        TeleportFactory teleportFactory = new TeleportFactory(
+            gameController,
+            mapLoader
+        );
         Action action = teleportFactory.create(inputStream);
 
         checkTeleportFactory(

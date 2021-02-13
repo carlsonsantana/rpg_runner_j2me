@@ -7,6 +7,7 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.map.MapLoader;
 
 public class ActionAbstractFactory implements ActionFactory {
     private final ActionFactory[] actionFactories;
@@ -16,6 +17,8 @@ public class ActionAbstractFactory implements ActionFactory {
         final CharacterAnimationFactory characterAnimationFactory,
         final PlayerMovementFactory playerMovementFactory
     ) {
+        MapLoader mapLoader = new MapLoader(this);
+
         ActionListFactory actionListFactory = new ActionListFactory(this);
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
@@ -30,7 +33,10 @@ public class ActionAbstractFactory implements ActionFactory {
                 characterAnimationFactory
             )
         );
-        TeleportFactory teleportFactory = new TeleportFactory(gameController);
+        TeleportFactory teleportFactory = new TeleportFactory(
+            gameController,
+            mapLoader
+        );
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
 
         actionFactories = new ActionFactory[] {

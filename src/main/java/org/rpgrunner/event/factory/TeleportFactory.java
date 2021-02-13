@@ -7,12 +7,18 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.helper.Loader;
+import org.rpgrunner.map.MapLoader;
 
 public class TeleportFactory implements ActionFactory {
     private final GameController gameController;
+    private final MapLoader mapLoader;
 
-    public TeleportFactory(final GameController currentGameController) {
+    public TeleportFactory(
+        final GameController currentGameController,
+        final MapLoader currentMapLoader
+    ) {
         gameController = currentGameController;
+        mapLoader = currentMapLoader;
     }
 
     public Action create(final InputStream inputStream) throws IOException {
@@ -21,6 +27,7 @@ public class TeleportFactory implements ActionFactory {
         int mapPositionY = inputStream.read();
         Teleport teleport = new Teleport(
             gameController,
+            mapLoader,
             mapFileName,
             mapPositionX,
             mapPositionY
