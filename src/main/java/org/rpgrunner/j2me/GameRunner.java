@@ -65,7 +65,6 @@ public class GameRunner extends GameCanvas implements Runnable {
         gameController = new GameController(
             graphicsRender,
             camera,
-            characterAnimationFactory,
             playerMovementFactory
         );
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(

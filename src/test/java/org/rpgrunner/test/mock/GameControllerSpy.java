@@ -19,7 +19,7 @@ public class GameControllerSpy extends GameController {
     private ActionAbstractFactorySpy actionAbstractFactory;
 
     public GameControllerSpy() {
-        super(null, null, null, null);
+        super(null, null, null);
         map = null;
         countMapChanged = 0;
         actionAbstractFactory = new ActionAbstractFactorySpy();

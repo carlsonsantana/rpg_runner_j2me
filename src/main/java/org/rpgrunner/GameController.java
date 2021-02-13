@@ -4,7 +4,6 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
@@ -21,7 +20,6 @@ public class GameController {
     private final Camera camera;
     private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
-    private final CharacterAnimationFactory characterAnimationFactory;
     private final PlayerMovementFactory playerMovementFactory;
     private Map map;
     private CharacterElement playerCharacterElement;
@@ -33,13 +31,11 @@ public class GameController {
     public GameController(
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera,
-        final CharacterAnimationFactory gameCharacterAnimationFactory,
         final PlayerMovementFactory gamePlayerMovementFactory
     ) {
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
-        characterAnimationFactory = gameCharacterAnimationFactory;
         playerMovementFactory = gamePlayerMovementFactory;
         characterElements = new Vector(1);
     }
@@ -115,10 +111,6 @@ public class GameController {
 
     public PlayerMovementFactory getPlayerMovementFactory() {
         return playerMovementFactory;
-    }
-
-    public CharacterAnimationFactory getCharacterAnimationFactory() {
-        return characterAnimationFactory;
     }
 
     public CollisionDetector getCollisionDetector() {
