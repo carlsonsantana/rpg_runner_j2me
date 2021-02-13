@@ -10,8 +10,8 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
-import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -31,7 +31,6 @@ public class GameController {
     private Vector characterElements;
     private int gameAction;
     private MapLoader mapLoader;
-    private ActionAbstractFactory actionAbstractFactory;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
@@ -39,8 +38,6 @@ public class GameController {
         final CharacterAnimationFactory gameCharacterAnimationFactory,
         final PlayerMovementFactory gamePlayerMovementFactory
     ) {
-        actionAbstractFactory = new ActionAbstractFactory(this);
-        mapLoader = new MapLoader(actionAbstractFactory);
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
@@ -49,10 +46,12 @@ public class GameController {
         characterElements = new Vector(1);
     }
 
-    public void init() {
-        generatePlayerCharacterElement("character");
-        Teleport teleport = new Teleport(this, "map", 1, 1);
-        teleport.execute();
+    public void executeStartActions(
+        final ActionAbstractFactory actionAbstractFactory,
+        final GameStartEvent gameStartEvent
+    ) {
+        mapLoader = new MapLoader(actionAbstractFactory);
+        gameStartEvent.execute(actionAbstractFactory);
         collisionDetector.setCharacterElements(characterElements);
         graphicsRender.setCharacterElements(characterElements);
     }

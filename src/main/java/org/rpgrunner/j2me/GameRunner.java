@@ -5,6 +5,8 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.event.GameStartEvent;
+import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
@@ -66,7 +68,14 @@ public class GameRunner extends GameCanvas implements Runnable {
             characterAnimationFactory,
             playerMovementFactory
         );
-        gameController.init();
+        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
+            gameController
+        );
+        GameStartEvent gameStartEvent = new GameStartEvent();
+        gameController.executeStartActions(
+            actionAbstractFactory,
+            gameStartEvent
+        );
     }
 
     private void executeGame() {
