@@ -6,12 +6,10 @@ import java.util.Vector;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.GameStartEvent;
-import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -68,32 +66,6 @@ public class GameController {
 
     public Map getMap() {
         return map;
-    }
-
-    private void generatePlayerCharacterElement(final String baseName) {
-        PlayerCharacterCreator playerCharacterCreator = (
-            new PlayerCharacterCreator(this, baseName, 0, 0)
-        );
-        playerCharacterCreator.execute();
-    }
-
-    private CharacterElement generateCharacterElement(
-        final GameCharacter character,
-        final MovementCommand movementCommand
-    ) {
-        CharacterAnimation characterAnimation = (
-            characterAnimationFactory.createCharacterAnimation(character)
-        );
-        CharacterElement characterElement = new CharacterElement(
-            collisionDetector,
-            character,
-            characterAnimation,
-            movementCommand
-        );
-        character.setCharacterElement(characterElement);
-        characterAnimation.setCharacterElement(characterElement);
-
-        return characterElement;
     }
 
     public void pressKey(final int key) {
