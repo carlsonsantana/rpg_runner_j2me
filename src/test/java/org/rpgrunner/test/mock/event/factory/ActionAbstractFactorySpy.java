@@ -13,7 +13,7 @@ public class ActionAbstractFactorySpy extends ActionAbstractFactory {
     private final Vector actionsCreated;
 
     public ActionAbstractFactorySpy() {
-        super(null, null);
+        super(null, null, null);
         actionsCreated = new Vector();
     }
 

@@ -7,7 +7,6 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
@@ -20,7 +19,6 @@ public class GameController {
     private final Camera camera;
     private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
-    private final PlayerMovementFactory playerMovementFactory;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
@@ -30,13 +28,11 @@ public class GameController {
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
-        final Camera gameCamera,
-        final PlayerMovementFactory gamePlayerMovementFactory
+        final Camera gameCamera
     ) {
         camera = gameCamera;
         graphicsRender = gameGraphicsRender;
         collisionDetector = new CollisionDetector();
-        playerMovementFactory = gamePlayerMovementFactory;
         characterElements = new Vector(1);
     }
 
@@ -107,10 +103,6 @@ public class GameController {
 
     public CharacterElement getPlayerCharacterElement() {
         return playerCharacterElement;
-    }
-
-    public PlayerMovementFactory getPlayerMovementFactory() {
-        return playerMovementFactory;
     }
 
     public CollisionDetector getCollisionDetector() {

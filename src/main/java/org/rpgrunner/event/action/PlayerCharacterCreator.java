@@ -9,10 +9,12 @@ import org.rpgrunner.character.movement.PlayerMovementFactory;
 
 public class PlayerCharacterCreator extends AbstractCharacterCreator {
     private final GameController gameController;
+    private final PlayerMovementFactory playerMovementFactory;
 
     public PlayerCharacterCreator(
         final GameController currentGameController,
         final CharacterAnimationFactory characterAnimationFactory,
+        final PlayerMovementFactory currentPlayerMovementFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY
@@ -25,15 +27,12 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
             initialMapPositionY
         );
         gameController = currentGameController;
+        playerMovementFactory = currentPlayerMovementFactory;
     }
 
     protected MovementCommand createMovementCommand(
         final GameCharacter character
     ) {
-        PlayerMovementFactory playerMovementFactory = (
-            gameController.getPlayerMovementFactory()
-        );
-
         return playerMovementFactory.createPlayerMovement(character);
     }
 

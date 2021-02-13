@@ -7,17 +7,21 @@ import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
+import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
 public class PlayerCharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final int MINIMUM_INITIAL_POSITION = 2;
     private final CharacterAnimationFactory characterAnimationFactory;
+    private final PlayerMovementFactory playerMovementFactory;
 
     public PlayerCharacterCreatorTest() {
         characterAnimationFactory = new CharacterAnimationFactoryMock();
+        playerMovementFactory = new PlayerMovementFactoryMock();
     }
 
     public void testCreatePlayerCharacterLoop() {
@@ -41,6 +45,7 @@ public class PlayerCharacterCreatorTest extends TestCase {
             new PlayerCharacterCreator(
                 gameController,
                 characterAnimationFactory,
+                playerMovementFactory,
                 randomFileBaseName,
                 initialMapPositionX,
                 initialMapPositionY

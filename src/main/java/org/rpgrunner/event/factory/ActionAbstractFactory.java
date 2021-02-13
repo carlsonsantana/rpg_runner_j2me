@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
+import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
 
 public class ActionAbstractFactory implements ActionFactory {
@@ -12,13 +13,15 @@ public class ActionAbstractFactory implements ActionFactory {
 
     public ActionAbstractFactory(
         final GameController gameController,
-        final CharacterAnimationFactory characterAnimationFactory
+        final CharacterAnimationFactory characterAnimationFactory,
+        final PlayerMovementFactory playerMovementFactory
     ) {
         ActionListFactory actionListFactory = new ActionListFactory(this);
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
                 gameController,
-                characterAnimationFactory
+                characterAnimationFactory,
+                playerMovementFactory
             )
         );
         CharacterCreatorFactory characterCreatorFactory = (

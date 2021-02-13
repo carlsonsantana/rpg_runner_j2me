@@ -1,14 +1,10 @@
 package org.rpgrunner.test.mock;
 
 import org.rpgrunner.GameController;
-import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
-import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class GameControllerSpy extends GameController {
@@ -19,7 +15,7 @@ public class GameControllerSpy extends GameController {
     private ActionAbstractFactorySpy actionAbstractFactory;
 
     public GameControllerSpy() {
-        super(null, null, null);
+        super(null, null);
         map = null;
         countMapChanged = 0;
         actionAbstractFactory = new ActionAbstractFactorySpy();
@@ -46,14 +42,6 @@ public class GameControllerSpy extends GameController {
 
     public CharacterElement getPlayerCharacterElement() {
         return playerCharacterElement;
-    }
-
-    public PlayerMovementFactory getPlayerMovementFactory() {
-        return new PlayerMovementFactoryMock();
-    }
-
-    public CharacterAnimationFactory getCharacterAnimationFactory() {
-        return new CharacterAnimationFactoryMock();
     }
 
     public CollisionDetector getCollisionDetector() {

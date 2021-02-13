@@ -2,10 +2,12 @@ package org.rpgrunner.event.factory;
 
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
+import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
 public class PlayerCharacterCreatorFactoryTest
         extends AbstractCharacterCreatorFactoryTest {
@@ -15,10 +17,14 @@ public class PlayerCharacterCreatorFactoryTest
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
+        PlayerMovementFactory playerMovementFactory = (
+            new PlayerMovementFactoryMock()
+        );
 
         return new PlayerCharacterCreatorFactory(
             gameController,
-            characterAnimationFactory
+            characterAnimationFactory,
+            playerMovementFactory
         );
     }
 
