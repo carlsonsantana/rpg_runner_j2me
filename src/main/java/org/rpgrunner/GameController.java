@@ -15,23 +15,24 @@ import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.map.Map;
 
 public class GameController {
-    private final Camera camera;
-    private final CollisionDetector collisionDetector;
     private final GraphicsRender graphicsRender;
+    private final Camera camera;
+    private final Vector characterElements;
+    private final CollisionDetector collisionDetector;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
-    private Vector characterElements;
     private int gameAction;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera
     ) {
-        camera = gameCamera;
         graphicsRender = gameGraphicsRender;
-        collisionDetector = new CollisionDetector();
+        camera = gameCamera;
         characterElements = new Vector(1);
+        collisionDetector = new CollisionDetector();
+        collisionDetector.setCharacterElements(characterElements);
     }
 
     public void executeStartActions(
@@ -39,7 +40,6 @@ public class GameController {
         final GameStartEvent gameStartEvent
     ) {
         gameStartEvent.execute(actionAbstractFactory);
-        collisionDetector.setCharacterElements(characterElements);
         graphicsRender.setCharacterElements(characterElements);
     }
 
