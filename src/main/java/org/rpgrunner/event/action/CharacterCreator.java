@@ -27,13 +27,13 @@ public class CharacterCreator extends AbstractCharacterCreator {
         gameController = currentGameController;
     }
 
-    public void displayCharacter(final CharacterElement characterElement) {
-        gameController.addCharacterElement(characterElement);
-    }
-
-    public MovementCommand createMovementCommand(
+    protected MovementCommand createMovementCommand(
         final GameCharacter character
     ) {
         return new RandomMovement(character);
+    }
+
+    protected void displayCharacter(final CharacterElement characterElement) {
+        gameController.addCharacterElement(characterElement);
     }
 }

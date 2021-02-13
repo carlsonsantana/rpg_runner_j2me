@@ -27,11 +27,7 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
         gameController = currentGameController;
     }
 
-    public void displayCharacter(final CharacterElement characterElement) {
-        gameController.setPlayerCharacterElement(characterElement);
-    }
-
-    public MovementCommand createMovementCommand(
+    protected MovementCommand createMovementCommand(
         final GameCharacter character
     ) {
         PlayerMovementFactory playerMovementFactory = (
@@ -39,5 +35,9 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
         );
 
         return playerMovementFactory.createPlayerMovement(character);
+    }
+
+    protected void displayCharacter(final CharacterElement characterElement) {
+        gameController.setPlayerCharacterElement(characterElement);
     }
 }

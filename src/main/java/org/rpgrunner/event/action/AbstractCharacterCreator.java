@@ -37,8 +37,6 @@ public abstract class AbstractCharacterCreator implements Action {
         displayCharacter(characterElement);
     }
 
-    public abstract void displayCharacter(CharacterElement characterElement);
-
     private CharacterElement generateCharacterElement() {
         GameCharacter character = new GameCharacter(characterFileBaseName);
         MovementCommand movementCommand = createMovementCommand(character);
@@ -60,7 +58,9 @@ public abstract class AbstractCharacterCreator implements Action {
         return characterElement;
     }
 
-    public abstract MovementCommand createMovementCommand(
+    protected abstract MovementCommand createMovementCommand(
         GameCharacter character
     );
+
+    protected abstract void displayCharacter(CharacterElement characterElement);
 }
