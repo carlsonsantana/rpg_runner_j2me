@@ -10,11 +10,13 @@ import org.rpgrunner.helper.CollisionDetector;
 
 public abstract class AbstractCharacterCreator implements Action {
     private final GameController gameController;
+    private final CharacterAnimationFactory characterAnimationFactory;
     private final String characterFileBaseName;
     private final LocalTeleport localTeleport;
 
     public AbstractCharacterCreator(
         final GameController currentGameController,
+        final CharacterAnimationFactory currentCharacterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY
@@ -25,6 +27,7 @@ public abstract class AbstractCharacterCreator implements Action {
             initialMapPositionX,
             initialMapPositionY
         );
+        characterAnimationFactory = currentCharacterAnimationFactory;
     }
 
     public void execute() {
@@ -39,9 +42,6 @@ public abstract class AbstractCharacterCreator implements Action {
     private CharacterElement generateCharacterElement() {
         GameCharacter character = new GameCharacter(characterFileBaseName);
         MovementCommand movementCommand = createMovementCommand(character);
-        CharacterAnimationFactory characterAnimationFactory = (
-            gameController.getCharacterAnimationFactory()
-        );
         CollisionDetector collisionDetector = (
             gameController.getCollisionDetector()
         );

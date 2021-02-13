@@ -1,16 +1,25 @@
 package org.rpgrunner.event.factory;
 
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
 public class PlayerCharacterCreatorFactoryTest
-    extends AbstractCharacterCreatorFactoryTest {
+        extends AbstractCharacterCreatorFactoryTest {
     protected AbstractCharacterCreatorFactory createFactory(
         final GameControllerSpy gameController
     ) {
-        return new PlayerCharacterCreatorFactory(gameController);
+        CharacterAnimationFactory characterAnimationFactory = (
+            new CharacterAnimationFactoryMock()
+        );
+
+        return new PlayerCharacterCreatorFactory(
+            gameController,
+            characterAnimationFactory
+        );
     }
 
     protected CharacterElement getCharacterCreated(

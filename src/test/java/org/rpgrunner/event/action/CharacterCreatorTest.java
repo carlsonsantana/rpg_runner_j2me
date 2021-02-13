@@ -1,22 +1,22 @@
 package org.rpgrunner.event.action;
 
-import java.util.Random;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
 public class CharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final int MINIMUM_INITIAL_POSITION = 2;
-    private final Random random;
+    private final CharacterAnimationFactory characterAnimationFactory;
 
     public CharacterCreatorTest() {
-        random = new Random();
+        characterAnimationFactory = new CharacterAnimationFactoryMock();
     }
 
     public void testCreateCharacterLoop() {
@@ -38,6 +38,7 @@ public class CharacterCreatorTest extends TestCase {
         );
         CharacterCreator characterCreator = new CharacterCreator(
             gameController,
+            characterAnimationFactory,
             randomFileBaseName,
             initialMapPositionX,
             initialMapPositionY

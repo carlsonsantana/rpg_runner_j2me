@@ -4,14 +4,21 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
 public class PlayerCharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final int MINIMUM_INITIAL_POSITION = 2;
+    private final CharacterAnimationFactory characterAnimationFactory;
+
+    public PlayerCharacterCreatorTest() {
+        characterAnimationFactory = new CharacterAnimationFactoryMock();
+    }
 
     public void testCreatePlayerCharacterLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
@@ -33,6 +40,7 @@ public class PlayerCharacterCreatorTest extends TestCase {
         PlayerCharacterCreator playerCharacterCreator = (
             new PlayerCharacterCreator(
                 gameController,
+                characterAnimationFactory,
                 randomFileBaseName,
                 initialMapPositionX,
                 initialMapPositionY

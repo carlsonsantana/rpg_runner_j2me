@@ -6,11 +6,13 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.InputStreamHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class ActionAbstractFactoryTest extends TestCase {
@@ -31,7 +33,13 @@ public class ActionAbstractFactoryTest extends TestCase {
 
     public ActionAbstractFactoryTest() {
         gameController = new GameControllerSpy();
-        actionAbstractFactory = new ActionAbstractFactory(gameController);
+        CharacterAnimationFactory characterAnimationFactory = (
+            new CharacterAnimationFactoryMock()
+        );
+        actionAbstractFactory = new ActionAbstractFactory(
+            gameController,
+            characterAnimationFactory
+        );
     }
 
     public void setUp() {
