@@ -54,7 +54,7 @@ public class GameController {
     }
 
     private void removeAllNPCs() {
-        characterElements.clear();
+        characterElements.removeAllElements();
 
         if (playerCharacterElement != null) {
             characterElements.addElement(playerCharacterElement);
