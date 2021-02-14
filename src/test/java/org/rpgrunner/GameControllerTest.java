@@ -29,6 +29,7 @@ public class GameControllerTest extends TestCase {
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
     private CharacterAnimationSpy characterAnimation;
+    private Vector npcs;
 
     public GameControllerTest() {
         random = new Random();
@@ -46,7 +47,19 @@ public class GameControllerTest extends TestCase {
             playerMovementSpy
         );
         gameController = new GameController(graphicsRender, camera);
-        gameController.setPlayerCharacterElement(playerCharacterElement);
+        generateNPCs();
+    }
+
+    private void generateNPCs() {
+        npcs = RandomGenerator.generateRandomCharacterElements();
+
+        for (
+            Enumeration enumeration = npcs.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            gameController.addCharacterElement(npc);
+        }
     }
 
     public void testExecuteStartActions() {
@@ -79,6 +92,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.pressKey(keyPressed);
 
@@ -86,6 +100,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testPressKeyWhenChangePlayerCharacterElement() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         CharacterElement newPlayerCharacterElement = (
             generatePlayerCharacterElement()
         );
@@ -100,6 +115,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testReleaseKeyOnPlayerCharacterMovement() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.releaseKey(keyReleased);
 
@@ -107,6 +123,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testReleaseKeyWhenChangePlayerCharacterElement() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         CharacterElement newPlayerCharacterElement = (
             generatePlayerCharacterElement()
         );
@@ -121,10 +138,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testExecuteCharacterActions() {
-        Vector characterElements = (
-            RandomGenerator.generateRandomCharacterElements()
-        );
-        addCharacterElements(characterElements);
+        gameController.setPlayerCharacterElement(playerCharacterElement);
 
         gameController.executeCharacterActions();
 
@@ -132,17 +146,13 @@ public class GameControllerTest extends TestCase {
         Assert.assertTrue(characterAnimation.isDoAnimationCalled());
 
         for (
-            Enumeration enumeration = characterElements.elements();
+            Enumeration enumeration = npcs.elements();
             enumeration.hasMoreElements();
         ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
-            MovementSpy movementSpy = (
-                (MovementSpy) characterElement.getMovementCommand()
-            );
+            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            MovementSpy movementSpy = (MovementSpy) npc.getMovementCommand();
             CharacterAnimationSpy characterAnimationSpy = (
-                (CharacterAnimationSpy) characterElement.getCharacterAnimation()
+                (CharacterAnimationSpy) npc.getCharacterAnimation()
             );
             Assert.assertTrue(movementSpy.isExecuteCalled());
             Assert.assertTrue(characterAnimationSpy.isDoAnimationCalled());
@@ -156,6 +166,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testSamePlayerCharacterElement() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         Assert.assertSame(
             playerCharacterElement,
             gameController.getPlayerCharacterElement()
@@ -180,10 +191,7 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testAddSameCharacterElementsOnGraphicsRender() {
-        Vector characterElements = (
-            RandomGenerator.generateRandomCharacterElements()
-        );
-        addCharacterElements(characterElements);
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         Vector characterElementsGraphics = (
             graphicsRender.getCharacterElements()
         );
@@ -193,31 +201,16 @@ public class GameControllerTest extends TestCase {
         );
 
         for (
-            Enumeration enumeration = characterElements.elements();
+            Enumeration enumeration = npcs.elements();
             enumeration.hasMoreElements();
         ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
-            Assert.assertTrue(
-                characterElementsGraphics.contains(characterElement)
-            );
-        }
-    }
-
-    private void addCharacterElements(final Vector characterElements) {
-        for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
-        ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
-            gameController.addCharacterElement(characterElement);
+            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            Assert.assertTrue(characterElementsGraphics.contains(npc));
         }
     }
 
     public void testRemoveLastPlayerCharacterWhenChangePlayerCharacter() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
         gameController.setPlayerCharacterElement(
             generatePlayerCharacterElement()
         );
@@ -243,5 +236,44 @@ public class GameControllerTest extends TestCase {
             characterAnimationSpy,
             newPlayerMovementSpy
         );
+    }
+
+    public void testRemoveAllNPCsWhenChangeMap() {
+        MapSpy map = new MapSpy();
+        gameController.setMap(map);
+        Vector characterElementsGraphics = (
+            graphicsRender.getCharacterElements()
+        );
+
+        for (
+            Enumeration enumeration = npcs.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            Assert.assertFalse(characterElementsGraphics.contains(npc));
+        }
+    }
+
+    public void testKeepPlayerCharacterWhenChangeMap() {
+        gameController.setPlayerCharacterElement(playerCharacterElement);
+        MapSpy map = new MapSpy();
+        gameController.setMap(map);
+        Vector characterElementsGraphics = (
+            graphicsRender.getCharacterElements()
+        );
+
+        Assert.assertTrue(
+            characterElementsGraphics.contains(playerCharacterElement)
+        );
+    }
+
+    public void testNotAddNullOnCharacterElementsWhenChangeMap() {
+        MapSpy map = new MapSpy();
+        gameController.setMap(map);
+        Vector characterElementsGraphics = (
+            graphicsRender.getCharacterElements()
+        );
+
+        Assert.assertFalse(characterElementsGraphics.contains(null));
     }
 }

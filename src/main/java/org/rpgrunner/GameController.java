@@ -48,8 +48,19 @@ public class GameController {
         collisionDetector.setMap(map);
         camera.setMap(map);
         graphicsRender.setMap(map);
+        removeAllNPCs();
 
         map.executeStartActions();
+    }
+
+    private void removeAllNPCs() {
+        characterElements.clear();
+
+        if (playerCharacterElement != null) {
+            characterElements.addElement(playerCharacterElement);
+        }
+
+        graphicsRender.setCharacterElements(characterElements);
     }
 
     public Map getMap() {
