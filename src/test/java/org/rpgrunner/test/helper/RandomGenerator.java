@@ -9,6 +9,7 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
+import org.rpgrunner.test.mock.character.movement.MovementSpy;
 
 public class RandomGenerator {
     private static final int STRING_SIZE = 8;
@@ -40,12 +41,13 @@ public class RandomGenerator {
         CharacterAnimationSpy characterAnimationSpy = (
             new CharacterAnimationSpy()
         );
+        MovementSpy movementSpy = new MovementSpy();
 
         return new CharacterElement(
             null,
             character,
             characterAnimationSpy,
-            null
+            movementSpy
         );
     }
 

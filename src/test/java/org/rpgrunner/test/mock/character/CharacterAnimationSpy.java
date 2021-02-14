@@ -8,12 +8,14 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     private int screenX;
     private int screenY;
     private boolean updateScreenPositionFromMapPositionCalled;
+    private boolean doAnimationCalled;
 
     public CharacterAnimationSpy() {
         startAnimationCalled = false;
         screenX = 0;
         screenY = 0;
         updateScreenPositionFromMapPositionCalled = false;
+        doAnimationCalled = false;
     }
 
     public int getScreenX() {
@@ -41,10 +43,16 @@ public class CharacterAnimationSpy implements CharacterAnimation {
         startAnimationCalled = true;
     }
 
-    public void doAnimation() { }
-
     public boolean isStartAnimationCalled() {
         return startAnimationCalled;
+    }
+
+    public void doAnimation() {
+        doAnimationCalled = true;
+    }
+
+    public boolean isDoAnimationCalled() {
+        return doAnimationCalled;
     }
 
     public boolean isAnimationComplete() {
