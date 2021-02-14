@@ -179,21 +179,6 @@ public class GameControllerTest extends TestCase {
         );
     }
 
-    private CharacterElement generatePlayerCharacterElement() {
-        GameCharacter character = RandomGenerator.generateRandomCharacter();
-        CharacterAnimationSpy characterAnimationSpy = (
-            new CharacterAnimationSpy()
-        );
-        PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
-
-        return new CharacterElement(
-            null,
-            character,
-            characterAnimationSpy,
-            newPlayerMovementSpy
-        );
-    }
-
     public void testAddSameCharacterElementsOnGraphicsRender() {
         Vector characterElements = (
             RandomGenerator.generateRandomCharacterElements()
@@ -201,6 +186,10 @@ public class GameControllerTest extends TestCase {
         addCharacterElements(characterElements);
         Vector characterElementsGraphics = (
             graphicsRender.getCharacterElements()
+        );
+
+        Assert.assertTrue(
+            characterElementsGraphics.contains(playerCharacterElement)
         );
 
         for (
@@ -226,5 +215,33 @@ public class GameControllerTest extends TestCase {
             );
             gameController.addCharacterElement(characterElement);
         }
+    }
+
+    public void testRemoveLastPlayerCharacterWhenChangePlayerCharacter() {
+        gameController.setPlayerCharacterElement(
+            generatePlayerCharacterElement()
+        );
+        Vector characterElementsGraphics = (
+            graphicsRender.getCharacterElements()
+        );
+
+        Assert.assertFalse(
+            characterElementsGraphics.contains(playerCharacterElement)
+        );
+    }
+
+    private CharacterElement generatePlayerCharacterElement() {
+        GameCharacter character = RandomGenerator.generateRandomCharacter();
+        CharacterAnimationSpy characterAnimationSpy = (
+            new CharacterAnimationSpy()
+        );
+        PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
+
+        return new CharacterElement(
+            null,
+            character,
+            characterAnimationSpy,
+            newPlayerMovementSpy
+        );
     }
 }

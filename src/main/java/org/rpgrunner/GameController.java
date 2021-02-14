@@ -108,6 +108,7 @@ public class GameController {
     public void setPlayerCharacterElement(
         final CharacterElement newPlayerCharacterElement
     ) {
+        removeCharacterElement(playerCharacterElement);
         playerCharacterElement = newPlayerCharacterElement;
         playerMovement = (
             (PlayerMovement) playerCharacterElement.getMovementCommand()
@@ -116,6 +117,13 @@ public class GameController {
         camera.setCharacterAnimation(
             playerCharacterElement.getCharacterAnimation()
         );
+    }
+
+    private void removeCharacterElement(
+        final CharacterElement characterElement
+    ) {
+        characterElements.removeElement(characterElement);
+        graphicsRender.setCharacterElements(characterElements);
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
