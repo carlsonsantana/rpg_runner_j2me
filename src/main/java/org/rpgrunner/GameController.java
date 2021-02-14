@@ -40,7 +40,6 @@ public class GameController {
         final GameStartEvent gameStartEvent
     ) {
         gameStartEvent.execute(actionAbstractFactory);
-        graphicsRender.setCharacterElements(characterElements);
     }
 
     public void setMap(final Map newMap) {
@@ -121,5 +120,6 @@ public class GameController {
 
     public void addCharacterElement(final CharacterElement characterElement) {
         characterElements.addElement(characterElement);
+        graphicsRender.setCharacterElements(characterElements);
     }
 }

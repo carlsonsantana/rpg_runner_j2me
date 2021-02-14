@@ -124,16 +124,7 @@ public class GameControllerTest extends TestCase {
         Vector characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
-
-        for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
-        ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
-            gameController.addCharacterElement(characterElement);
-        }
+        addCharacterElements(characterElements);
 
         gameController.executeCharacterActions();
 
@@ -201,5 +192,39 @@ public class GameControllerTest extends TestCase {
             characterAnimationSpy,
             newPlayerMovementSpy
         );
+    }
+
+    public void testAddSameCharacterElementsOnGraphicsRender() {
+        Vector characterElements = (
+            RandomGenerator.generateRandomCharacterElements()
+        );
+        addCharacterElements(characterElements);
+        Vector characterElementsGraphics = (
+            graphicsRender.getCharacterElements()
+        );
+
+        for (
+            Enumeration enumeration = characterElements.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement characterElement = (
+                (CharacterElement) enumeration.nextElement()
+            );
+            Assert.assertTrue(
+                characterElementsGraphics.contains(characterElement)
+            );
+        }
+    }
+
+    private void addCharacterElements(final Vector characterElements) {
+        for (
+            Enumeration enumeration = characterElements.elements();
+            enumeration.hasMoreElements();
+        ) {
+            CharacterElement characterElement = (
+                (CharacterElement) enumeration.nextElement()
+            );
+            gameController.addCharacterElement(characterElement);
+        }
     }
 }
