@@ -168,9 +168,12 @@
           </midlets>
           <proguardOptions>
             <options>
-              <option>
-                -keep public class ${project.groupId}.${project.artifactId}.MainMIDlet
-              </option>
+              <option>-keep public class ${project.groupId}.${project.artifactId}.MainMIDlet</option>
+              <option>-repackageclasses</option>
+              <option>-allowaccessmodification</option>
+              <option>-mergeinterfacesaggressively</option>
+              <option>-microedition</option>
+              <option>-optimizationpasses 10</option>
             </options>
           </proguardOptions>
         </configuration>
