@@ -1,14 +1,15 @@
 package org.rpgrunner.j2me.character;
 
 import java.io.IOException;
+
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.j2me.TileSetRender;
+import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.j2me.tileset.TileSetRender;
 
 public class CharacterAnimationImpl implements CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";

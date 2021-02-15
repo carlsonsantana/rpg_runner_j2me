@@ -3,8 +3,9 @@ package org.rpgrunner.j2me;
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
-import org.rpgrunner.map.Map;
+import org.rpgrunner.j2me.tileset.TileSetRender;
 import org.rpgrunner.map.Layer;
+import org.rpgrunner.map.Map;
 
 public class MapRender {
     private final TiledLayer[] tiledLayers;

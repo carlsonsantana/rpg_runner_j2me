@@ -1,6 +1,7 @@
-package org.rpgrunner.j2me;
+package org.rpgrunner.j2me.tileset;
 
 import java.io.IOException;
+
 import javax.microedition.lcdui.Image;
 
 import org.rpgrunner.tileset.TileSet;
