@@ -22,7 +22,6 @@ public class GameController {
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
-    private int gameAction;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
