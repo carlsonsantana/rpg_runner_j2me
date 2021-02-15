@@ -1,14 +1,15 @@
-package org.rpgrunner.j2me;
-
 import javax.microedition.lcdui.Display;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
-public class MainMIDlet extends MIDlet {
+import org.rpgrunner.j2me.GameRunner;
+import org.rpgrunner.j2me.MidletCommands;
+
+public class Main extends MIDlet {
     private final GameRunner gameRunner;
     private final MidletCommands midletCommands;
 
-    public MainMIDlet() {
+    public Main() {
         gameRunner = new GameRunner();
         midletCommands = new MidletCommands(this, gameRunner);
     }

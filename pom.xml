@@ -163,12 +163,12 @@
           <midlets>
             <MIDlet>
               <name>${project.name}</name>
-              <class>${project.groupId}.${project.artifactId}.MainMIDlet</class>
+              <class>Main</class>
             </MIDlet>
           </midlets>
           <proguardOptions>
             <options>
-              <option>-keep public class ${project.groupId}.${project.artifactId}.MainMIDlet</option>
+              <option>-keep public class Main</option>
               <option>-repackageclasses</option>
               <option>-allowaccessmodification</option>
               <option>-mergeinterfacesaggressively</option>
