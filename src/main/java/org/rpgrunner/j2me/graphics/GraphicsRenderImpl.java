@@ -13,7 +13,7 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
-import org.rpgrunner.j2me.MapRender;
+import org.rpgrunner.j2me.map.MapRender;
 import org.rpgrunner.map.Map;
 
 public class GraphicsRenderImpl implements GraphicsRender {

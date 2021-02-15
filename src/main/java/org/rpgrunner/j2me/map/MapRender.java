@@ -1,4 +1,4 @@
-package org.rpgrunner.j2me;
+package org.rpgrunner.j2me.map;
 
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
