@@ -1,4 +1,4 @@
-package org.rpgrunner.character.movement;
+package org.rpgrunner.j2me.character.movement;
 
 import javax.microedition.lcdui.game.GameCanvas;
 
@@ -6,7 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.j2me.character.movement.PlayerMovementImpl;
+import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public class PlayerMovementImplTest extends TestCase {
