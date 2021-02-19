@@ -1,5 +1,6 @@
 package org.rpgrunner.event.factory;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import junit.framework.Assert;
@@ -9,7 +10,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 
 public abstract class AbstractNullActionFactoryTest extends TestCase {
-    public void testCreateNullAction() {
+    public void testCreateNullAction() throws IOException {
         InputStream inputStream = getInputStream();
         Action action = createAction(inputStream);
 
@@ -24,5 +25,7 @@ public abstract class AbstractNullActionFactoryTest extends TestCase {
 
     protected abstract InputStream generateInputStream(byte[] byteArray);
 
-    protected abstract Action createAction(InputStream inputStream);
+    protected abstract Action createAction(
+        InputStream inputStream
+    ) throws IOException;
 }
