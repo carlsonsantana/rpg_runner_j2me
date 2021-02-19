@@ -18,11 +18,11 @@ import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class ActionAbstractFactoryTest extends TestCase {
-    private static final byte ACTION_LIST_FACTORY = (byte) 0;
-    private static final byte PLAYER_CHARACTER_CREATOR_FACTORY = (byte) 1;
-    private static final byte CHARACTER_CREATOR_FACTORY = (byte) 2;
-    private static final byte TELEPORT_FACTORY = (byte) 3;
-    private static final byte LOCAL_TELEPORT_FACTORY = (byte) 4;
+    private static final byte ACTION_LIST_FACTORY = (byte) 1;
+    private static final byte PLAYER_CHARACTER_CREATOR_FACTORY = (byte) 2;
+    private static final byte CHARACTER_CREATOR_FACTORY = (byte) 3;
+    private static final byte TELEPORT_FACTORY = (byte) 4;
+    private static final byte LOCAL_TELEPORT_FACTORY = (byte) 5;
     private static final int ADDITIONAL_BYTES = 4;
     private static final int BYTES_LOCAL_TELEPORT = 3;
     private static final int ANOTHER_MAP_WIDTH = 16;

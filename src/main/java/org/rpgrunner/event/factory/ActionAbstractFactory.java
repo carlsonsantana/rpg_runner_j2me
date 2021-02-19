@@ -19,6 +19,7 @@ public class ActionAbstractFactory implements ActionFactory {
     ) {
         MapLoader mapLoader = new MapLoader(this);
 
+        NullActionFactory nullActionFactory = new NullActionFactory();
         ActionListFactory actionListFactory = new ActionListFactory(this);
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
@@ -40,6 +41,7 @@ public class ActionAbstractFactory implements ActionFactory {
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
 
         actionFactories = new ActionFactory[] {
+            nullActionFactory,
             actionListFactory,
             playerCharacterCreatorFactory,
             characterCreatorFactory,
