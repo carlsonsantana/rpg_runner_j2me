@@ -11,10 +11,19 @@ import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
-public class PlayerCharacterCreatorFactoryTest
+public class PlayerCharacterCreatorAbstractFactoryTest
     extends AbstractPlayerCharacterCreatorFactoryTest {
+    private static final byte PLAYER_CHARACTER_CREATOR_FACTORY = (byte) 2;
+
     protected InputStream generateInputStream(final byte[] byteArray) {
-        return new ByteArrayInputStream(byteArray);
+        int length = byteArray.length;
+        int newLength = length + 1;
+        byte[] newByteArray = new byte[newLength];
+
+        newByteArray[0] = PLAYER_CHARACTER_CREATOR_FACTORY;
+        System.arraycopy(byteArray, 0, newByteArray, 1, length);
+
+        return new ByteArrayInputStream(newByteArray);
     }
 
     protected Action createAction(
@@ -28,14 +37,12 @@ public class PlayerCharacterCreatorFactoryTest
             new PlayerMovementFactoryMock()
         );
 
-        PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
-            new PlayerCharacterCreatorFactory(
-                gameController,
-                characterAnimationFactory,
-                playerMovementFactory
-            )
+        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
+            gameController,
+            characterAnimationFactory,
+            playerMovementFactory
         );
-        Action action = playerCharacterCreatorFactory.create(inputStream);
+        Action action = actionAbstractFactory.create(inputStream);
 
         return action;
     }

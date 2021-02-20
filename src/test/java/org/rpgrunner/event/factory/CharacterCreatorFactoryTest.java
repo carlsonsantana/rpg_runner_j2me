@@ -1,34 +1,35 @@
 package org.rpgrunner.event.factory;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
-public class CharacterCreatorFactoryTest
-        extends AbstractCharacterCreatorFactoryTest {
-    protected AbstractCharacterCreatorFactory createFactory(
+public class CharacterCreatorFactoryTest extends AbstractNPCCreatorFactoryTest {
+    protected InputStream generateInputStream(final byte[] byteArray) {
+        return new ByteArrayInputStream(byteArray);
+    }
+
+    protected Action createAction(
+        final InputStream inputStream,
         final GameControllerSpy gameController
-    ) {
+    ) throws IOException {
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
 
-        return new CharacterCreatorFactory(
-            gameController,
-            characterAnimationFactory
+        CharacterCreatorFactory characterCreatorFactory = (
+            new CharacterCreatorFactory(
+                gameController,
+                characterAnimationFactory
+            )
         );
-    }
+        Action action = characterCreatorFactory.create(inputStream);
 
-    protected CharacterElement getCharacterCreated(
-        final GameControllerSpy gameController
-    ) {
-        return gameController.getLastCharacterElementAdded();
-    }
-
-    protected boolean instanceOfCharacterCreator(final Action action) {
-        return action instanceof CharacterCreator;
+        return action;
     }
 }

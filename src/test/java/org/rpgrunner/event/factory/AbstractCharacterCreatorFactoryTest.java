@@ -1,6 +1,5 @@
 package org.rpgrunner.event.factory;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -32,10 +31,7 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
             initialMapPositionY
         );
 
-        AbstractCharacterCreatorFactory characterCreatorFactory = createFactory(
-            gameController
-        );
-        Action action = characterCreatorFactory.create(inputStream);
+        Action action = createAction(inputStream, gameController);
 
         checkCharacterCreatorFactory(
             action,
@@ -61,14 +57,17 @@ public abstract class AbstractCharacterCreatorFactoryTest extends TestCase {
             initialMapPositionY
         );
 
-        return new ByteArrayInputStream(byteArray);
+        return generateInputStream(byteArray);
     }
 
-    protected abstract AbstractCharacterCreatorFactory createFactory(
-        GameControllerSpy currentGameController
-    );
+    protected abstract InputStream generateInputStream(byte[] byteArray);
 
-    public void checkCharacterCreatorFactory(
+    protected abstract Action createAction(
+        InputStream inputStream,
+        GameControllerSpy currentGameController
+    ) throws IOException;
+
+    private void checkCharacterCreatorFactory(
         final Action action,
         final GameControllerSpy currentGameController,
         final String characterFileName,

@@ -19,8 +19,6 @@ import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class ActionAbstractFactoryTest extends TestCase {
     private static final byte ACTION_LIST_FACTORY = (byte) 1;
-    private static final byte PLAYER_CHARACTER_CREATOR_FACTORY = (byte) 2;
-    private static final byte CHARACTER_CREATOR_FACTORY = (byte) 3;
     private static final int ADDITIONAL_BYTES = 4;
     private static final int BYTES_LOCAL_TELEPORT = 3;
     private static final int ANOTHER_MAP_WIDTH = 16;
@@ -62,48 +60,6 @@ public class ActionAbstractFactoryTest extends TestCase {
             action,
             new ActionAbstractFactorySpy(),
             0
-        );
-    }
-
-    public void testPlayerCharacterCreatorFactory() throws IOException {
-        String characterFileName = RandomGenerator.getRandomString();
-        InputStream inputStream = getInputStream(
-            characterFileName,
-            PLAYER_CHARACTER_CREATOR_FACTORY
-        );
-
-        Action action = actionAbstractFactory.create(inputStream);
-        PlayerCharacterCreatorFactoryTest playerCharacterCreatorFactoryTest = (
-            new PlayerCharacterCreatorFactoryTest()
-        );
-
-        playerCharacterCreatorFactoryTest.checkCharacterCreatorFactory(
-            action,
-            gameController,
-            characterFileName,
-            mapPositionX,
-            mapPositionY
-        );
-    }
-
-    public void testCharacterCreatorFactory() throws IOException {
-        String characterFileName = RandomGenerator.getRandomString();
-        InputStream inputStream = getInputStream(
-            characterFileName,
-            CHARACTER_CREATOR_FACTORY
-        );
-
-        Action action = actionAbstractFactory.create(inputStream);
-        CharacterCreatorFactoryTest characterCreatorFactoryTest = (
-            new CharacterCreatorFactoryTest()
-        );
-
-        characterCreatorFactoryTest.checkCharacterCreatorFactory(
-            action,
-            gameController,
-            characterFileName,
-            mapPositionX,
-            mapPositionY
         );
     }
 
