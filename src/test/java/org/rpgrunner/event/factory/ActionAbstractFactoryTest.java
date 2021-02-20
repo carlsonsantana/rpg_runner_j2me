@@ -21,7 +21,6 @@ public class ActionAbstractFactoryTest extends TestCase {
     private static final byte ACTION_LIST_FACTORY = (byte) 1;
     private static final byte PLAYER_CHARACTER_CREATOR_FACTORY = (byte) 2;
     private static final byte CHARACTER_CREATOR_FACTORY = (byte) 3;
-    private static final byte LOCAL_TELEPORT_FACTORY = (byte) 5;
     private static final int ADDITIONAL_BYTES = 4;
     private static final int BYTES_LOCAL_TELEPORT = 3;
     private static final int ANOTHER_MAP_WIDTH = 16;
@@ -122,27 +121,6 @@ public class ActionAbstractFactoryTest extends TestCase {
             mapPositionX,
             mapPositionY
         );
-
-        return new ByteArrayInputStream(byteArray);
-    }
-
-    public void testLocalTeleportFactory() throws IOException {
-        InputStream inputStream = getInputStreamLocalTeleport();
-
-        Action action = actionAbstractFactory.create(inputStream);
-
-        LocalTeleportFactoryTest.checkLocalTeleportFactory(
-            action,
-            characterElement,
-            mapPositionX,
-            mapPositionY
-        );
-    }
-
-    private InputStream getInputStreamLocalTeleport() {
-        byte[] byteArray = new byte[BYTES_LOCAL_TELEPORT];
-        byteArray[0] = LOCAL_TELEPORT_FACTORY;
-        InputStreamHelper.setPosition(byteArray, 1, mapPositionX, mapPositionY);
 
         return new ByteArrayInputStream(byteArray);
     }
