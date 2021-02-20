@@ -9,7 +9,8 @@ import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
-public class CharacterCreatorFactoryTest extends AbstractNPCCreatorFactoryTest {
+public class CharacterCreatorFactoryTest
+    extends AbstractCharacterCreatorFactoryTest {
     protected InputStream generateInputStream(final byte[] byteArray) {
         return new ByteArrayInputStream(byteArray);
     }

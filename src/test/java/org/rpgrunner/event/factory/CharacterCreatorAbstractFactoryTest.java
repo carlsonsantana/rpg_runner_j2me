@@ -12,7 +12,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
 public class CharacterCreatorAbstractFactoryTest
-    extends AbstractNPCCreatorFactoryTest {
+    extends AbstractCharacterCreatorFactoryTest {
     private static final byte CHARACTER_CREATOR_FACTORY = (byte) 3;
 
     protected InputStream generateInputStream(final byte[] byteArray) {
