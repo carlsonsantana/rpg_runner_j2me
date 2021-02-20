@@ -7,29 +7,19 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.test.helper.InputStreamHelper;
-import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
-public class ActionAbstractFactoryTest extends TestCase {
+public class ActionListAbstractFactoryTest extends TestCase {
     private static final byte ACTION_LIST_FACTORY = (byte) 1;
-    private static final int ADDITIONAL_BYTES = 4;
-    private static final int BYTES_LOCAL_TELEPORT = 3;
-    private static final int ANOTHER_MAP_WIDTH = 16;
-    private static final int ANOTHER_MAP_HEIGHT = 16;
     private ActionAbstractFactory actionAbstractFactory;
     private GameControllerSpy gameController;
-    private CharacterElement characterElement;
-    private int mapPositionX;
-    private int mapPositionY;
 
-    public ActionAbstractFactoryTest() {
+    public ActionListAbstractFactoryTest() {
         gameController = new GameControllerSpy();
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
@@ -44,12 +34,6 @@ public class ActionAbstractFactoryTest extends TestCase {
         );
     }
 
-    public void setUp() {
-        characterElement = RandomGenerator.generateRandomCharacterElement();
-        mapPositionX = RandomGenerator.getRandomPosition();
-        mapPositionY = RandomGenerator.getRandomPosition();
-    }
-
     public void testActionListFactory() throws IOException {
         byte[] byteArray = new byte[] {ACTION_LIST_FACTORY, 0};
         InputStream inputStream = new ByteArrayInputStream(byteArray);
@@ -61,23 +45,5 @@ public class ActionAbstractFactoryTest extends TestCase {
             new ActionAbstractFactorySpy(),
             0
         );
-    }
-
-    private InputStream getInputStream(
-        final String name,
-        final byte actionFactory
-    ) {
-        int arraySize = InputStreamHelper.getStringLength(name);
-        byte[] byteArray = new byte[arraySize + ADDITIONAL_BYTES];
-        byteArray[0] = actionFactory;
-        InputStreamHelper.setByteArray(byteArray, 1, name);
-        InputStreamHelper.setPosition(
-            byteArray,
-            arraySize + 2,
-            mapPositionX,
-            mapPositionY
-        );
-
-        return new ByteArrayInputStream(byteArray);
     }
 }
