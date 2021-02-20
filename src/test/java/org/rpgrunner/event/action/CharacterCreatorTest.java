@@ -1,58 +1,28 @@
 package org.rpgrunner.event.action;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
-
+import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
-public class CharacterCreatorTest extends TestCase {
-    private static final int TEST_REPEAT_LOOP = 100;
-    private static final int MINIMUM_INITIAL_POSITION = 2;
+public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
     private final CharacterAnimationFactory characterAnimationFactory;
 
     public CharacterCreatorTest() {
         characterAnimationFactory = new CharacterAnimationFactoryMock();
     }
 
-    public void testCreateCharacterLoop() {
-        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
-            checkCreateCharacter();
-        }
-    }
-
-    private void checkCreateCharacter() {
-        GameControllerSpy gameController = new GameControllerSpy();
-        String randomFileBaseName = RandomGenerator.getRandomString();
-        int initialMapPositionX = (
-            RandomGenerator.getRandomPosition()
-            + MINIMUM_INITIAL_POSITION
-        );
-        int initialMapPositionY = (
-            RandomGenerator.getRandomPosition()
-            + MINIMUM_INITIAL_POSITION
-        );
-        CharacterCreator characterCreator = new CharacterCreator(
+    protected CharacterCreator createCharacterCreator(
+        final GameController gameController,
+        final String characterFileName,
+        final int initialMapPositionX,
+        final int initialMapPositionY
+    ) {
+        return new CharacterCreator(
             gameController,
             characterAnimationFactory,
-            randomFileBaseName,
+            characterFileName,
             initialMapPositionX,
             initialMapPositionY
         );
-
-        characterCreator.execute();
-
-        CharacterElement characterElement = (
-            gameController.getLastCharacterElementAdded()
-        );
-        GameCharacter character = characterElement.getCharacter();
-
-        Assert.assertSame(randomFileBaseName, character.getFileBaseName());
-        Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
-        Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
     }
 }

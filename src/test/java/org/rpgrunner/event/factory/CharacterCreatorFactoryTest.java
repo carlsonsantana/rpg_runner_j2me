@@ -4,9 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
 public class CharacterCreatorFactoryTest extends AbstractNPCCreatorFactoryTest {
@@ -16,7 +16,7 @@ public class CharacterCreatorFactoryTest extends AbstractNPCCreatorFactoryTest {
 
     protected Action createAction(
         final InputStream inputStream,
-        final GameControllerSpy gameController
+        final GameController gameController
     ) throws IOException {
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
