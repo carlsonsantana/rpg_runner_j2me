@@ -5,8 +5,9 @@ import org.rpgrunner.character.GameCharacter;
 
 public class SimpleCharacter extends GameCharacter {
     private byte direction;
+
     public SimpleCharacter() {
-        super(null);
+        super(null, null);
     }
 
     public void moveUp() {

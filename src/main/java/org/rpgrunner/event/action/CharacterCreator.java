@@ -15,14 +15,16 @@ public class CharacterCreator extends AbstractCharacterCreator {
         final CharacterAnimationFactory characterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
-        final int initialMapPositionY
+        final int initialMapPositionY,
+        final Action interactiveAction
     ) {
         super(
             currentGameController,
             characterAnimationFactory,
             newCharacterFileBaseName,
             initialMapPositionX,
-            initialMapPositionY
+            initialMapPositionY,
+            interactiveAction
         );
         gameController = currentGameController;
     }

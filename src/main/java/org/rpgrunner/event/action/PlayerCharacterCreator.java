@@ -24,7 +24,8 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
             characterAnimationFactory,
             newCharacterFileBaseName,
             initialMapPositionX,
-            initialMapPositionY
+            initialMapPositionY,
+            null
         );
         gameController = currentGameController;
         playerMovementFactory = currentPlayerMovementFactory;

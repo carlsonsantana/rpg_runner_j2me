@@ -6,8 +6,10 @@ import java.io.InputStream;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterAnimationFactory;
+import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
+import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
 public class CharacterCreatorFactoryTest
     extends AbstractCharacterCreatorFactoryTest {
@@ -22,11 +24,20 @@ public class CharacterCreatorFactoryTest
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
+        PlayerMovementFactory playerMovementFactory = (
+            new PlayerMovementFactoryMock()
+        );
+        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
+            gameController,
+            characterAnimationFactory,
+            playerMovementFactory
+        );
 
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
                 gameController,
-                characterAnimationFactory
+                characterAnimationFactory,
+                actionAbstractFactory
             )
         );
         Action action = characterCreatorFactory.create(inputStream);

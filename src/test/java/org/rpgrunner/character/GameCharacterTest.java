@@ -6,8 +6,10 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class GameCharacterTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
@@ -16,6 +18,7 @@ public class GameCharacterTest extends TestCase {
     private GameCharacter character;
     private String characterBaseName;
     private Random random;
+    private Action action;
 
     public GameCharacterTest() {
         random = new Random();
@@ -23,7 +26,8 @@ public class GameCharacterTest extends TestCase {
 
     public void setUp() {
         characterBaseName = RandomGenerator.getRandomString();
-        character = new GameCharacter(characterBaseName);
+        action = new ActionSpy();
+        character = new GameCharacter(characterBaseName, action);
         characterElement = new CharacterElementSpy();
         character.setCharacterElement(characterElement);
     }
@@ -229,5 +233,9 @@ public class GameCharacterTest extends TestCase {
         Assert.assertEquals(mapPositionY, character.getMapPositionY());
         Assert.assertEquals(mapPositionX, character.getMapNextPositionX());
         Assert.assertEquals(mapPositionY, character.getMapNextPositionY());
+    }
+
+    public void testGetSameInteractiveAction() {
+        Assert.assertSame(action, character.getInteractiveAction());
     }
 }

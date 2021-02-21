@@ -7,7 +7,7 @@ public class CharacterSpy extends GameCharacter {
     private int initialPositionY;
 
     public CharacterSpy(final String fileBaseName) {
-        super(fileBaseName);
+        super(fileBaseName, null);
     }
 
     public void setInitialPosition(

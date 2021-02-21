@@ -36,10 +36,13 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
             gameController.getLastCharacterElementAdded()
         );
         GameCharacter character = characterElement.getCharacter();
+        Action action = character.getInteractiveAction();
 
         Assert.assertEquals(randomFileBaseName, character.getFileBaseName());
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
         Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
+        Assert.assertNotNull(action);
+        Assert.assertTrue(action instanceof NullAction);
     }
 
     protected abstract CharacterCreator createCharacterCreator(

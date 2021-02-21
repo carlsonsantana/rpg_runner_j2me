@@ -1,9 +1,11 @@
 package org.rpgrunner.character;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.event.action.Action;
 
 public class GameCharacter {
     private final String fileBaseName;
+    private final Action interactiveAction;
     private byte direction;
     private int mapPositionX;
     private int mapPositionY;
@@ -11,9 +13,13 @@ public class GameCharacter {
     private int mapNextPositionY;
     private CharacterElement characterElement;
 
-    public GameCharacter(final String characterFileBaseName) {
+    public GameCharacter(
+        final String characterFileBaseName,
+        final Action newInteractiveAction
+    ) {
         fileBaseName = characterFileBaseName;
         direction = Direction.DOWN;
+        interactiveAction = newInteractiveAction;
     }
 
     public String getFileBaseName() {
@@ -115,5 +121,9 @@ public class GameCharacter {
         final CharacterElement newCharacterElement
     ) {
         characterElement = newCharacterElement;
+    }
+
+    public Action getInteractiveAction() {
+        return interactiveAction;
     }
 }

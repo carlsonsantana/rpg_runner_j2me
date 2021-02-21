@@ -31,7 +31,8 @@ public class ActionAbstractFactory implements ActionFactory {
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
                 gameController,
-                characterAnimationFactory
+                characterAnimationFactory,
+                this
             )
         );
         TeleportFactory teleportFactory = new TeleportFactory(

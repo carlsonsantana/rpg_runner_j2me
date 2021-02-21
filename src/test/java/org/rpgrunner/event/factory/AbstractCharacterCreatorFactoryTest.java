@@ -11,7 +11,7 @@ import org.rpgrunner.test.helper.InputStreamHelper;
 
 public abstract class AbstractCharacterCreatorFactoryTest
     extends AbstractCharacterCreatorTest {
-    private static final int ADDITIONAL_BYTES = 3;
+    private static final int ADDITIONAL_BYTES = 4;
 
     protected CharacterCreator createCharacterCreator(
         final GameController gameController,
@@ -43,7 +43,8 @@ public abstract class AbstractCharacterCreatorFactoryTest
         final int initialMapPositionY
     ) {
         int stringLength = InputStreamHelper.getStringLength(characterFileName);
-        byte[] byteArray = new byte[stringLength + ADDITIONAL_BYTES];
+        int arrayLength = stringLength + ADDITIONAL_BYTES;
+        byte[] byteArray = new byte[arrayLength];
         InputStreamHelper.setByteArray(byteArray, characterFileName);
         InputStreamHelper.setPosition(
             byteArray,
@@ -51,6 +52,7 @@ public abstract class AbstractCharacterCreatorFactoryTest
             initialMapPositionX,
             initialMapPositionY
         );
+        byteArray[arrayLength - 1] = 0;
 
         return generateInputStream(byteArray);
     }

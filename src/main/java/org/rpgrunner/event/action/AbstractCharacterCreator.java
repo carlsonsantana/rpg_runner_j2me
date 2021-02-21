@@ -13,13 +13,15 @@ public abstract class AbstractCharacterCreator implements Action {
     private final CharacterAnimationFactory characterAnimationFactory;
     private final String characterFileBaseName;
     private final LocalTeleport localTeleport;
+    private final Action interactiveAction;
 
     public AbstractCharacterCreator(
         final GameController currentGameController,
         final CharacterAnimationFactory currentCharacterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
-        final int initialMapPositionY
+        final int initialMapPositionY,
+        final Action newInteractiveAction
     ) {
         gameController = currentGameController;
         characterFileBaseName = newCharacterFileBaseName;
@@ -28,6 +30,7 @@ public abstract class AbstractCharacterCreator implements Action {
             initialMapPositionY
         );
         characterAnimationFactory = currentCharacterAnimationFactory;
+        interactiveAction = newInteractiveAction;
     }
 
     public void execute() {
@@ -38,7 +41,10 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        GameCharacter character = new GameCharacter(characterFileBaseName);
+        GameCharacter character = new GameCharacter(
+            characterFileBaseName,
+            interactiveAction
+        );
         MovementCommand movementCommand = createMovementCommand(character);
         CollisionDetector collisionDetector = (
             gameController.getCollisionDetector()

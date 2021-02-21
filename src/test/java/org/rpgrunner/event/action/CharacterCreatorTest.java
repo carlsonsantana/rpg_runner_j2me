@@ -17,12 +17,15 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
+        Action action = new NullAction();
+
         return new CharacterCreator(
             gameController,
             characterAnimationFactory,
             characterFileName,
             initialMapPositionX,
-            initialMapPositionY
+            initialMapPositionY,
+            action
         );
     }
 }
