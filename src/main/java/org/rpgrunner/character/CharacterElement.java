@@ -1,21 +1,21 @@
 package org.rpgrunner.character;
 
-import org.rpgrunner.helper.CollisionDetector;
 import org.rpgrunner.character.movement.MovementCommand;
+import org.rpgrunner.helper.MapHelper;
 
 public class CharacterElement {
-    private final CollisionDetector collisionDetector;
+    private final MapHelper mapHelper;
     private final GameCharacter character;
     private final CharacterAnimation characterAnimation;
     private final MovementCommand movementCommand;
 
     public CharacterElement(
-        final CollisionDetector newCollisionDetector,
+        final MapHelper newMapHelper,
         final GameCharacter newCharacter,
         final CharacterAnimation newCharacterAnimation,
         final MovementCommand characterCommand
     ) {
-        collisionDetector = newCollisionDetector;
+        mapHelper = newMapHelper;
         character = newCharacter;
         characterAnimation = newCharacterAnimation;
         movementCommand = characterCommand;
@@ -34,7 +34,7 @@ public class CharacterElement {
     }
 
     public void onMove() {
-        if (!collisionDetector.canMove(character)) {
+        if (!mapHelper.canMove(character)) {
             character.cancelMove();
         }
 

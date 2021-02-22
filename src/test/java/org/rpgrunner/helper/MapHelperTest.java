@@ -11,11 +11,11 @@ import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
-public class CollisionDetectorTest extends TestCase {
+public class MapHelperTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final byte STOPPED_DIRECTION = (byte) 0;
     private static final int MINIMUM_POSITION = 3;
-    private CollisionDetector collisionDetector;
+    private MapHelper mapHelper;
     private MapSpy map;
     private Vector characterElements;
     private CharacterSpy character;
@@ -178,10 +178,10 @@ public class CollisionDetectorTest extends TestCase {
     }
 
     public void setUp() {
-        collisionDetector = new CollisionDetector();
+        mapHelper = new MapHelper();
         map = new MapSpy();
         map.setCanMoveTo(true);
-        collisionDetector.setMap(map);
+        mapHelper.setMap(map);
         generateNewScenario();
     }
 
@@ -189,7 +189,7 @@ public class CollisionDetectorTest extends TestCase {
         characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
-        collisionDetector.setCharacterElements(characterElements);
+        mapHelper.setCharacterElements(characterElements);
         character = getCharacterTest();
         collisionCharacter = getCollisionCharacter();
     }
@@ -227,7 +227,7 @@ public class CollisionDetectorTest extends TestCase {
     public void testCantMoveWhenExistsAMapCollision() {
         map.setCanMoveTo(false);
 
-        Assert.assertFalse(collisionDetector.canMove(character));
+        Assert.assertFalse(mapHelper.canMove(character));
     }
 
     public void testCantMoveUpWhenExistsACharacterCollisionLoop() {
@@ -243,7 +243,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertFalse(collisionDetector.canMove(character));
+                Assert.assertFalse(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -262,7 +262,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertFalse(collisionDetector.canMove(character));
+                Assert.assertFalse(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -281,7 +281,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertFalse(collisionDetector.canMove(character));
+                Assert.assertFalse(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -300,7 +300,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertFalse(collisionDetector.canMove(character));
+                Assert.assertFalse(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -319,7 +319,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertTrue(collisionDetector.canMove(character));
+                Assert.assertTrue(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -338,7 +338,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertTrue(collisionDetector.canMove(character));
+                Assert.assertTrue(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -357,7 +357,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertTrue(collisionDetector.canMove(character));
+                Assert.assertTrue(mapHelper.canMove(character));
             }
         };
         test.test();
@@ -376,7 +376,7 @@ public class CollisionDetectorTest extends TestCase {
             }
 
             public void testOperation() {
-                Assert.assertTrue(collisionDetector.canMove(character));
+                Assert.assertTrue(mapHelper.canMove(character));
             }
         };
         test.test();

@@ -7,7 +7,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
 
-public class CollisionDetector {
+public class MapHelper {
     private Map map;
     private Vector characterElements;
 

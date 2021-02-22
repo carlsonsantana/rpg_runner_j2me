@@ -6,7 +6,7 @@ import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
-import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
     private final GameController gameController;
@@ -46,14 +46,14 @@ public abstract class AbstractCharacterCreator implements Action {
             interactiveAction
         );
         MovementCommand movementCommand = createMovementCommand(character);
-        CollisionDetector collisionDetector = (
-            gameController.getCollisionDetector()
+        MapHelper mapHelper = (
+            gameController.getMapHelper()
         );
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
         );
         CharacterElement characterElement = new CharacterElement(
-            collisionDetector,
+            mapHelper,
             character,
             characterAnimation,
             movementCommand

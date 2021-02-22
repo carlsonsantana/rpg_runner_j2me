@@ -11,14 +11,14 @@ import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
-import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class GameController {
     private final GraphicsRender graphicsRender;
     private final Camera camera;
     private final Vector characterElements;
-    private final CollisionDetector collisionDetector;
+    private final MapHelper mapHelper;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
@@ -30,8 +30,8 @@ public class GameController {
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
-        collisionDetector = new CollisionDetector();
-        collisionDetector.setCharacterElements(characterElements);
+        mapHelper = new MapHelper();
+        mapHelper.setCharacterElements(characterElements);
     }
 
     public void executeStartActions(
@@ -44,7 +44,7 @@ public class GameController {
     public void setMap(final Map newMap) {
         map = newMap;
 
-        collisionDetector.setMap(map);
+        mapHelper.setMap(map);
         camera.setMap(map);
         graphicsRender.setMap(map);
         removeAllNPCs();
@@ -111,8 +111,8 @@ public class GameController {
         return playerCharacterElement;
     }
 
-    public CollisionDetector getCollisionDetector() {
-        return collisionDetector;
+    public MapHelper getMapHelper() {
+        return mapHelper;
     }
 
     public void setPlayerCharacterElement(

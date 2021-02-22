@@ -2,7 +2,7 @@ package org.rpgrunner.test.mock;
 
 import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.helper.CollisionDetector;
+import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
@@ -43,8 +43,8 @@ public class GameControllerSpy extends GameController {
         return playerCharacterElement;
     }
 
-    public CollisionDetector getCollisionDetector() {
-        return new CollisionDetector();
+    public MapHelper getMapHelper() {
+        return new MapHelper();
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
