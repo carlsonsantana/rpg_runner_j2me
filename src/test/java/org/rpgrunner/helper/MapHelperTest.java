@@ -7,8 +7,11 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.event.action.Action;
+import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
+import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class MapHelperTest extends TestCase {
@@ -39,7 +42,7 @@ public class MapHelperTest extends TestCase {
         private void testCollisionCharacterStopped() {
             generateNewScenario();
             moveCharacter();
-            setInitialPosition(STOPPED_DIRECTION);
+            setInitialPosition(STOPPED_DIRECTION, additional);
 
             testOperation();
         }
@@ -47,7 +50,7 @@ public class MapHelperTest extends TestCase {
         private void testCollisionCharacterMoveUp() {
             generateNewScenario();
             moveCharacter();
-            setInitialPosition(Direction.UP);
+            setInitialPosition(Direction.UP, additional);
 
             collisionCharacter.moveUp();
             testOperation();
@@ -56,7 +59,7 @@ public class MapHelperTest extends TestCase {
         private void testCollisionCharacterMoveRight() {
             generateNewScenario();
             moveCharacter();
-            setInitialPosition(Direction.RIGHT);
+            setInitialPosition(Direction.RIGHT, additional);
 
             collisionCharacter.moveRight();
             testOperation();
@@ -65,7 +68,7 @@ public class MapHelperTest extends TestCase {
         private void testCollisionCharacterMoveDown() {
             generateNewScenario();
             moveCharacter();
-            setInitialPosition(Direction.DOWN);
+            setInitialPosition(Direction.DOWN, additional);
 
             collisionCharacter.moveDown();
             testOperation();
@@ -74,102 +77,10 @@ public class MapHelperTest extends TestCase {
         private void testCollisionCharacterMoveLeft() {
             generateNewScenario();
             moveCharacter();
-            setInitialPosition(Direction.LEFT);
+            setInitialPosition(Direction.LEFT, additional);
 
             collisionCharacter.moveLeft();
             testOperation();
-        }
-
-        private void setInitialPosition(final byte direction) {
-            int additionalXValue = getAdditionalXValue();
-            int additionalXCollisionCharacterValue = (
-                getDirectionAdditionalX(direction)
-            );
-            int additionalYValue = getAdditionalYValue();
-            int additionalYCollisionCharacterValue = (
-                getDirectionAdditionalY(direction)
-            );
-            int initialPositionX = calculateInitialPosition(
-                direction,
-                character.getMapPositionX(),
-                additionalXValue,
-                additionalXCollisionCharacterValue
-            );
-            int initialPositionY = calculateInitialPosition(
-                direction,
-                character.getMapPositionY(),
-                additionalYValue,
-                additionalYCollisionCharacterValue
-            );
-
-            collisionCharacter.setInitialPosition(
-                initialPositionX,
-                initialPositionY
-            );
-        }
-
-        private int getAdditionalXValue() {
-            return (
-                additional
-                * getDirectionAdditionalX(character.getDirection())
-            );
-        }
-
-        private int getDirectionAdditionalX(final byte direction) {
-            switch (direction) {
-                case Direction.RIGHT:
-                    return 1;
-                case Direction.LEFT:
-                    return -1;
-                default:
-                    return 0;
-            }
-        }
-
-        private int getAdditionalYValue() {
-            return (
-                additional
-                * getDirectionAdditionalY(character.getDirection())
-            );
-        }
-
-        private int getDirectionAdditionalY(final byte direction) {
-            switch (direction) {
-                case Direction.DOWN:
-                    return 1;
-                case Direction.UP:
-                    return -1;
-                default:
-                    return 0;
-            }
-        }
-
-        private int calculateInitialPosition(
-            final byte collisionCharacterDirection,
-            final int characterPosition,
-            final int additionalValue,
-            final int additionalCollisionCharacterValue
-        ) {
-            byte direction = character.getDirection();
-            byte invertedDirection = Direction.invertDirection(direction);
-
-            if (direction == collisionCharacterDirection) {
-                return (
-                    characterPosition
-                    + (additionalValue * 2)
-                    - (additionalCollisionCharacterValue * 2)
-                );
-            }
-
-            if (invertedDirection == collisionCharacterDirection) {
-                return (characterPosition + (additionalValue * 2));
-            }
-
-            return (
-                characterPosition
-                + additionalValue
-                - additionalCollisionCharacterValue
-            );
         }
 
         public abstract void moveCharacter();
@@ -380,5 +291,210 @@ public class MapHelperTest extends TestCase {
             }
         };
         test.test();
+    }
+
+    public void testGetInteractActionWhenAnCharacterIsInFrontUpLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkGetInteractActionWhenAnCharacterIsInFrontUp();
+        }
+    }
+
+    private void checkGetInteractActionWhenAnCharacterIsInFrontUp() {
+        generateNewScenario();
+        character.moveUp();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 1);
+
+        CharacterActionSpy interactAction = (
+            (CharacterActionSpy) mapHelper.getInteractAction(character)
+        );
+        Assert.assertSame(collisionCharacter, interactAction.getCharacter());
+    }
+
+    public void testGetInteractActionWhenAnCharacterIsInFrontRightLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkGetInteractActionWhenAnCharacterIsInFrontRight();
+        }
+    }
+
+    private void checkGetInteractActionWhenAnCharacterIsInFrontRight() {
+        generateNewScenario();
+        character.moveRight();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 1);
+
+        CharacterActionSpy interactAction = (
+            (CharacterActionSpy) mapHelper.getInteractAction(character)
+        );
+        Assert.assertSame(collisionCharacter, interactAction.getCharacter());
+    }
+
+    public void testGetInteractActionWhenAnCharacterIsInFrontDownLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkGetInteractActionWhenAnCharacterIsInFrontDown();
+        }
+    }
+
+    private void checkGetInteractActionWhenAnCharacterIsInFrontDown() {
+        generateNewScenario();
+        character.moveDown();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 1);
+
+        CharacterActionSpy interactAction = (
+            (CharacterActionSpy) mapHelper.getInteractAction(character)
+        );
+        Assert.assertSame(collisionCharacter, interactAction.getCharacter());
+    }
+
+    public void testGetInteractActionWhenAnCharacterIsInFrontLeftLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkGetInteractActionWhenAnCharacterIsInFrontLeft();
+        }
+    }
+
+    private void checkGetInteractActionWhenAnCharacterIsInFrontLeft() {
+        generateNewScenario();
+        character.moveLeft();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 1);
+
+        CharacterActionSpy interactAction = (
+            (CharacterActionSpy) mapHelper.getInteractAction(character)
+        );
+        Assert.assertSame(collisionCharacter, interactAction.getCharacter());
+    }
+
+    private void setInitialPosition(
+        final byte direction,
+        final int additional
+    ) {
+        int additionalXValue = getAdditionalXValue(additional);
+        int additionalXCollisionCharacterValue = (
+            getDirectionAdditionalX(direction)
+        );
+        int additionalYValue = getAdditionalYValue(additional);
+        int additionalYCollisionCharacterValue = (
+            getDirectionAdditionalY(direction)
+        );
+        int initialPositionX = calculateInitialPosition(
+            direction,
+            character.getMapPositionX(),
+            additionalXValue,
+            additionalXCollisionCharacterValue
+        );
+        int initialPositionY = calculateInitialPosition(
+            direction,
+            character.getMapPositionY(),
+            additionalYValue,
+            additionalYCollisionCharacterValue
+        );
+
+        collisionCharacter.setInitialPosition(
+            initialPositionX,
+            initialPositionY
+        );
+    }
+
+    private int getAdditionalXValue(final int additional) {
+        return (additional * getDirectionAdditionalX(character.getDirection()));
+    }
+
+    private int getDirectionAdditionalX(final byte direction) {
+        switch (direction) {
+            case Direction.RIGHT:
+                return 1;
+            case Direction.LEFT:
+                return -1;
+            default:
+                return 0;
+        }
+    }
+
+    private int getAdditionalYValue(final int additional) {
+        return (additional * getDirectionAdditionalY(character.getDirection()));
+    }
+
+    private int getDirectionAdditionalY(final byte direction) {
+        switch (direction) {
+            case Direction.DOWN:
+                return 1;
+            case Direction.UP:
+                return -1;
+            default:
+                return 0;
+        }
+    }
+
+    private int calculateInitialPosition(
+        final byte collisionCharacterDirection,
+        final int characterPosition,
+        final int additionalValue,
+        final int additionalCollisionCharacterValue
+    ) {
+        byte direction = character.getDirection();
+        byte invertedDirection = Direction.invertDirection(direction);
+
+        if (direction == collisionCharacterDirection) {
+            return (
+                characterPosition
+                + (additionalValue * 2)
+                - (additionalCollisionCharacterValue * 2)
+            );
+        }
+
+        if (invertedDirection == collisionCharacterDirection) {
+            return (characterPosition + (additionalValue * 2));
+        }
+
+        return (
+            characterPosition
+            + additionalValue
+            - additionalCollisionCharacterValue
+        );
+    }
+
+    public void testGetNullActionWhenAnyAnCharacterIsInFrontUp() {
+        generateNewScenario();
+        character.moveUp();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 2);
+
+        Action action = mapHelper.getInteractAction(character);
+        Assert.assertNotNull(action);
+        Assert.assertTrue(action instanceof NullAction);
+    }
+
+    public void testGetNullActionWhenAnyAnCharacterIsInFrontRight() {
+        generateNewScenario();
+        character.moveRight();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 2);
+
+        Action action = mapHelper.getInteractAction(character);
+        Assert.assertNotNull(action);
+        Assert.assertTrue(action instanceof NullAction);
+    }
+
+    public void testGetNullActionWhenAnyAnCharacterIsInFrontDown() {
+        generateNewScenario();
+        character.moveDown();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 2);
+
+        Action action = mapHelper.getInteractAction(character);
+        Assert.assertNotNull(action);
+        Assert.assertTrue(action instanceof NullAction);
+    }
+
+    public void testGetNullActionWhenAnyAnCharacterIsInFrontLeft() {
+        generateNewScenario();
+        character.moveLeft();
+        character.cancelMove();
+        setInitialPosition(STOPPED_DIRECTION, 2);
+
+        Action action = mapHelper.getInteractAction(character);
+        Assert.assertNotNull(action);
+        Assert.assertTrue(action instanceof NullAction);
     }
 }

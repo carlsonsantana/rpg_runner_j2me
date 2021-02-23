@@ -1,6 +1,8 @@
 package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.event.action.Action;
+import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 
 public class CharacterSpy extends GameCharacter {
     private int initialPositionX;
@@ -32,5 +34,9 @@ public class CharacterSpy extends GameCharacter {
 
     public int getMapNextPositionY() {
         return super.getMapNextPositionY() + initialPositionY;
+    }
+
+    public Action getInteractiveAction() {
+        return new CharacterActionSpy(this);
     }
 }
