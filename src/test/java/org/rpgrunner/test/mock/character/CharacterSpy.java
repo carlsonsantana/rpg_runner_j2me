@@ -5,11 +5,14 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 
 public class CharacterSpy extends GameCharacter {
+    private static final byte INITIAL_DIRECTION = 0;
     private int initialPositionX;
     private int initialPositionY;
+    private byte direction;
 
     public CharacterSpy(final String fileBaseName) {
         super(fileBaseName, null);
+        direction = INITIAL_DIRECTION;
     }
 
     public void setInitialPosition(
@@ -38,5 +41,17 @@ public class CharacterSpy extends GameCharacter {
 
     public Action getInteractiveAction() {
         return new CharacterActionSpy(this);
+    }
+
+    public void setDirection(final byte newDirection) {
+        direction = newDirection;
+    }
+
+    public byte getDirection() {
+        if (direction == INITIAL_DIRECTION) {
+            return super.getDirection();
+        }
+
+        return direction;
     }
 }

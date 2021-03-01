@@ -1,5 +1,6 @@
 package org.rpgrunner.test.mock.map;
 
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Layer;
 import org.rpgrunner.map.Map;
 
@@ -40,13 +41,7 @@ public class MapSpy extends Map {
         canMove = newCanMove;
     }
 
-    public boolean canMoveTo(
-        final int fromX,
-        final int fromY,
-        final int toX,
-        final int toY,
-        final byte direction
-    ) {
+    public boolean canMove(final GameCharacter character) {
         return canMove;
     }
 

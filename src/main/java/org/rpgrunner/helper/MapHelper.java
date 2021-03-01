@@ -24,13 +24,7 @@ public class MapHelper {
 
     public boolean canMove(final GameCharacter character) {
         return (
-            map.canMoveTo(
-                character.getMapPositionX(),
-                character.getMapPositionY(),
-                character.getMapNextPositionX(),
-                character.getMapNextPositionY(),
-                character.getDirection()
-            )
+            map.canMove(character)
             && (!hasCharacterCollision(character))
         );
     }

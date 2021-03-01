@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.test.helper.RandomGenerator;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.event.action.ActionListSpy;
 import org.rpgrunner.test.mock.map.LayerSpy;
 
@@ -83,19 +84,18 @@ public class MapTest extends TestCase {
         boolean canMoveToBackground = random.nextInt(2) == 1;
         boolean canMoveToObjects = random.nextInt(2) == 1;
         boolean canMove = canMoveToBackground && canMoveToObjects;
-        int fromX = random.nextInt(MAXIMUM_POSITION);
-        int fromY = random.nextInt(MAXIMUM_POSITION);
-        int toX = random.nextInt(MAXIMUM_POSITION);
-        int toY = random.nextInt(MAXIMUM_POSITION);
+
+        CharacterSpy character = new CharacterSpy(null);
+        int x = random.nextInt(MAXIMUM_POSITION);
+        int y = random.nextInt(MAXIMUM_POSITION);
         byte direction = RandomGenerator.getRandomDirection();
+        character.setMapPosition(x, y);
+        character.setDirection(direction);
 
         layerBackground.setCanMove(canMoveToBackground);
         layerObjects.setCanMove(canMoveToObjects);
 
-        Assert.assertEquals(
-            canMove,
-            map.canMoveTo(fromX, fromY, toX, toY, direction)
-        );
+        Assert.assertEquals(canMove, map.canMove(character));
     }
 
     public void testExecuteStartActionList() {

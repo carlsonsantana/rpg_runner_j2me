@@ -1,5 +1,6 @@
 package org.rpgrunner.map;
 
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
 
 public class Map {
@@ -33,13 +34,13 @@ public class Map {
         return layers;
     }
 
-    public boolean canMoveTo(
-        final int fromX,
-        final int fromY,
-        final int toX,
-        final int toY,
-        final byte direction
-    ) {
+    public boolean canMove(final GameCharacter character) {
+        int fromX = character.getMapPositionX();
+        int fromY = character.getMapPositionY();
+        int toX = character.getMapNextPositionX();
+        int toY = character.getMapNextPositionY();
+        byte direction = character.getDirection();
+
         for (int i = 0; i < layers.length; i++) {
             if (!layers[i].canMoveTo(fromX, fromY, toX, toY, direction)) {
                 return false;
