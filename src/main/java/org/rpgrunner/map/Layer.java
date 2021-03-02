@@ -1,6 +1,7 @@
 package org.rpgrunner.map;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.tileset.TileSet;
 
 public class Layer {
@@ -28,13 +29,13 @@ public class Layer {
         return tileSet;
     }
 
-    public boolean canMoveTo(
-        final int fromX,
-        final int fromY,
-        final int toX,
-        final int toY,
-        final byte direction
-    ) {
+    public boolean canMove(final GameCharacter character) {
+        int fromX = character.getMapPositionX();
+        int fromY = character.getMapPositionY();
+        int toX = character.getMapNextPositionX();
+        int toY = character.getMapNextPositionY();
+        byte direction = character.getDirection();
+
         return (
             isValidPosition(toX, toY)
             && (tileSet.canPassOn(tileMap[fromY][fromX], direction))

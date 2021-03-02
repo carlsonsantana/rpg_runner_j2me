@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.helper.RandomGenerator;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.tileset.TileSetSpy;
 
 public class LayerTest extends TestCase {
@@ -83,31 +84,34 @@ public class LayerTest extends TestCase {
     }
 
     public void testCantMoveToNegativePositions() {
-        Assert.assertFalse(layer.canMoveTo(0, 0, -1, 0, Direction.LEFT));
-        Assert.assertFalse(layer.canMoveTo(0, 0, 0, -1, Direction.UP));
+        CharacterSpy characterLeft = new CharacterSpy(null);
+        characterLeft.setInitialPosition(0, 0);
+        characterLeft.setAdditionalNextPosition(-1, 0);
+        characterLeft.setDirection(Direction.LEFT);
+        Assert.assertFalse(layer.canMove(characterLeft));
+
+        CharacterSpy characterUp = new CharacterSpy(null);
+        characterUp.setInitialPosition(0, 0);
+        characterUp.setAdditionalNextPosition(0, -1);
+        characterUp.setDirection(Direction.UP);
+        Assert.assertFalse(layer.canMove(characterUp));
     }
 
     public void testCantMoveToPositionOffTheMap() {
         int borderX = layer.getWidth() - 1;
         int borderY = layer.getHeight() - 1;
-        Assert.assertFalse(
-            layer.canMoveTo(
-                borderX,
-                borderY,
-                borderX + 1,
-                borderY,
-                Direction.RIGHT
-            )
-        );
-        Assert.assertFalse(
-            layer.canMoveTo(
-                borderX,
-                borderY,
-                borderX,
-                borderY + 1,
-                Direction.DOWN
-            )
-        );
+
+        CharacterSpy characterRight = new CharacterSpy(null);
+        characterRight.setInitialPosition(borderX, borderY);
+        characterRight.setAdditionalNextPosition(1, 0);
+        characterRight.setDirection(Direction.RIGHT);
+        Assert.assertFalse(layer.canMove(characterRight));
+
+        CharacterSpy characterDown = new CharacterSpy(null);
+        characterDown.setInitialPosition(borderX, borderY);
+        characterDown.setAdditionalNextPosition(0, 1);
+        characterDown.setDirection(Direction.DOWN);
+        Assert.assertFalse(layer.canMove(characterDown));
     }
 
     public void testCantMoveToPositionWhenHasCollisionLoop() {
@@ -131,29 +135,31 @@ public class LayerTest extends TestCase {
     private void checkMoveToValidPositionsWithoutCollisions(
         final boolean expectedValue
     ) {
+        CharacterSpy character = new CharacterSpy(null);
         int maxX = layer.getWidth();
         int maxY = layer.getHeight();
         int randomValidX = random.nextInt(maxX);
         int randomValidY = random.nextInt(maxY);
         byte direction;
-        int targetX;
-        int targetY;
         boolean invalidPosition;
+
+        character.setInitialPosition(randomValidX, randomValidY);
 
         do {
             direction = RandomGenerator.getRandomDirection();
-            targetX = randomValidX;
-            targetY = randomValidY;
 
             if (direction == Direction.UP) {
-                targetY--;
+                character.setAdditionalNextPosition(0, -1);
             } else if (direction == Direction.RIGHT) {
-                targetX++;
+                character.setAdditionalNextPosition(1, 0);
             } else if (direction == Direction.DOWN) {
-                targetY++;
+                character.setAdditionalNextPosition(0, 1);
             } else {
-                targetX--;
+                character.setAdditionalNextPosition(-1, 0);
             }
+
+            int targetX = character.getMapNextPositionX();
+            int targetY = character.getMapNextPositionY();
 
             invalidPosition = (
                 (targetX < 0)
@@ -163,15 +169,6 @@ public class LayerTest extends TestCase {
             );
         } while (invalidPosition);
 
-        Assert.assertEquals(
-            expectedValue,
-            layer.canMoveTo(
-                randomValidX,
-                randomValidY,
-                targetX,
-                targetY,
-                direction
-            )
-        );
+        Assert.assertEquals(expectedValue, layer.canMove(character));
     }
 }

@@ -8,6 +8,8 @@ public class CharacterSpy extends GameCharacter {
     private static final byte INITIAL_DIRECTION = 0;
     private int initialPositionX;
     private int initialPositionY;
+    private int additionalNextPositionX;
+    private int additionalNextPositionY;
     private byte direction;
 
     public CharacterSpy(final String fileBaseName) {
@@ -23,6 +25,14 @@ public class CharacterSpy extends GameCharacter {
         initialPositionY = newInitialPositionY;
     }
 
+    public void setAdditionalNextPosition(
+        final int newAdditionalNextPositionX,
+        final int newAdditionalNextPositionY
+    ) {
+        additionalNextPositionX = newAdditionalNextPositionX;
+        additionalNextPositionY = newAdditionalNextPositionY;
+    }
+
     public int getMapPositionX() {
         return super.getMapPositionX() + initialPositionX;
     }
@@ -32,11 +42,19 @@ public class CharacterSpy extends GameCharacter {
     }
 
     public int getMapNextPositionX() {
-        return super.getMapNextPositionX() + initialPositionX;
+        return (
+            super.getMapNextPositionX()
+            + initialPositionX
+            + additionalNextPositionX
+        );
     }
 
     public int getMapNextPositionY() {
-        return super.getMapNextPositionY() + initialPositionY;
+        return (
+            super.getMapNextPositionY()
+            + initialPositionY
+            + additionalNextPositionY
+        );
     }
 
     public Action getInteractiveAction() {

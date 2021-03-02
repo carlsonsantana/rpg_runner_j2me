@@ -35,14 +35,8 @@ public class Map {
     }
 
     public boolean canMove(final GameCharacter character) {
-        int fromX = character.getMapPositionX();
-        int fromY = character.getMapPositionY();
-        int toX = character.getMapNextPositionX();
-        int toY = character.getMapNextPositionY();
-        byte direction = character.getDirection();
-
         for (int i = 0; i < layers.length; i++) {
-            if (!layers[i].canMoveTo(fromX, fromY, toX, toY, direction)) {
+            if (!layers[i].canMove(character)) {
                 return false;
             }
         }
