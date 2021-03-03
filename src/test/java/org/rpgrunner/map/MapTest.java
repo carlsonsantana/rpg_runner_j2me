@@ -5,6 +5,7 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.event.action.ActionListSpy;
@@ -98,9 +99,9 @@ public class MapTest extends TestCase {
         Assert.assertEquals(canMove, map.canMove(character));
     }
 
-    public void testExecuteStartActionList() {
-        map.executeStartActions();
+    public void testGetSameStartAction() {
+        Action action = map.getStartAction();
 
-        Assert.assertTrue(actionList.isExecuteCalled());
+        Assert.assertSame(action, actionList);
     }
 }

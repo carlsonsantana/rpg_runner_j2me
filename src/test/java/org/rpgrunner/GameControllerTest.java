@@ -15,6 +15,7 @@ import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.event.GameStartEventSpy;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
@@ -86,9 +87,10 @@ public class GameControllerTest extends TestCase {
 
     public void testCallStartActionsWhenMapChange() {
         MapSpy map = new MapSpy();
+        ActionSpy action = (ActionSpy) map.getStartAction();
         gameController.setMap(map);
 
-        Assert.assertTrue(map.isStartActionsCalled());
+        Assert.assertTrue(action.isExecuteCalled());
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {

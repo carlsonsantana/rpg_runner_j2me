@@ -49,7 +49,7 @@ public class GameController {
         graphicsRender.setMap(map);
         removeAllNPCs();
 
-        map.executeStartActions();
+        map.getStartAction().execute();
     }
 
     private void removeAllNPCs() {

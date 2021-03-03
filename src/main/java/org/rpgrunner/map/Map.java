@@ -44,7 +44,7 @@ public class Map {
         return true;
     }
 
-    public void executeStartActions() {
-        startAction.execute();
+    public Action getStartAction() {
+        return startAction;
     }
 }

@@ -1,20 +1,22 @@
 package org.rpgrunner.test.mock.map;
 
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.Layer;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class MapSpy extends Map {
+    private final Action startAction;
     private boolean canMove;
     private int width;
     private int height;
-    private boolean startActionsCalled;
 
     public MapSpy() {
         super(null, null, null);
         width = 0;
         height = 0;
-        startActionsCalled = false;
+        startAction = new ActionSpy();
     }
 
     public void setWidth(final int newWidth) {
@@ -45,11 +47,7 @@ public class MapSpy extends Map {
         return canMove;
     }
 
-    public void executeStartActions() {
-        startActionsCalled = true;
-    }
-
-    public boolean isStartActionsCalled() {
-        return startActionsCalled;
+    public Action getStartAction() {
+        return startAction;
     }
 }
