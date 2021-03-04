@@ -278,4 +278,11 @@ public class GameControllerTest extends TestCase {
 
         Assert.assertFalse(characterElementsGraphics.contains(null));
     }
+
+    public void testExecuteAction() {
+        ActionSpy action = new ActionSpy();
+        gameController.executeAction(action);
+
+        Assert.assertTrue(action.isExecuteCalled());
+    }
 }

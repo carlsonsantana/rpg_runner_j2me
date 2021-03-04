@@ -8,6 +8,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.event.GameStartEvent;
+import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -49,7 +50,7 @@ public class GameController {
         graphicsRender.setMap(map);
         removeAllNPCs();
 
-        map.getStartAction().execute();
+        executeAction(map.getStartAction());
     }
 
     private void removeAllNPCs() {
@@ -139,5 +140,9 @@ public class GameController {
     public void addCharacterElement(final CharacterElement characterElement) {
         characterElements.addElement(characterElement);
         graphicsRender.setCharacterElements(characterElements);
+    }
+
+    public void executeAction(final Action action) {
+        action.execute();
     }
 }
