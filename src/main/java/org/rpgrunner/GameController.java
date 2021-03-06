@@ -31,7 +31,7 @@ public class GameController {
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
-        mapHelper = new MapHelper();
+        mapHelper = new MapHelper(this);
         mapHelper.setCharacterElements(characterElements);
     }
 

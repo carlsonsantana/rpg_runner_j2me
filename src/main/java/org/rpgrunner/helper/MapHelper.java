@@ -4,6 +4,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
@@ -11,8 +12,13 @@ import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
 
 public class MapHelper {
+    private final GameController gameController;
     private Map map;
     private Vector characterElements;
+
+    public MapHelper(final GameController currentGameController) {
+        gameController = currentGameController;
+    }
 
     public void setMap(final Map newMap) {
         map = newMap;
@@ -90,7 +96,12 @@ public class MapHelper {
         );
     }
 
-    public Action getInteractAction(final GameCharacter character) {
+    public void executeInteractAction(final GameCharacter character) {
+        Action action = getInteractAction(character);
+        gameController.executeAction(action);
+    }
+
+    private Action getInteractAction(final GameCharacter character) {
         for (
             Enumeration enumeration = characterElements.elements();
             enumeration.hasMoreElements();
