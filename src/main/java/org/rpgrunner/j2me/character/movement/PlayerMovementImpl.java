@@ -32,6 +32,8 @@ public class PlayerMovementImpl implements PlayerMovement {
             character.moveDown();
         } else if ((key == GameCanvas.LEFT) || (key == GameCanvas.KEY_NUM4)) {
             character.moveLeft();
+        } else if ((key == GameCanvas.FIRE) || (key == GameCanvas.KEY_NUM5)) {
+            character.interact();
         }
     }
 

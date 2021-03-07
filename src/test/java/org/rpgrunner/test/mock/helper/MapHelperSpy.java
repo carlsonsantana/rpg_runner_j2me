@@ -7,10 +7,12 @@ import org.rpgrunner.test.mock.GameControllerSpy;
 
 public class MapHelperSpy extends MapHelper {
     private boolean canMoveValue;
+    private boolean executeInteractActionCalled;
 
     public MapHelperSpy() {
         super(new GameControllerSpy());
         canMoveValue = true;
+        executeInteractActionCalled = false;
     }
 
     public void setMap(final Map map) {
@@ -27,5 +29,13 @@ public class MapHelperSpy extends MapHelper {
 
     public boolean canMove(final GameCharacter character) {
         return canMoveValue;
+    }
+
+    public void executeInteractAction(final GameCharacter character) {
+        executeInteractActionCalled = true;
+    }
+
+    public boolean isExecuteInteractActionCalled() {
+        return executeInteractActionCalled;
     }
 }
