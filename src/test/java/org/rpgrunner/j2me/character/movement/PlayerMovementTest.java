@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
 public abstract class PlayerMovementTest extends TestCase {
@@ -130,6 +131,21 @@ public abstract class PlayerMovementTest extends TestCase {
         } else {
             return GameCanvas.LEFT;
         }
+    }
+
+    public void testInteract() {
+        checkInteract(GameCanvas.FIRE);
+        checkInteract(GameCanvas.KEY_NUM5);
+    }
+
+    private void checkInteract(final int key) {
+        CharacterSpy character = new CharacterSpy(null);
+        PlayerMovement playerMovement = create(character);
+
+        playerMovement.pressKey(key);
+        playerMovement.execute();
+
+        Assert.assertTrue(character.isInteractCalled());
     }
 
     protected abstract PlayerMovement create(GameCharacter character);
