@@ -126,4 +126,8 @@ public class GameCharacter {
     public Action getInteractiveAction() {
         return interactiveAction;
     }
+
+    public void interact() {
+        characterElement.interact();
+    }
 }
