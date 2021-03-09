@@ -20,6 +20,7 @@ public class GraphicsRenderImpl implements GraphicsRender {
     private final Graphics graphics;
     private final LayerManager layerManager;
     private final Camera camera;
+    private MessageDialog currentMessageDialog;
 
     public GraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -79,9 +80,18 @@ public class GraphicsRenderImpl implements GraphicsRender {
         }
     }
 
+    public void showMessage(final String message) {
+        currentMessageDialog = new MessageDialog(
+            message,
+            graphics,
+            camera
+        );
+    }
+
     public void render() {
         centerCamera();
         layerManager.paint(graphics, 0, 0);
+        showCurrentMessage();
     }
 
     private void centerCamera() {
@@ -92,5 +102,13 @@ public class GraphicsRenderImpl implements GraphicsRender {
             camera.getScreenWidth(),
             camera.getScreenHeight()
         );
+    }
+
+    private void showCurrentMessage() {
+        if (currentMessageDialog == null) {
+            return;
+        }
+
+        currentMessageDialog.display();
     }
 }

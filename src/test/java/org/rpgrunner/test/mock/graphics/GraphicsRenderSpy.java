@@ -30,6 +30,8 @@ public class GraphicsRenderSpy implements GraphicsRender {
         return characterElements;
     }
 
+    public void showMessage(final String message) { }
+
     public void render() {
         renderCalled = true;
     }
