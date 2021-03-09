@@ -40,6 +40,9 @@ public class ActionAbstractFactory implements ActionFactory {
             mapLoader
         );
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
+        ShowMessageFactory showMessageFactory = new ShowMessageFactory(
+            gameController
+        );
 
         actionFactories = new ActionFactory[] {
             nullActionFactory,
@@ -47,7 +50,8 @@ public class ActionAbstractFactory implements ActionFactory {
             playerCharacterCreatorFactory,
             characterCreatorFactory,
             teleportFactory,
-            localTeleportFactory
+            localTeleportFactory,
+            showMessageFactory
         };
     }
 
