@@ -30,6 +30,6 @@ public abstract class AbstractShowMessageTest extends TestCase {
     public void testSameMessagePassed() {
         showMessageAction.execute();
 
-        Assert.assertSame(message, gameController.getLastMessage());
+        Assert.assertEquals(message, gameController.getLastMessage());
     }
 }
