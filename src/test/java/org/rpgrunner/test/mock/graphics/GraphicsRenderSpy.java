@@ -9,6 +9,7 @@ public class GraphicsRenderSpy implements GraphicsRender {
     private Map map;
     private Vector characterElements;
     private boolean renderCalled;
+    private String lastMessage;
 
     public GraphicsRenderSpy() {
         renderCalled = false;
@@ -30,7 +31,13 @@ public class GraphicsRenderSpy implements GraphicsRender {
         return characterElements;
     }
 
-    public void showMessage(final String message) { }
+    public void showMessage(final String message) {
+        lastMessage = message;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
+    }
 
     public void render() {
         renderCalled = true;

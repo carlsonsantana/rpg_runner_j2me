@@ -145,4 +145,8 @@ public class GameController {
     public void executeAction(final Action action) {
         action.execute();
     }
+
+    public void showMessage(final String message) {
+        graphicsRender.showMessage(message);
+    }
 }

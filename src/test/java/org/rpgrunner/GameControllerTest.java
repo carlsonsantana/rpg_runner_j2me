@@ -285,4 +285,11 @@ public class GameControllerTest extends TestCase {
 
         Assert.assertTrue(action.isExecuteCalled());
     }
+
+    public void testSameMessagePassed() {
+        String message = RandomGenerator.getRandomString();
+        gameController.showMessage(message);
+
+        Assert.assertSame(message, graphicsRender.getLastMessage());
+    }
 }
