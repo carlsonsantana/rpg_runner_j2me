@@ -14,6 +14,7 @@ public class GameControllerSpy extends GameController {
     private CharacterElement lastCharacterElementAdded;
     private ActionAbstractFactorySpy actionAbstractFactory;
     private Action lastAction;
+    private String lastMessage;
 
     public GameControllerSpy() {
         super(null, null);
@@ -63,5 +64,13 @@ public class GameControllerSpy extends GameController {
 
     public Action getExecutedAction() {
         return lastAction;
+    }
+
+    public void showMessage(final String message) {
+        lastMessage = message;
+    }
+
+    public String getLastMessage() {
+        return lastMessage;
     }
 }
