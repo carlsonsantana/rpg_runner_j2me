@@ -1,23 +1,24 @@
 package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 
 public class Teleport implements Action {
-    private final GameController gameController;
+    private final MapController mapController;
     private final String mapName;
     private final LocalTeleport localTeleport;
     private final MapLoader mapLoader;
 
     public Teleport(
-        final GameController currentGameController,
+        final GameController gameController,
         final MapLoader currentMapLoader,
         final String toMapName,
         final int toMapPositionX,
         final int toMapPositionY
     ) {
-        gameController = currentGameController;
+        mapController = gameController.getMapController();
         mapLoader = currentMapLoader;
         mapName = toMapName;
         localTeleport = new LocalTeleport(toMapPositionX, toMapPositionY);
@@ -34,21 +35,21 @@ public class Teleport implements Action {
         if (isOtherMap()) {
             map = mapLoader.loadMap(mapName);
         } else {
-            map = gameController.getMap();
+            map = mapController.getMap();
         }
 
-        gameController.setMap(map);
+        mapController.setMap(map);
     }
 
     private boolean isOtherMap() {
-        Map map = gameController.getMap();
+        Map map = mapController.getMap();
 
         return ((map == null) || (!mapName.equals(map.getFileBaseName())));
     }
 
     private void changePlayerCharacterPosition() {
         localTeleport.setCharacterElement(
-            gameController.getPlayerCharacterElement()
+            mapController.getPlayerCharacterElement()
         );
         localTeleport.execute();
     }

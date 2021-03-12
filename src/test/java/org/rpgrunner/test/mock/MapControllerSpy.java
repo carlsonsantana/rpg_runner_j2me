@@ -1,6 +1,5 @@
 package org.rpgrunner.test.mock;
 
-import org.rpgrunner.GameController;
 import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
@@ -8,24 +7,35 @@ import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
-public class GameControllerSpy extends GameController {
-    private final MapController mapController;
+public class MapControllerSpy extends MapController {
+    private final GameControllerSpy gameController;
     private Map map;
+    private int countMapChanged;
     private CharacterElement playerCharacterElement;
     private CharacterElement lastCharacterElementAdded;
     private ActionAbstractFactorySpy actionAbstractFactory;
     private Action lastAction;
     private String lastMessage;
 
-    public GameControllerSpy() {
-        super(null, null);
-        mapController = new MapControllerSpy(this);
+    public MapControllerSpy(final GameControllerSpy currentGameController) {
+        super(null, null, null);
+        gameController = currentGameController;
         map = null;
+        countMapChanged = 0;
         actionAbstractFactory = new ActionAbstractFactorySpy();
+    }
+
+    public void setMap(final Map newMap) {
+        map = newMap;
+        countMapChanged++;
     }
 
     public Map getMap() {
         return map;
+    }
+
+    public int getCountMapChanged() {
+        return countMapChanged;
     }
 
     public void setPlayerCharacterElement(
@@ -39,7 +49,7 @@ public class GameControllerSpy extends GameController {
     }
 
     public MapHelper getMapHelper() {
-        return new MapHelper(this);
+        return new MapHelper(gameController);
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
@@ -64,9 +74,5 @@ public class GameControllerSpy extends GameController {
 
     public String getLastMessage() {
         return lastMessage;
-    }
-
-    public MapController getMapController() {
-        return mapController;
     }
 }

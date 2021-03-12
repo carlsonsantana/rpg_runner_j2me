@@ -9,6 +9,7 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.MapControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
@@ -20,6 +21,7 @@ public abstract class AbstractTeleportTest extends TestCase {
     private CharacterElement characterElement;
     private GameCharacter character;
     private GameControllerSpy gameController;
+    private MapControllerSpy mapController;
     private Teleport teleport;
     private int mapPositionX;
     private int mapPositionY;
@@ -34,7 +36,8 @@ public abstract class AbstractTeleportTest extends TestCase {
             null
         );
         gameController = new GameControllerSpy();
-        gameController.setPlayerCharacterElement(characterElement);
+        mapController = (MapControllerSpy) gameController.getMapController();
+        mapController.setPlayerCharacterElement(characterElement);
         mapPositionX = RandomGenerator.getRandomPosition();
         mapPositionY = RandomGenerator.getRandomPosition();
         teleport = createTeleport(
@@ -74,7 +77,7 @@ public abstract class AbstractTeleportTest extends TestCase {
             nextMapPositionX,
             nextMapPositionY
         );
-        Assert.assertEquals(2, gameController.getCountMapChanged());
+        Assert.assertEquals(2, mapController.getCountMapChanged());
     }
 
     public void testChangeTeleportSameMap() {
@@ -96,7 +99,7 @@ public abstract class AbstractTeleportTest extends TestCase {
             nextMapPositionX,
             nextMapPositionY
         );
-        Assert.assertEquals(2, gameController.getCountMapChanged());
+        Assert.assertEquals(2, mapController.getCountMapChanged());
     }
 
     private void testTeleport(
@@ -108,7 +111,7 @@ public abstract class AbstractTeleportTest extends TestCase {
     ) {
         teleportToExecute.execute();
 
-        Map map = gameController.getMap();
+        Map map = mapController.getMap();
         Assert.assertEquals(currentMapHeight, map.getHeight());
         Assert.assertEquals(currentMapWidth, map.getWidth());
         Assert.assertEquals(characterMapPositionX, character.getMapPositionX());

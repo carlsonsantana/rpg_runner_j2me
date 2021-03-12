@@ -17,7 +17,6 @@ import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
-import org.rpgrunner.test.mock.map.MapSpy;
 
 public class GameControllerTest extends TestCase {
     private static final int MAXIMUM_KEY_VALUE = 100;
@@ -59,23 +58,6 @@ public class GameControllerTest extends TestCase {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
             gameController.addCharacterElement(npc);
         }
-    }
-
-    public void testSameMapSetted() {
-        MapSpy map = new MapSpy();
-        gameController.setMap(map);
-
-        Assert.assertSame(map, gameController.getMap());
-        Assert.assertSame(map, graphicsRender.getMap());
-        Assert.assertSame(map, camera.getMap());
-    }
-
-    public void testCallStartActionsWhenMapChange() {
-        MapSpy map = new MapSpy();
-        ActionSpy action = (ActionSpy) map.getStartAction();
-        gameController.setMap(map);
-
-        Assert.assertTrue(action.isExecuteCalled());
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {
@@ -223,45 +205,6 @@ public class GameControllerTest extends TestCase {
             characterAnimationSpy,
             newPlayerMovementSpy
         );
-    }
-
-    public void testRemoveAllNPCsWhenChangeMap() {
-        MapSpy map = new MapSpy();
-        gameController.setMap(map);
-        Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
-        );
-
-        for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
-        ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertFalse(characterElementsGraphics.contains(npc));
-        }
-    }
-
-    public void testKeepPlayerCharacterWhenChangeMap() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-        MapSpy map = new MapSpy();
-        gameController.setMap(map);
-        Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
-        );
-
-        Assert.assertTrue(
-            characterElementsGraphics.contains(playerCharacterElement)
-        );
-    }
-
-    public void testNotAddNullOnCharacterElementsWhenChangeMap() {
-        MapSpy map = new MapSpy();
-        gameController.setMap(map);
-        Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
-        );
-
-        Assert.assertFalse(characterElementsGraphics.contains(null));
     }
 
     public void testExecuteAction() {

@@ -19,10 +19,6 @@ public class GameController {
         mapController = new MapController(this, graphicsRender, camera);
     }
 
-    public void setMap(final Map newMap) {
-        mapController.setMap(newMap);
-    }
-
     public Map getMap() {
         return mapController.getMap();
     }
@@ -67,5 +63,9 @@ public class GameController {
 
     public void showMessage(final String message) {
         graphicsRender.showMessage(message);
+    }
+
+    public MapController getMapController() {
+        return mapController;
     }
 }
