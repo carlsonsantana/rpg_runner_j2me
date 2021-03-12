@@ -24,10 +24,6 @@ public class GameControllerSpy extends GameController {
         actionAbstractFactory = new ActionAbstractFactorySpy();
     }
 
-    public Map getMap() {
-        return map;
-    }
-
     public void setPlayerCharacterElement(
         final CharacterElement newPlayerCharacterElement
     ) {

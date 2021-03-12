@@ -5,7 +5,6 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
-import org.rpgrunner.map.Map;
 
 public class GameController {
     private final GraphicsRender graphicsRender;
@@ -17,10 +16,6 @@ public class GameController {
     ) {
         graphicsRender = gameGraphicsRender;
         mapController = new MapController(this, graphicsRender, camera);
-    }
-
-    public Map getMap() {
-        return mapController.getMap();
     }
 
     public void pressKey(final int key) {
