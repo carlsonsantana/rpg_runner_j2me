@@ -14,9 +14,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
-import org.rpgrunner.test.mock.event.GameStartEventSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
-import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -61,19 +59,6 @@ public class GameControllerTest extends TestCase {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
             gameController.addCharacterElement(npc);
         }
-    }
-
-    public void testExecuteStartActions() {
-        GameStartEventSpy gameStartEvent = new GameStartEventSpy();
-        ActionAbstractFactorySpy actionAbstractFactory = (
-            new ActionAbstractFactorySpy()
-        );
-        gameController.executeStartActions(
-            actionAbstractFactory,
-            gameStartEvent
-        );
-
-        Assert.assertTrue(gameStartEvent.isExecuteCalled());
     }
 
     public void testSameMapSetted() {

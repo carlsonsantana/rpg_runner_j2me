@@ -7,9 +7,7 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
-import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
@@ -33,13 +31,6 @@ public class GameController {
         characterElements = new Vector(1);
         mapHelper = new MapHelper(this);
         mapHelper.setCharacterElements(characterElements);
-    }
-
-    public void executeStartActions(
-        final ActionAbstractFactory actionAbstractFactory,
-        final GameStartEvent gameStartEvent
-    ) {
-        gameStartEvent.execute(actionAbstractFactory);
     }
 
     public void setMap(final Map newMap) {

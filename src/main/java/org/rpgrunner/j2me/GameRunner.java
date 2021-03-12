@@ -69,10 +69,8 @@ public class GameRunner extends GameCanvas implements Runnable {
             playerMovementFactory
         );
         GameStartEvent gameStartEvent = new GameStartEvent();
-        gameController.executeStartActions(
-            actionAbstractFactory,
-            gameStartEvent
-        );
+
+        gameStartEvent.execute(actionAbstractFactory);
     }
 
     private void executeGame() {
