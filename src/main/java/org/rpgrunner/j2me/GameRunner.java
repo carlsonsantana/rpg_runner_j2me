@@ -81,7 +81,7 @@ public class GameRunner extends GameCanvas implements Runnable {
 
     private void executeFrame() {
         long startFrameTime = System.currentTimeMillis();
-        gameController.executeCharacterActions();
+        gameController.prepareFrameAnimation();
         renderFrame();
         waitUntilEndTimeFrame(startFrameTime);
     }

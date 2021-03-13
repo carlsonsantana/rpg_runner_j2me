@@ -132,10 +132,10 @@ public class MapControllerTest extends TestCase {
         Assert.assertEquals(keyReleased, newPlayerMovementSpy.getReleasedKey());
     }
 
-    public void testExecuteCharacterActions() {
+    public void testPrepareFrameAnimation() {
         mapController.setPlayerCharacterElement(playerCharacterElement);
 
-        mapController.executeCharacterActions();
+        mapController.prepareFrameAnimation();
 
         Assert.assertTrue(playerMovementSpy.isExecuteCalled());
         Assert.assertTrue(characterAnimation.isDoAnimationCalled());

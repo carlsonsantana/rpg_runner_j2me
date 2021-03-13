@@ -78,8 +78,8 @@ public class GameControllerTest extends TestCase {
         Assert.assertEquals(keyReleased, playerMovementSpy.getReleasedKey());
     }
 
-    public void testExecuteCharacterActions() {
-        gameController.executeCharacterActions();
+    public void testPrepareFrameAnimation() {
+        gameController.prepareFrameAnimation();
 
         for (
             Enumeration enumeration = npcs.elements();

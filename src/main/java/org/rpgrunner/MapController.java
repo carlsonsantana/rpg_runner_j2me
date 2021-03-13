@@ -68,7 +68,7 @@ public class MapController {
         playerMovement.releaseKey(key);
     }
 
-    public void executeCharacterActions() {
+    public void prepareFrameAnimation() {
         for (
             Enumeration enumeration = characterElements.elements();
             enumeration.hasMoreElements();

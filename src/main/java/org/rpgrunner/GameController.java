@@ -24,8 +24,8 @@ public class GameController {
         mapController.releaseKey(key);
     }
 
-    public void executeCharacterActions() {
-        mapController.executeCharacterActions();
+    public void prepareFrameAnimation() {
+        mapController.prepareFrameAnimation();
     }
 
     public void render() {
