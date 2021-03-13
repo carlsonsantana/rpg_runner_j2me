@@ -24,16 +24,6 @@ public class GameControllerSpy extends GameController {
         actionAbstractFactory = new ActionAbstractFactorySpy();
     }
 
-    public void setPlayerCharacterElement(
-        final CharacterElement newPlayerCharacterElement
-    ) {
-        playerCharacterElement = newPlayerCharacterElement;
-    }
-
-    public CharacterElement getPlayerCharacterElement() {
-        return playerCharacterElement;
-    }
-
     public MapHelper getMapHelper() {
         return new MapHelper(this);
     }

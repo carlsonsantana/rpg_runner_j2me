@@ -34,18 +34,8 @@ public class GameController {
         graphicsRender.render();
     }
 
-    public CharacterElement getPlayerCharacterElement() {
-        return mapController.getPlayerCharacterElement();
-    }
-
     public MapHelper getMapHelper() {
         return mapController.getMapHelper();
-    }
-
-    public void setPlayerCharacterElement(
-        final CharacterElement newPlayerCharacterElement
-    ) {
-        mapController.setPlayerCharacterElement(newPlayerCharacterElement);
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {

@@ -7,6 +7,7 @@ import java.util.Vector;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
@@ -22,11 +23,11 @@ public class GameControllerTest extends TestCase {
     private static final int MAXIMUM_KEY_VALUE = 100;
     private final Random random;
     private GameController gameController;
+    private MapController mapController;
     private GraphicsRenderSpy graphicsRender;
     private CameraSpy camera;
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
-    private CharacterAnimationSpy characterAnimation;
     private Vector npcs;
 
     public GameControllerTest() {
@@ -37,7 +38,7 @@ public class GameControllerTest extends TestCase {
         graphicsRender = new GraphicsRenderSpy();
         camera = new CameraSpy();
         playerMovementSpy = new PlayerMovementSpy();
-        characterAnimation = new CharacterAnimationSpy();
+        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
         playerCharacterElement = new CharacterElement(
             null,
             new SimpleCharacter(),
@@ -45,6 +46,7 @@ public class GameControllerTest extends TestCase {
             playerMovementSpy
         );
         gameController = new GameController(graphicsRender, camera);
+        mapController = gameController.getMapController();
         generateNPCs();
     }
 
@@ -61,58 +63,23 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
+        mapController.setPlayerCharacterElement(playerCharacterElement);
         int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.pressKey(keyPressed);
 
         Assert.assertEquals(keyPressed, playerMovementSpy.getPressedKey());
     }
 
-    public void testPressKeyWhenChangePlayerCharacterElement() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        gameController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
-        gameController.pressKey(keyPressed);
-
-        Assert.assertEquals(keyPressed, newPlayerMovementSpy.getPressedKey());
-    }
-
     public void testReleaseKeyOnPlayerCharacterMovement() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
+        mapController.setPlayerCharacterElement(playerCharacterElement);
         int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.releaseKey(keyReleased);
 
         Assert.assertEquals(keyReleased, playerMovementSpy.getReleasedKey());
     }
 
-    public void testReleaseKeyWhenChangePlayerCharacterElement() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        gameController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
-        gameController.releaseKey(keyReleased);
-
-        Assert.assertEquals(keyReleased, newPlayerMovementSpy.getReleasedKey());
-    }
-
     public void testExecuteCharacterActions() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-
         gameController.executeCharacterActions();
-
-        Assert.assertTrue(playerMovementSpy.isExecuteCalled());
-        Assert.assertTrue(characterAnimation.isDoAnimationCalled());
 
         for (
             Enumeration enumeration = npcs.elements();
@@ -134,39 +101,9 @@ public class GameControllerTest extends TestCase {
         Assert.assertTrue(graphicsRender.isRenderCalled());
     }
 
-    public void testSamePlayerCharacterElement() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-        Assert.assertSame(
-            playerCharacterElement,
-            gameController.getPlayerCharacterElement()
-        );
-        Assert.assertSame(characterAnimation, camera.getCharacterAnimation());
-    }
-
-    public void testChangePlayerCharacterElement() {
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        gameController.setPlayerCharacterElement(newPlayerCharacterElement);
-
-        Assert.assertSame(
-            newPlayerCharacterElement,
-            gameController.getPlayerCharacterElement()
-        );
-        Assert.assertSame(
-            newPlayerCharacterElement.getCharacterAnimation(),
-            camera.getCharacterAnimation()
-        );
-    }
-
     public void testAddSameCharacterElementsOnGraphicsRender() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
         Vector characterElementsGraphics = (
             graphicsRender.getCharacterElements()
-        );
-
-        Assert.assertTrue(
-            characterElementsGraphics.contains(playerCharacterElement)
         );
 
         for (
@@ -176,20 +113,6 @@ public class GameControllerTest extends TestCase {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
             Assert.assertTrue(characterElementsGraphics.contains(npc));
         }
-    }
-
-    public void testRemoveLastPlayerCharacterWhenChangePlayerCharacter() {
-        gameController.setPlayerCharacterElement(playerCharacterElement);
-        gameController.setPlayerCharacterElement(
-            generatePlayerCharacterElement()
-        );
-        Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
-        );
-
-        Assert.assertFalse(
-            characterElementsGraphics.contains(playerCharacterElement)
-        );
     }
 
     private CharacterElement generatePlayerCharacterElement() {

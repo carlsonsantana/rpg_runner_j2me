@@ -4,6 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
@@ -20,6 +21,7 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
 
     private void checkCreatePlayerCharacter() {
         GameController gameController = new GameControllerSpy();
+        MapController mapController = gameController.getMapController();
         String randomFileBaseName = RandomGenerator.getRandomString();
         int initialMapPositionX = RandomGenerator.getRandomPosition();
         int initialMapPositionY = RandomGenerator.getRandomPosition();
@@ -35,7 +37,7 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
         playerCharacterCreator.execute();
 
         CharacterElement playerCharacterElement = (
-            gameController.getPlayerCharacterElement()
+            mapController.getPlayerCharacterElement()
         );
         GameCharacter playerCharacter = playerCharacterElement.getCharacter();
 
