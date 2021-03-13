@@ -1,6 +1,7 @@
 package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
@@ -9,21 +10,21 @@ import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
-    private final GameController gameController;
+    private final MapController mapController;
     private final CharacterAnimationFactory characterAnimationFactory;
     private final String characterFileBaseName;
     private final LocalTeleport localTeleport;
     private final Action interactiveAction;
 
     public AbstractCharacterCreator(
-        final GameController currentGameController,
+        final GameController gameController,
         final CharacterAnimationFactory currentCharacterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY,
         final Action newInteractiveAction
     ) {
-        gameController = currentGameController;
+        mapController = gameController.getMapController();
         characterFileBaseName = newCharacterFileBaseName;
         localTeleport = new LocalTeleport(
             initialMapPositionX,
@@ -46,9 +47,7 @@ public abstract class AbstractCharacterCreator implements Action {
             interactiveAction
         );
         MovementCommand movementCommand = createMovementCommand(character);
-        MapHelper mapHelper = (
-            gameController.getMapHelper()
-        );
+        MapHelper mapHelper = mapController.getMapHelper();
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
         );

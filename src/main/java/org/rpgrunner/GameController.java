@@ -3,7 +3,6 @@ package org.rpgrunner;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
-import org.rpgrunner.helper.MapHelper;
 
 public class GameController {
     private final GraphicsRender graphicsRender;
@@ -31,10 +30,6 @@ public class GameController {
 
     public void render() {
         graphicsRender.render();
-    }
-
-    public MapHelper getMapHelper() {
-        return mapController.getMapHelper();
     }
 
     public void executeAction(final Action action) {
