@@ -58,7 +58,7 @@ public class GameControllerTest extends TestCase {
             enumeration.hasMoreElements();
         ) {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            gameController.addCharacterElement(npc);
+            mapController.addCharacterElement(npc);
         }
     }
 
@@ -99,20 +99,6 @@ public class GameControllerTest extends TestCase {
         gameController.render();
 
         Assert.assertTrue(graphicsRender.isRenderCalled());
-    }
-
-    public void testAddSameCharacterElementsOnGraphicsRender() {
-        Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
-        );
-
-        for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
-        ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertTrue(characterElementsGraphics.contains(npc));
-        }
     }
 
     private CharacterElement generatePlayerCharacterElement() {

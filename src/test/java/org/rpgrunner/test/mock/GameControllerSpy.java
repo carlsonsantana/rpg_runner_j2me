@@ -28,14 +28,6 @@ public class GameControllerSpy extends GameController {
         return new MapHelper(this);
     }
 
-    public void addCharacterElement(final CharacterElement characterElement) {
-        lastCharacterElementAdded = characterElement;
-    }
-
-    public CharacterElement getLastCharacterElementAdded() {
-        return lastCharacterElementAdded;
-    }
-
     public void executeAction(final Action newAction) {
         lastAction = newAction;
     }

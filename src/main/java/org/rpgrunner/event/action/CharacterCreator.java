@@ -1,6 +1,7 @@
 package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
@@ -8,10 +9,10 @@ import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.RandomMovement;
 
 public class CharacterCreator extends AbstractCharacterCreator {
-    private final GameController gameController;
+    private final MapController mapController;
 
     public CharacterCreator(
-        final GameController currentGameController,
+        final GameController gameController,
         final CharacterAnimationFactory characterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
@@ -19,14 +20,14 @@ public class CharacterCreator extends AbstractCharacterCreator {
         final Action interactiveAction
     ) {
         super(
-            currentGameController,
+            gameController,
             characterAnimationFactory,
             newCharacterFileBaseName,
             initialMapPositionX,
             initialMapPositionY,
             interactiveAction
         );
-        gameController = currentGameController;
+        mapController = gameController.getMapController();
     }
 
     protected MovementCommand createMovementCommand(
@@ -36,6 +37,6 @@ public class CharacterCreator extends AbstractCharacterCreator {
     }
 
     protected void displayCharacter(final CharacterElement characterElement) {
-        gameController.addCharacterElement(characterElement);
+        mapController.addCharacterElement(characterElement);
     }
 }

@@ -1,6 +1,5 @@
 package org.rpgrunner;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -36,10 +35,6 @@ public class GameController {
 
     public MapHelper getMapHelper() {
         return mapController.getMapHelper();
-    }
-
-    public void addCharacterElement(final CharacterElement characterElement) {
-        mapController.addCharacterElement(characterElement);
     }
 
     public void executeAction(final Action action) {
