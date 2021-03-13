@@ -1,6 +1,5 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.GameController;
 import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
@@ -17,14 +16,14 @@ public abstract class AbstractCharacterCreator implements Action {
     private final Action interactiveAction;
 
     public AbstractCharacterCreator(
-        final GameController gameController,
+        final MapController currentMapController,
         final CharacterAnimationFactory currentCharacterAnimationFactory,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY,
         final Action newInteractiveAction
     ) {
-        mapController = gameController.getMapController();
+        mapController = currentMapController;
         characterFileBaseName = newCharacterFileBaseName;
         localTeleport = new LocalTeleport(
             initialMapPositionX,

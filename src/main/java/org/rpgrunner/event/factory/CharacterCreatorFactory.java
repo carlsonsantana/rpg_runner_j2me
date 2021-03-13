@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
@@ -44,10 +45,11 @@ public class CharacterCreatorFactory implements ActionFactory {
         final int mapPositionY,
         final InputStream inputStream
     ) throws IOException {
+        MapController mapController = gameController.getMapController();
         Action action = actionAbstractFactory.create(inputStream);
 
         CharacterCreator characterCreator = new CharacterCreator(
-            gameController,
+            mapController,
             characterAnimationFactory,
             fileBaseName,
             mapPositionX,

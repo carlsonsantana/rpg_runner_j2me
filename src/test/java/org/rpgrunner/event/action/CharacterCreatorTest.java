@@ -1,6 +1,7 @@
 package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 
@@ -17,10 +18,11 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
+        MapController mapController = gameController.getMapController();
         Action action = new NullAction();
 
         return new CharacterCreator(
-            gameController,
+            mapController,
             characterAnimationFactory,
             characterFileName,
             initialMapPositionX,
