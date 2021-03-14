@@ -38,7 +38,7 @@ public class ActionAbstractFactory implements ActionFactory {
             )
         );
         TeleportFactory teleportFactory = new TeleportFactory(
-            gameController,
+            mapController,
             mapLoader
         );
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();

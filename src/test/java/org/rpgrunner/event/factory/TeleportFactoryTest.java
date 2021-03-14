@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
@@ -24,8 +25,9 @@ public class TeleportFactoryTest extends AbstractTeleportFactoryTest {
         final InputStream inputStream,
         final GameController gameController
     ) throws IOException {
+        MapController mapController = gameController.getMapController();
         TeleportFactory teleportFactory = new TeleportFactory(
-            gameController,
+            mapController,
             mapLoader
         );
         Action action = teleportFactory.create(inputStream);

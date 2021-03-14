@@ -3,21 +3,21 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.helper.Loader;
 import org.rpgrunner.map.MapLoader;
 
 public class TeleportFactory implements ActionFactory {
-    private final GameController gameController;
+    private final MapController mapController;
     private final MapLoader mapLoader;
 
     public TeleportFactory(
-        final GameController currentGameController,
+        final MapController currentMapController,
         final MapLoader currentMapLoader
     ) {
-        gameController = currentGameController;
+        mapController = currentMapController;
         mapLoader = currentMapLoader;
     }
 
@@ -26,7 +26,7 @@ public class TeleportFactory implements ActionFactory {
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();
         Teleport teleport = new Teleport(
-            gameController,
+            mapController,
             mapLoader,
             mapFileName,
             mapPositionX,

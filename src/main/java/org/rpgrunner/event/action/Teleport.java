@@ -1,6 +1,5 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.GameController;
 import org.rpgrunner.MapController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
@@ -12,13 +11,13 @@ public class Teleport implements Action {
     private final MapLoader mapLoader;
 
     public Teleport(
-        final GameController gameController,
+        final MapController currentMapController,
         final MapLoader currentMapLoader,
         final String toMapName,
         final int toMapPositionX,
         final int toMapPositionY
     ) {
-        mapController = gameController.getMapController();
+        mapController = currentMapController;
         mapLoader = currentMapLoader;
         mapName = toMapName;
         localTeleport = new LocalTeleport(toMapPositionX, toMapPositionY);

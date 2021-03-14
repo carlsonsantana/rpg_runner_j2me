@@ -1,6 +1,7 @@
 package org.rpgrunner.event.action;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
@@ -17,8 +18,9 @@ public class TeleportTest extends AbstractTeleportTest {
         final int newMapPositionX,
         final int newMapPositionY
     ) {
+        MapController mapController = gameController.getMapController();
         Teleport teleport = new Teleport(
-            gameController,
+            mapController,
             mapLoader,
             mapFileName,
             newMapPositionX,
