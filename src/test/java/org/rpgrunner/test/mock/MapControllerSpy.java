@@ -5,7 +5,6 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 
 public class MapControllerSpy extends MapController {
     private final GameControllerSpy gameController;
@@ -13,7 +12,6 @@ public class MapControllerSpy extends MapController {
     private int countMapChanged;
     private CharacterElement playerCharacterElement;
     private CharacterElement lastCharacterElementAdded;
-    private ActionAbstractFactorySpy actionAbstractFactory;
     private Action lastAction;
     private String lastMessage;
 
@@ -22,7 +20,6 @@ public class MapControllerSpy extends MapController {
         gameController = currentGameController;
         map = null;
         countMapChanged = 0;
-        actionAbstractFactory = new ActionAbstractFactorySpy();
     }
 
     public void setMap(final Map newMap) {

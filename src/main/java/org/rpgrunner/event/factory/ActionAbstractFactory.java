@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
@@ -17,20 +18,21 @@ public class ActionAbstractFactory implements ActionFactory {
         final CharacterAnimationFactory characterAnimationFactory,
         final PlayerMovementFactory playerMovementFactory
     ) {
+        MapController mapController = gameController.getMapController();
         MapLoader mapLoader = new MapLoader(this);
 
         NullActionFactory nullActionFactory = new NullActionFactory();
         ActionListFactory actionListFactory = new ActionListFactory(this);
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
-                gameController,
+                mapController,
                 characterAnimationFactory,
                 playerMovementFactory
             )
         );
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
-                gameController,
+                mapController,
                 characterAnimationFactory,
                 this
             )

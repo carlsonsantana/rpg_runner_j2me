@@ -5,15 +5,21 @@ import java.io.InputStream;
 import java.util.Enumeration;
 import java.util.Vector;
 
+import org.rpgrunner.GameController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
+import org.rpgrunner.test.mock.GameControllerSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class ActionAbstractFactorySpy extends ActionAbstractFactory {
     private final Vector actionsCreated;
 
     public ActionAbstractFactorySpy() {
-        super(null, null, null);
+        this(new GameControllerSpy());
+    }
+
+    public ActionAbstractFactorySpy(final GameController gameController) {
+        super(gameController, null, null);
         actionsCreated = new Vector();
     }
 

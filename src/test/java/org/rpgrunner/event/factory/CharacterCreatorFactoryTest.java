@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.GameController;
+import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
@@ -21,6 +22,7 @@ public class CharacterCreatorFactoryTest
         final InputStream inputStream,
         final GameController gameController
     ) throws IOException {
+        MapController mapController = gameController.getMapController();
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
@@ -35,7 +37,7 @@ public class CharacterCreatorFactoryTest
 
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
-                gameController,
+                mapController,
                 characterAnimationFactory,
                 actionAbstractFactory
             )

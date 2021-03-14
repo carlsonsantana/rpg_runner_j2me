@@ -3,7 +3,6 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
 import org.rpgrunner.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.event.action.AbstractCharacterCreator;
@@ -12,16 +11,16 @@ import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.helper.Loader;
 
 public class CharacterCreatorFactory implements ActionFactory {
-    private final GameController gameController;
+    private final MapController mapController;
     private final CharacterAnimationFactory characterAnimationFactory;
     private final ActionAbstractFactory actionAbstractFactory;
 
     public CharacterCreatorFactory(
-        final GameController currentGameController,
+        final MapController currentMapController,
         final CharacterAnimationFactory currentCharacterAnimationFactory,
         final ActionAbstractFactory currentActionAbstractFactory
     ) {
-        gameController = currentGameController;
+        mapController = currentMapController;
         characterAnimationFactory = currentCharacterAnimationFactory;
         actionAbstractFactory = currentActionAbstractFactory;
     }
@@ -45,7 +44,6 @@ public class CharacterCreatorFactory implements ActionFactory {
         final int mapPositionY,
         final InputStream inputStream
     ) throws IOException {
-        MapController mapController = gameController.getMapController();
         Action action = actionAbstractFactory.create(inputStream);
 
         CharacterCreator characterCreator = new CharacterCreator(
