@@ -4,7 +4,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 
-public class GameController {
+public class GameController implements Controller {
     private final GraphicsRender graphicsRender;
     private final MapController mapController;
 

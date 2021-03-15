@@ -12,7 +12,7 @@ import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
-public class MapController {
+public class MapController implements Controller {
     private final GameController gameController;
     private final GraphicsRender graphicsRender;
     private final Camera camera;
