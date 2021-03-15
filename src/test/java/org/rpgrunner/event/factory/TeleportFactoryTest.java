@@ -4,8 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;

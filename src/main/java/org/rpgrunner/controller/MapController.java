@@ -1,4 +1,4 @@
-package org.rpgrunner;
+package org.rpgrunner.controller;
 
 import java.util.Enumeration;
 import java.util.Vector;

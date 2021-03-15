@@ -3,9 +3,9 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.GameControllerSpy;
 
 public abstract class AbstractShowMessageTest extends TestCase {
     private GameControllerSpy gameController;

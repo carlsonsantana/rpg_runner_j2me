@@ -3,8 +3,8 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;

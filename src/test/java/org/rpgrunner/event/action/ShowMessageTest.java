@@ -1,6 +1,6 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 
 public class ShowMessageTest extends AbstractShowMessageTest {
     protected ShowMessage createShowMessage(

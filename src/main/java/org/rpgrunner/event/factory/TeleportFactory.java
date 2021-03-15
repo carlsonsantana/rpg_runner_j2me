@@ -3,7 +3,7 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.helper.Loader;

@@ -3,12 +3,12 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.GameControllerSpy;
 
 public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;

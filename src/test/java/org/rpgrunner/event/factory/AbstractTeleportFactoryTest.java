@@ -3,7 +3,7 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.event.action.AbstractTeleportTest;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;

@@ -11,7 +11,7 @@ import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.ActionList;
-import org.rpgrunner.test.mock.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 

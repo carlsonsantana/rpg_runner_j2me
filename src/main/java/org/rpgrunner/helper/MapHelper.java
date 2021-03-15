@@ -4,7 +4,7 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;

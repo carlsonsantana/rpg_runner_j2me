@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.event.action.Action;
 
 public class ShowMessageFactoryTest extends AbstractShowMessageFactoryTest {

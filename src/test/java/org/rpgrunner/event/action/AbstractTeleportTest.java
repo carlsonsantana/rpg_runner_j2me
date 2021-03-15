@@ -3,15 +3,15 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.GameControllerSpy;
-import org.rpgrunner.test.mock.MapControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
+import org.rpgrunner.test.mock.controller.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public abstract class AbstractTeleportTest extends TestCase {
     private static final int EXAMPLE_MAP_WIDTH = 32;

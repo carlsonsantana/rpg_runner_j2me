@@ -1,7 +1,7 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.event.factory.ActionAbstractFactorySpy;
 

@@ -1,7 +1,7 @@
-package org.rpgrunner.test.mock;
+package org.rpgrunner.test.mock.controller;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.MapHelper;

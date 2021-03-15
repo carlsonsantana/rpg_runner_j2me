@@ -1,7 +1,7 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.GameController;
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;

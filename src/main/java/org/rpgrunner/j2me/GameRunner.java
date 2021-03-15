@@ -4,7 +4,7 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-import org.rpgrunner.GameController;
+import org.rpgrunner.controller.GameController;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Camera;

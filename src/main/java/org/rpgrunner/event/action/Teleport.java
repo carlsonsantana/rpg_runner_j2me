@@ -1,6 +1,6 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.MapController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.map.MapLoader;
 

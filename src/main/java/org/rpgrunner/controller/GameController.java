@@ -1,4 +1,4 @@
-package org.rpgrunner;
+package org.rpgrunner.controller;
 
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
