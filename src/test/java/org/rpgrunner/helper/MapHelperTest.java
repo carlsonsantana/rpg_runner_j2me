@@ -7,11 +7,12 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
+import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
@@ -22,6 +23,7 @@ public class MapHelperTest extends TestCase {
     private MapHelper mapHelper;
     private MapSpy map;
     private Vector characterElements;
+    private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
     private GameControllerSpy gameController;
@@ -104,23 +106,22 @@ public class MapHelperTest extends TestCase {
             RandomGenerator.generateRandomCharacterElements()
         );
         mapHelper.setCharacterElements(characterElements);
-        character = getCharacterTest();
+        generateCharacterTest();
         collisionCharacter = getCollisionCharacter();
+
+        MapController mapController = gameController.getMapController();
+        mapController.setPlayerCharacterElement(characterElement);
     }
 
-    private CharacterSpy getCharacterTest() {
-        CharacterElement characterElement = (
-            RandomGenerator.getRandomCharacterElement(characterElements)
+    private void generateCharacterTest() {
+        characterElement = RandomGenerator.getRandomCharacterElement(
+            characterElements
         );
-        CharacterSpy newCharacter = (
-            (CharacterSpy) characterElement.getCharacter()
-        );
+        character = (CharacterSpy) characterElement.getCharacter();
 
         int x = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
         int y = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
-        newCharacter.setInitialPosition(x, y);
-
-        return newCharacter;
+        character.setInitialPosition(x, y);
     }
 
     private CharacterSpy getCollisionCharacter() {
@@ -352,7 +353,7 @@ public class MapHelperTest extends TestCase {
         character.cancelMove();
         setInitialPosition(STOPPED_DIRECTION, 1);
 
-        mapHelper.executeInteractAction(character);
+        mapHelper.executeInteractAction();
         CharacterActionSpy interactAction = (
             (CharacterActionSpy) gameController.getExecutedAction()
         );
@@ -449,7 +450,7 @@ public class MapHelperTest extends TestCase {
         character.cancelMove();
         setInitialPosition(STOPPED_DIRECTION, 2);
 
-        mapHelper.executeInteractAction(character);
+        mapHelper.executeInteractAction();
         Action action = gameController.getExecutedAction();
 
         Assert.assertNotNull(action);

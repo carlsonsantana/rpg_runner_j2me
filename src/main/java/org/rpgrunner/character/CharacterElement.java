@@ -46,6 +46,6 @@ public class CharacterElement {
     }
 
     public void interact() {
-        mapHelper.executeInteractAction(character);
+        mapHelper.executeInteractAction();
     }
 }

@@ -4,9 +4,10 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.controller.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
@@ -96,8 +97,12 @@ public class MapHelper {
         );
     }
 
-    public void executeInteractAction(final GameCharacter character) {
-        Action action = getInteractAction(character);
+    public void executeInteractAction() {
+        MapController mapController = gameController.getMapController();
+        GameCharacter playerCharacter = (
+            mapController.getPlayerCharacterElement().getCharacter()
+        );
+        Action action = getInteractAction(playerCharacter);
         gameController.executeAction(action);
     }
 

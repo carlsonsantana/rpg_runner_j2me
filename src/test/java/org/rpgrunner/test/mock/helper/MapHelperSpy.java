@@ -31,7 +31,7 @@ public class MapHelperSpy extends MapHelper {
         return canMoveValue;
     }
 
-    public void executeInteractAction(final GameCharacter character) {
+    public void executeInteractAction() {
         executeInteractActionCalled = true;
     }
 
