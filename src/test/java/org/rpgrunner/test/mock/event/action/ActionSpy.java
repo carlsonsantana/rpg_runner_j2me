@@ -6,14 +6,17 @@ public class ActionSpy implements Action {
     private static int numberOfExecuteCalls = 0;
     private boolean executeCalled;
     private int callOrder;
+    private int timesCalled;
 
     public ActionSpy() {
         executeCalled = false;
+        timesCalled = 0;
     }
 
     public void execute() {
         executeCalled = true;
         callOrder = ++numberOfExecuteCalls;
+        timesCalled++;
     }
 
     public boolean isExecuteCalled() {
@@ -22,6 +25,10 @@ public class ActionSpy implements Action {
 
     public int getCallOrder() {
         return callOrder;
+    }
+
+    public int getTimesCalled() {
+        return timesCalled;
     }
 
     public static void clearCallOrder() {
