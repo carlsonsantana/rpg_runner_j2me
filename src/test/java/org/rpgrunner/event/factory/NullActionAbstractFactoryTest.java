@@ -4,12 +4,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.test.mock.controller.GameControllerSpy;
-import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
+import org.rpgrunner.test.helper.HelperActionAbstractFactory;
 
 public class NullActionAbstractFactoryTest
     extends AbstractNullActionFactoryTest {
@@ -29,20 +25,6 @@ public class NullActionAbstractFactoryTest
     protected Action createAction(
         final InputStream inputStream
     ) throws IOException {
-        GameControllerSpy gameController = new GameControllerSpy();
-        CharacterAnimationFactory characterAnimationFactory = (
-            new CharacterAnimationFactoryMock()
-        );
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryMock()
-        );
-        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
-            gameController,
-            characterAnimationFactory,
-            playerMovementFactory
-        );
-        Action action = actionAbstractFactory.create(inputStream);
-
-        return action;
+        return HelperActionAbstractFactory.createAction(inputStream);
     }
 }

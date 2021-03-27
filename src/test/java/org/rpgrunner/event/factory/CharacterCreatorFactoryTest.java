@@ -4,13 +4,12 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
-import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.test.helper.HelperActionAbstractFactory;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
 public class CharacterCreatorFactoryTest
     extends AbstractCharacterCreatorFactoryTest {
@@ -23,16 +22,13 @@ public class CharacterCreatorFactoryTest
         final GameController gameController
     ) throws IOException {
         MapController mapController = gameController.getMapController();
+        ActionAbstractFactory actionAbstractFactory = (
+            HelperActionAbstractFactory.createActionAbstractFactory(
+                gameController
+            )
+        );
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
-        );
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryMock()
-        );
-        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
-            gameController,
-            characterAnimationFactory,
-            playerMovementFactory
         );
 
         CharacterCreatorFactory characterCreatorFactory = (

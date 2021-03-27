@@ -5,11 +5,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.controller.GameController;
-import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
+import org.rpgrunner.test.helper.HelperActionAbstractFactory;
 
 public class PlayerCharacterCreatorAbstractFactoryTest
     extends AbstractPlayerCharacterCreatorFactoryTest {
@@ -30,20 +27,9 @@ public class PlayerCharacterCreatorAbstractFactoryTest
         final InputStream inputStream,
         final GameController gameController
     ) throws IOException {
-        CharacterAnimationFactory characterAnimationFactory = (
-            new CharacterAnimationFactoryMock()
-        );
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryMock()
-        );
-
-        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
+        return HelperActionAbstractFactory.createAction(
             gameController,
-            characterAnimationFactory,
-            playerMovementFactory
+            inputStream
         );
-        Action action = actionAbstractFactory.create(inputStream);
-
-        return action;
     }
 }
