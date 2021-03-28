@@ -6,12 +6,14 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.controller.MapControllerSpy;
+import org.rpgrunner.test.mock.event.ActionQueueSpy;
 
 public abstract class AbstractTeleportTest extends TestCase {
     private static final int EXAMPLE_MAP_WIDTH = 32;
@@ -22,6 +24,7 @@ public abstract class AbstractTeleportTest extends TestCase {
     private GameCharacter character;
     private GameControllerSpy gameController;
     private MapControllerSpy mapController;
+    private ActionQueueSpy actionQueue;
     private Teleport teleport;
     private int mapPositionX;
     private int mapPositionY;
@@ -38,10 +41,12 @@ public abstract class AbstractTeleportTest extends TestCase {
         gameController = new GameControllerSpy();
         mapController = (MapControllerSpy) gameController.getMapController();
         mapController.setPlayerCharacterElement(characterElement);
+        actionQueue = new ActionQueueSpy();
         mapPositionX = RandomGenerator.getRandomPosition();
         mapPositionY = RandomGenerator.getRandomPosition();
         teleport = createTeleport(
             gameController,
+            actionQueue,
             "example",
             mapPositionX,
             mapPositionY
@@ -56,6 +61,7 @@ public abstract class AbstractTeleportTest extends TestCase {
             mapPositionX,
             mapPositionY
         );
+        Assert.assertEquals(1, actionQueue.getActions().length);
     }
 
     public void testChangeMapTwice() {
@@ -63,6 +69,7 @@ public abstract class AbstractTeleportTest extends TestCase {
         int nextMapPositionY = RandomGenerator.getRandomPosition();
         Teleport teleportAnotherMap = createTeleport(
             gameController,
+            actionQueue,
             "another",
             nextMapPositionX,
             nextMapPositionY
@@ -78,6 +85,7 @@ public abstract class AbstractTeleportTest extends TestCase {
             nextMapPositionY
         );
         Assert.assertEquals(2, mapController.getCountMapChanged());
+        Assert.assertEquals(2, actionQueue.getActions().length);
     }
 
     public void testChangeTeleportSameMap() {
@@ -85,6 +93,7 @@ public abstract class AbstractTeleportTest extends TestCase {
         int nextMapPositionY = RandomGenerator.getRandomPosition();
         Teleport teleportSameMap = createTeleport(
             gameController,
+            actionQueue,
             "example",
             nextMapPositionX,
             nextMapPositionY
@@ -100,6 +109,7 @@ public abstract class AbstractTeleportTest extends TestCase {
             nextMapPositionY
         );
         Assert.assertEquals(2, mapController.getCountMapChanged());
+        Assert.assertEquals(2, actionQueue.getActions().length);
     }
 
     private void testTeleport(
@@ -128,6 +138,7 @@ public abstract class AbstractTeleportTest extends TestCase {
 
     protected abstract Teleport createTeleport(
         GameController gameControllerTest,
+        ActionQueue actionQueueTest,
         String mapFileName,
         int newMapPositionX,
         int newMapPositionY

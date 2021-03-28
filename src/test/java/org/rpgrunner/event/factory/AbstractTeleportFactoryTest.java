@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.AbstractTeleportTest;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
@@ -14,6 +15,7 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
 
     protected Teleport createTeleport(
         final GameController gameController,
+        final ActionQueue actionQueue,
         final String mapFileName,
         final int newMapPositionX,
         final int newMapPositionY
@@ -24,8 +26,10 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
             newMapPositionY
         );
         try {
-            Teleport teleport = (
-                (Teleport) createAction(inputStream, gameController)
+            Teleport teleport = (Teleport) createAction(
+                inputStream,
+                gameController,
+                actionQueue
             );
 
             return teleport;
@@ -56,6 +60,7 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
 
     protected abstract Action createAction(
         InputStream inputStream,
-        GameController gameController
+        GameController gameController,
+        ActionQueue actionQueue
     ) throws IOException;
 }

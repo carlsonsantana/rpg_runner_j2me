@@ -3,10 +3,11 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.MapLoader;
 
@@ -16,7 +17,8 @@ public class ActionAbstractFactory implements ActionFactory {
     public ActionAbstractFactory(
         final GameController gameController,
         final CharacterAnimationFactory characterAnimationFactory,
-        final PlayerMovementFactory playerMovementFactory
+        final PlayerMovementFactory playerMovementFactory,
+        final ActionQueue actionQueue
     ) {
         MapController mapController = gameController.getMapController();
         MapLoader mapLoader = new MapLoader(this);
@@ -39,7 +41,8 @@ public class ActionAbstractFactory implements ActionFactory {
         );
         TeleportFactory teleportFactory = new TeleportFactory(
             mapController,
-            mapLoader
+            mapLoader,
+            actionQueue
         );
         LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
         ShowMessageFactory showMessageFactory = new ShowMessageFactory(

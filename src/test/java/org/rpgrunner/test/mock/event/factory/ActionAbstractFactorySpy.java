@@ -19,7 +19,7 @@ public class ActionAbstractFactorySpy extends ActionAbstractFactory {
     }
 
     public ActionAbstractFactorySpy(final GameController gameController) {
-        super(gameController, null, null);
+        super(gameController, null, null, null);
         actionsCreated = new Vector();
     }
 

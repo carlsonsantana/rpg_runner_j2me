@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.HelperActionAbstractFactory;
 
@@ -24,10 +25,12 @@ public class TeleportAbstractFactoryTest extends AbstractTeleportFactoryTest {
 
     protected Action createAction(
         final InputStream inputStream,
-        final GameController gameController
+        final GameController gameController,
+        final ActionQueue actionQueue
     ) throws IOException {
         return HelperActionAbstractFactory.createAction(
             gameController,
+            actionQueue,
             inputStream
         );
     }

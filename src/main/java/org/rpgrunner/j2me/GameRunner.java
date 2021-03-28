@@ -5,6 +5,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Camera;
@@ -57,6 +58,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
+        ActionQueue actionQueue = new ActionQueue();
         Camera camera = new Camera(getWidth(), getHeight());
         GraphicsRenderImpl graphicsRender = new GraphicsRenderImpl(
             graphics,
@@ -66,7 +68,8 @@ public class GameRunner extends GameCanvas implements Runnable {
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
             gameController,
             characterAnimationFactory,
-            playerMovementFactory
+            playerMovementFactory,
+            actionQueue
         );
         GameStartEvent gameStartEvent = new GameStartEvent();
 
