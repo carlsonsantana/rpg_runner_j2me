@@ -13,6 +13,7 @@ import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.controller.GameControllerSpy;
+import org.rpgrunner.test.mock.event.ActionQueueSpy;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
@@ -21,6 +22,7 @@ public class MapHelperTest extends TestCase {
     private static final byte STOPPED_DIRECTION = (byte) 0;
     private static final int MINIMUM_POSITION = 3;
     private MapHelper mapHelper;
+    private ActionQueueSpy actionQueue;
     private MapSpy map;
     private Vector characterElements;
     private CharacterElement characterElement;
@@ -94,7 +96,8 @@ public class MapHelperTest extends TestCase {
 
     public void setUp() {
         gameController = new GameControllerSpy();
-        mapHelper = new MapHelper(gameController);
+        actionQueue = new ActionQueueSpy();
+        mapHelper = new MapHelper(gameController, actionQueue);
         map = new MapSpy();
         map.setCanMoveTo(true);
         mapHelper.setMap(map);
@@ -358,6 +361,9 @@ public class MapHelperTest extends TestCase {
             (CharacterActionSpy) gameController.getExecutedAction()
         );
         Assert.assertSame(collisionCharacter, interactAction.getCharacter());
+        Assert.assertSame(interactAction, actionQueue.getActions()[0]);
+
+        actionQueue.clear();
     }
 
     private int getAdditionalXValue(final int additional) {

@@ -8,17 +8,23 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
 
 public class MapHelper {
     private final GameController gameController;
+    private final ActionQueue actionQueue;
     private Map map;
     private Vector characterElements;
 
-    public MapHelper(final GameController currentGameController) {
+    public MapHelper(
+        final GameController currentGameController,
+        final ActionQueue currentActionQueue
+    ) {
         gameController = currentGameController;
+        actionQueue = currentActionQueue;
     }
 
     public void setMap(final Map newMap) {
@@ -103,6 +109,7 @@ public class MapHelper {
             mapController.getPlayerCharacterElement().getCharacter()
         );
         Action action = getInteractAction(playerCharacter);
+        actionQueue.push(action);
         gameController.executeAction(action);
     }
 

@@ -35,4 +35,8 @@ public class ActionQueueSpy extends ActionQueue {
 
         return arrayActions;
     }
+
+    public void clear() {
+        actions.removeAllElements();
+    }
 }

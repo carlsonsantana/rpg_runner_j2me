@@ -45,7 +45,7 @@ public class GameControllerTest extends TestCase {
             characterAnimation,
             playerMovementSpy
         );
-        gameController = new GameController(graphicsRender, camera);
+        gameController = new GameController(null, graphicsRender, camera);
         mapController = gameController.getMapController();
         generateNPCs();
     }

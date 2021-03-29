@@ -10,7 +10,7 @@ public class MapHelperSpy extends MapHelper {
     private boolean executeInteractActionCalled;
 
     public MapHelperSpy() {
-        super(new GameControllerSpy());
+        super(new GameControllerSpy(), null);
         canMoveValue = true;
         executeInteractActionCalled = false;
     }

@@ -7,6 +7,7 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
@@ -23,13 +24,14 @@ public class MapController implements Controller {
 
     public MapController(
         final GameController gameController,
+        final ActionQueue actionQueue,
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera
     ) {
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
-        mapHelper = new MapHelper(gameController);
+        mapHelper = new MapHelper(gameController, actionQueue);
         mapHelper.setCharacterElements(characterElements);
     }
 

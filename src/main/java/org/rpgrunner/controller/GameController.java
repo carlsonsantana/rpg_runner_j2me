@@ -1,5 +1,6 @@
 package org.rpgrunner.controller;
 
+import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
@@ -9,11 +10,17 @@ public class GameController implements Controller {
     private final MapController mapController;
 
     public GameController(
+        final ActionQueue actionQueue,
         final GraphicsRender gameGraphicsRender,
         final Camera camera
     ) {
         graphicsRender = gameGraphicsRender;
-        mapController = new MapController(this, graphicsRender, camera);
+        mapController = new MapController(
+            this,
+            actionQueue,
+            graphicsRender,
+            camera
+        );
     }
 
     public void pressKey(final int key) {
