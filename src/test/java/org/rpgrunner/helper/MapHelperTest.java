@@ -358,10 +358,11 @@ public class MapHelperTest extends TestCase {
 
         mapHelper.executeInteractAction();
         CharacterActionSpy interactAction = (
-            (CharacterActionSpy) gameController.getExecutedAction()
+            (CharacterActionSpy) actionQueue.getActions()[0]
         );
+        interactAction.execute();
+
         Assert.assertSame(collisionCharacter, interactAction.getCharacter());
-        Assert.assertSame(interactAction, actionQueue.getActions()[0]);
 
         actionQueue.clear();
     }
@@ -457,7 +458,7 @@ public class MapHelperTest extends TestCase {
         setInitialPosition(STOPPED_DIRECTION, 2);
 
         mapHelper.executeInteractAction();
-        Action action = gameController.getExecutedAction();
+        Action action = actionQueue.getActions()[0];
 
         Assert.assertNotNull(action);
         Assert.assertTrue(action instanceof NullAction);

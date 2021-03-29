@@ -1,7 +1,6 @@
 package org.rpgrunner.controller;
 
 import org.rpgrunner.event.ActionQueue;
-import org.rpgrunner.event.action.Action;
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
 
@@ -37,10 +36,6 @@ public class GameController implements Controller {
 
     public void render() {
         graphicsRender.render();
-    }
-
-    public void executeAction(final Action action) {
-        action.execute();
     }
 
     public void showMessage(final String message) {

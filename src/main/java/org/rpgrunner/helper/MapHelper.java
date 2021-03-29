@@ -110,7 +110,6 @@ public class MapHelper {
         );
         Action action = getInteractAction(playerCharacter);
         actionQueue.push(action);
-        gameController.executeAction(action);
     }
 
     private Action getInteractAction(final GameCharacter character) {

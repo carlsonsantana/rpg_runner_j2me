@@ -15,7 +15,6 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
-import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
 
@@ -114,13 +113,6 @@ public class GameControllerTest extends TestCase {
             characterAnimationSpy,
             newPlayerMovementSpy
         );
-    }
-
-    public void testExecuteAction() {
-        ActionSpy action = new ActionSpy();
-        gameController.executeAction(action);
-
-        Assert.assertTrue(action.isExecuteCalled());
     }
 
     public void testSameMessagePassed() {
