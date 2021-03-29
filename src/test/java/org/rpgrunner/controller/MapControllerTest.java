@@ -44,13 +44,7 @@ public class MapControllerTest extends TestCase {
             characterAnimation,
             playerMovementSpy
         );
-        GameController gameController = new GameController(
-            null,
-            graphicsRender,
-            camera
-        );
         mapController = new MapController(
-            gameController,
             null,
             graphicsRender,
             camera

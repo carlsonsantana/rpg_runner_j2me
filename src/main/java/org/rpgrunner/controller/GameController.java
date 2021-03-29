@@ -14,12 +14,7 @@ public class GameController implements Controller {
         final Camera camera
     ) {
         graphicsRender = gameGraphicsRender;
-        mapController = new MapController(
-            this,
-            actionQueue,
-            graphicsRender,
-            camera
-        );
+        mapController = new MapController(actionQueue, graphicsRender, camera);
     }
 
     public void pressKey(final int key) {

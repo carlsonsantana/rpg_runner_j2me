@@ -23,7 +23,6 @@ public class MapController implements Controller {
     private PlayerMovement playerMovement;
 
     public MapController(
-        final GameController gameController,
         final ActionQueue actionQueue,
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera
@@ -31,7 +30,7 @@ public class MapController implements Controller {
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
-        mapHelper = new MapHelper(gameController, actionQueue);
+        mapHelper = new MapHelper(this, actionQueue);
         mapHelper.setCharacterElements(characterElements);
     }
 

@@ -6,7 +6,6 @@ import java.util.Vector;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
@@ -14,16 +13,16 @@ import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
 
 public class MapHelper {
-    private final GameController gameController;
+    private final MapController mapController;
     private final ActionQueue actionQueue;
     private Map map;
     private Vector characterElements;
 
     public MapHelper(
-        final GameController currentGameController,
+        final MapController currentMapController,
         final ActionQueue currentActionQueue
     ) {
-        gameController = currentGameController;
+        mapController = currentMapController;
         actionQueue = currentActionQueue;
     }
 
@@ -104,7 +103,6 @@ public class MapHelper {
     }
 
     public void executeInteractAction() {
-        MapController mapController = gameController.getMapController();
         GameCharacter playerCharacter = (
             mapController.getPlayerCharacterElement().getCharacter()
         );

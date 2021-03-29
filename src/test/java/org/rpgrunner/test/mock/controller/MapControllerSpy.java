@@ -7,7 +7,6 @@ import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class MapControllerSpy extends MapController {
-    private final GameControllerSpy gameController;
     private Map map;
     private int countMapChanged;
     private CharacterElement playerCharacterElement;
@@ -15,9 +14,8 @@ public class MapControllerSpy extends MapController {
     private Action lastAction;
     private String lastMessage;
 
-    public MapControllerSpy(final GameControllerSpy currentGameController) {
-        super(null, null, null, null);
-        gameController = currentGameController;
+    public MapControllerSpy() {
+        super(null, null, null);
         map = null;
         countMapChanged = 0;
     }
@@ -46,7 +44,7 @@ public class MapControllerSpy extends MapController {
     }
 
     public MapHelper getMapHelper() {
-        return new MapHelper(gameController, null);
+        return new MapHelper(this, null);
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {

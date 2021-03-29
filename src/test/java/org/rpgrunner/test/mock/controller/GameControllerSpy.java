@@ -15,12 +15,12 @@ public class GameControllerSpy extends GameController {
 
     public GameControllerSpy() {
         super(null, null, null);
-        mapController = new MapControllerSpy(this);
+        mapController = new MapControllerSpy();
         map = null;
     }
 
     public MapHelper getMapHelper() {
-        return new MapHelper(this, null);
+        return new MapHelper(mapController, null);
     }
 
     public void showMessage(final String message) {
