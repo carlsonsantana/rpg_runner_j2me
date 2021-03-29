@@ -14,7 +14,6 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
-import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -76,14 +75,6 @@ public class MapControllerTest extends TestCase {
         Assert.assertSame(map, mapController.getMap());
         Assert.assertSame(map, graphicsRender.getMap());
         Assert.assertSame(map, camera.getMap());
-    }
-
-    public void testCallStartActionsWhenMapChange() {
-        MapSpy map = new MapSpy();
-        ActionSpy action = (ActionSpy) map.getStartAction();
-        mapController.setMap(map);
-
-        Assert.assertTrue(action.isExecuteCalled());
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {

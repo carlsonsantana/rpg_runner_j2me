@@ -35,6 +35,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     private Thread thread;
     private boolean destroyed;
     private GameController gameController;
+    private ActionQueue actionQueue;
 
     public GameRunner() {
         super(false);
@@ -58,7 +59,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
-        ActionQueue actionQueue = new ActionQueue();
+        actionQueue = new ActionQueue();
         Camera camera = new Camera(getWidth(), getHeight());
         GraphicsRenderImpl graphicsRender = new GraphicsRenderImpl(
             graphics,
@@ -85,6 +86,7 @@ public class GameRunner extends GameCanvas implements Runnable {
     private void executeFrame() {
         long startFrameTime = System.currentTimeMillis();
         gameController.prepareFrameAnimation();
+        actionQueue.execute();
         renderFrame();
         waitUntilEndTimeFrame(startFrameTime);
     }

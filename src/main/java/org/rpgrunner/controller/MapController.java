@@ -13,7 +13,6 @@ import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class MapController implements Controller {
-    private final GameController gameController;
     private final GraphicsRender graphicsRender;
     private final Camera camera;
     private final Vector characterElements;
@@ -23,11 +22,10 @@ public class MapController implements Controller {
     private PlayerMovement playerMovement;
 
     public MapController(
-        final GameController currentGameController,
+        final GameController gameController,
         final GraphicsRender gameGraphicsRender,
         final Camera gameCamera
     ) {
-        gameController = currentGameController;
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
@@ -42,8 +40,6 @@ public class MapController implements Controller {
         camera.setMap(map);
         graphicsRender.setMap(map);
         removeAllNPCs();
-
-        gameController.executeAction(map.getStartAction());
     }
 
     private void removeAllNPCs() {
