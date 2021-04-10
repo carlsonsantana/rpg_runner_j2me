@@ -5,6 +5,7 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
@@ -67,7 +68,12 @@ public class GameRunner extends GameCanvas implements Runnable {
             graphics,
             camera
         );
-        gameController = new GameController(graphicsRender, camera, mapHelper);
+        MapController mapController = new MapController(
+            graphicsRender,
+            camera,
+            mapHelper
+        );
+        gameController = new GameController(graphicsRender, mapController);
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
             gameController,
             characterAnimationFactory,

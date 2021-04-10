@@ -14,11 +14,15 @@ public class MapControllerSpy extends MapController {
     private CharacterElement lastCharacterElementAdded;
     private Action lastAction;
     private String lastMessage;
+    private boolean prepareFrameAnimationCalled;
+    private int pressedKey;
+    private int releasedKey;
 
     public MapControllerSpy() {
         super(null, null, new MapHelperSpy());
         map = null;
         countMapChanged = 0;
+        prepareFrameAnimationCalled = false;
     }
 
     public void setMap(final Map newMap) {
@@ -56,19 +60,27 @@ public class MapControllerSpy extends MapController {
         return lastCharacterElementAdded;
     }
 
-    public void executeAction(final Action newAction) {
-        lastAction = newAction;
+    public void prepareFrameAnimation() {
+        prepareFrameAnimationCalled = true;
     }
 
-    public Action getExecutedAction() {
-        return lastAction;
+    public boolean isPrepareFrameAnimationCalled() {
+        return prepareFrameAnimationCalled;
     }
 
-    public void showMessage(final String message) {
-        lastMessage = message;
+    public void pressKey(final int key) {
+        pressedKey = key;
     }
 
-    public String getLastMessage() {
-        return lastMessage;
+    public int getPressedKey() {
+        return pressedKey;
+    }
+
+    public void releaseKey(final int key) {
+        releasedKey = key;
+    }
+
+    public int getReleasedKey() {
+        return releasedKey;
     }
 }
