@@ -354,7 +354,7 @@ public class MapHelperTest extends TestCase {
         character.cancelMove();
         setInitialPosition(STOPPED_DIRECTION, 1);
 
-        mapHelper.executeInteractAction();
+        mapHelper.executeInteractAction(character);
         CharacterActionSpy interactAction = (
             (CharacterActionSpy) actionQueue.getActions()[0]
         );
@@ -455,7 +455,7 @@ public class MapHelperTest extends TestCase {
         character.cancelMove();
         setInitialPosition(STOPPED_DIRECTION, 2);
 
-        mapHelper.executeInteractAction();
+        mapHelper.executeInteractAction(character);
         Action action = actionQueue.getActions()[0];
 
         Assert.assertNotNull(action);
