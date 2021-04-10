@@ -5,6 +5,7 @@ import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public class MapControllerSpy extends MapController {
     private Map map;
@@ -15,7 +16,7 @@ public class MapControllerSpy extends MapController {
     private String lastMessage;
 
     public MapControllerSpy() {
-        super(null, null, null);
+        super(null, null, new MapHelperSpy());
         map = null;
         countMapChanged = 0;
     }

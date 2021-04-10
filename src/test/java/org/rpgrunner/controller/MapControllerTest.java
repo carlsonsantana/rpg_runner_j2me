@@ -16,6 +16,7 @@ import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
+import org.rpgrunner.test.mock.helper.MapHelperSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class MapControllerTest extends TestCase {
@@ -24,6 +25,7 @@ public class MapControllerTest extends TestCase {
     private MapController mapController;
     private GraphicsRenderSpy graphicsRender;
     private CameraSpy camera;
+    private MapHelperSpy mapHelper;
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
     private CharacterAnimationSpy characterAnimation;
@@ -44,11 +46,8 @@ public class MapControllerTest extends TestCase {
             characterAnimation,
             playerMovementSpy
         );
-        mapController = new MapController(
-            null,
-            graphicsRender,
-            camera
-        );
+        mapHelper = new MapHelperSpy();
+        mapController = new MapController(graphicsRender, camera, mapHelper);
         generateNPCs();
     }
 
@@ -71,6 +70,7 @@ public class MapControllerTest extends TestCase {
         Assert.assertSame(map, mapController.getMap());
         Assert.assertSame(map, graphicsRender.getMap());
         Assert.assertSame(map, camera.getMap());
+        Assert.assertSame(map, mapHelper.getCurrentMap());
     }
 
     public void testPressKeyOnPlayerCharacterMovement() {

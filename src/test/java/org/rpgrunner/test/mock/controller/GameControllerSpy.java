@@ -4,6 +4,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public class GameControllerSpy extends GameController {
     private final MapController mapController;
@@ -13,7 +14,7 @@ public class GameControllerSpy extends GameController {
     private String lastMessage;
 
     public GameControllerSpy() {
-        super(null, null, null);
+        super(null, null, new MapHelperSpy());
         mapController = new MapControllerSpy();
         map = null;
     }

@@ -10,6 +10,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
@@ -44,7 +45,8 @@ public class GameControllerTest extends TestCase {
             characterAnimation,
             playerMovementSpy
         );
-        gameController = new GameController(null, graphicsRender, camera);
+        MapHelper mapHelper = new MapHelper(null);
+        gameController = new GameController(graphicsRender, camera, mapHelper);
         mapController = gameController.getMapController();
         generateNPCs();
     }

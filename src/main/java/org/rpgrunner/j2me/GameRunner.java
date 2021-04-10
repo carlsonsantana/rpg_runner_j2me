@@ -9,6 +9,7 @@ import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Camera;
+import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.graphics.GraphicsRenderImpl;
@@ -59,17 +60,14 @@ public class GameRunner extends GameCanvas implements Runnable {
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
-        actionQueue = new ActionQueue();
         Camera camera = new Camera(getWidth(), getHeight());
+        actionQueue = new ActionQueue();
+        MapHelper mapHelper = new MapHelper(actionQueue);
         GraphicsRenderImpl graphicsRender = new GraphicsRenderImpl(
             graphics,
             camera
         );
-        gameController = new GameController(
-            actionQueue,
-            graphicsRender,
-            camera
-        );
+        gameController = new GameController(graphicsRender, camera, mapHelper);
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
             gameController,
             characterAnimationFactory,

@@ -5,6 +5,7 @@ import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class MapHelperSpy extends MapHelper {
+    private Map currentMap;
     private boolean canMoveValue;
     private boolean executeInteractActionCalled;
 
@@ -15,7 +16,11 @@ public class MapHelperSpy extends MapHelper {
     }
 
     public void setMap(final Map map) {
-        throw new RuntimeException();
+        currentMap = map;
+    }
+
+    public Map getCurrentMap() {
+        return currentMap;
     }
 
     public void setCharacters(final GameCharacter[] characters) {
