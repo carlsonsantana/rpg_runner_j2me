@@ -44,7 +44,7 @@ public class MapControllerSpy extends MapController {
     }
 
     public MapHelper getMapHelper() {
-        return new MapHelper(this, null);
+        return new MapHelper(null);
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {

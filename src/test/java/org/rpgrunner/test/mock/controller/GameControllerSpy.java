@@ -3,7 +3,6 @@ package org.rpgrunner.test.mock.controller;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
-import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class GameControllerSpy extends GameController {
@@ -17,10 +16,6 @@ public class GameControllerSpy extends GameController {
         super(null, null, null);
         mapController = new MapControllerSpy();
         map = null;
-    }
-
-    public MapHelper getMapHelper() {
-        return new MapHelper(mapController, null);
     }
 
     public void showMessage(final String message) {

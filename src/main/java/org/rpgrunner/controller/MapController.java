@@ -30,7 +30,7 @@ public class MapController implements Controller {
         graphicsRender = gameGraphicsRender;
         camera = gameCamera;
         characterElements = new Vector(1);
-        mapHelper = new MapHelper(this, actionQueue);
+        mapHelper = new MapHelper(actionQueue);
         mapHelper.setCharacterElements(characterElements);
     }
 

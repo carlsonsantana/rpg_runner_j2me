@@ -3,14 +3,13 @@ package org.rpgrunner.test.mock.helper;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
-import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public class MapHelperSpy extends MapHelper {
     private boolean canMoveValue;
     private boolean executeInteractActionCalled;
 
     public MapHelperSpy() {
-        super(new MapControllerSpy(), null);
+        super(null);
         canMoveValue = true;
         executeInteractActionCalled = false;
     }

@@ -11,7 +11,6 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
-import org.rpgrunner.test.mock.controller.MapControllerSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -27,7 +26,6 @@ public class MapHelperTest extends TestCase {
     private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
-    private MapControllerSpy mapController;
 
     private abstract class TestCollisionAllDirections {
         private final int additional;
@@ -94,9 +92,8 @@ public class MapHelperTest extends TestCase {
     }
 
     public void setUp() {
-        mapController = new MapControllerSpy();
         actionQueue = new ActionQueueSpy();
-        mapHelper = new MapHelper(mapController, actionQueue);
+        mapHelper = new MapHelper(actionQueue);
         map = new MapSpy();
         map.setCanMoveTo(true);
         mapHelper.setMap(map);
@@ -110,8 +107,6 @@ public class MapHelperTest extends TestCase {
         mapHelper.setCharacterElements(characterElements);
         generateCharacterTest();
         collisionCharacter = getCollisionCharacter();
-
-        mapController.setPlayerCharacterElement(characterElement);
     }
 
     private void generateCharacterTest() {
