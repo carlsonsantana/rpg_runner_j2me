@@ -1,9 +1,8 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.GameController;
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 
@@ -18,13 +17,11 @@ public class PlayerCharacterCreatorTest
     }
 
     protected PlayerCharacterCreator createPlayerCharacterCreator(
-        final GameController gameController,
+        final MapController mapController,
         final String characterFileName,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
-        MapController mapController = gameController.getMapController();
-
         return new PlayerCharacterCreator(
             mapController,
             characterAnimationFactory,

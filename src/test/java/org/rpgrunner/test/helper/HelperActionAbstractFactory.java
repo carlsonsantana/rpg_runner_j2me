@@ -6,12 +6,14 @@ import java.io.InputStream;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.controller.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public final class HelperActionAbstractFactory {
     private HelperActionAbstractFactory() { }
@@ -28,35 +30,58 @@ public final class HelperActionAbstractFactory {
         final GameController gameController,
         final InputStream inputStream
     ) throws IOException {
-        return createAction(gameController, null, inputStream);
+        MapController mapController = new MapControllerSpy();
+
+        return createAction(gameController, mapController, null, inputStream);
     }
 
     public static Action createAction(
+        final MapController mapController,
+        final InputStream inputStream
+    ) throws IOException {
+        return createAction(null, mapController, null, inputStream);
+    }
+
+    public static Action createAction(
+        final MapController mapController,
+        final ActionQueue actionQueue,
+        final InputStream inputStream
+    ) throws IOException {
+        return createAction(null, mapController, actionQueue, inputStream);
+    }
+
+    private static Action createAction(
         final GameController gameController,
+        final MapController mapController,
         final ActionQueue actionQueue,
         final InputStream inputStream
     ) throws IOException {
         ActionAbstractFactory actionAbstractFactory = (
-            createActionAbstractFactory(gameController, actionQueue)
+            createActionAbstractFactory(
+                gameController,
+                mapController,
+                actionQueue
+            )
         );
 
         return actionAbstractFactory.create(inputStream);
     }
 
     public static ActionAbstractFactory createActionAbstractFactory() {
-        GameControllerSpy gameController = new GameControllerSpy();
+        MapController mapController = new MapControllerSpy();
 
-        return createActionAbstractFactory(gameController);
+        return createActionAbstractFactory(mapController);
     }
 
     public static ActionAbstractFactory createActionAbstractFactory(
-        final GameController gameController
+        final MapController mapController
     ) {
-        return createActionAbstractFactory(gameController, null);
+        return createActionAbstractFactory(null, mapController, null);
     }
 
     private static ActionAbstractFactory createActionAbstractFactory(
         final GameController gameController,
+        final MapController mapController,
         final ActionQueue actionQueue
     ) {
         CharacterAnimationFactory characterAnimationFactory = (
@@ -68,6 +93,7 @@ public final class HelperActionAbstractFactory {
 
         return new ActionAbstractFactory(
             gameController,
+            mapController,
             characterAnimationFactory,
             playerMovementFactory,
             actionQueue

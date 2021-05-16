@@ -3,12 +3,11 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.controller.GameController;
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.controller.GameControllerSpy;
+import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
@@ -20,14 +19,13 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
     }
 
     private void checkCreatePlayerCharacter() {
-        GameController gameController = new GameControllerSpy();
-        MapController mapController = gameController.getMapController();
+        MapController mapController = new MapControllerSpy();
         String randomFileBaseName = RandomGenerator.getRandomString();
         int initialMapPositionX = RandomGenerator.getRandomPosition();
         int initialMapPositionY = RandomGenerator.getRandomPosition();
         PlayerCharacterCreator playerCharacterCreator = (
             createPlayerCharacterCreator(
-                gameController,
+                mapController,
                 randomFileBaseName,
                 initialMapPositionX,
                 initialMapPositionY
@@ -57,7 +55,7 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
     }
 
     protected abstract PlayerCharacterCreator createPlayerCharacterCreator(
-        GameController gameController,
+        MapController mapController,
         String characterFileName,
         int initialMapPositionX,
         int initialMapPositionY

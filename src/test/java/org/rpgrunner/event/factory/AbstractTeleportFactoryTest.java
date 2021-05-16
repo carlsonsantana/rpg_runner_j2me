@@ -3,7 +3,7 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.AbstractTeleportTest;
 import org.rpgrunner.event.action.Action;
@@ -14,7 +14,7 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
     private static final int ADDITIONAL_BYTES = 3;
 
     protected Teleport createTeleport(
-        final GameController gameController,
+        final MapController mapController,
         final ActionQueue actionQueue,
         final String mapFileName,
         final int newMapPositionX,
@@ -27,9 +27,9 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
         );
         try {
             Teleport teleport = (Teleport) createAction(
-                inputStream,
-                gameController,
-                actionQueue
+                mapController,
+                actionQueue,
+                inputStream
             );
 
             return teleport;
@@ -59,8 +59,8 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
     protected abstract InputStream generateInputStream(byte[] byteArray);
 
     protected abstract Action createAction(
-        InputStream inputStream,
-        GameController gameController,
-        ActionQueue actionQueue
+        MapController mapController,
+        ActionQueue actionQueue,
+        InputStream inputStream
     ) throws IOException;
 }

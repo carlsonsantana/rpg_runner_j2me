@@ -33,8 +33,4 @@ public class GameController implements Controller {
     public void showMessage(final String message) {
         graphicsRender.showMessage(message);
     }
-
-    public MapController getMapController() {
-        return mapController;
-    }
 }

@@ -16,11 +16,11 @@ public class ActionAbstractFactory implements ActionFactory {
 
     public ActionAbstractFactory(
         final GameController gameController,
+        final MapController mapController,
         final CharacterAnimationFactory characterAnimationFactory,
         final PlayerMovementFactory playerMovementFactory,
         final ActionQueue actionQueue
     ) {
-        MapController mapController = gameController.getMapController();
         MapLoader mapLoader = new MapLoader(this);
 
         NullActionFactory nullActionFactory = new NullActionFactory();

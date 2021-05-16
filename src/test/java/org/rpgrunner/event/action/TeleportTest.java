@@ -1,6 +1,5 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.map.MapLoader;
@@ -14,13 +13,12 @@ public class TeleportTest extends AbstractTeleportTest {
     }
 
     protected Teleport createTeleport(
-        final GameController gameController,
+        final MapController mapController,
         final ActionQueue actionQueue,
         final String mapFileName,
         final int newMapPositionX,
         final int newMapPositionY
     ) {
-        MapController mapController = gameController.getMapController();
         Teleport teleport = new Teleport(
             mapController,
             mapLoader,

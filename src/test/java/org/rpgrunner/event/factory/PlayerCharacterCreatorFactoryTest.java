@@ -4,10 +4,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
@@ -19,10 +18,9 @@ public class PlayerCharacterCreatorFactoryTest
     }
 
     protected Action createAction(
-        final InputStream inputStream,
-        final GameController gameController
+        final MapController mapController,
+        final InputStream inputStream
     ) throws IOException {
-        MapController mapController = gameController.getMapController();
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );

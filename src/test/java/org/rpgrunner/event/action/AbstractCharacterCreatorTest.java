@@ -3,11 +3,10 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.controller.GameController;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public abstract class AbstractCharacterCreatorTest extends TestCase {
@@ -20,15 +19,12 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
     }
 
     private void checkCreateCharacter() {
-        GameControllerSpy gameController = new GameControllerSpy();
-        MapControllerSpy mapController = (
-            (MapControllerSpy) gameController.getMapController()
-        );
+        MapControllerSpy mapController = new MapControllerSpy();
         String randomFileBaseName = RandomGenerator.getRandomString();
         int initialMapPositionX = RandomGenerator.getRandomPosition();
         int initialMapPositionY = RandomGenerator.getRandomPosition();
         CharacterCreator characterCreator = createCharacterCreator(
-            gameController,
+            mapController,
             randomFileBaseName,
             initialMapPositionX,
             initialMapPositionY
@@ -50,7 +46,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
     }
 
     protected abstract CharacterCreator createCharacterCreator(
-        GameController gameController,
+        MapController mapController,
         String characterFileName,
         int initialMapPositionX,
         int initialMapPositionY

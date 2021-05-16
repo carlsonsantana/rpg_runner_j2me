@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.HelperActionAbstractFactory;
@@ -24,12 +24,12 @@ public class TeleportAbstractFactoryTest extends AbstractTeleportFactoryTest {
     }
 
     protected Action createAction(
-        final InputStream inputStream,
-        final GameController gameController,
-        final ActionQueue actionQueue
+        final MapController mapController,
+        final ActionQueue actionQueue,
+        final InputStream inputStream
     ) throws IOException {
         return HelperActionAbstractFactory.createAction(
-            gameController,
+            mapController,
             actionQueue,
             inputStream
         );

@@ -4,7 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.HelperActionAbstractFactory;
 
@@ -24,11 +24,11 @@ public class PlayerCharacterCreatorAbstractFactoryTest
     }
 
     protected Action createAction(
-        final InputStream inputStream,
-        final GameController gameController
+        final MapController mapController,
+        final InputStream inputStream
     ) throws IOException {
         return HelperActionAbstractFactory.createAction(
-            gameController,
+            mapController,
             inputStream
         );
     }

@@ -3,7 +3,7 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.GameController;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.AbstractCharacterCreatorTest;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.CharacterCreator;
@@ -14,7 +14,7 @@ public abstract class AbstractCharacterCreatorFactoryTest
     private static final int ADDITIONAL_BYTES = 4;
 
     protected CharacterCreator createCharacterCreator(
-        final GameController gameController,
+        final MapController mapController,
         final String characterFileName,
         final int initialMapPositionX,
         final int initialMapPositionY
@@ -27,8 +27,8 @@ public abstract class AbstractCharacterCreatorFactoryTest
 
         try {
             CharacterCreator characterCreator = (CharacterCreator) createAction(
-                inputStream,
-                gameController
+                mapController,
+                inputStream
             );
 
             return characterCreator;
@@ -60,7 +60,7 @@ public abstract class AbstractCharacterCreatorFactoryTest
     protected abstract InputStream generateInputStream(byte[] byteArray);
 
     protected abstract Action createAction(
-        InputStream inputStream,
-        GameController currentGameController
+        MapController mapController,
+        InputStream inputStream
     ) throws IOException;
 }

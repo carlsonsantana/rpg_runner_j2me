@@ -5,7 +5,6 @@ import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 
 public class GameControllerSpy extends GameController {
-    private final MapController mapController;
     private CharacterElement playerCharacterElement;
     private CharacterElement lastCharacterElementAdded;
     private String lastMessage;
@@ -14,9 +13,8 @@ public class GameControllerSpy extends GameController {
         this(new MapControllerSpy());
     }
 
-    private GameControllerSpy(final MapController currentMapController) {
-        super(null, currentMapController);
-        mapController = currentMapController;
+    public GameControllerSpy(final MapController mapController) {
+        super(null, mapController);
     }
 
     public void showMessage(final String message) {
@@ -25,9 +23,5 @@ public class GameControllerSpy extends GameController {
 
     public String getLastMessage() {
         return lastMessage;
-    }
-
-    public MapController getMapController() {
-        return mapController;
     }
 }
