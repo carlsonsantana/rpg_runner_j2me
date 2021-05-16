@@ -88,6 +88,10 @@ public class GraphicsRenderImpl implements GraphicsRender {
         );
     }
 
+    public void hideMessage() {
+        currentMessageDialog = null;
+    }
+
     public void render() {
         centerCamera();
         layerManager.paint(graphics, 0, 0);

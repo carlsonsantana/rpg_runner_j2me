@@ -8,5 +8,6 @@ public interface GraphicsRender {
     void setMap(Map map);
     void setCharacterElements(Vector characterElements);
     void showMessage(String message);
+    void hideMessage();
     void render();
 }

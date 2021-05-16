@@ -10,9 +10,11 @@ public class GraphicsRenderSpy implements GraphicsRender {
     private Vector characterElements;
     private boolean renderCalled;
     private String lastMessage;
+    private boolean showingMessage;
 
     public GraphicsRenderSpy() {
         renderCalled = false;
+        showingMessage = false;
     }
 
     public void setMap(final Map newMap) {
@@ -33,10 +35,19 @@ public class GraphicsRenderSpy implements GraphicsRender {
 
     public void showMessage(final String message) {
         lastMessage = message;
+        showingMessage = true;
     }
 
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public void hideMessage() {
+        showingMessage = false;
+    }
+
+    public boolean isShowingMessage() {
+        return showingMessage;
     }
 
     public void render() {
