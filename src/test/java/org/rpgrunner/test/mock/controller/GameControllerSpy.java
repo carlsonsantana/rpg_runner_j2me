@@ -14,7 +14,7 @@ public class GameControllerSpy extends GameController {
     }
 
     public GameControllerSpy(final MapController mapController) {
-        super(null, mapController);
+        super(null, mapController, null);
     }
 
     public void showMessage(final String message) {

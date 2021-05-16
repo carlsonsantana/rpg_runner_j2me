@@ -5,13 +5,16 @@ import org.rpgrunner.graphics.GraphicsRender;
 public class GameController implements Controller {
     private final GraphicsRender graphicsRender;
     private final MapController mapController;
+    private final MessageController messageController;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
-        final MapController gameMapController
+        final MapController gameMapController,
+        final MessageController gameMessageController
     ) {
         graphicsRender = gameGraphicsRender;
         mapController = gameMapController;
+        messageController = gameMessageController;
     }
 
     public void pressKey(final int key) {
@@ -31,6 +34,6 @@ public class GameController implements Controller {
     }
 
     public void showMessage(final String message) {
-        graphicsRender.showMessage(message);
+        messageController.showMessage(message);
     }
 }
