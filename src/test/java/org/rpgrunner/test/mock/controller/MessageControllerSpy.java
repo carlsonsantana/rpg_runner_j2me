@@ -4,10 +4,24 @@ import org.rpgrunner.controller.MessageController;
 
 public class MessageControllerSpy implements MessageController {
     private String lastMessage;
+    private int pressedKey;
+    private int releasedKey;
 
-    public void pressKey(final int key) { }
+    public void pressKey(final int key) {
+        pressedKey = key;
+    }
 
-    public void releaseKey(final int key) { }
+    public int getPressedKey() {
+        return pressedKey;
+    }
+
+    public void releaseKey(final int key) {
+        releasedKey = key;
+    }
+
+    public int getReleasedKey() {
+        return releasedKey;
+    }
 
     public void showMessage(final String message) {
         lastMessage = message;

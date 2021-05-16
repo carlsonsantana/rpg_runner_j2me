@@ -6,6 +6,7 @@ public class GameController implements Controller {
     private final GraphicsRender graphicsRender;
     private final MapController mapController;
     private final MessageController messageController;
+    private Controller currentController;
 
     public GameController(
         final GraphicsRender gameGraphicsRender,
@@ -15,14 +16,15 @@ public class GameController implements Controller {
         graphicsRender = gameGraphicsRender;
         mapController = gameMapController;
         messageController = gameMessageController;
+        currentController = mapController;
     }
 
     public void pressKey(final int key) {
-        mapController.pressKey(key);
+        currentController.pressKey(key);
     }
 
     public void releaseKey(final int key) {
-        mapController.releaseKey(key);
+        currentController.releaseKey(key);
     }
 
     public void prepareFrameAnimation() {
@@ -35,5 +37,6 @@ public class GameController implements Controller {
 
     public void showMessage(final String message) {
         messageController.showMessage(message);
+        currentController = messageController;
     }
 }

@@ -34,18 +34,36 @@ public class GameControllerTest extends TestCase {
         );
     }
 
-    public void testPressKey() {
+    public void testPressKeyMapController() {
         int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.pressKey(keyPressed);
 
         Assert.assertEquals(keyPressed, mapController.getPressedKey());
     }
 
-    public void testReleaseKey() {
+    public void testReleaseKeyMapController() {
         int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.releaseKey(keyReleased);
 
         Assert.assertEquals(keyReleased, mapController.getReleasedKey());
+    }
+
+    public void testPressKeyMessageController() {
+        String message = RandomGenerator.getRandomString();
+        gameController.showMessage(message);
+        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
+        gameController.pressKey(keyPressed);
+
+        Assert.assertEquals(keyPressed, messageController.getPressedKey());
+    }
+
+    public void testReleaseKeyMessageController() {
+        String message = RandomGenerator.getRandomString();
+        gameController.showMessage(message);
+        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
+        gameController.releaseKey(keyReleased);
+
+        Assert.assertEquals(keyReleased, messageController.getReleasedKey());
     }
 
     public void testPrepareFrameAnimation() {
