@@ -84,4 +84,16 @@ public class GameControllerTest extends TestCase {
 
         Assert.assertSame(message, messageController.getLastMessage());
     }
+
+    public void testWhenFinishMessageBackToMapController() {
+        String message = RandomGenerator.getRandomString();
+        gameController.showMessage(message);
+        messageController.finish();
+        gameController.prepareFrameAnimation();
+
+        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
+        gameController.releaseKey(keyReleased);
+
+        Assert.assertEquals(keyReleased, mapController.getReleasedKey());
+    }
 }

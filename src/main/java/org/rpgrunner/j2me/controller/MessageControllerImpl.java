@@ -26,4 +26,8 @@ public class MessageControllerImpl implements MessageController {
     public void showMessage(final String message) {
         graphicsRender.showMessage(message);
     }
+
+    public boolean isFinished() {
+        return false;
+    }
 }

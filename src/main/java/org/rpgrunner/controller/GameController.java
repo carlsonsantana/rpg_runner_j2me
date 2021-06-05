@@ -28,7 +28,18 @@ public class GameController implements Controller {
     }
 
     public void prepareFrameAnimation() {
+        removeFinishedControllers();
+
         mapController.prepareFrameAnimation();
+    }
+
+    private void removeFinishedControllers() {
+        if (
+            (currentController == messageController)
+            && (messageController.isFinished())
+        ) {
+            currentController = mapController;
+        }
     }
 
     public void render() {

@@ -6,6 +6,7 @@ public class MessageControllerSpy implements MessageController {
     private String lastMessage;
     private int pressedKey;
     private int releasedKey;
+    private boolean finished;
 
     public void pressKey(final int key) {
         pressedKey = key;
@@ -29,5 +30,13 @@ public class MessageControllerSpy implements MessageController {
 
     public String getLastMessage() {
         return lastMessage;
+    }
+
+    public boolean isFinished() {
+        return finished;
+    }
+
+    public void finish() {
+        finished = true;
     }
 }
