@@ -30,7 +30,7 @@ public class GameController implements Controller {
     public void prepareFrameAnimation() {
         removeFinishedControllers();
 
-        mapController.prepareFrameAnimation();
+        currentController.prepareFrameAnimation();
     }
 
     private void removeFinishedControllers() {

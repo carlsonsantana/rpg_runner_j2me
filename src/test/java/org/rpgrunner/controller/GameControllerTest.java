@@ -17,6 +17,7 @@ public class GameControllerTest extends TestCase {
     private MapControllerSpy mapController;
     private MessageControllerSpy messageController;
     private GraphicsRenderSpy graphicsRender;
+    private String message;
 
     public GameControllerTest() {
         random = new Random();
@@ -32,6 +33,8 @@ public class GameControllerTest extends TestCase {
             mapController,
             messageController
         );
+
+        message = RandomGenerator.getRandomString();
     }
 
     public void testPressKeyMapController() {
@@ -49,7 +52,6 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testPressKeyMessageController() {
-        String message = RandomGenerator.getRandomString();
         gameController.showMessage(message);
         int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.pressKey(keyPressed);
@@ -58,7 +60,6 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testReleaseKeyMessageController() {
-        String message = RandomGenerator.getRandomString();
         gameController.showMessage(message);
         int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
         gameController.releaseKey(keyReleased);
@@ -66,10 +67,23 @@ public class GameControllerTest extends TestCase {
         Assert.assertEquals(keyReleased, messageController.getReleasedKey());
     }
 
-    public void testPrepareFrameAnimation() {
+    public void testMapControllerPrepareFrameAnimation() {
+        Assert.assertFalse(mapController.isPrepareFrameAnimationCalled());
+
         gameController.prepareFrameAnimation();
 
         Assert.assertTrue(mapController.isPrepareFrameAnimationCalled());
+    }
+
+    public void testMessageControllerPrepareFrameAnimation() {
+        gameController.prepareFrameAnimation();
+        Assert.assertFalse(messageController.isPrepareFrameAnimationCalled());
+
+        gameController.showMessage(message);
+
+        Assert.assertFalse(messageController.isPrepareFrameAnimationCalled());
+        gameController.prepareFrameAnimation();
+        Assert.assertTrue(messageController.isPrepareFrameAnimationCalled());
     }
 
     public void testRender() {
@@ -79,14 +93,12 @@ public class GameControllerTest extends TestCase {
     }
 
     public void testSameMessagePassed() {
-        String message = RandomGenerator.getRandomString();
         gameController.showMessage(message);
 
         Assert.assertSame(message, messageController.getLastMessage());
     }
 
     public void testWhenFinishMessageBackToMapController() {
-        String message = RandomGenerator.getRandomString();
         gameController.showMessage(message);
         messageController.finish();
         gameController.prepareFrameAnimation();
