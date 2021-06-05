@@ -58,4 +58,23 @@ public class MessageControllerImplTest extends TestCase {
 
         Assert.assertTrue(graphicsRender.isShowingMessage());
     }
+
+    public void testStartMessageControllerFinished() {
+        Assert.assertTrue(messageController.isFinished());
+    }
+
+    public void testFinishShowedMessageWhenPressAction() {
+        checkFinishShowedMessageWhenPressAction(GameCanvas.FIRE);
+        checkFinishShowedMessageWhenPressAction(GameCanvas.KEY_NUM5);
+    }
+
+    private void checkFinishShowedMessageWhenPressAction(final int key) {
+        messageController.showMessage(message);
+        Assert.assertFalse(messageController.isFinished());
+
+        messageController.pressKey(key);
+        messageController.releaseKey(key);
+
+        Assert.assertTrue(messageController.isFinished());
+    }
 }

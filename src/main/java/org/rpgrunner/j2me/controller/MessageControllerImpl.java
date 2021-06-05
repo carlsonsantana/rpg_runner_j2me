@@ -7,9 +7,11 @@ import org.rpgrunner.graphics.GraphicsRender;
 
 public class MessageControllerImpl implements MessageController {
     private final GraphicsRender graphicsRender;
+    private boolean finished;
 
     public MessageControllerImpl(final GraphicsRender gameGraphicsRender) {
         graphicsRender = gameGraphicsRender;
+        finished = true;
     }
 
     public void pressKey(final int key) { }
@@ -20,14 +22,16 @@ public class MessageControllerImpl implements MessageController {
             || (key == GameCanvas.KEY_NUM5)
         ) {
             graphicsRender.hideMessage();
+            finished = true;
         }
     }
 
     public void showMessage(final String message) {
         graphicsRender.showMessage(message);
+        finished = false;
     }
 
     public boolean isFinished() {
-        return false;
+        return finished;
     }
 }
