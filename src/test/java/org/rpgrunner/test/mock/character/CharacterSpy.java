@@ -82,4 +82,8 @@ public class CharacterSpy extends GameCharacter {
     public boolean isInteractCalled() {
         return interactCalled;
     }
+
+    public void resetInteractCalled() {
+        interactCalled = false;
+    }
 }

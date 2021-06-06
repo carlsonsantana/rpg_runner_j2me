@@ -141,11 +141,32 @@ public abstract class PlayerMovementTest extends TestCase {
     private void checkInteract(final int key) {
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
-
         playerMovement.pressKey(key);
         playerMovement.execute();
 
+        Assert.assertFalse(character.isInteractCalled());
+
+        playerMovement.releaseKey(key);
+        playerMovement.execute();
         Assert.assertTrue(character.isInteractCalled());
+    }
+
+    public void testDoNotInteractTwiceForSamePressedKey() {
+        checkDoNotInteractTwiceForSamePressedKey(GameCanvas.FIRE);
+        checkDoNotInteractTwiceForSamePressedKey(GameCanvas.KEY_NUM5);
+    }
+
+    private void checkDoNotInteractTwiceForSamePressedKey(final int key) {
+        CharacterSpy character = new CharacterSpy(null);
+        PlayerMovement playerMovement = create(character);
+        playerMovement.pressKey(key);
+        playerMovement.releaseKey(key);
+        playerMovement.execute();
+
+        character.resetInteractCalled();
+        playerMovement.execute();
+
+        Assert.assertFalse(character.isInteractCalled());
     }
 
     protected abstract PlayerMovement create(GameCharacter character);

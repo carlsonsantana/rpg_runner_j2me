@@ -10,14 +10,21 @@ public class PlayerMovementImpl implements PlayerMovement {
     private final GameCharacter character;
     private final int[] keys;
     private int keySize;
+    private boolean actionKeyReleased;
 
     public PlayerMovementImpl(final GameCharacter playerCharacter) {
         character = playerCharacter;
         keys = new int[MAX_KEY_SIZE];
         keySize = 0;
+        actionKeyReleased = false;
     }
 
     public void execute() {
+        if (actionKeyReleased) {
+            character.interact();
+            actionKeyReleased = false;
+        }
+
         if (keySize == 0) {
             return;
         }
@@ -32,8 +39,6 @@ public class PlayerMovementImpl implements PlayerMovement {
             character.moveDown();
         } else if ((key == GameCanvas.LEFT) || (key == GameCanvas.KEY_NUM4)) {
             character.moveLeft();
-        } else if ((key == GameCanvas.FIRE) || (key == GameCanvas.KEY_NUM5)) {
-            character.interact();
         }
     }
 
@@ -51,6 +56,13 @@ public class PlayerMovementImpl implements PlayerMovement {
             }
 
             keySize--;
+
+            if (
+                (keyReleased == GameCanvas.FIRE)
+                || (keyReleased == GameCanvas.KEY_NUM5)
+            ) {
+                actionKeyReleased = true;
+            }
         }
     }
 
