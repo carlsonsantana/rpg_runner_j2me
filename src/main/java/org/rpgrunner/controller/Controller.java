@@ -4,4 +4,5 @@ public interface Controller {
     void pressKey(int key);
     void releaseKey(int key);
     void prepareFrameAnimation();
+    void render();
 }

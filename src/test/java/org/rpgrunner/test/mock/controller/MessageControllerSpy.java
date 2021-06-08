@@ -8,6 +8,7 @@ public class MessageControllerSpy implements MessageController {
     private int releasedKey;
     private boolean finished;
     private boolean prepareFrameAnimationCalled;
+    private boolean renderCalled;
 
     public void pressKey(final int key) {
         pressedKey = key;
@@ -47,5 +48,13 @@ public class MessageControllerSpy implements MessageController {
 
     public boolean isPrepareFrameAnimationCalled() {
         return prepareFrameAnimationCalled;
+    }
+
+    public void render() {
+        renderCalled = true;
+    }
+
+    public boolean isRenderCalled() {
+        return renderCalled;
     }
 }

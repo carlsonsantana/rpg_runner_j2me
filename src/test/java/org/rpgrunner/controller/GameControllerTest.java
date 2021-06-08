@@ -8,7 +8,6 @@ import junit.framework.TestCase;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.controller.MapControllerSpy;
 import org.rpgrunner.test.mock.controller.MessageControllerSpy;
-import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
 
 public class GameControllerTest extends TestCase {
     private static final int MAXIMUM_KEY_VALUE = 100;
@@ -16,7 +15,6 @@ public class GameControllerTest extends TestCase {
     private GameController gameController;
     private MapControllerSpy mapController;
     private MessageControllerSpy messageController;
-    private GraphicsRenderSpy graphicsRender;
     private String message;
 
     public GameControllerTest() {
@@ -24,15 +22,10 @@ public class GameControllerTest extends TestCase {
     }
 
     public void setUp() {
-        graphicsRender = new GraphicsRenderSpy();
         mapController = new MapControllerSpy();
         messageController = new MessageControllerSpy();
 
-        gameController = new GameController(
-            graphicsRender,
-            mapController,
-            messageController
-        );
+        gameController = new GameController(mapController, messageController);
 
         message = RandomGenerator.getRandomString();
     }
@@ -86,10 +79,23 @@ public class GameControllerTest extends TestCase {
         Assert.assertTrue(messageController.isPrepareFrameAnimationCalled());
     }
 
-    public void testRender() {
+    public void testCallRenderForMapController() {
+        Assert.assertFalse(mapController.isRenderCalled());
+
         gameController.render();
 
-        Assert.assertTrue(graphicsRender.isRenderCalled());
+        Assert.assertTrue(mapController.isRenderCalled());
+        Assert.assertFalse(messageController.isRenderCalled());
+    }
+
+    public void testCallRenderForMessageController() {
+        gameController.showMessage(message);
+        Assert.assertFalse(messageController.isRenderCalled());
+
+        gameController.render();
+
+        Assert.assertTrue(messageController.isRenderCalled());
+        Assert.assertFalse(mapController.isRenderCalled());
     }
 
     public void testSameMessagePassed() {

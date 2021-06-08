@@ -78,11 +78,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         MessageController messageController = new MessageControllerImpl(
             graphicsRender
         );
-        gameController = new GameController(
-            graphicsRender,
-            mapController,
-            messageController
-        );
+        gameController = new GameController(mapController, messageController);
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
             gameController,
             mapController,

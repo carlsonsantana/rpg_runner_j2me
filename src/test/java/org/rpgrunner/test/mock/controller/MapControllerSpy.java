@@ -15,6 +15,7 @@ public class MapControllerSpy extends MapController {
     private Action lastAction;
     private String lastMessage;
     private boolean prepareFrameAnimationCalled;
+    private boolean renderCalled;
     private int pressedKey;
     private int releasedKey;
 
@@ -82,5 +83,13 @@ public class MapControllerSpy extends MapController {
 
     public int getReleasedKey() {
         return releasedKey;
+    }
+
+    public void render() {
+        renderCalled = true;
+    }
+
+    public boolean isRenderCalled() {
+        return renderCalled;
     }
 }
