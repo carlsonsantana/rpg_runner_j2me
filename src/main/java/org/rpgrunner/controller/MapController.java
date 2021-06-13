@@ -77,7 +77,9 @@ public class MapController implements Controller {
         }
     }
 
-    public void render() { }
+    public void render() {
+        graphicsRender.render();
+    }
 
     private void executeMovementCommand(
         final CharacterElement characterElement

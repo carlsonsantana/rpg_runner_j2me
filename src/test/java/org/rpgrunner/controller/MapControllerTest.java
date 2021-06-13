@@ -252,4 +252,12 @@ public class MapControllerTest extends TestCase {
 
         Assert.assertFalse(characterElementsGraphics.contains(null));
     }
+
+    public void testCallGraphicsRender() {
+        Assert.assertFalse(graphicsRender.isRenderCalled());
+
+        mapController.render();
+
+        Assert.assertTrue(graphicsRender.isRenderCalled());
+    }
 }
