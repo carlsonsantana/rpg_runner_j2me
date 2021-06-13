@@ -28,7 +28,9 @@ public class MessageControllerImpl implements MessageController {
 
     public void prepareFrameAnimation() { }
 
-    public void render() { }
+    public void render() {
+        graphicsRender.render();
+    }
 
     public void showMessage(final String message) {
         graphicsRender.showMessage(message);

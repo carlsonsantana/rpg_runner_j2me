@@ -77,4 +77,12 @@ public class MessageControllerImplTest extends TestCase {
 
         Assert.assertTrue(messageController.isFinished());
     }
+
+    public void testCallGraphicsRender() {
+        Assert.assertFalse(graphicsRender.isRenderCalled());
+
+        messageController.render();
+
+        Assert.assertTrue(graphicsRender.isRenderCalled());
+    }
 }
