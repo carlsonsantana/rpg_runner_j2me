@@ -15,7 +15,7 @@ import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.controller.MessageControllerImpl;
-import org.rpgrunner.j2me.graphics.MapGraphicsRender;
+import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRender;
 
 public class GameRunner extends GameCanvas implements Runnable {
@@ -67,7 +67,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         Camera camera = new Camera(getWidth(), getHeight());
         actionQueue = new ActionQueue();
         MapHelper mapHelper = new MapHelper(actionQueue);
-        MapGraphicsRender mapGraphicsRender = new MapGraphicsRender(
+        MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
             camera
         );

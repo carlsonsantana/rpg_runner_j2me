@@ -14,7 +14,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
-import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
+import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.CameraSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -23,7 +23,7 @@ public class MapControllerTest extends TestCase {
     private static final int MAXIMUM_KEY_VALUE = 100;
     private final Random random;
     private MapController mapController;
-    private GraphicsRenderSpy graphicsRender;
+    private MapGraphicsRenderSpy mapGraphicsRender;
     private CameraSpy camera;
     private MapHelperSpy mapHelper;
     private CharacterElement playerCharacterElement;
@@ -36,7 +36,7 @@ public class MapControllerTest extends TestCase {
     }
 
     public void setUp() {
-        graphicsRender = new GraphicsRenderSpy();
+        mapGraphicsRender = new MapGraphicsRenderSpy();
         camera = new CameraSpy();
         playerMovementSpy = new PlayerMovementSpy();
         characterAnimation = new CharacterAnimationSpy();
@@ -47,7 +47,7 @@ public class MapControllerTest extends TestCase {
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        mapController = new MapController(graphicsRender, camera, mapHelper);
+        mapController = new MapController(mapGraphicsRender, camera, mapHelper);
         generateNPCs();
     }
 
@@ -68,7 +68,7 @@ public class MapControllerTest extends TestCase {
         mapController.setMap(map);
 
         Assert.assertSame(map, mapController.getMap());
-        Assert.assertSame(map, graphicsRender.getMap());
+        Assert.assertSame(map, mapGraphicsRender.getMap());
         Assert.assertSame(map, camera.getMap());
         Assert.assertSame(map, mapHelper.getCurrentMap());
     }
@@ -169,7 +169,7 @@ public class MapControllerTest extends TestCase {
     public void testAddSameCharacterElementsOnGraphicsRender() {
         mapController.setPlayerCharacterElement(playerCharacterElement);
         Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
+            mapGraphicsRender.getCharacterElements()
         );
 
         Assert.assertTrue(
@@ -191,7 +191,7 @@ public class MapControllerTest extends TestCase {
             generatePlayerCharacterElement()
         );
         Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
+            mapGraphicsRender.getCharacterElements()
         );
 
         Assert.assertFalse(
@@ -218,7 +218,7 @@ public class MapControllerTest extends TestCase {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
         Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
+            mapGraphicsRender.getCharacterElements()
         );
 
         for (
@@ -235,7 +235,7 @@ public class MapControllerTest extends TestCase {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
         Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
+            mapGraphicsRender.getCharacterElements()
         );
 
         Assert.assertTrue(
@@ -247,17 +247,17 @@ public class MapControllerTest extends TestCase {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
         Vector characterElementsGraphics = (
-            graphicsRender.getCharacterElements()
+            mapGraphicsRender.getCharacterElements()
         );
 
         Assert.assertFalse(characterElementsGraphics.contains(null));
     }
 
     public void testCallGraphicsRender() {
-        Assert.assertFalse(graphicsRender.isRenderCalled());
+        Assert.assertFalse(mapGraphicsRender.isRenderCalled());
 
         mapController.render();
 
-        Assert.assertTrue(graphicsRender.isRenderCalled());
+        Assert.assertTrue(mapGraphicsRender.isRenderCalled());
     }
 }

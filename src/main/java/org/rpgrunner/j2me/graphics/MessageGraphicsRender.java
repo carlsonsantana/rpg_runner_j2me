@@ -1,13 +1,10 @@
 package org.rpgrunner.j2me.graphics;
 
-import java.util.Vector;
-
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.graphics.GraphicsRender;
 import org.rpgrunner.helper.Camera;
-import org.rpgrunner.map.Map;
 
 public class MessageGraphicsRender implements GraphicsRender {
     private final Graphics graphics;
@@ -23,12 +20,6 @@ public class MessageGraphicsRender implements GraphicsRender {
         layerManager = new LayerManager();
         camera = gameCamera;
     }
-
-    public void setMap(final Map map) { }
-
-    private void clearMapLayerManager() { }
-
-    public void setCharacterElements(final Vector characterElements) { }
 
     public void showMessage(final String message) {
         currentMessageDialog = new MessageDialog(message, graphics, camera);

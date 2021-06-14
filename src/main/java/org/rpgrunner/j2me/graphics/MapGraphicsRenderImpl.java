@@ -11,17 +11,17 @@ import javax.microedition.lcdui.game.TiledLayer;
 
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.graphics.GraphicsRender;
+import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.map.MapRender;
 import org.rpgrunner.map.Map;
 
-public class MapGraphicsRender implements GraphicsRender {
+public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final Graphics graphics;
     private final LayerManager layerManager;
     private final Camera camera;
 
-    public MapGraphicsRender(
+    public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
         final Camera gameCamera
     ) {
