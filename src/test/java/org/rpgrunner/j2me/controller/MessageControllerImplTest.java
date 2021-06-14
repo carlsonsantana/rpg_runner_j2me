@@ -8,24 +8,24 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.graphics.GraphicsRenderSpy;
+import org.rpgrunner.test.mock.graphics.MessageGraphicsRenderSpy;
 
 public class MessageControllerImplTest extends TestCase {
     private MessageControllerImpl messageController;
-    private GraphicsRenderSpy graphicsRender;
+    private MessageGraphicsRenderSpy messageGraphicsRender;
     private String message;
 
     public void setUp() {
         message = RandomGenerator.getRandomString();
-        graphicsRender = new GraphicsRenderSpy();
-        messageController = new MessageControllerImpl(graphicsRender);
+        messageGraphicsRender = new MessageGraphicsRenderSpy();
+        messageController = new MessageControllerImpl(messageGraphicsRender);
     }
 
     public void testSameMessagePassed() {
         messageController.showMessage(message);
 
-        Assert.assertTrue(graphicsRender.isShowingMessage());
-        Assert.assertSame(message, graphicsRender.getLastMessage());
+        Assert.assertTrue(messageGraphicsRender.isShowingMessage());
+        Assert.assertSame(message, messageGraphicsRender.getLastMessage());
     }
 
     public void testHideMessageWhenPressAction() {
@@ -38,7 +38,7 @@ public class MessageControllerImplTest extends TestCase {
         messageController.pressKey(key);
         messageController.releaseKey(key);
 
-        Assert.assertFalse(graphicsRender.isShowingMessage());
+        Assert.assertFalse(messageGraphicsRender.isShowingMessage());
     }
 
     public void testDoNotHideMessageWhenNotPressAction() {
@@ -56,7 +56,7 @@ public class MessageControllerImplTest extends TestCase {
         messageController.pressKey(key);
         messageController.releaseKey(key);
 
-        Assert.assertTrue(graphicsRender.isShowingMessage());
+        Assert.assertTrue(messageGraphicsRender.isShowingMessage());
     }
 
     public void testStartMessageControllerFinished() {
@@ -79,10 +79,10 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testCallGraphicsRender() {
-        Assert.assertFalse(graphicsRender.isRenderCalled());
+        Assert.assertFalse(messageGraphicsRender.isRenderCalled());
 
         messageController.render();
 
-        Assert.assertTrue(graphicsRender.isRenderCalled());
+        Assert.assertTrue(messageGraphicsRender.isRenderCalled());
     }
 }

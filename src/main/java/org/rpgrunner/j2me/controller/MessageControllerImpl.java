@@ -3,14 +3,16 @@ package org.rpgrunner.j2me.controller;
 import javax.microedition.lcdui.game.GameCanvas;
 
 import org.rpgrunner.controller.MessageController;
-import org.rpgrunner.graphics.GraphicsRender;
+import org.rpgrunner.graphics.MessageGraphicsRender;
 
 public class MessageControllerImpl implements MessageController {
-    private final GraphicsRender graphicsRender;
+    private final MessageGraphicsRender messageGraphicsRender;
     private boolean finished;
 
-    public MessageControllerImpl(final GraphicsRender gameGraphicsRender) {
-        graphicsRender = gameGraphicsRender;
+    public MessageControllerImpl(
+        final MessageGraphicsRender gameGraphicsRender
+    ) {
+        messageGraphicsRender = gameGraphicsRender;
         finished = true;
     }
 
@@ -21,7 +23,7 @@ public class MessageControllerImpl implements MessageController {
             (key == GameCanvas.FIRE)
             || (key == GameCanvas.KEY_NUM5)
         ) {
-            graphicsRender.hideMessage();
+            messageGraphicsRender.hideMessage();
             finished = true;
         }
     }
@@ -29,11 +31,11 @@ public class MessageControllerImpl implements MessageController {
     public void prepareFrameAnimation() { }
 
     public void render() {
-        graphicsRender.render();
+        messageGraphicsRender.render();
     }
 
     public void showMessage(final String message) {
-        graphicsRender.showMessage(message);
+        messageGraphicsRender.showMessage(message);
         finished = false;
     }
 

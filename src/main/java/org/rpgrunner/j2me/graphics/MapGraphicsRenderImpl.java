@@ -67,10 +67,6 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         }
     }
 
-    public void showMessage(final String message) { }
-
-    public void hideMessage() { }
-
     public void render() {
         centerCamera();
         layerManager.paint(graphics, 0, 0);

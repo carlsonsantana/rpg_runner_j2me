@@ -3,16 +3,16 @@ package org.rpgrunner.j2me.graphics;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.LayerManager;
 
-import org.rpgrunner.graphics.GraphicsRender;
+import org.rpgrunner.graphics.MessageGraphicsRender;
 import org.rpgrunner.helper.Camera;
 
-public class MessageGraphicsRender implements GraphicsRender {
+public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private final Graphics graphics;
     private final LayerManager layerManager;
     private final Camera camera;
     private MessageDialog currentMessageDialog;
 
-    public MessageGraphicsRender(
+    public MessageGraphicsRenderImpl(
         final Graphics midletGraphics,
         final Camera gameCamera
     ) {

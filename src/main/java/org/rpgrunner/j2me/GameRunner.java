@@ -16,7 +16,7 @@ import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.controller.MessageControllerImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
-import org.rpgrunner.j2me.graphics.MessageGraphicsRender;
+import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
@@ -71,9 +71,8 @@ public class GameRunner extends GameCanvas implements Runnable {
             graphics,
             camera
         );
-        MessageGraphicsRender messageGraphicsRender = new MessageGraphicsRender(
-            graphics,
-            camera
+        MessageGraphicsRenderImpl messageGraphicsRender = (
+            new MessageGraphicsRenderImpl(graphics, camera)
         );
         MapController mapController = new MapController(
             mapGraphicsRender,
