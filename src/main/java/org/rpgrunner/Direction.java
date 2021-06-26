@@ -6,6 +6,7 @@ public final class Direction {
     public static final byte RIGHT = 4;
     public static final byte DOWN = 2;
     public static final byte LEFT = 1;
+    public static final byte NO_DIRECTION = 0;
 
     private Direction() { }
 

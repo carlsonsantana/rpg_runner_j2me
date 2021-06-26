@@ -2,13 +2,14 @@ package org.rpgrunner.j2me.controller;
 
 import javax.microedition.lcdui.game.GameCanvas;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.controller.MessageController;
 import org.rpgrunner.graphics.MessageGraphicsRender;
 
 public class MessageControllerImpl implements MessageController {
     private final MessageGraphicsRender messageGraphicsRender;
     private boolean finished;
-    private int pressedKey;
+    private byte direction;
 
     public MessageControllerImpl(
         final MessageGraphicsRender gameGraphicsRender
@@ -18,7 +19,11 @@ public class MessageControllerImpl implements MessageController {
     }
 
     public void pressKey(final int key) {
-        pressedKey = key;
+        if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
+            direction = Direction.UP;
+        } else if ((key == GameCanvas.DOWN) || (key == GameCanvas.KEY_NUM8)) {
+            direction = Direction.DOWN;
+        }
     }
 
     public void releaseKey(final int key) {
@@ -28,19 +33,29 @@ public class MessageControllerImpl implements MessageController {
         ) {
             messageGraphicsRender.hideMessage();
             finished = true;
+        } else if (
+            (Direction.isUp(direction))
+            && (
+                (key == GameCanvas.UP)
+                || (key == GameCanvas.KEY_NUM2)
+            )
+        ) {
+            direction = Direction.NO_DIRECTION;
+        } else if (
+            (Direction.isDown(direction))
+            && (
+                (key == GameCanvas.DOWN)
+                || (key == GameCanvas.KEY_NUM8)
+            )
+        ) {
+            direction = Direction.NO_DIRECTION;
         }
     }
 
     public void prepareFrameAnimation() {
-        if (
-            (pressedKey == GameCanvas.UP)
-            || (pressedKey == GameCanvas.KEY_NUM2)
-        ) {
+        if (Direction.isUp(direction)) {
             messageGraphicsRender.scrollUp();
-        } else if (
-            (pressedKey == GameCanvas.DOWN)
-            || (pressedKey == GameCanvas.KEY_NUM8)
-        ) {
+        } else if (Direction.isDown(direction)) {
             messageGraphicsRender.scrollDown();
         }
     }

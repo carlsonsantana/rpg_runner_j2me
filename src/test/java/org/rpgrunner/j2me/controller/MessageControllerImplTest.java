@@ -14,11 +14,13 @@ public class MessageControllerImplTest extends TestCase {
     private MessageControllerImpl messageController;
     private MessageGraphicsRenderSpy messageGraphicsRender;
     private String message;
+    private Random random;
 
     public void setUp() {
         message = RandomGenerator.getRandomString();
         messageGraphicsRender = new MessageGraphicsRenderSpy();
         messageController = new MessageControllerImpl(messageGraphicsRender);
+        random = new Random();
     }
 
     public void testSameMessagePassed() {
@@ -42,7 +44,6 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testDoNotHideMessageWhenNotPressAction() {
-        Random random = new Random();
         int key = random.nextInt(Integer.MAX_VALUE);
 
         if (
@@ -116,5 +117,75 @@ public class MessageControllerImplTest extends TestCase {
         messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
+    }
+
+    public void testStopScrollUpWhenReleaseUp() {
+        checkStopScrollUpWhenReleaseUp(GameCanvas.UP);
+        checkStopScrollUpWhenReleaseUp(GameCanvas.KEY_NUM2);
+    }
+
+    private void checkStopScrollUpWhenReleaseUp(final int key) {
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+        messageGraphicsRender.clearScroll();
+        messageController.releaseKey(key);
+        messageController.prepareFrameAnimation();
+
+        Assert.assertFalse(messageGraphicsRender.isScrollUpCalled());
+    }
+
+    public void testStopScrollDownWhenReleaseDown() {
+        checkStopScrollDownWhenReleaseDown(GameCanvas.DOWN);
+        checkStopScrollDownWhenReleaseDown(GameCanvas.KEY_NUM8);
+    }
+
+    private void checkStopScrollDownWhenReleaseDown(final int key) {
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+        messageGraphicsRender.clearScroll();
+        messageController.releaseKey(key);
+        messageController.prepareFrameAnimation();
+
+        Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
+    }
+
+    public void testDontStopScrollUpWhenReleaseUp() {
+        checkDontStopScrollUpWhenReleaseUp(GameCanvas.UP);
+        checkDontStopScrollUpWhenReleaseUp(GameCanvas.KEY_NUM2);
+    }
+
+    private void checkDontStopScrollUpWhenReleaseUp(final int key) {
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+        messageGraphicsRender.clearScroll();
+        messageController.releaseKey(getRandomKeyDifferentOf(key));
+        messageController.prepareFrameAnimation();
+
+        Assert.assertTrue(messageGraphicsRender.isScrollUpCalled());
+    }
+
+    public void testDontStopScrollDownWhenReleaseDown() {
+        checkDontStopScrollDownWhenReleaseDown(GameCanvas.DOWN);
+        checkDontStopScrollDownWhenReleaseDown(GameCanvas.KEY_NUM8);
+    }
+
+    private void checkDontStopScrollDownWhenReleaseDown(final int key) {
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+        messageGraphicsRender.clearScroll();
+        messageController.releaseKey(getRandomKeyDifferentOf(key));
+        messageController.prepareFrameAnimation();
+
+        Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
+    }
+
+    private int getRandomKeyDifferentOf(final int key) {
+        int randomKey;
+
+        do {
+            randomKey = random.nextInt(Integer.MAX_VALUE);
+        } while (randomKey == key);
+
+        return randomKey;
     }
 }
