@@ -19,7 +19,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private final Graphics graphics;
     private final LayerManager layerManager;
     private final Camera camera;
-    private MessageDialog currentMessageDialog;
+    private String currentMessage;
     private int[] cacheLinesLengths;
 
     public MessageGraphicsRenderImpl(
@@ -32,12 +32,12 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     }
 
     public void showMessage(final String message) {
-        currentMessageDialog = new MessageDialog(message);
+        currentMessage = message;
         cacheLinesLengths = null;
     }
 
     public void hideMessage() {
-        currentMessageDialog = null;
+        currentMessage = null;
     }
 
     public void render() {
@@ -45,7 +45,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     }
 
     private void showCurrentMessage() {
-        if (currentMessageDialog == null) {
+        if (currentMessage == null) {
             return;
         }
 
@@ -78,7 +78,6 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         final int boxWidth,
         final int boxHeight
     ) {
-        String message = currentMessageDialog.getMessage();
         graphics.setColor(TEXT_COLOR);
 
         int textBoxWidth = boxWidth - (TEXT_PADDING * 2);
@@ -95,7 +94,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
             int positionY = boxPositionY + i * fontHeight + TEXT_PADDING;
 
             graphics.drawSubstring(
-                message,
+                currentMessage,
                 currentOffset,
                 lineLength,
                 TEXT_PADDING,
@@ -127,22 +126,22 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     }
 
     private Vector getLinesLengths(final int textBoxWidth) {
-        String message = currentMessageDialog.getMessage();
         Vector lines = new Vector();
-        int messageLength = message.length();
+        int messageLength = currentMessage.length();
         int lineIndex = 0;
         int lineLength = 0;
 
         for (
-            int searchIndex = 0, spaceIndex = message.indexOf(" ", searchIndex);
+            int searchIndex = 0,
+            spaceIndex = currentMessage.indexOf(" ", searchIndex);
             ((searchIndex < messageLength) && (spaceIndex) >= 0);
             searchIndex = lineIndex + lineLength,
-            spaceIndex = message.indexOf(" ", searchIndex)
+            spaceIndex = currentMessage.indexOf(" ", searchIndex)
         ) {
             int substringLength = spaceIndex - lineIndex + 1;
 
             int lineWidth = graphics.getFont().substringWidth(
-                message,
+                currentMessage,
                 lineIndex,
                 substringLength
             );
