@@ -85,4 +85,36 @@ public class MessageControllerImplTest extends TestCase {
 
         Assert.assertTrue(messageGraphicsRender.isRenderCalled());
     }
+
+    public void testScrollUpWhenPressUp() {
+        Assert.assertFalse(messageGraphicsRender.isScrollUpCalled());
+
+        checkScrollUpWhenPressUp(GameCanvas.UP);
+        checkScrollUpWhenPressUp(GameCanvas.KEY_NUM2);
+    }
+
+    private void checkScrollUpWhenPressUp(final int key) {
+        messageGraphicsRender.clearScroll();
+
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+
+        Assert.assertTrue(messageGraphicsRender.isScrollUpCalled());
+    }
+
+    public void testScrollDownWhenPressDown() {
+        Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
+
+        checkScrollDownWhenPressDown(GameCanvas.DOWN);
+        checkScrollDownWhenPressDown(GameCanvas.KEY_NUM8);
+    }
+
+    private void checkScrollDownWhenPressDown(final int key) {
+        messageGraphicsRender.clearScroll();
+
+        messageController.pressKey(key);
+        messageController.prepareFrameAnimation();
+
+        Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
+    }
 }

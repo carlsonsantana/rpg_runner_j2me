@@ -8,6 +8,7 @@ import org.rpgrunner.graphics.MessageGraphicsRender;
 public class MessageControllerImpl implements MessageController {
     private final MessageGraphicsRender messageGraphicsRender;
     private boolean finished;
+    private int pressedKey;
 
     public MessageControllerImpl(
         final MessageGraphicsRender gameGraphicsRender
@@ -16,7 +17,9 @@ public class MessageControllerImpl implements MessageController {
         finished = true;
     }
 
-    public void pressKey(final int key) { }
+    public void pressKey(final int key) {
+        pressedKey = key;
+    }
 
     public void releaseKey(final int key) {
         if (
@@ -28,7 +31,19 @@ public class MessageControllerImpl implements MessageController {
         }
     }
 
-    public void prepareFrameAnimation() { }
+    public void prepareFrameAnimation() {
+        if (
+            (pressedKey == GameCanvas.UP)
+            || (pressedKey == GameCanvas.KEY_NUM2)
+        ) {
+            messageGraphicsRender.scrollUp();
+        } else if (
+            (pressedKey == GameCanvas.DOWN)
+            || (pressedKey == GameCanvas.KEY_NUM8)
+        ) {
+            messageGraphicsRender.scrollDown();
+        }
+    }
 
     public void render() {
         messageGraphicsRender.render();

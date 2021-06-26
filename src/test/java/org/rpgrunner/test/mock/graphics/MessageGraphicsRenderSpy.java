@@ -6,6 +6,8 @@ public class MessageGraphicsRenderSpy extends GraphicsRenderSpy implements
     MessageGraphicsRender {
     private String lastMessage;
     private boolean showingMessage;
+    private boolean scrollUpCalled;
+    private boolean scrollDownCalled;
 
     public void showMessage(final String message) {
         lastMessage = message;
@@ -22,5 +24,26 @@ public class MessageGraphicsRenderSpy extends GraphicsRenderSpy implements
 
     public boolean isShowingMessage() {
         return showingMessage;
+    }
+
+    public void clearScroll() {
+        scrollUpCalled = false;
+        scrollDownCalled = false;
+    }
+
+    public void scrollUp() {
+        scrollUpCalled = true;
+    }
+
+    public boolean isScrollUpCalled() {
+        return scrollUpCalled;
+    }
+
+    public void scrollDown() {
+        scrollDownCalled = true;
+    }
+
+    public boolean isScrollDownCalled() {
+        return scrollDownCalled;
     }
 }

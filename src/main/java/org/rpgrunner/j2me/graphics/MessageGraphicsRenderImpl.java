@@ -159,4 +159,8 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
         return lines;
     }
+
+    public void scrollUp() { }
+
+    public void scrollDown() { }
 }
