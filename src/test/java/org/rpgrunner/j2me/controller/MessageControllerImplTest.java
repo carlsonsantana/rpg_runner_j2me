@@ -2,12 +2,11 @@ package org.rpgrunner.j2me.controller;
 
 import java.util.Random;
 
-import javax.microedition.lcdui.game.GameCanvas;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.j2me.Key;
+import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.graphics.MessageGraphicsRenderSpy;
 
@@ -32,8 +31,15 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testHideMessageWhenPressAction() {
-        checkHideMessageWhenPressAction(GameCanvas.FIRE);
-        checkHideMessageWhenPressAction(GameCanvas.KEY_NUM5);
+        for (
+            int i = 0, length = KeyHelper.ACTION_KEYS.length;
+            i < length;
+            i++
+        ) {
+            int key = KeyHelper.ACTION_KEYS[i];
+
+            checkHideMessageWhenPressAction(key);
+        }
     }
 
     private void checkHideMessageWhenPressAction(final int key) {
@@ -63,8 +69,15 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testFinishShowedMessageWhenPressAction() {
-        checkFinishShowedMessageWhenPressAction(GameCanvas.FIRE);
-        checkFinishShowedMessageWhenPressAction(GameCanvas.KEY_NUM5);
+        for (
+            int i = 0, length = KeyHelper.ACTION_KEYS.length;
+            i < length;
+            i++
+        ) {
+            int key = KeyHelper.ACTION_KEYS[i];
+
+            checkFinishShowedMessageWhenPressAction(key);
+        }
     }
 
     private void checkFinishShowedMessageWhenPressAction(final int key) {
@@ -88,8 +101,11 @@ public class MessageControllerImplTest extends TestCase {
     public void testScrollUpWhenPressUp() {
         Assert.assertFalse(messageGraphicsRender.isScrollUpCalled());
 
-        checkScrollUpWhenPressUp(GameCanvas.UP);
-        checkScrollUpWhenPressUp(GameCanvas.KEY_NUM2);
+        for (int i = 0, length = KeyHelper.UP_KEYS.length; i < length; i++) {
+            int key = KeyHelper.UP_KEYS[i];
+
+            checkScrollUpWhenPressUp(key);
+        }
     }
 
     private void checkScrollUpWhenPressUp(final int key) {
@@ -104,8 +120,11 @@ public class MessageControllerImplTest extends TestCase {
     public void testScrollDownWhenPressDown() {
         Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
 
-        checkScrollDownWhenPressDown(GameCanvas.DOWN);
-        checkScrollDownWhenPressDown(GameCanvas.KEY_NUM8);
+        for (int i = 0, length = KeyHelper.DOWN_KEYS.length; i < length; i++) {
+            int key = KeyHelper.DOWN_KEYS[i];
+
+            checkScrollDownWhenPressDown(key);
+        }
     }
 
     private void checkScrollDownWhenPressDown(final int key) {
@@ -118,8 +137,11 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testStopScrollUpWhenReleaseUp() {
-        checkStopScrollUpWhenReleaseUp(GameCanvas.UP);
-        checkStopScrollUpWhenReleaseUp(GameCanvas.KEY_NUM2);
+        for (int i = 0, length = KeyHelper.UP_KEYS.length; i < length; i++) {
+            int key = KeyHelper.UP_KEYS[i];
+
+            checkStopScrollUpWhenReleaseUp(key);
+        }
     }
 
     private void checkStopScrollUpWhenReleaseUp(final int key) {
@@ -133,8 +155,11 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testStopScrollDownWhenReleaseDown() {
-        checkStopScrollDownWhenReleaseDown(GameCanvas.DOWN);
-        checkStopScrollDownWhenReleaseDown(GameCanvas.KEY_NUM8);
+        for (int i = 0, length = KeyHelper.DOWN_KEYS.length; i < length; i++) {
+            int key = KeyHelper.DOWN_KEYS[i];
+
+            checkStopScrollDownWhenReleaseDown(key);
+        }
     }
 
     private void checkStopScrollDownWhenReleaseDown(final int key) {
@@ -148,8 +173,11 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testDontStopScrollUpWhenReleaseUp() {
-        checkDontStopScrollUpWhenReleaseUp(GameCanvas.UP);
-        checkDontStopScrollUpWhenReleaseUp(GameCanvas.KEY_NUM2);
+        for (int i = 0, length = KeyHelper.UP_KEYS.length; i < length; i++) {
+            int key = KeyHelper.UP_KEYS[i];
+
+            checkDontStopScrollUpWhenReleaseUp(key);
+        }
     }
 
     private void checkDontStopScrollUpWhenReleaseUp(final int key) {
@@ -163,8 +191,11 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     public void testDontStopScrollDownWhenReleaseDown() {
-        checkDontStopScrollDownWhenReleaseDown(GameCanvas.DOWN);
-        checkDontStopScrollDownWhenReleaseDown(GameCanvas.KEY_NUM8);
+        for (int i = 0, length = KeyHelper.DOWN_KEYS.length; i < length; i++) {
+            int key = KeyHelper.DOWN_KEYS[i];
+
+            checkDontStopScrollDownWhenReleaseDown(key);
+        }
     }
 
     private void checkDontStopScrollDownWhenReleaseDown(final int key) {

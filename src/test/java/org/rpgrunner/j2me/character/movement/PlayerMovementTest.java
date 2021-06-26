@@ -8,6 +8,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
@@ -23,28 +24,27 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     public void testMoveUp() {
-        testMove(Direction.UP, GameCanvas.UP, GameCanvas.KEY_NUM2);
+        testMove(Direction.UP, KeyHelper.UP_KEYS);
     }
 
     public void testMoveRight() {
-        testMove(Direction.RIGHT, GameCanvas.RIGHT, GameCanvas.KEY_NUM6);
+        testMove(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
     }
 
     public void testMoveDown() {
-        testMove(Direction.DOWN, GameCanvas.DOWN, GameCanvas.KEY_NUM8);
+        testMove(Direction.DOWN, KeyHelper.DOWN_KEYS);
     }
 
     public void testMoveLeft() {
-        testMove(Direction.LEFT, GameCanvas.LEFT, GameCanvas.KEY_NUM4);
+        testMove(Direction.LEFT, KeyHelper.LEFT_KEYS);
     }
 
-    private void testMove(
-        final byte direction,
-        final int directDirection,
-        final int numberDirection
-    ) {
-        testMove(direction, directDirection);
-        testMove(direction, numberDirection);
+    private void testMove(final byte direction, final int[] keys) {
+        for (int i = 0, length = keys.length; i < length; i++) {
+            int key = keys[i];
+
+            testMove(direction, key);
+        }
     }
 
     private void testMove(
@@ -61,30 +61,28 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     public void testMoveUpReleaseKey() {
-        testReleaseKey(Direction.UP, GameCanvas.UP, GameCanvas.KEY_NUM2);
+        testReleaseKey(Direction.UP, KeyHelper.UP_KEYS);
     }
 
     public void testMoveRightReleaseKey() {
-        testReleaseKey(Direction.RIGHT, GameCanvas.RIGHT, GameCanvas.KEY_NUM6);
+        testReleaseKey(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
     }
 
     public void testMoveDownReleaseKey() {
-        testReleaseKey(Direction.DOWN, GameCanvas.DOWN, GameCanvas.KEY_NUM8);
+        testReleaseKey(Direction.DOWN, KeyHelper.DOWN_KEYS);
     }
 
     public void testMoveLeftReleaseKey() {
-        testReleaseKey(Direction.LEFT, GameCanvas.LEFT, GameCanvas.KEY_NUM4);
+        testReleaseKey(Direction.LEFT, KeyHelper.LEFT_KEYS);
     }
 
-    private void testReleaseKey(
-        final byte direction,
-        final int directDirection,
-        final int numberDirection
-    ) {
-        testReleaseKeyFirst(direction, directDirection);
-        testReleaseKeyFirst(direction, numberDirection);
-        testReleaseKeyLast(direction, directDirection);
-        testReleaseKeyLast(direction, numberDirection);
+    private void testReleaseKey(final byte direction, final int[] keys) {
+        for (int i = 0, length = keys.length; i < length; i++) {
+            int key = keys[i];
+
+            testReleaseKeyFirst(direction, key);
+            testReleaseKeyLast(direction, key);
+        }
     }
 
     private void testReleaseKeyFirst(
@@ -134,8 +132,15 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     public void testInteract() {
-        checkInteract(GameCanvas.FIRE);
-        checkInteract(GameCanvas.KEY_NUM5);
+        for (
+            int i = 0, length = KeyHelper.ACTION_KEYS.length;
+            i < length;
+            i++
+        ) {
+            int key = KeyHelper.ACTION_KEYS[i];
+
+            checkInteract(key);
+        }
     }
 
     private void checkInteract(final int key) {
@@ -152,8 +157,15 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     public void testDoNotInteractTwiceForSamePressedKey() {
-        checkDoNotInteractTwiceForSamePressedKey(GameCanvas.FIRE);
-        checkDoNotInteractTwiceForSamePressedKey(GameCanvas.KEY_NUM5);
+        for (
+            int i = 0, length = KeyHelper.ACTION_KEYS.length;
+            i < length;
+            i++
+        ) {
+            int key = KeyHelper.ACTION_KEYS[i];
+
+            checkDoNotInteractTwiceForSamePressedKey(key);
+        }
     }
 
     private void checkDoNotInteractTwiceForSamePressedKey(final int key) {
