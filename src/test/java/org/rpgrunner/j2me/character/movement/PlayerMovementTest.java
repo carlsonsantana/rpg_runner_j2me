@@ -124,7 +124,7 @@ public abstract class PlayerMovementTest extends TestCase {
             return GameCanvas.UP;
         } else if (Direction.isRight(direction)) {
             return GameCanvas.RIGHT;
-        } else if (Direction.isRight(direction)) {
+        } else if (Direction.isDown(direction)) {
             return GameCanvas.DOWN;
         } else {
             return GameCanvas.LEFT;
