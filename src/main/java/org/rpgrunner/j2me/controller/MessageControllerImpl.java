@@ -1,10 +1,9 @@
 package org.rpgrunner.j2me.controller;
 
-import javax.microedition.lcdui.game.GameCanvas;
-
 import org.rpgrunner.Direction;
 import org.rpgrunner.controller.MessageController;
 import org.rpgrunner.graphics.MessageGraphicsRender;
+import org.rpgrunner.j2me.Key;
 
 public class MessageControllerImpl implements MessageController {
     private final MessageGraphicsRender messageGraphicsRender;
@@ -19,35 +18,20 @@ public class MessageControllerImpl implements MessageController {
     }
 
     public void pressKey(final int key) {
-        if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
+        if (Key.isUp(key)) {
             direction = Direction.UP;
-        } else if ((key == GameCanvas.DOWN) || (key == GameCanvas.KEY_NUM8)) {
+        } else if (Key.isDown(key)) {
             direction = Direction.DOWN;
         }
     }
 
     public void releaseKey(final int key) {
-        if (
-            (key == GameCanvas.FIRE)
-            || (key == GameCanvas.KEY_NUM5)
-        ) {
+        if (Key.isAction(key)) {
             messageGraphicsRender.hideMessage();
             finished = true;
-        } else if (
-            (Direction.isUp(direction))
-            && (
-                (key == GameCanvas.UP)
-                || (key == GameCanvas.KEY_NUM2)
-            )
-        ) {
+        } else if ((Direction.isUp(direction)) && (Key.isUp(key))) {
             direction = Direction.NO_DIRECTION;
-        } else if (
-            (Direction.isDown(direction))
-            && (
-                (key == GameCanvas.DOWN)
-                || (key == GameCanvas.KEY_NUM8)
-            )
-        ) {
+        } else if ((Direction.isDown(direction)) && (Key.isDown(key))) {
             direction = Direction.NO_DIRECTION;
         }
     }

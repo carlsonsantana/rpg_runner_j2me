@@ -1,9 +1,8 @@
 package org.rpgrunner.j2me.character.movement;
 
-import javax.microedition.lcdui.game.GameCanvas;
-
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.j2me.Key;
 
 public class PlayerMovementImpl implements PlayerMovement {
     private static final int MAX_KEY_SIZE = 10;
@@ -31,13 +30,13 @@ public class PlayerMovementImpl implements PlayerMovement {
 
         int key = keys[keySize - 1];
 
-        if ((key == GameCanvas.UP) || (key == GameCanvas.KEY_NUM2)) {
+        if (Key.isUp(key)) {
             character.moveUp();
-        } else if ((key == GameCanvas.RIGHT) || (key == GameCanvas.KEY_NUM6)) {
+        } else if (Key.isRight(key)) {
             character.moveRight();
-        } else if ((key == GameCanvas.DOWN) || (key == GameCanvas.KEY_NUM8)) {
+        } else if (Key.isDown(key)) {
             character.moveDown();
-        } else if ((key == GameCanvas.LEFT) || (key == GameCanvas.KEY_NUM4)) {
+        } else if (Key.isLeft(key)) {
             character.moveLeft();
         }
     }
@@ -57,10 +56,7 @@ public class PlayerMovementImpl implements PlayerMovement {
 
             keySize--;
 
-            if (
-                (keyReleased == GameCanvas.FIRE)
-                || (keyReleased == GameCanvas.KEY_NUM5)
-            ) {
+            if (Key.isAction(keyReleased)) {
                 actionKeyReleased = true;
             }
         }

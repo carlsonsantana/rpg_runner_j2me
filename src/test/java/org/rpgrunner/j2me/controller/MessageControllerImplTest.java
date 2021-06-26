@@ -7,6 +7,7 @@ import javax.microedition.lcdui.game.GameCanvas;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.j2me.Key;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.graphics.MessageGraphicsRenderSpy;
 
@@ -46,10 +47,7 @@ public class MessageControllerImplTest extends TestCase {
     public void testDoNotHideMessageWhenNotPressAction() {
         int key = random.nextInt(Integer.MAX_VALUE);
 
-        if (
-            (key == GameCanvas.FIRE)
-            || (key == GameCanvas.KEY_NUM5)
-        ) {
+        if (Key.isAction(key)) {
             key++;
         }
 
