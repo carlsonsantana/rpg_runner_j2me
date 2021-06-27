@@ -46,18 +46,16 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
     public void showMessage(final String message) {
         currentMessage = message;
+
+        cacheLinesLengths = null;
+        scrollY = 0;
     }
 
     public void hideMessage() {
         currentMessage = null;
-        cacheLinesLengths = null;
     }
 
     public void render() {
-        showCurrentMessage();
-    }
-
-    private void showCurrentMessage() {
         if (currentMessage == null) {
             return;
         }
