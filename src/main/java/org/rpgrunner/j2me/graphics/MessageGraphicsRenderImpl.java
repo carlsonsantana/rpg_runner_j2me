@@ -18,26 +18,39 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
     private final Graphics graphics;
     private final LayerManager layerManager;
-    private final Camera camera;
+    private final int boxWidth;
+    private final int boxHeight;
+    private final int screenHeight;
+    private final int boxPositionY;
+    private final int fontHeight;
+    private final int textBoxWidth;
+
     private String currentMessage;
     private int[] cacheLinesLengths;
+    private int scrollY;
 
     public MessageGraphicsRenderImpl(
         final Graphics midletGraphics,
-        final Camera gameCamera
+        final Camera camera
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
-        camera = gameCamera;
+
+        boxWidth = camera.getScreenWidth();
+        screenHeight = camera.getScreenHeight();
+        boxHeight = screenHeight / BOX_PROPORTION;
+        boxPositionY = screenHeight - boxHeight;
+        fontHeight = graphics.getFont().getHeight();
+        textBoxWidth = boxWidth - (TEXT_PADDING * 2);
     }
 
     public void showMessage(final String message) {
         currentMessage = message;
-        cacheLinesLengths = null;
     }
 
     public void hideMessage() {
         currentMessage = null;
+        cacheLinesLengths = null;
     }
 
     public void render() {
@@ -53,36 +66,23 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     }
 
     private void displayMessage() {
-        int boxWidth = camera.getScreenWidth();
-        int screenHeight = camera.getScreenHeight();
-        int boxHeight = screenHeight / BOX_PROPORTION;
-        int boxPositionY = screenHeight - boxHeight;
-
-        drawBox(boxPositionY, boxWidth, boxHeight);
-        drawText(boxPositionY, boxWidth, boxHeight);
+        graphics.setClip(0, boxPositionY, boxWidth, boxHeight);
+        drawBox();
+        drawText();
+        graphics.setClip(0, 0, boxWidth, screenHeight);
     }
 
-    private void drawBox(
-        final int boxPositionY,
-        final int boxWidth,
-        final int boxHeight
-    ) {
+    private void drawBox() {
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0, boxPositionY, boxWidth, boxHeight);
         graphics.setColor(BORDER_COLOR);
         graphics.drawRect(0, boxPositionY, boxWidth - 1, boxHeight - 1);
     }
 
-    private void drawText(
-        final int boxPositionY,
-        final int boxWidth,
-        final int boxHeight
-    ) {
+    private void drawText() {
         graphics.setColor(TEXT_COLOR);
 
-        int textBoxWidth = boxWidth - (TEXT_PADDING * 2);
-        int[] linesLengths = getLinesLengthsProxy(textBoxWidth);
-        int fontHeight = graphics.getFont().getHeight();
+        int[] linesLengths = getLinesLengthsProxy();
         int currentOffset = 0;
 
         for (
@@ -91,7 +91,9 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
             i++
         ) {
             int lineLength = linesLengths[i];
-            int positionY = boxPositionY + i * fontHeight + TEXT_PADDING;
+            int positionY = (
+                boxPositionY + i * fontHeight + TEXT_PADDING - scrollY
+            );
 
             graphics.drawSubstring(
                 currentMessage,
@@ -106,9 +108,32 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         }
     }
 
-    private int[] getLinesLengthsProxy(final int textBoxWidth) {
+    public void scrollUp() {
+        if (scrollY <= 0) {
+            return;
+        }
+
+        scrollY--;
+    }
+
+    public void scrollDown() {
+        if (isMaxScrollDown()) {
+            return;
+        }
+
+        scrollY++;
+    }
+
+    private boolean isMaxScrollDown() {
+        int numberOfLines = getLinesLengthsProxy().length;
+        int textHeight = numberOfLines * fontHeight;
+
+        return ((textHeight + TEXT_PADDING) <= (boxHeight + scrollY));
+    }
+
+    private int[] getLinesLengthsProxy() {
         if (cacheLinesLengths == null) {
-            Vector lines = getLinesLengths(textBoxWidth);
+            Vector lines = getLinesLengths();
             cacheLinesLengths = new int[lines.size()];
             int i = 0;
 
@@ -125,7 +150,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         return cacheLinesLengths;
     }
 
-    private Vector getLinesLengths(final int textBoxWidth) {
+    private Vector getLinesLengths() {
         Vector lines = new Vector();
         int messageLength = currentMessage.length();
         int lineIndex = 0;
@@ -159,8 +184,4 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
         return lines;
     }
-
-    public void scrollUp() { }
-
-    public void scrollDown() { }
 }
