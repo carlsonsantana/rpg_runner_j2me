@@ -92,11 +92,10 @@ public abstract class PlayerMovementTest extends TestCase {
         SimpleCharacter character = new SimpleCharacter();
         PlayerMovement playerMovement = create(character);
 
-        byte reverseDirection = Direction.invertDirection(direction);
-        int keyReverseDirection = getKeyDirection(reverseDirection);
-        playerMovement.pressKey(keyReverseDirection);
+        int reverseDirectionKey = getReverseDirectionKey(direction);
+        playerMovement.pressKey(reverseDirectionKey);
         playerMovement.pressKey(keyDirection);
-        playerMovement.releaseKey(keyReverseDirection);
+        playerMovement.releaseKey(reverseDirectionKey);
         playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
@@ -109,26 +108,13 @@ public abstract class PlayerMovementTest extends TestCase {
         SimpleCharacter character = new SimpleCharacter();
         PlayerMovement playerMovement = create(character);
 
-        byte reverseDirection = Direction.invertDirection(direction);
-        int keyReverseDirection = getKeyDirection(reverseDirection);
+        int reverseDirectionKey = getReverseDirectionKey(direction);
         playerMovement.pressKey(keyDirection);
-        playerMovement.pressKey(keyReverseDirection);
-        playerMovement.releaseKey(keyReverseDirection);
+        playerMovement.pressKey(reverseDirectionKey);
+        playerMovement.releaseKey(reverseDirectionKey);
         playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
-    }
-
-    private int getKeyDirection(final byte direction) {
-        if (Direction.isUp(direction)) {
-            return GameCanvas.UP;
-        } else if (Direction.isRight(direction)) {
-            return GameCanvas.RIGHT;
-        } else if (Direction.isDown(direction)) {
-            return GameCanvas.DOWN;
-        } else {
-            return GameCanvas.LEFT;
-        }
     }
 
     public void testInteract() {
@@ -146,6 +132,7 @@ public abstract class PlayerMovementTest extends TestCase {
     private void checkInteract(final int key) {
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
+
         playerMovement.pressKey(key);
         playerMovement.execute();
 
@@ -171,6 +158,7 @@ public abstract class PlayerMovementTest extends TestCase {
     private void checkDoNotInteractTwiceForSamePressedKey(final int key) {
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
+
         playerMovement.pressKey(key);
         playerMovement.releaseKey(key);
         playerMovement.execute();
@@ -179,6 +167,89 @@ public abstract class PlayerMovementTest extends TestCase {
         playerMovement.execute();
 
         Assert.assertFalse(character.isInteractCalled());
+    }
+
+    public void testDoNothingWhenReleaseAllKeys() {
+        for (
+            int i = 0, length = KeyHelper.ACTION_KEYS.length;
+            i < length;
+            i++
+        ) {
+            int key = KeyHelper.ACTION_KEYS[i];
+
+            checkDontInteractWhenReleaseAllKeys(key);
+        }
+    }
+
+    private void checkDontInteractWhenReleaseAllKeys(final int key) {
+        CharacterSpy character = new CharacterSpy(null);
+        PlayerMovement playerMovement = create(character);
+
+        playerMovement.pressKey(key);
+        playerMovement.releaseAllKeys();
+        playerMovement.releaseKey(key);
+        playerMovement.execute();
+
+        Assert.assertFalse(character.isInteractCalled());
+    }
+
+    public void testDontMoveUpWhenReleaseAllKeys() {
+        checkDontMoveWhenReleaseAllKeys(Direction.UP, KeyHelper.UP_KEYS);
+    }
+
+    public void testDontMoveRightWhenReleaseAllKeys() {
+        checkDontMoveWhenReleaseAllKeys(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
+    }
+
+    public void testDontMoveDownWhenReleaseAllKeys() {
+        checkDontMoveWhenReleaseAllKeys(Direction.DOWN, KeyHelper.DOWN_KEYS);
+    }
+
+    public void testDontMoveLeftWhenReleaseAllKeys() {
+        checkDontMoveWhenReleaseAllKeys(Direction.LEFT, KeyHelper.LEFT_KEYS);
+    }
+
+    private void checkDontMoveWhenReleaseAllKeys(
+        final byte direction,
+        final int[] keys
+    ) {
+        for (int i = 0, length = keys.length; i < length; i++) {
+            int key = keys[i];
+
+            checkDontMoveWhenReleaseAllKeys(direction, key);
+        }
+    }
+
+    private void checkDontMoveWhenReleaseAllKeys(
+        final byte direction,
+        final int keyDirection
+    ) {
+        SimpleCharacter character = new SimpleCharacter();
+        PlayerMovement playerMovement = create(character);
+
+        int reverseDirectionKey = getReverseDirectionKey(direction);
+
+        playerMovement.pressKey(reverseDirectionKey);
+        playerMovement.execute();
+        playerMovement.pressKey(keyDirection);
+        playerMovement.releaseAllKeys();
+        playerMovement.execute();
+
+        Assert.assertFalse(direction == character.getDirection());
+    }
+
+    private int getReverseDirectionKey(final byte direction) {
+        byte reverseDirection = Direction.invertDirection(direction);
+
+        if (Direction.isUp(reverseDirection)) {
+            return GameCanvas.UP;
+        } else if (Direction.isRight(reverseDirection)) {
+            return GameCanvas.RIGHT;
+        } else if (Direction.isDown(reverseDirection)) {
+            return GameCanvas.DOWN;
+        } else {
+            return GameCanvas.LEFT;
+        }
     }
 
     protected abstract PlayerMovement create(GameCharacter character);

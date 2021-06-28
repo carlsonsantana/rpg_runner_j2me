@@ -73,4 +73,8 @@ public class PlayerMovementImpl implements PlayerMovement {
 
         return -1;
     }
+
+    public void releaseAllKeys() {
+        keySize = 0;
+    }
 }

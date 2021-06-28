@@ -25,4 +25,6 @@ public class PlayerMovementSpy extends MovementSpy implements PlayerMovement {
     public int getReleasedKey() {
         return releasedKey;
     }
+
+    public void releaseAllKeys() { }
 }
