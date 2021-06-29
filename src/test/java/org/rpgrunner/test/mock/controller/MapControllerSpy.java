@@ -18,6 +18,7 @@ public class MapControllerSpy extends MapController {
     private boolean renderCalled;
     private int pressedKey;
     private int releasedKey;
+    private boolean releaseAllKeysCalled;
 
     public MapControllerSpy() {
         super(null, null, new MapHelperSpy());
@@ -91,5 +92,13 @@ public class MapControllerSpy extends MapController {
 
     public boolean isRenderCalled() {
         return renderCalled;
+    }
+
+    public void releaseAllKeys() {
+        releaseAllKeysCalled = true;
+    }
+
+    public boolean isReleaseAllKeysCalled() {
+        return releaseAllKeysCalled;
     }
 }

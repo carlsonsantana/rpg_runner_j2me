@@ -104,6 +104,14 @@ public class GameControllerTest extends TestCase {
         Assert.assertSame(message, messageController.getLastMessage());
     }
 
+    public void testReleaseAllKeysBeforeChangeToMessageController() {
+        Assert.assertFalse(mapController.isReleaseAllKeysCalled());
+
+        gameController.showMessage(message);
+
+        Assert.assertTrue(mapController.isReleaseAllKeysCalled());
+    }
+
     public void testWhenFinishMessageBackToMapController() {
         gameController.showMessage(message);
         messageController.finish();
