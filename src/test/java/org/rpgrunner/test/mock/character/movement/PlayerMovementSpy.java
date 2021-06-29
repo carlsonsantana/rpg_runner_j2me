@@ -5,6 +5,7 @@ import org.rpgrunner.character.movement.PlayerMovement;
 public class PlayerMovementSpy extends MovementSpy implements PlayerMovement {
     private int pressedKey;
     private int releasedKey;
+    private boolean releaseAllKeysCalled;
 
     public PlayerMovementSpy() {
         super();
@@ -26,5 +27,11 @@ public class PlayerMovementSpy extends MovementSpy implements PlayerMovement {
         return releasedKey;
     }
 
-    public void releaseAllKeys() { }
+    public void releaseAllKeys() {
+        releaseAllKeysCalled = true;
+    }
+
+    public boolean isReleaseAllKeysCalled() {
+        return releaseAllKeysCalled;
+    }
 }

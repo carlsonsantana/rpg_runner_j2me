@@ -64,6 +64,10 @@ public class MapController implements Controller {
         playerMovement.releaseKey(key);
     }
 
+    public void releaseAllKeys() {
+        playerMovement.releaseAllKeys();
+    }
+
     public void prepareFrameAnimation() {
         for (
             Enumeration enumeration = characterElements.elements();
