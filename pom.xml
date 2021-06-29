@@ -15,7 +15,7 @@
   </properties>
 
   <groupId>org.rpgrunner</groupId>
-  <artifactId>runner</artifactId>
+  <artifactId>j2me</artifactId>
   <version>1.0.0</version>
 
   <name>RPG Runner</name>
@@ -81,6 +81,7 @@
               <consoleOutput>true</consoleOutput>
               <failsOnError>true</failsOnError>
               <linkXRef>false</linkXRef>
+              <includeTestSourceDirectory>true</includeTestSourceDirectory>
             </configuration>
             <goals>
               <goal>check</goal>
@@ -162,14 +163,17 @@
           <midlets>
             <MIDlet>
               <name>${project.name}</name>
-              <class>${project.groupId}.${project.artifactId}.MainMIDlet</class>
+              <class>Main</class>
             </MIDlet>
           </midlets>
           <proguardOptions>
             <options>
-              <option>
-                -keep public class ${project.groupId}.${project.artifactId}.MainMIDlet
-              </option>
+              <option>-keep public class Main</option>
+              <option>-repackageclasses</option>
+              <option>-allowaccessmodification</option>
+              <option>-mergeinterfacesaggressively</option>
+              <option>-microedition</option>
+              <option>-optimizationpasses 10</option>
             </options>
           </proguardOptions>
         </configuration>
