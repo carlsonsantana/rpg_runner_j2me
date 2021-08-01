@@ -11,12 +11,10 @@ public class CharacterSpy extends GameCharacter {
     private int additionalNextPositionX;
     private int additionalNextPositionY;
     private byte direction;
-    private boolean interactCalled;
 
     public CharacterSpy(final String fileBaseName) {
         super(fileBaseName, null);
         direction = INITIAL_DIRECTION;
-        interactCalled = false;
     }
 
     public void setInitialPosition(
@@ -73,17 +71,5 @@ public class CharacterSpy extends GameCharacter {
         }
 
         return direction;
-    }
-
-    public void interact() {
-        interactCalled = true;
-    }
-
-    public boolean isInteractCalled() {
-        return interactCalled;
-    }
-
-    public void resetInteractCalled() {
-        interactCalled = false;
     }
 }

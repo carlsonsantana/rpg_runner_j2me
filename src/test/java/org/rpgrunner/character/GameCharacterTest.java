@@ -238,10 +238,4 @@ public class GameCharacterTest extends TestCase {
     public void testGetSameInteractiveAction() {
         Assert.assertSame(action, character.getInteractiveAction());
     }
-
-    public void testInteractCallCharacterElementInteract() {
-        character.interact();
-
-        Assert.assertTrue(characterElement.isInteractCalled());
-    }
 }

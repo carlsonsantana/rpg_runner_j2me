@@ -44,8 +44,4 @@ public class CharacterElement {
     public void onAnimationComplete() {
         character.finishMove();
     }
-
-    public void interact() {
-        mapHelper.executeInteractAction(character);
-    }
 }

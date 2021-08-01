@@ -83,10 +83,4 @@ public class CharacterElementTest extends TestCase {
         Assert.assertEquals(nextY, character.getMapPositionY());
         Assert.assertEquals(nextY, character.getMapNextPositionY());
     }
-
-    public void testCallGetInteractFromMapHelper() {
-        characterElement.interact();
-
-        Assert.assertTrue(mapHelper.isExecuteInteractActionCalled());
-    }
 }
