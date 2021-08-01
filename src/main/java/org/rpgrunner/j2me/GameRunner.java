@@ -4,6 +4,7 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
+import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.controller.MessageController;
@@ -36,7 +37,6 @@ public class GameRunner extends GameCanvas {
     };
 
     private final CharacterAnimationFactoryImpl characterAnimationFactory;
-    private final PlayerMovementFactoryImpl playerMovementFactory;
     private boolean destroyed;
     private GameController gameController;
     private ActionQueue actionQueue;
@@ -46,7 +46,6 @@ public class GameRunner extends GameCanvas {
 
         destroyed = false;
         characterAnimationFactory = new CharacterAnimationFactoryImpl();
-        playerMovementFactory = new PlayerMovementFactoryImpl();
     }
 
     public void start() {
@@ -77,6 +76,9 @@ public class GameRunner extends GameCanvas {
             messageGraphicsRender
         );
         gameController = new GameController(mapController, messageController);
+        PlayerMovementFactory playerMovementFactory = (
+            new PlayerMovementFactoryImpl(mapHelper)
+        );
         ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
             gameController,
             mapController,

@@ -11,6 +11,7 @@ import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
+import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public abstract class PlayerMovementTest extends TestCase {
     public void testExecuteWithoutPressedButton() {
@@ -130,17 +131,18 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     private void checkInteract(final int key) {
+        MapHelperSpy mapHelper = getMapHelper();
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
 
         playerMovement.pressKey(key);
         playerMovement.execute();
 
-        Assert.assertFalse(character.isInteractCalled());
+        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
 
         playerMovement.releaseKey(key);
         playerMovement.execute();
-        Assert.assertTrue(character.isInteractCalled());
+        Assert.assertTrue(mapHelper.isExecuteInteractActionCalled());
     }
 
     public void testDoNotInteractTwiceForSamePressedKey() {
@@ -156,6 +158,7 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     private void checkDoNotInteractTwiceForSamePressedKey(final int key) {
+        MapHelperSpy mapHelper = getMapHelper();
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
 
@@ -163,10 +166,10 @@ public abstract class PlayerMovementTest extends TestCase {
         playerMovement.releaseKey(key);
         playerMovement.execute();
 
-        character.resetInteractCalled();
+        mapHelper.resetExecuteInteractActionCalled();
         playerMovement.execute();
 
-        Assert.assertFalse(character.isInteractCalled());
+        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
     }
 
     public void testDoNothingWhenReleaseAllKeys() {
@@ -182,6 +185,7 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     private void checkDontInteractWhenReleaseAllKeys(final int key) {
+        MapHelperSpy mapHelper = getMapHelper();
         CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
 
@@ -190,7 +194,7 @@ public abstract class PlayerMovementTest extends TestCase {
         playerMovement.releaseKey(key);
         playerMovement.execute();
 
-        Assert.assertFalse(character.isInteractCalled());
+        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
     }
 
     public void testDontMoveUpWhenReleaseAllKeys() {
@@ -253,4 +257,6 @@ public abstract class PlayerMovementTest extends TestCase {
     }
 
     protected abstract PlayerMovement create(GameCharacter character);
+
+    protected abstract MapHelperSpy getMapHelper();
 }

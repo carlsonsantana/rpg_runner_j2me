@@ -42,4 +42,8 @@ public class MapHelperSpy extends MapHelper {
     public boolean isExecuteInteractActionCalled() {
         return executeInteractActionCalled;
     }
+
+    public void resetExecuteInteractActionCalled() {
+        executeInteractActionCalled = false;
+    }
 }
