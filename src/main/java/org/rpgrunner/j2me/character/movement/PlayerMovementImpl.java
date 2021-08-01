@@ -1,11 +1,13 @@
 package org.rpgrunner.j2me.character.movement;
 
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.movement.AbstractMovement;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.Key;
 
-public class PlayerMovementImpl implements PlayerMovement {
+public class PlayerMovementImpl extends AbstractMovement implements
+    PlayerMovement {
     private static final int MAX_KEY_SIZE = 10;
     private final GameCharacter character;
     private final MapHelper mapHelper;
@@ -17,6 +19,8 @@ public class PlayerMovementImpl implements PlayerMovement {
         final GameCharacter playerCharacter,
         final MapHelper newMapHelper
     ) {
+        super(playerCharacter);
+
         character = playerCharacter;
         mapHelper = newMapHelper;
         keys = new int[MAX_KEY_SIZE];
@@ -30,6 +34,10 @@ public class PlayerMovementImpl implements PlayerMovement {
             actionKeyReleased = false;
         }
 
+        super.execute();
+    }
+
+    protected void executeMovement() {
         if (keySize == 0) {
             return;
         }

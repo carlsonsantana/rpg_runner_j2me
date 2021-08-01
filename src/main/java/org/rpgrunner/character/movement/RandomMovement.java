@@ -5,16 +5,18 @@ import java.util.Random;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 
-public class RandomMovement implements MovementCommand {
+public class RandomMovement extends AbstractMovement {
     private final GameCharacter character;
     private final Random random;
 
     public RandomMovement(final GameCharacter controlledCharacter) {
+        super(controlledCharacter);
+
         character = controlledCharacter;
         random = new Random();
     }
 
-    public void execute() {
+    protected void executeMovement() {
         int direction = random.nextInt(Direction.NUMBER_DIRECTIONS);
 
         if (direction == 0) {
