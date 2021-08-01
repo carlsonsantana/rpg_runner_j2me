@@ -1,11 +1,12 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.RandomMovement;
+import org.rpgrunner.controller.MapController;
+import org.rpgrunner.helper.MapHelper;
 
 public class CharacterCreator extends AbstractCharacterCreator {
     private final MapController mapController;
@@ -32,7 +33,9 @@ public class CharacterCreator extends AbstractCharacterCreator {
     protected MovementCommand createMovementCommand(
         final GameCharacter character
     ) {
-        return new RandomMovement(character);
+        MapHelper mapHelper = mapController.getMapHelper();
+
+        return new RandomMovement(character, mapHelper);
     }
 
     protected void displayCharacter(final CharacterElement characterElement) {

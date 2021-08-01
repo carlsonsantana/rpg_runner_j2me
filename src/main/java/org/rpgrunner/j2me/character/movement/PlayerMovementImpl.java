@@ -19,7 +19,7 @@ public class PlayerMovementImpl extends AbstractMovement implements
         final GameCharacter playerCharacter,
         final MapHelper newMapHelper
     ) {
-        super(playerCharacter);
+        super(playerCharacter, newMapHelper);
 
         character = playerCharacter;
         mapHelper = newMapHelper;

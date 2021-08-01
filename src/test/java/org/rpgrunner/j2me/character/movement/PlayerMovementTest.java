@@ -305,6 +305,49 @@ public abstract class PlayerMovementTest extends TestCase implements
         Assert.assertFalse(direction == character.getDirection());
     }
 
+    public void testCancelMoveWhenCharacterCantMove() {
+        MapHelperSpy mapHelper = getMapHelper();
+        mapHelper.setCanMove(false);
+
+        checkCancelMoveWhenCharacterCantMove(Direction.UP, KeyHelper.UP_KEYS);
+        checkCancelMoveWhenCharacterCantMove(
+            Direction.RIGHT,
+            KeyHelper.RIGHT_KEYS
+        );
+        checkCancelMoveWhenCharacterCantMove(
+            Direction.DOWN,
+            KeyHelper.DOWN_KEYS
+        );
+        checkCancelMoveWhenCharacterCantMove(
+            Direction.LEFT,
+            KeyHelper.LEFT_KEYS
+        );
+    }
+
+    private void checkCancelMoveWhenCharacterCantMove(
+        final byte direction,
+        final int[] keys
+    ) {
+        for (int i = 0, length = keys.length; i < length; i++) {
+            int key = keys[i];
+
+            checkCancelMoveWhenCharacterCantMove(direction, key);
+        }
+    }
+
+    private void checkCancelMoveWhenCharacterCantMove(
+        final byte direction,
+        final int keyDirection
+    ) {
+        SimpleCharacter character = new SimpleCharacter();
+        PlayerMovement playerMovement = create(character);
+
+        playerMovement.pressKey(keyDirection);
+        playerMovement.execute();
+
+        Assert.assertFalse(character.isMoving());
+    }
+
     protected abstract PlayerMovement create(GameCharacter character);
 
     protected abstract MapHelperSpy getMapHelper();

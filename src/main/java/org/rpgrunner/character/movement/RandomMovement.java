@@ -4,13 +4,17 @@ import java.util.Random;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.helper.MapHelper;
 
 public class RandomMovement extends AbstractMovement {
     private final GameCharacter character;
     private final Random random;
 
-    public RandomMovement(final GameCharacter controlledCharacter) {
-        super(controlledCharacter);
+    public RandomMovement(
+        final GameCharacter controlledCharacter,
+        final MapHelper mapHelper
+    ) {
+        super(controlledCharacter, mapHelper);
 
         character = controlledCharacter;
         random = new Random();

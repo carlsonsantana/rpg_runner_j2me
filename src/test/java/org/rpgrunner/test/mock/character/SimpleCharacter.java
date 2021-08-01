@@ -13,18 +13,22 @@ public class SimpleCharacter extends GameCharacter {
 
     public void moveUp() {
         direction = Direction.UP;
+        moving = true;
     }
 
     public void moveRight() {
         direction = Direction.RIGHT;
+        moving = true;
     }
 
     public void moveDown() {
         direction = Direction.DOWN;
+        moving = true;
     }
 
     public void moveLeft() {
         direction = Direction.LEFT;
+        moving = true;
     }
 
     public byte getDirection() {
@@ -37,5 +41,9 @@ public class SimpleCharacter extends GameCharacter {
 
     public boolean isMoving() {
         return moving;
+    }
+
+    public void cancelMove() {
+        moving = false;
     }
 }
