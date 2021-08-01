@@ -70,17 +70,4 @@ public class CharacterElementTest extends TestCase {
         Assert.assertEquals(nextY, character.getMapNextPositionY());
         Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
-
-    public void testOnAnimationCompleteFinishCharacterMovement() {
-        int y = character.getMapPositionY();
-        int nextY = y - 1;
-
-        mapHelper.setCanMove(true);
-        character.moveUp();
-        characterElement.onAnimationComplete();
-
-        Assert.assertFalse(character.isMoving());
-        Assert.assertEquals(nextY, character.getMapPositionY());
-        Assert.assertEquals(nextY, character.getMapNextPositionY());
-    }
 }
