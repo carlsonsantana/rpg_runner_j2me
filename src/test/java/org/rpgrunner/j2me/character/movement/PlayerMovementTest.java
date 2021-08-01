@@ -7,13 +7,15 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.movement.MovementTest;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
-public abstract class PlayerMovementTest extends TestCase {
+public abstract class PlayerMovementTest extends TestCase implements
+    MovementTest {
     public void testExecuteWithoutPressedButton() {
         SimpleCharacter character = new SimpleCharacter();
         PlayerMovement playerMovement = create(character);
@@ -254,6 +256,53 @@ public abstract class PlayerMovementTest extends TestCase {
         } else {
             return GameCanvas.LEFT;
         }
+    }
+
+    public void testDoNotMoveWhenCharacterIsMoving() {
+        checkDoNotMoveWhenCharacterIsMoving(Direction.UP, KeyHelper.UP_KEYS);
+        checkDoNotMoveWhenCharacterIsMoving(
+            Direction.RIGHT,
+            KeyHelper.RIGHT_KEYS
+        );
+        checkDoNotMoveWhenCharacterIsMoving(
+            Direction.DOWN,
+            KeyHelper.DOWN_KEYS
+        );
+        checkDoNotMoveWhenCharacterIsMoving(
+            Direction.LEFT,
+            KeyHelper.LEFT_KEYS
+        );
+    }
+
+    private void checkDoNotMoveWhenCharacterIsMoving(
+        final byte direction,
+        final int[] keys
+    ) {
+        for (int i = 0, length = keys.length; i < length; i++) {
+            int key = keys[i];
+
+            checkDoNotMoveWhenCharacterIsMoving(direction, key);
+        }
+    }
+
+    private void checkDoNotMoveWhenCharacterIsMoving(
+        final byte direction,
+        final int keyDirection
+    ) {
+        SimpleCharacter character = new SimpleCharacter();
+        byte initialDirection = character.getDirection();
+
+        if (initialDirection == direction) {
+            character.moveLeft();
+        }
+
+        PlayerMovement playerMovement = create(character);
+
+        character.setMoving(true);
+        playerMovement.pressKey(keyDirection);
+        playerMovement.execute();
+
+        Assert.assertFalse(direction == character.getDirection());
     }
 
     protected abstract PlayerMovement create(GameCharacter character);

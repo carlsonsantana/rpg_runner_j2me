@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 
-public class RandomMovementTest extends TestCase {
+public class RandomMovementTest extends TestCase implements MovementTest {
     private static final int TEST_REPEAT_LOOP = 1000;
 
     public void testCharacterCanMoveAllDirections() {
@@ -45,11 +45,25 @@ public class RandomMovementTest extends TestCase {
             randomMovement2.execute();
 
             directionsEquals = (
-                directionsEquals
-                && (character1.getDirection() == character2.getDirection())
+                character1.getDirection() == character2.getDirection()
             );
         }
 
         Assert.assertFalse(directionsEquals);
+    }
+
+    public void testDoNotMoveWhenCharacterIsMoving() {
+        SimpleCharacter character = new SimpleCharacter();
+        byte initialDirection = character.getDirection();
+        boolean directionsEquals = true;
+
+        character.setMoving(true);
+
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            RandomMovement randomMovement = new RandomMovement(character);
+            randomMovement.execute();
+
+            Assert.assertEquals(initialDirection, character.getDirection());
+        }
     }
 }

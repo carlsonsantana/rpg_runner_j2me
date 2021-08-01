@@ -5,6 +5,7 @@ import org.rpgrunner.character.GameCharacter;
 
 public class SimpleCharacter extends GameCharacter {
     private byte direction;
+    private boolean moving;
 
     public SimpleCharacter() {
         super(null, null);
@@ -28,5 +29,13 @@ public class SimpleCharacter extends GameCharacter {
 
     public byte getDirection() {
         return direction;
+    }
+
+    public void setMoving(final boolean newMoving) {
+        moving = newMoving;
+    }
+
+    public boolean isMoving() {
+        return moving;
     }
 }
