@@ -7,5 +7,4 @@ public interface CharacterAnimation {
     void startAnimation();
     void doAnimation();
     Object getSprite();
-    void setCharacterElement(CharacterElement characterElement);
 }

@@ -1,11 +1,11 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
@@ -57,7 +57,6 @@ public abstract class AbstractCharacterCreator implements Action {
             movementCommand
         );
         character.setCharacterElement(characterElement);
-        characterAnimation.setCharacterElement(characterElement);
 
         return characterElement;
     }

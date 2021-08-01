@@ -7,7 +7,6 @@ import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.j2me.tileset.TileSetRender;
 
@@ -68,18 +67,19 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     };
 
     private final Sprite sprite;
-    private CharacterElement characterElement;
+    private final GameCharacter character;
     private byte direction;
 
-    public CharacterAnimationImpl(final GameCharacter character) {
-        Image image = loadImage(character);
+    public CharacterAnimationImpl(final GameCharacter newCharacter) {
+        character = newCharacter;
+        Image image = loadImage();
         sprite = new Sprite(image, SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
         sprite.setPosition(0, -SPRITE_REFERENCE_Y);
-        changeSpriteAnimation(character);
+        changeSpriteAnimation();
     }
 
-    private Image loadImage(final GameCharacter character) {
+    private Image loadImage() {
         String fileName = (
             CHARACTER_DIRECTORY
             + character.getFileBaseName()
@@ -102,36 +102,22 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     }
 
     public void updateScreenPositionFromMapPosition() {
-        GameCharacter character = characterElement.getCharacter();
         int mapPositionX = character.getMapPositionX();
         int mapPositionY = character.getMapPositionY();
         int spritePositionX = mapPositionX * SPRITE_WIDTH;
         int spritePositionY = mapPositionY * SPRITE_WIDTH - SPRITE_REFERENCE_Y;
 
-        changeSpriteAnimation(character);
+        changeSpriteAnimation();
         sprite.setPosition(spritePositionX, spritePositionY);
     }
 
     public void startAnimation() {
         if (isAnimationComplete()) {
-            changeSpriteAnimation(characterElement.getCharacter());
+            changeSpriteAnimation();
         }
     }
 
-    public void doAnimation() {
-        moveSprite();
-        changeSpriteFrame();
-
-        if (isAnimationComplete()) {
-            characterElement.onAnimationComplete();
-        }
-    }
-
-    public Object getSprite() {
-        return sprite;
-    }
-
-    private void changeSpriteAnimation(final GameCharacter character) {
+    private void changeSpriteAnimation() {
         byte characterCurrentDirection = character.getDirection();
 
         if (direction != characterCurrentDirection) {
@@ -153,9 +139,12 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         }
     }
 
-    private void changeSpriteFrame() {
-        if (isAnimationRunning()) {
-            sprite.nextFrame();
+    public void doAnimation() {
+        moveSprite();
+        changeSpriteFrame();
+
+        if (isAnimationComplete()) {
+            character.finishMove();
         }
     }
 
@@ -178,9 +167,17 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         }
     }
 
-    private boolean isAnimationRunning() {
-        GameCharacter character = characterElement.getCharacter();
+    private void changeSpriteFrame() {
+        if (isAnimationRunning()) {
+            sprite.nextFrame();
+        }
+    }
 
+    public Object getSprite() {
+        return sprite;
+    }
+
+    private boolean isAnimationRunning() {
         return character.isMoving() || (!isAnimationComplete());
     }
 
@@ -188,11 +185,5 @@ public class CharacterAnimationImpl implements CharacterAnimation {
         int currentFrame = sprite.getFrame();
 
         return currentFrame == SPRITE_FRAME_STOPPED_2;
-    }
-
-    public void setCharacterElement(
-        final CharacterElement newCharacterElement
-    ) {
-        characterElement = newCharacterElement;
     }
 }
