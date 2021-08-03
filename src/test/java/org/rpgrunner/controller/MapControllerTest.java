@@ -41,7 +41,6 @@ public class MapControllerTest extends TestCase {
         playerMovementSpy = new PlayerMovementSpy();
         characterAnimation = new CharacterAnimationSpy();
         playerCharacterElement = new CharacterElement(
-            null,
             new SimpleCharacter(),
             characterAnimation,
             playerMovementSpy
@@ -207,7 +206,6 @@ public class MapControllerTest extends TestCase {
         PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
 
         return new CharacterElement(
-            null,
             character,
             characterAnimationSpy,
             newPlayerMovementSpy

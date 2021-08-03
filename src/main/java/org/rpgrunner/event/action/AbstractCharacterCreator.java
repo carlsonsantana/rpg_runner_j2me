@@ -54,7 +54,6 @@ public abstract class AbstractCharacterCreator implements Action {
         );
         MapHelper mapHelper = mapController.getMapHelper();
         CharacterElement characterElement = new CharacterElement(
-            mapHelper,
             character,
             characterAnimation,
             movementCommand

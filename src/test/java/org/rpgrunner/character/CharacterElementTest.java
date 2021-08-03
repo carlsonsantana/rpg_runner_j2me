@@ -27,7 +27,6 @@ public class CharacterElementTest extends TestCase {
         );
 
         characterElement = new CharacterElement(
-            mapHelper,
             character,
             characterAnimation,
             movementCommand
@@ -50,28 +49,5 @@ public class CharacterElementTest extends TestCase {
             movementCommand,
             characterElement.getMovementCommand()
         );
-    }
-
-    public void testOnMoveFalseCancelCharacterMovement() {
-        testOnMove(false);
-    }
-
-    public void testOnMoveTrueContinueCharacterMovement() {
-        testOnMove(true);
-    }
-
-    private void testOnMove(final boolean canMove) {
-        int y = character.getMapPositionY();
-        int movementDifference = canMove ? -1 : 0;
-        int nextY = y + movementDifference;
-
-        mapHelper.setCanMove(canMove);
-        character.moveUp();
-        characterElement.onMove();
-
-        Assert.assertEquals(canMove, character.isMoving());
-        Assert.assertEquals(y, character.getMapPositionY());
-        Assert.assertEquals(nextY, character.getMapNextPositionY());
-        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 }

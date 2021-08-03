@@ -38,7 +38,6 @@ public class GameCharacterTest extends TestCase {
 
     public void testCharacterStartStopped() {
         Assert.assertFalse(character.isMoving());
-        Assert.assertFalse(characterElement.isOnMoveCalled());
     }
 
     public void testFinishMoveWhenCharacterIsStopped() {
@@ -195,26 +194,6 @@ public class GameCharacterTest extends TestCase {
         Assert.assertEquals(finalPositionY, character.getMapPositionY());
         Assert.assertEquals(finalPositionX, character.getMapNextPositionX());
         Assert.assertEquals(finalPositionY, character.getMapNextPositionY());
-    }
-
-    public void testOnMoveCalledWhenMoveUp() {
-        character.moveUp();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveRight() {
-        character.moveRight();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveDown() {
-        character.moveDown();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveLeft() {
-        character.moveLeft();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
     }
 
     public void testSetMapPositionLoop() {

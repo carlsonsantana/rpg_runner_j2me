@@ -44,7 +44,6 @@ public class RandomGenerator {
         MovementSpy movementSpy = new MovementSpy();
 
         return new CharacterElement(
-            null,
             character,
             characterAnimationSpy,
             movementSpy
