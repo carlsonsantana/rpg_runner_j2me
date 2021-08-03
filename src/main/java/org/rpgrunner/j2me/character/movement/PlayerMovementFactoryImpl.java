@@ -1,5 +1,6 @@
 package org.rpgrunner.j2me.character.movement;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
@@ -13,8 +14,13 @@ public class PlayerMovementFactoryImpl implements PlayerMovementFactory {
     }
 
     public PlayerMovement createPlayerMovement(
-        final GameCharacter playerCharacter
+        final GameCharacter playerCharacter,
+        final CharacterAnimation characterAnimation
     ) {
-        return new PlayerMovementImpl(playerCharacter, mapHelper);
+        return new PlayerMovementImpl(
+            playerCharacter,
+            characterAnimation,
+            mapHelper
+        );
     }
 }

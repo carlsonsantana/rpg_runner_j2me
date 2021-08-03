@@ -4,6 +4,9 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
@@ -24,10 +27,15 @@ public class RandomMovementTest extends TestCase implements MovementTest {
 
         for (int i = 0; (i < TEST_REPEAT_LOOP) && (!moveAllDirections); i++) {
             SimpleCharacter character = new SimpleCharacter();
+            CharacterAnimationSpy characterAnimation = (
+                new CharacterAnimationSpy()
+            );
             RandomMovement randomMovement = new RandomMovement(
                 character,
+                characterAnimation,
                 mapHelper
             );
+
             randomMovement.execute();
 
             byte direction = character.getDirection();
@@ -35,8 +43,9 @@ public class RandomMovementTest extends TestCase implements MovementTest {
             moveRight = moveRight || Direction.isRight(direction);
             moveDown = moveDown || Direction.isDown(direction);
             moveLeft = moveLeft || Direction.isLeft(direction);
-
             moveAllDirections = moveUp && moveRight && moveDown && moveLeft;
+
+            Assert.assertTrue(characterAnimation.isDoAnimationCalled());
         }
 
         Assert.assertTrue(moveAllDirections);
@@ -48,14 +57,8 @@ public class RandomMovementTest extends TestCase implements MovementTest {
         for (int i = 0; (i < TEST_REPEAT_LOOP) && (directionsEquals); i++) {
             SimpleCharacter character1 = new SimpleCharacter();
             SimpleCharacter character2 = new SimpleCharacter();
-            RandomMovement randomMovement1 = new RandomMovement(
-                character1,
-                mapHelper
-            );
-            RandomMovement randomMovement2 = new RandomMovement(
-                character2,
-                mapHelper
-            );
+            RandomMovement randomMovement1 = createRandomMovement(character1);
+            RandomMovement randomMovement2 = createRandomMovement(character2);
 
             randomMovement1.execute();
             randomMovement2.execute();
@@ -76,10 +79,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
 
     private void checkDoNotMoveWhenCharacterIsMoving() {
         SimpleCharacter character = new SimpleCharacter();
-        RandomMovement randomMovement = new RandomMovement(
-            character,
-            mapHelper
-        );
+        RandomMovement randomMovement = createRandomMovement(character);
 
         byte initialDirection = character.getDirection();
 
@@ -99,12 +99,20 @@ public class RandomMovementTest extends TestCase implements MovementTest {
 
     private void checkCancelMoveWhenCharacterCantMove() {
         SimpleCharacter character = new SimpleCharacter();
-        RandomMovement randomMovement = new RandomMovement(
-            character,
-            mapHelper
-        );
+        RandomMovement randomMovement = createRandomMovement(character);
         randomMovement.execute();
 
         Assert.assertFalse(character.isMoving());
+    }
+
+    private RandomMovement createRandomMovement(final GameCharacter character) {
+        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
+        RandomMovement randomMovement = new RandomMovement(
+            character,
+            characterAnimation,
+            mapHelper
+        );
+
+        return randomMovement;
     }
 }

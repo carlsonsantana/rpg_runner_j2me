@@ -3,6 +3,7 @@ package org.rpgrunner.character.movement;
 import java.util.Random;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.MapHelper;
 
@@ -12,9 +13,10 @@ public class RandomMovement extends AbstractMovement {
 
     public RandomMovement(
         final GameCharacter controlledCharacter,
+        final CharacterAnimation characterAnimation,
         final MapHelper mapHelper
     ) {
-        super(controlledCharacter, mapHelper);
+        super(controlledCharacter, characterAnimation, mapHelper);
 
         character = controlledCharacter;
         random = new Random();

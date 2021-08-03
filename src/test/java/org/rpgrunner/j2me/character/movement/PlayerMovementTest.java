@@ -6,10 +6,12 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementTest;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.helper.KeyHelper;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
@@ -55,12 +57,15 @@ public abstract class PlayerMovementTest extends TestCase implements
         final int keyDirection
     ) {
         SimpleCharacter character = new SimpleCharacter();
-        PlayerMovement playerMovement = create(character);
+        CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
+        PlayerMovement playerMovement = create(character, characterAnimation);
 
         playerMovement.pressKey(keyDirection);
+        Assert.assertFalse(characterAnimation.isDoAnimationCalled());
         playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
+        Assert.assertTrue(characterAnimation.isDoAnimationCalled());
     }
 
     public void testMoveUpReleaseKey() {
@@ -348,7 +353,16 @@ public abstract class PlayerMovementTest extends TestCase implements
         Assert.assertFalse(character.isMoving());
     }
 
-    protected abstract PlayerMovement create(GameCharacter character);
+    private PlayerMovement create(final GameCharacter character) {
+        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
+
+        return create(character, characterAnimation);
+    }
+
+    protected abstract PlayerMovement create(
+        GameCharacter character,
+        CharacterAnimation characterAnimation
+    );
 
     protected abstract MapHelperSpy getMapHelper();
 }

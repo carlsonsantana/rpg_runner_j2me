@@ -45,11 +45,14 @@ public abstract class AbstractCharacterCreator implements Action {
             characterFileBaseName,
             interactiveAction
         );
-        MovementCommand movementCommand = createMovementCommand(character);
-        MapHelper mapHelper = mapController.getMapHelper();
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
         );
+        MovementCommand movementCommand = createMovementCommand(
+            character,
+            characterAnimation
+        );
+        MapHelper mapHelper = mapController.getMapHelper();
         CharacterElement characterElement = new CharacterElement(
             mapHelper,
             character,
@@ -62,7 +65,8 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     protected abstract MovementCommand createMovementCommand(
-        GameCharacter character
+        GameCharacter character,
+        CharacterAnimation characterAnimation
     );
 
     protected abstract void displayCharacter(CharacterElement characterElement);

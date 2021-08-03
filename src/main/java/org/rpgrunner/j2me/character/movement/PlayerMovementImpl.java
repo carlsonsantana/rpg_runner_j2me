@@ -1,5 +1,6 @@
 package org.rpgrunner.j2me.character.movement;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.AbstractMovement;
 import org.rpgrunner.character.movement.PlayerMovement;
@@ -17,9 +18,10 @@ public class PlayerMovementImpl extends AbstractMovement implements
 
     public PlayerMovementImpl(
         final GameCharacter playerCharacter,
+        final CharacterAnimation characterAnimation,
         final MapHelper newMapHelper
     ) {
-        super(playerCharacter, newMapHelper);
+        super(playerCharacter, characterAnimation, newMapHelper);
 
         character = playerCharacter;
         mapHelper = newMapHelper;

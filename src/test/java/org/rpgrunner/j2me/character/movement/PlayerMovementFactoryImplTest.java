@@ -1,5 +1,6 @@
 package org.rpgrunner.j2me.character.movement;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
@@ -14,10 +15,16 @@ public class PlayerMovementFactoryImplTest extends PlayerMovementTest {
         playerMovementFactory = new PlayerMovementFactoryImpl(mapHelper);
     }
 
-    protected PlayerMovement create(final GameCharacter character) {
+    protected PlayerMovement create(
+        final GameCharacter character,
+        final CharacterAnimation characterAnimation
+    ) {
         mapHelper.resetExecuteInteractActionCalled();
 
-        return playerMovementFactory.createPlayerMovement(character);
+        return playerMovementFactory.createPlayerMovement(
+            character,
+            characterAnimation
+        );
     }
 
     protected MapHelperSpy getMapHelper() {
