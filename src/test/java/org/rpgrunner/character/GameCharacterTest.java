@@ -29,7 +29,6 @@ public class GameCharacterTest extends TestCase {
         action = new ActionSpy();
         character = new GameCharacter(characterBaseName, action);
         characterElement = new CharacterElementSpy();
-        character.setCharacterElement(characterElement);
     }
 
     public void testReturnSameFileBaseName() {

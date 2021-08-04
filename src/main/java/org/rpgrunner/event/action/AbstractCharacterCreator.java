@@ -58,7 +58,6 @@ public abstract class AbstractCharacterCreator implements Action {
             characterAnimation,
             movementCommand
         );
-        character.setCharacterElement(characterElement);
 
         return characterElement;
     }

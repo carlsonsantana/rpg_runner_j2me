@@ -11,7 +11,6 @@ public class GameCharacter {
     private int mapPositionY;
     private int mapNextPositionX;
     private int mapNextPositionY;
-    private CharacterElement characterElement;
 
     public GameCharacter(
         final String characterFileBaseName,
@@ -107,12 +106,6 @@ public class GameCharacter {
 
     public int getMapNextPositionY() {
         return mapNextPositionY;
-    }
-
-    public void setCharacterElement(
-        final CharacterElement newCharacterElement
-    ) {
-        characterElement = newCharacterElement;
     }
 
     public Action getInteractiveAction() {
