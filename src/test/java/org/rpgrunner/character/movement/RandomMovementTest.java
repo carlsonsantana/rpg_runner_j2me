@@ -45,7 +45,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
             moveLeft = moveLeft || Direction.isLeft(direction);
             moveAllDirections = moveUp && moveRight && moveDown && moveLeft;
 
-            Assert.assertTrue(characterAnimation.isDoAnimationCalled());
+            Assert.assertTrue(characterAnimation.isStartAnimationCalled());
         }
 
         Assert.assertTrue(moveAllDirections);

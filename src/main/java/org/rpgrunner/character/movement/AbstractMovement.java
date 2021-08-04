@@ -30,7 +30,7 @@ public abstract class AbstractMovement implements MovementCommand {
             character.cancelMove();
         }
 
-        characterAnimation.doAnimation();
+        characterAnimation.startAnimation();
     }
 
     protected abstract void executeMovement();

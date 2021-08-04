@@ -61,11 +61,11 @@ public abstract class PlayerMovementTest extends TestCase implements
         PlayerMovement playerMovement = create(character, characterAnimation);
 
         playerMovement.pressKey(keyDirection);
-        Assert.assertFalse(characterAnimation.isDoAnimationCalled());
+        Assert.assertFalse(characterAnimation.isStartAnimationCalled());
         playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
-        Assert.assertTrue(characterAnimation.isDoAnimationCalled());
+        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 
     public void testMoveUpReleaseKey() {
