@@ -10,7 +10,8 @@ import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.helper.Loader;
 import org.rpgrunner.map.MapLoader;
 
-public class TeleportFactory implements ActionFactory {
+public class TeleportFactory implements IdentifiedActionFactory {
+    private static final int ID_VALUE = 4;
     private final MapController mapController;
     private final MapLoader mapLoader;
     private final ActionQueue actionQueue;
@@ -23,6 +24,10 @@ public class TeleportFactory implements ActionFactory {
         mapController = currentMapController;
         mapLoader = currentMapLoader;
         actionQueue = currentActionQueue;
+    }
+
+    public int getId() {
+        return ID_VALUE;
     }
 
     public Action create(final InputStream inputStream) throws IOException {

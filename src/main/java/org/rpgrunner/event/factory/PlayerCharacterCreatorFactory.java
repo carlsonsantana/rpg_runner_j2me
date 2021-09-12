@@ -3,15 +3,16 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.helper.Loader;
 
-public class PlayerCharacterCreatorFactory implements ActionFactory {
+public class PlayerCharacterCreatorFactory implements IdentifiedActionFactory {
+    private static final int ID_VALUE = 2;
     private final MapController mapController;
     private final CharacterAnimationFactory characterAnimationFactory;
     private final PlayerMovementFactory playerMovementFactory;
@@ -24,6 +25,10 @@ public class PlayerCharacterCreatorFactory implements ActionFactory {
         mapController = currentMapController;
         characterAnimationFactory = currentCharacterAnimationFactory;
         playerMovementFactory = currentPlayerMovementFactory;
+    }
+
+    public int getId() {
+        return ID_VALUE;
     }
 
     public Action create(final InputStream inputStream) throws IOException {

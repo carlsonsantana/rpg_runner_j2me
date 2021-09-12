@@ -12,7 +12,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.MapLoader;
 
 public class ActionAbstractFactory implements ActionFactory {
-    private final ActionFactory[] actionFactories;
+    private final IdentifiedActionFactory[] actionFactories;
 
     public ActionAbstractFactory(
         final GameController gameController,
@@ -49,7 +49,7 @@ public class ActionAbstractFactory implements ActionFactory {
             gameController
         );
 
-        actionFactories = new ActionFactory[] {
+        actionFactories = new IdentifiedActionFactory[] {
             nullActionFactory,
             actionListFactory,
             playerCharacterCreatorFactory,
@@ -62,7 +62,7 @@ public class ActionAbstractFactory implements ActionFactory {
 
     public Action create(final InputStream inputStream) throws IOException {
         int actionClass = inputStream.read();
-        ActionFactory actionFactory = actionFactories[actionClass];
+        IdentifiedActionFactory actionFactory = actionFactories[actionClass];
 
         return actionFactory.create(inputStream);
     }
