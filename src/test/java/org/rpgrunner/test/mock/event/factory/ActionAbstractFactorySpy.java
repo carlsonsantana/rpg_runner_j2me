@@ -19,7 +19,6 @@ public class ActionAbstractFactorySpy extends ActionAbstractFactory {
     }
 
     public ActionAbstractFactorySpy(final MapController mapController) {
-        super(null, mapController, null, null, null);
         actionsCreated = new Vector();
     }
 

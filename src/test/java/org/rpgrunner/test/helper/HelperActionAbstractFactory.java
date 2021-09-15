@@ -10,6 +10,14 @@ import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
+import org.rpgrunner.event.factory.ActionListFactory;
+import org.rpgrunner.event.factory.CharacterCreatorFactory;
+import org.rpgrunner.event.factory.LocalTeleportFactory;
+import org.rpgrunner.event.factory.NullActionFactory;
+import org.rpgrunner.event.factory.PlayerCharacterCreatorFactory;
+import org.rpgrunner.event.factory.ShowMessageFactory;
+import org.rpgrunner.event.factory.TeleportFactory;
+import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.controller.GameControllerSpy;
@@ -91,12 +99,46 @@ public final class HelperActionAbstractFactory {
             new PlayerMovementFactoryMock()
         );
 
-        return new ActionAbstractFactory(
-            gameController,
+        ActionAbstractFactory actionAbstractFactory = (
+            new ActionAbstractFactory()
+        );
+        MapLoader mapLoader = new MapLoader(actionAbstractFactory);
+
+        NullActionFactory nullActionFactory = new NullActionFactory();
+        ActionListFactory actionListFactory = new ActionListFactory(
+            actionAbstractFactory
+        );
+        PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
+            new PlayerCharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                playerMovementFactory
+            )
+        );
+        CharacterCreatorFactory characterCreatorFactory = (
+            new CharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                actionAbstractFactory
+            )
+        );
+        TeleportFactory teleportFactory = new TeleportFactory(
             mapController,
-            characterAnimationFactory,
-            playerMovementFactory,
+            mapLoader,
             actionQueue
         );
+        LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
+        ShowMessageFactory showMessageFactory = new ShowMessageFactory(
+            gameController
+        );
+        actionAbstractFactory.addActionFactory(nullActionFactory);
+        actionAbstractFactory.addActionFactory(actionListFactory);
+        actionAbstractFactory.addActionFactory(playerCharacterCreatorFactory);
+        actionAbstractFactory.addActionFactory(characterCreatorFactory);
+        actionAbstractFactory.addActionFactory(teleportFactory);
+        actionAbstractFactory.addActionFactory(localTeleportFactory);
+        actionAbstractFactory.addActionFactory(showMessageFactory);
+
+        return actionAbstractFactory;
     }
 }

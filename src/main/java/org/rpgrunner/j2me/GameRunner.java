@@ -11,6 +11,13 @@ import org.rpgrunner.controller.MessageController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
+import org.rpgrunner.event.factory.ActionListFactory;
+import org.rpgrunner.event.factory.CharacterCreatorFactory;
+import org.rpgrunner.event.factory.LocalTeleportFactory;
+import org.rpgrunner.event.factory.NullActionFactory;
+import org.rpgrunner.event.factory.PlayerCharacterCreatorFactory;
+import org.rpgrunner.event.factory.ShowMessageFactory;
+import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
@@ -18,6 +25,7 @@ import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.controller.MessageControllerImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
+import org.rpgrunner.map.MapLoader;
 
 public class GameRunner extends GameCanvas {
     private static final int FRAMES_PER_SECOND = 100;
@@ -76,19 +84,62 @@ public class GameRunner extends GameCanvas {
             messageGraphicsRender
         );
         gameController = new GameController(mapController, messageController);
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryImpl(mapHelper)
-        );
-        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
-            gameController,
-            mapController,
-            characterAnimationFactory,
-            playerMovementFactory,
-            actionQueue
+        ActionAbstractFactory actionAbstractFactory = (
+            createActionAbstractFactory(mapController, mapHelper)
         );
         GameStartEvent gameStartEvent = new GameStartEvent();
 
         gameStartEvent.execute(actionAbstractFactory);
+    }
+
+    private ActionAbstractFactory createActionAbstractFactory(
+        final MapController mapController,
+        final MapHelper mapHelper
+    ) {
+        ActionAbstractFactory actionAbstractFactory = (
+            new ActionAbstractFactory()
+        );
+        MapLoader mapLoader = new MapLoader(actionAbstractFactory);
+        PlayerMovementFactory playerMovementFactory = (
+            new PlayerMovementFactoryImpl(mapHelper)
+        );
+
+        NullActionFactory nullActionFactory = new NullActionFactory();
+        ActionListFactory actionListFactory = new ActionListFactory(
+            actionAbstractFactory
+        );
+        PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
+            new PlayerCharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                playerMovementFactory
+            )
+        );
+        CharacterCreatorFactory characterCreatorFactory = (
+            new CharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                actionAbstractFactory
+            )
+        );
+        TeleportFactory teleportFactory = new TeleportFactory(
+            mapController,
+            mapLoader,
+            actionQueue
+        );
+        LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
+        ShowMessageFactory showMessageFactory = new ShowMessageFactory(
+            gameController
+        );
+        actionAbstractFactory.addActionFactory(nullActionFactory);
+        actionAbstractFactory.addActionFactory(actionListFactory);
+        actionAbstractFactory.addActionFactory(playerCharacterCreatorFactory);
+        actionAbstractFactory.addActionFactory(characterCreatorFactory);
+        actionAbstractFactory.addActionFactory(teleportFactory);
+        actionAbstractFactory.addActionFactory(localTeleportFactory);
+        actionAbstractFactory.addActionFactory(showMessageFactory);
+
+        return actionAbstractFactory;
     }
 
     private void executeGame() {
