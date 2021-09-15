@@ -12,6 +12,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.MapLoader;
 
 public class ActionAbstractFactory implements ActionFactory {
+    private static final int MAX_ACTION_FACTORIES = 7;
     private final IdentifiedActionFactory[] actionFactories;
 
     public ActionAbstractFactory(
@@ -49,15 +50,20 @@ public class ActionAbstractFactory implements ActionFactory {
             gameController
         );
 
-        actionFactories = new IdentifiedActionFactory[] {
-            nullActionFactory,
-            actionListFactory,
-            playerCharacterCreatorFactory,
-            characterCreatorFactory,
-            teleportFactory,
-            localTeleportFactory,
-            showMessageFactory
-        };
+        actionFactories = new IdentifiedActionFactory[MAX_ACTION_FACTORIES];
+        addActionFactory(nullActionFactory);
+        addActionFactory(actionListFactory);
+        addActionFactory(playerCharacterCreatorFactory);
+        addActionFactory(characterCreatorFactory);
+        addActionFactory(teleportFactory);
+        addActionFactory(localTeleportFactory);
+        addActionFactory(showMessageFactory);
+    }
+
+    private void addActionFactory(final IdentifiedActionFactory actionFactory) {
+        int index = actionFactory.getId();
+
+        actionFactories[index] = actionFactory;
     }
 
     public Action create(final InputStream inputStream) throws IOException {
