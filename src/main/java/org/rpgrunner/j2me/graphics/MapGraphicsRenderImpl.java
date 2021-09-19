@@ -17,9 +17,12 @@ import org.rpgrunner.j2me.map.MapRender;
 import org.rpgrunner.map.Map;
 
 public class MapGraphicsRenderImpl implements MapGraphicsRender {
+    private static final int TILE_WIDTH = 16;
     private final Graphics graphics;
     private final LayerManager layerManager;
     private final Camera camera;
+    private Map map;
+    private CharacterAnimation characterAnimationFollowed;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -30,9 +33,10 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         camera = gameCamera;
     }
 
-    public void setMap(final Map map) {
+    public void setMap(final Map newMap) {
         clearMapLayerManager();
-        MapRender mapRender = new MapRender(map);
+        map = newMap;
+        MapRender mapRender = new MapRender(newMap);
         TiledLayer[] tiledLayers = mapRender.getTiledLayers();
 
         for (int i = tiledLayers.length - 1; i >= 0; i--) {
@@ -67,18 +71,57 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         }
     }
 
-    public void render() {
-        centerCamera();
-        layerManager.paint(graphics, 0, 0);
+    public void setCharacterAnimation(
+        final CharacterAnimation newCharacterAnimation
+    ) {
+        characterAnimationFollowed = newCharacterAnimation;
     }
 
-    private void centerCamera() {
-        camera.centerCamera();
+    public void render() {
+        int xViewWindow = getXViewWindow();
+        int yViewWindow = getYViewWindow();
+
         layerManager.setViewWindow(
-            camera.getX(),
-            camera.getY(),
+            xViewWindow,
+            yViewWindow,
             camera.getScreenWidth(),
             camera.getScreenHeight()
         );
+        layerManager.paint(graphics, 0, 0);
+    }
+
+    private int getXViewWindow() {
+        int characterScreenPosition = (
+            characterAnimationFollowed.getScreenX() + (TILE_WIDTH / 2)
+        );
+
+        return getCenter(
+            characterScreenPosition,
+            camera.getScreenWidth(),
+            map.getWidth()
+        );
+    }
+
+    private int getYViewWindow() {
+        return getCenter(
+            characterAnimationFollowed.getScreenY(),
+            camera.getScreenHeight(),
+            map.getHeight()
+        );
+    }
+
+    private int getCenter(
+        final int characterScreenPosition,
+        final int screenSize,
+        final int mapSize
+    ) {
+        int screenMiddle = screenSize / 2;
+        int characterPosition = characterScreenPosition;
+        int max = (mapSize * TILE_WIDTH) - screenSize;
+        int cameraPositionWithoutCorrection = (
+            characterPosition - screenMiddle
+        );
+
+        return Math.min(Math.max(cameraPositionWithoutCorrection, 0), max);
     }
 }

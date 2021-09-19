@@ -37,7 +37,6 @@ public class MapController implements Controller {
         map = newMap;
 
         mapHelper.setMap(map);
-        camera.setMap(map);
         mapGraphicsRender.setMap(map);
         removeAllNPCs();
     }
@@ -118,7 +117,7 @@ public class MapController implements Controller {
             (PlayerMovement) playerCharacterElement.getMovementCommand()
         );
         addCharacterElement(newPlayerCharacterElement);
-        camera.setCharacterAnimation(
+        mapGraphicsRender.setCharacterAnimation(
             playerCharacterElement.getCharacterAnimation()
         );
     }

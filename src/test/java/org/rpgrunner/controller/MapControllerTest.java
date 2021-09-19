@@ -69,7 +69,6 @@ public class MapControllerTest extends TestCase {
 
         Assert.assertSame(map, mapController.getMap());
         Assert.assertSame(map, mapGraphicsRender.getMap());
-        Assert.assertSame(map, camera.getMap());
         Assert.assertSame(map, mapHelper.getCurrentMap());
     }
 
@@ -148,7 +147,10 @@ public class MapControllerTest extends TestCase {
             playerCharacterElement,
             mapController.getPlayerCharacterElement()
         );
-        Assert.assertSame(characterAnimation, camera.getCharacterAnimation());
+        Assert.assertSame(
+            characterAnimation,
+            mapGraphicsRender.getCharacterAnimation()
+        );
     }
 
     public void testChangePlayerCharacterElement() {
@@ -163,7 +165,7 @@ public class MapControllerTest extends TestCase {
         );
         Assert.assertSame(
             newPlayerCharacterElement.getCharacterAnimation(),
-            camera.getCharacterAnimation()
+            mapGraphicsRender.getCharacterAnimation()
         );
     }
 
