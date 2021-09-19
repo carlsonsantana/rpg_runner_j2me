@@ -77,7 +77,6 @@ public class GameRunner extends GameCanvas {
         );
         MapController mapController = new MapController(
             mapGraphicsRender,
-            camera,
             mapHelper
         );
         MessageController messageController = new MessageControllerImpl(

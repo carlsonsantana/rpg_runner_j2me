@@ -15,7 +15,6 @@ import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
-import org.rpgrunner.test.mock.helper.CameraSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
@@ -24,7 +23,6 @@ public class MapControllerTest extends TestCase {
     private final Random random;
     private MapController mapController;
     private MapGraphicsRenderSpy mapGraphicsRender;
-    private CameraSpy camera;
     private MapHelperSpy mapHelper;
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
@@ -37,7 +35,6 @@ public class MapControllerTest extends TestCase {
 
     public void setUp() {
         mapGraphicsRender = new MapGraphicsRenderSpy();
-        camera = new CameraSpy();
         playerMovementSpy = new PlayerMovementSpy();
         characterAnimation = new CharacterAnimationSpy();
         playerCharacterElement = new CharacterElement(
@@ -46,7 +43,7 @@ public class MapControllerTest extends TestCase {
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        mapController = new MapController(mapGraphicsRender, camera, mapHelper);
+        mapController = new MapController(mapGraphicsRender, mapHelper);
         mapController.setPlayerCharacterElement(playerCharacterElement);
         generateNPCs();
     }

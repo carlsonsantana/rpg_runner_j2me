@@ -21,7 +21,7 @@ public class MapControllerSpy extends MapController {
     private boolean releaseAllKeysCalled;
 
     public MapControllerSpy() {
-        super(null, null, new MapHelperSpy());
+        super(null, new MapHelperSpy());
         map = null;
         countMapChanged = 0;
         prepareFrameAnimationCalled = false;
