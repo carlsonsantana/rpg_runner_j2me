@@ -12,7 +12,6 @@ import javax.microedition.lcdui.game.TiledLayer;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.graphics.MapGraphicsRender;
-import org.rpgrunner.helper.Camera;
 import org.rpgrunner.j2me.map.MapRender;
 import org.rpgrunner.map.Map;
 
@@ -20,17 +19,20 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private static final int TILE_WIDTH = 16;
     private final Graphics graphics;
     private final LayerManager layerManager;
-    private final Camera camera;
+    private final int screenWidth;
+    private final int screenHeight;
     private Map map;
     private CharacterAnimation characterAnimationFollowed;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
-        final Camera gameCamera
+        final int currentScreenWidth,
+        final int currentScreenHeight
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
-        camera = gameCamera;
+        screenWidth = currentScreenWidth;
+        screenHeight = currentScreenHeight;
     }
 
     public void setMap(final Map newMap) {
@@ -84,8 +86,8 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         layerManager.setViewWindow(
             xViewWindow,
             yViewWindow,
-            camera.getScreenWidth(),
-            camera.getScreenHeight()
+            screenWidth,
+            screenHeight
         );
         layerManager.paint(graphics, 0, 0);
     }
@@ -95,17 +97,13 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
             characterAnimationFollowed.getScreenX() + (TILE_WIDTH / 2)
         );
 
-        return getCenter(
-            characterScreenPosition,
-            camera.getScreenWidth(),
-            map.getWidth()
-        );
+        return getCenter(characterScreenPosition, screenWidth, map.getWidth());
     }
 
     private int getYViewWindow() {
         return getCenter(
             characterAnimationFollowed.getScreenY(),
-            camera.getScreenHeight(),
+            screenHeight,
             map.getHeight()
         );
     }

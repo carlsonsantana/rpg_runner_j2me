@@ -7,7 +7,6 @@ import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.LayerManager;
 
 import org.rpgrunner.graphics.MessageGraphicsRender;
-import org.rpgrunner.helper.Camera;
 
 public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private static final int BORDER_COLOR = 0xFF0000;
@@ -31,13 +30,14 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
     public MessageGraphicsRenderImpl(
         final Graphics midletGraphics,
-        final Camera camera
+        final int currentScreenWidth,
+        final int currentScreenHeight
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
 
-        boxWidth = camera.getScreenWidth();
-        screenHeight = camera.getScreenHeight();
+        boxWidth = currentScreenWidth;
+        screenHeight = currentScreenHeight;
         boxHeight = screenHeight / BOX_PROPORTION;
         boxPositionY = screenHeight - boxHeight;
         fontHeight = graphics.getFont().getHeight();

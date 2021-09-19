@@ -18,7 +18,6 @@ import org.rpgrunner.event.factory.NullActionFactory;
 import org.rpgrunner.event.factory.PlayerCharacterCreatorFactory;
 import org.rpgrunner.event.factory.ShowMessageFactory;
 import org.rpgrunner.event.factory.TeleportFactory;
-import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
@@ -65,15 +64,17 @@ public class GameRunner extends GameCanvas {
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
-        Camera camera = new Camera(getWidth(), getHeight());
+        int screenWidth = getWidth();
+        int screenHeight = getHeight();
         actionQueue = new ActionQueue();
         MapHelper mapHelper = new MapHelper(actionQueue);
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
-            camera
+            screenWidth,
+            screenHeight
         );
         MessageGraphicsRenderImpl messageGraphicsRender = (
-            new MessageGraphicsRenderImpl(graphics, camera)
+            new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
         );
         MapController mapController = new MapController(
             mapGraphicsRender,
