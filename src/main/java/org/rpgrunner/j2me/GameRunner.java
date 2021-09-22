@@ -24,6 +24,7 @@ import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.controller.MessageControllerImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
+import org.rpgrunner.j2me.helper.InputImpl;
 import org.rpgrunner.map.MapLoader;
 
 public class GameRunner extends GameCanvas {
@@ -44,6 +45,7 @@ public class GameRunner extends GameCanvas {
     };
 
     private final CharacterAnimationFactoryImpl characterAnimationFactory;
+    private final InputImpl input;
     private boolean destroyed;
     private GameController gameController;
     private ActionQueue actionQueue;
@@ -53,6 +55,7 @@ public class GameRunner extends GameCanvas {
 
         destroyed = false;
         characterAnimationFactory = new CharacterAnimationFactoryImpl();
+        input = new InputImpl();
     }
 
     public void start() {
@@ -81,7 +84,8 @@ public class GameRunner extends GameCanvas {
             mapHelper
         );
         MessageController messageController = new MessageControllerImpl(
-            messageGraphicsRender
+            messageGraphicsRender,
+            input
         );
         gameController = new GameController(mapController, messageController);
         ActionAbstractFactory actionAbstractFactory = (
@@ -187,8 +191,11 @@ public class GameRunner extends GameCanvas {
 
         if (isAllowedKey(keyCode)) {
             gameController.pressKey(keyCode);
+            input.pressKey(keyCode);
         } else {
-            gameController.pressKey(getGameAction(keyCode));
+            int gameAction = getGameAction(keyCode);
+            gameController.pressKey(gameAction);
+            input.pressKey(gameAction);
         }
     }
 
@@ -197,8 +204,11 @@ public class GameRunner extends GameCanvas {
 
         if (isAllowedKey(keyCode)) {
             gameController.releaseKey(keyCode);
+            input.releaseKey(keyCode);
         } else {
-            gameController.releaseKey(getGameAction(keyCode));
+            int gameAction = getGameAction(keyCode);
+            gameController.releaseKey(gameAction);
+            input.releaseKey(gameAction);
         }
     }
 

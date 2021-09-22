@@ -1,46 +1,35 @@
 package org.rpgrunner.j2me.controller;
 
-import org.rpgrunner.Direction;
 import org.rpgrunner.controller.MessageController;
 import org.rpgrunner.graphics.MessageGraphicsRender;
-import org.rpgrunner.j2me.Key;
+import org.rpgrunner.helper.Input;
 
 public class MessageControllerImpl implements MessageController {
     private final MessageGraphicsRender messageGraphicsRender;
+    private final Input input;
     private boolean finished;
-    private byte direction;
 
     public MessageControllerImpl(
-        final MessageGraphicsRender gameGraphicsRender
+        final MessageGraphicsRender gameGraphicsRender,
+        final Input currentInput
     ) {
         messageGraphicsRender = gameGraphicsRender;
+        input = currentInput;
         finished = true;
     }
 
-    public void pressKey(final int key) {
-        if (Key.isUp(key)) {
-            direction = Direction.UP;
-        } else if (Key.isDown(key)) {
-            direction = Direction.DOWN;
-        }
-    }
+    public void pressKey(final int key) { }
 
-    public void releaseKey(final int key) {
-        if (Key.isAction(key)) {
-            messageGraphicsRender.hideMessage();
-            finished = true;
-        } else if ((Direction.isUp(direction)) && (Key.isUp(key))) {
-            direction = Direction.NO_DIRECTION;
-        } else if ((Direction.isDown(direction)) && (Key.isDown(key))) {
-            direction = Direction.NO_DIRECTION;
-        }
-    }
+    public void releaseKey(final int key) { }
 
     public void prepareFrameAnimation() {
-        if (Direction.isUp(direction)) {
+        if (input.isHoldingUp()) {
             messageGraphicsRender.scrollUp();
-        } else if (Direction.isDown(direction)) {
+        } else if (input.isHoldingDown()) {
             messageGraphicsRender.scrollDown();
+        } else if (input.isActionPressed()) {
+            messageGraphicsRender.hideMessage();
+            finished = true;
         }
     }
 

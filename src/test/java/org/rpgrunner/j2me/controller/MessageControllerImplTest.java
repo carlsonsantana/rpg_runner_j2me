@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.j2me.Key;
+import org.rpgrunner.j2me.helper.InputImpl;
 import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.graphics.MessageGraphicsRenderSpy;
@@ -15,11 +16,16 @@ public class MessageControllerImplTest extends TestCase {
     private MessageGraphicsRenderSpy messageGraphicsRender;
     private String message;
     private Random random;
+    private InputImpl input;
 
     public void setUp() {
         message = RandomGenerator.getRandomString();
         messageGraphicsRender = new MessageGraphicsRenderSpy();
-        messageController = new MessageControllerImpl(messageGraphicsRender);
+        input = new InputImpl();
+        messageController = new MessageControllerImpl(
+            messageGraphicsRender,
+            input
+        );
         random = new Random();
     }
 
@@ -44,8 +50,9 @@ public class MessageControllerImplTest extends TestCase {
 
     private void checkHideMessageWhenPressAction(final int key) {
         messageController.showMessage(message);
-        messageController.pressKey(key);
-        messageController.releaseKey(key);
+        input.pressKey(key);
+        input.releaseKey(key);
+        messageController.prepareFrameAnimation();
 
         Assert.assertFalse(messageGraphicsRender.isShowingMessage());
     }
@@ -58,8 +65,9 @@ public class MessageControllerImplTest extends TestCase {
         }
 
         messageController.showMessage(message);
-        messageController.pressKey(key);
-        messageController.releaseKey(key);
+        input.pressKey(key);
+        input.pressKey(key);
+        input.releaseKey(key);
 
         Assert.assertTrue(messageGraphicsRender.isShowingMessage());
     }
@@ -84,8 +92,9 @@ public class MessageControllerImplTest extends TestCase {
         messageController.showMessage(message);
         Assert.assertFalse(messageController.isFinished());
 
-        messageController.pressKey(key);
-        messageController.releaseKey(key);
+        input.pressKey(key);
+        input.releaseKey(key);
+        messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageController.isFinished());
     }
@@ -111,7 +120,7 @@ public class MessageControllerImplTest extends TestCase {
     private void checkScrollUpWhenPressUp(final int key) {
         messageGraphicsRender.clearScroll();
 
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageGraphicsRender.isScrollUpCalled());
@@ -130,7 +139,7 @@ public class MessageControllerImplTest extends TestCase {
     private void checkScrollDownWhenPressDown(final int key) {
         messageGraphicsRender.clearScroll();
 
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
@@ -145,10 +154,10 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     private void checkStopScrollUpWhenReleaseUp(final int key) {
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
         messageGraphicsRender.clearScroll();
-        messageController.releaseKey(key);
+        input.releaseKey(key);
         messageController.prepareFrameAnimation();
 
         Assert.assertFalse(messageGraphicsRender.isScrollUpCalled());
@@ -163,10 +172,10 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     private void checkStopScrollDownWhenReleaseDown(final int key) {
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
         messageGraphicsRender.clearScroll();
-        messageController.releaseKey(key);
+        input.releaseKey(key);
         messageController.prepareFrameAnimation();
 
         Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
@@ -181,10 +190,10 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     private void checkDontStopScrollUpWhenReleaseUp(final int key) {
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
         messageGraphicsRender.clearScroll();
-        messageController.releaseKey(getRandomKeyDifferentOf(key));
+        input.releaseKey(getRandomKeyDifferentOf(key));
         messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageGraphicsRender.isScrollUpCalled());
@@ -199,10 +208,10 @@ public class MessageControllerImplTest extends TestCase {
     }
 
     private void checkDontStopScrollDownWhenReleaseDown(final int key) {
-        messageController.pressKey(key);
+        input.pressKey(key);
         messageController.prepareFrameAnimation();
         messageGraphicsRender.clearScroll();
-        messageController.releaseKey(getRandomKeyDifferentOf(key));
+        input.releaseKey(getRandomKeyDifferentOf(key));
         messageController.prepareFrameAnimation();
 
         Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
