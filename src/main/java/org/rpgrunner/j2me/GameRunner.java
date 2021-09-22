@@ -21,7 +21,6 @@ import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
 import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
-import org.rpgrunner.j2me.controller.MessageControllerImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
 import org.rpgrunner.j2me.helper.InputImpl;
@@ -83,7 +82,7 @@ public class GameRunner extends GameCanvas {
             mapGraphicsRender,
             mapHelper
         );
-        MessageController messageController = new MessageControllerImpl(
+        MessageController messageController = new MessageController(
             messageGraphicsRender,
             input
         );
