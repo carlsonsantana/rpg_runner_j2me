@@ -1,7 +1,5 @@
 package org.rpgrunner.j2me.character.movement;
 
-import javax.microedition.lcdui.game.GameCanvas;
-
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -10,16 +8,60 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementTest;
 import org.rpgrunner.character.movement.PlayerMovement;
-import org.rpgrunner.test.helper.KeyHelper;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
+import org.rpgrunner.test.mock.helper.InputSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public abstract class PlayerMovementTest extends TestCase implements
     MovementTest {
+    private static final boolean[] ONLY_HOLDING_UP = new boolean[] {
+        true,
+        false,
+        false,
+        false
+    };
+    private static final boolean[] ONLY_HOLDING_RIGHT = new boolean[] {
+        false,
+        true,
+        false,
+        false
+    };
+    private static final boolean[] ONLY_HOLDING_DOWN = new boolean[] {
+        false,
+        false,
+        true,
+        false
+    };
+    private static final boolean[] ONLY_HOLDING_LEFT = new boolean[] {
+        false,
+        false,
+        false,
+        true
+    };
+    private static final int UP_INDEX = 0;
+    private static final int RIGHT_INDEX = 1;
+    private static final int DOWN_INDEX = 2;
+    private static final int LEFT_INDEX = 3;
+    private SimpleCharacter character;
+    private CharacterSpy characterSpy;
+    private CharacterAnimationSpy characterAnimation;
+    private InputSpy input;
+
+    public void setUp() {
+        character = new SimpleCharacter();
+        characterAnimation = new CharacterAnimationSpy();
+
+        input = getInput();
+        input.setHoldingUp(false);
+        input.setHoldingRight(false);
+        input.setHoldingDown(false);
+        input.setHoldingLeft(false);
+        input.setActionPressed(false);
+    }
+
     public void testExecuteWithoutPressedButton() {
-        SimpleCharacter character = new SimpleCharacter();
         PlayerMovement playerMovement = create(character);
         byte direction = character.getDirection();
 
@@ -29,38 +71,27 @@ public abstract class PlayerMovementTest extends TestCase implements
     }
 
     public void testMoveUp() {
-        testMove(Direction.UP, KeyHelper.UP_KEYS);
+        checkMove(Direction.UP, ONLY_HOLDING_UP);
     }
 
     public void testMoveRight() {
-        testMove(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
+        checkMove(Direction.RIGHT, ONLY_HOLDING_RIGHT);
     }
 
     public void testMoveDown() {
-        testMove(Direction.DOWN, KeyHelper.DOWN_KEYS);
+        checkMove(Direction.DOWN, ONLY_HOLDING_DOWN);
     }
 
     public void testMoveLeft() {
-        testMove(Direction.LEFT, KeyHelper.LEFT_KEYS);
+        checkMove(Direction.LEFT, ONLY_HOLDING_LEFT);
     }
 
-    private void testMove(final byte direction, final int[] keys) {
-        for (int i = 0, length = keys.length; i < length; i++) {
-            int key = keys[i];
-
-            testMove(direction, key);
-        }
-    }
-
-    private void testMove(
+    private void checkMove(
         final byte direction,
-        final int keyDirection
+        final boolean[] holdingPositions
     ) {
-        SimpleCharacter character = new SimpleCharacter();
-        CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
         PlayerMovement playerMovement = create(character, characterAnimation);
-
-        playerMovement.pressKey(keyDirection);
+        setHolding(holdingPositions);
         Assert.assertFalse(characterAnimation.isStartAnimationCalled());
         playerMovement.execute();
 
@@ -68,233 +99,31 @@ public abstract class PlayerMovementTest extends TestCase implements
         Assert.assertTrue(characterAnimation.isStartAnimationCalled());
     }
 
-    public void testMoveUpReleaseKey() {
-        testReleaseKey(Direction.UP, KeyHelper.UP_KEYS);
-    }
-
-    public void testMoveRightReleaseKey() {
-        testReleaseKey(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
-    }
-
-    public void testMoveDownReleaseKey() {
-        testReleaseKey(Direction.DOWN, KeyHelper.DOWN_KEYS);
-    }
-
-    public void testMoveLeftReleaseKey() {
-        testReleaseKey(Direction.LEFT, KeyHelper.LEFT_KEYS);
-    }
-
-    private void testReleaseKey(final byte direction, final int[] keys) {
-        for (int i = 0, length = keys.length; i < length; i++) {
-            int key = keys[i];
-
-            testReleaseKeyFirst(direction, key);
-            testReleaseKeyLast(direction, key);
-        }
-    }
-
-    private void testReleaseKeyFirst(
-        final byte direction,
-        final int keyDirection
-    ) {
-        SimpleCharacter character = new SimpleCharacter();
-        PlayerMovement playerMovement = create(character);
-
-        int reverseDirectionKey = getReverseDirectionKey(direction);
-        playerMovement.pressKey(reverseDirectionKey);
-        playerMovement.pressKey(keyDirection);
-        playerMovement.releaseKey(reverseDirectionKey);
-        playerMovement.execute();
-
-        Assert.assertEquals(direction, character.getDirection());
-    }
-
-    private void testReleaseKeyLast(
-        final byte direction,
-        final int keyDirection
-    ) {
-        SimpleCharacter character = new SimpleCharacter();
-        PlayerMovement playerMovement = create(character);
-
-        int reverseDirectionKey = getReverseDirectionKey(direction);
-        playerMovement.pressKey(keyDirection);
-        playerMovement.pressKey(reverseDirectionKey);
-        playerMovement.releaseKey(reverseDirectionKey);
-        playerMovement.execute();
-
-        Assert.assertEquals(direction, character.getDirection());
-    }
-
     public void testInteract() {
-        for (
-            int i = 0, length = KeyHelper.ACTION_KEYS.length;
-            i < length;
-            i++
-        ) {
-            int key = KeyHelper.ACTION_KEYS[i];
-
-            checkInteract(key);
-        }
-    }
-
-    private void checkInteract(final int key) {
         MapHelperSpy mapHelper = getMapHelper();
-        CharacterSpy character = new CharacterSpy(null);
+        // CharacterSpy character = new CharacterSpy(null);
         PlayerMovement playerMovement = create(character);
+        input.setActionPressed(true);
 
-        playerMovement.pressKey(key);
         playerMovement.execute();
 
-        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
-
-        playerMovement.releaseKey(key);
-        playerMovement.execute();
         Assert.assertTrue(mapHelper.isExecuteInteractActionCalled());
     }
 
-    public void testDoNotInteractTwiceForSamePressedKey() {
-        for (
-            int i = 0, length = KeyHelper.ACTION_KEYS.length;
-            i < length;
-            i++
-        ) {
-            int key = KeyHelper.ACTION_KEYS[i];
-
-            checkDoNotInteractTwiceForSamePressedKey(key);
-        }
-    }
-
-    private void checkDoNotInteractTwiceForSamePressedKey(final int key) {
-        MapHelperSpy mapHelper = getMapHelper();
-        CharacterSpy character = new CharacterSpy(null);
-        PlayerMovement playerMovement = create(character);
-
-        playerMovement.pressKey(key);
-        playerMovement.releaseKey(key);
-        playerMovement.execute();
-
-        mapHelper.resetExecuteInteractActionCalled();
-        playerMovement.execute();
-
-        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
-    }
-
-    public void testDoNothingWhenReleaseAllKeys() {
-        for (
-            int i = 0, length = KeyHelper.ACTION_KEYS.length;
-            i < length;
-            i++
-        ) {
-            int key = KeyHelper.ACTION_KEYS[i];
-
-            checkDontInteractWhenReleaseAllKeys(key);
-        }
-    }
-
-    private void checkDontInteractWhenReleaseAllKeys(final int key) {
-        MapHelperSpy mapHelper = getMapHelper();
-        CharacterSpy character = new CharacterSpy(null);
-        PlayerMovement playerMovement = create(character);
-
-        playerMovement.pressKey(key);
-        playerMovement.releaseAllKeys();
-        playerMovement.releaseKey(key);
-        playerMovement.execute();
-
-        Assert.assertFalse(mapHelper.isExecuteInteractActionCalled());
-    }
-
-    public void testDontMoveUpWhenReleaseAllKeys() {
-        checkDontMoveWhenReleaseAllKeys(Direction.UP, KeyHelper.UP_KEYS);
-    }
-
-    public void testDontMoveRightWhenReleaseAllKeys() {
-        checkDontMoveWhenReleaseAllKeys(Direction.RIGHT, KeyHelper.RIGHT_KEYS);
-    }
-
-    public void testDontMoveDownWhenReleaseAllKeys() {
-        checkDontMoveWhenReleaseAllKeys(Direction.DOWN, KeyHelper.DOWN_KEYS);
-    }
-
-    public void testDontMoveLeftWhenReleaseAllKeys() {
-        checkDontMoveWhenReleaseAllKeys(Direction.LEFT, KeyHelper.LEFT_KEYS);
-    }
-
-    private void checkDontMoveWhenReleaseAllKeys(
-        final byte direction,
-        final int[] keys
-    ) {
-        for (int i = 0, length = keys.length; i < length; i++) {
-            int key = keys[i];
-
-            checkDontMoveWhenReleaseAllKeys(direction, key);
-        }
-    }
-
-    private void checkDontMoveWhenReleaseAllKeys(
-        final byte direction,
-        final int keyDirection
-    ) {
-        SimpleCharacter character = new SimpleCharacter();
-        PlayerMovement playerMovement = create(character);
-
-        int reverseDirectionKey = getReverseDirectionKey(direction);
-
-        playerMovement.pressKey(reverseDirectionKey);
-        playerMovement.execute();
-        playerMovement.pressKey(keyDirection);
-        playerMovement.releaseAllKeys();
-        playerMovement.execute();
-
-        Assert.assertFalse(direction == character.getDirection());
-    }
-
-    private int getReverseDirectionKey(final byte direction) {
-        byte reverseDirection = Direction.invertDirection(direction);
-
-        if (Direction.isUp(reverseDirection)) {
-            return GameCanvas.UP;
-        } else if (Direction.isRight(reverseDirection)) {
-            return GameCanvas.RIGHT;
-        } else if (Direction.isDown(reverseDirection)) {
-            return GameCanvas.DOWN;
-        } else {
-            return GameCanvas.LEFT;
-        }
-    }
-
     public void testDoNotMoveWhenCharacterIsMoving() {
-        checkDoNotMoveWhenCharacterIsMoving(Direction.UP, KeyHelper.UP_KEYS);
+        checkDoNotMoveWhenCharacterIsMoving(Direction.UP, ONLY_HOLDING_UP);
         checkDoNotMoveWhenCharacterIsMoving(
             Direction.RIGHT,
-            KeyHelper.RIGHT_KEYS
+            ONLY_HOLDING_RIGHT
         );
-        checkDoNotMoveWhenCharacterIsMoving(
-            Direction.DOWN,
-            KeyHelper.DOWN_KEYS
-        );
-        checkDoNotMoveWhenCharacterIsMoving(
-            Direction.LEFT,
-            KeyHelper.LEFT_KEYS
-        );
+        checkDoNotMoveWhenCharacterIsMoving(Direction.DOWN, ONLY_HOLDING_DOWN);
+        checkDoNotMoveWhenCharacterIsMoving(Direction.LEFT, ONLY_HOLDING_LEFT);
     }
 
     private void checkDoNotMoveWhenCharacterIsMoving(
         final byte direction,
-        final int[] keys
+        final boolean[] holdingPositions
     ) {
-        for (int i = 0, length = keys.length; i < length; i++) {
-            int key = keys[i];
-
-            checkDoNotMoveWhenCharacterIsMoving(direction, key);
-        }
-    }
-
-    private void checkDoNotMoveWhenCharacterIsMoving(
-        final byte direction,
-        final int keyDirection
-    ) {
-        SimpleCharacter character = new SimpleCharacter();
         byte initialDirection = character.getDirection();
 
         if (initialDirection == direction) {
@@ -304,7 +133,7 @@ public abstract class PlayerMovementTest extends TestCase implements
         PlayerMovement playerMovement = create(character);
 
         character.setMoving(true);
-        playerMovement.pressKey(keyDirection);
+        setHolding(holdingPositions);
         playerMovement.execute();
 
         Assert.assertFalse(direction == character.getDirection());
@@ -314,55 +143,42 @@ public abstract class PlayerMovementTest extends TestCase implements
         MapHelperSpy mapHelper = getMapHelper();
         mapHelper.setCanMove(false);
 
-        checkCancelMoveWhenCharacterCantMove(Direction.UP, KeyHelper.UP_KEYS);
+        checkCancelMoveWhenCharacterCantMove(Direction.UP, ONLY_HOLDING_UP);
         checkCancelMoveWhenCharacterCantMove(
             Direction.RIGHT,
-            KeyHelper.RIGHT_KEYS
+            ONLY_HOLDING_RIGHT
         );
-        checkCancelMoveWhenCharacterCantMove(
-            Direction.DOWN,
-            KeyHelper.DOWN_KEYS
-        );
-        checkCancelMoveWhenCharacterCantMove(
-            Direction.LEFT,
-            KeyHelper.LEFT_KEYS
-        );
+        checkCancelMoveWhenCharacterCantMove(Direction.DOWN, ONLY_HOLDING_DOWN);
+        checkCancelMoveWhenCharacterCantMove(Direction.LEFT, ONLY_HOLDING_LEFT);
     }
 
     private void checkCancelMoveWhenCharacterCantMove(
         final byte direction,
-        final int[] keys
+        final boolean[] holdingPositions
     ) {
-        for (int i = 0, length = keys.length; i < length; i++) {
-            int key = keys[i];
-
-            checkCancelMoveWhenCharacterCantMove(direction, key);
-        }
-    }
-
-    private void checkCancelMoveWhenCharacterCantMove(
-        final byte direction,
-        final int keyDirection
-    ) {
-        SimpleCharacter character = new SimpleCharacter();
         PlayerMovement playerMovement = create(character);
-
-        playerMovement.pressKey(keyDirection);
+        setHolding(holdingPositions);
         playerMovement.execute();
 
         Assert.assertFalse(character.isMoving());
     }
 
-    private PlayerMovement create(final GameCharacter character) {
-        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
+    private void setHolding(final boolean[] holdingPositions) {
+        input.setHoldingUp(holdingPositions[UP_INDEX]);
+        input.setHoldingRight(holdingPositions[RIGHT_INDEX]);
+        input.setHoldingDown(holdingPositions[DOWN_INDEX]);
+        input.setHoldingLeft(holdingPositions[LEFT_INDEX]);
+    }
 
-        return create(character, characterAnimation);
+    private PlayerMovement create(final GameCharacter characterW) {
+        return create(characterW, characterAnimation);
     }
 
     protected abstract PlayerMovement create(
-        GameCharacter character,
-        CharacterAnimation characterAnimation
+        GameCharacter characterW,
+        CharacterAnimation characterAnimationE
     );
 
     protected abstract MapHelperSpy getMapHelper();
+    protected abstract InputSpy getInput();
 }

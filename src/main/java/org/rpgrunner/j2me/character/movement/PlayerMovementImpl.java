@@ -4,93 +4,51 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.AbstractMovement;
 import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.helper.Input;
 import org.rpgrunner.helper.MapHelper;
-import org.rpgrunner.j2me.Key;
 
 public class PlayerMovementImpl extends AbstractMovement implements
     PlayerMovement {
-    private static final int MAX_KEY_SIZE = 10;
     private final GameCharacter character;
     private final MapHelper mapHelper;
-    private final int[] keys;
-    private int keySize;
-    private boolean actionKeyReleased;
+    private final Input input;
 
     public PlayerMovementImpl(
         final GameCharacter playerCharacter,
         final CharacterAnimation characterAnimation,
-        final MapHelper newMapHelper
+        final MapHelper newMapHelper,
+        final Input currentInput
     ) {
         super(playerCharacter, characterAnimation, newMapHelper);
 
         character = playerCharacter;
         mapHelper = newMapHelper;
-        keys = new int[MAX_KEY_SIZE];
-        keySize = 0;
-        actionKeyReleased = false;
+        input = currentInput;
     }
 
     public void execute() {
-        if (actionKeyReleased) {
+        if (input.isActionPressed()) {
             mapHelper.executeInteractAction(character);
-            actionKeyReleased = false;
         }
 
         super.execute();
     }
 
     protected void executeMovement() {
-        if (keySize == 0) {
-            return;
-        }
-
-        int key = keys[keySize - 1];
-
-        if (Key.isUp(key)) {
+        if (input.isHoldingUp()) {
             character.moveUp();
-        } else if (Key.isRight(key)) {
+        } else if (input.isHoldingRight()) {
             character.moveRight();
-        } else if (Key.isDown(key)) {
+        } else if (input.isHoldingDown()) {
             character.moveDown();
-        } else if (Key.isLeft(key)) {
+        } else if (input.isHoldingLeft()) {
             character.moveLeft();
         }
     }
 
-    public void pressKey(final int keyPressed) {
-        keys[keySize++] = keyPressed;
-    }
+    public void pressKey(final int keyPressed) { }
 
-    public void releaseKey(final int keyReleased) {
-        int indexKeyReleased = getKeyIndex(keyReleased);
+    public void releaseKey(final int keyReleased) { }
 
-        if (indexKeyReleased >= 0) {
-            for (int i = indexKeyReleased + 1; i < keySize; i++) {
-                int key = keys[i];
-                keys[i - 1] = key;
-            }
-
-            keySize--;
-
-            if (Key.isAction(keyReleased)) {
-                actionKeyReleased = true;
-            }
-        }
-    }
-
-    private int getKeyIndex(final int keySearched) {
-        for (int i = 0; i < keySize; i++) {
-            int key = keys[i];
-
-            if (key == keySearched) {
-                return i;
-            }
-        }
-
-        return -1;
-    }
-
-    public void releaseAllKeys() {
-        keySize = 0;
-    }
+    public void releaseAllKeys() { }
 }

@@ -104,7 +104,7 @@ public class GameRunner extends GameCanvas {
         );
         MapLoader mapLoader = new MapLoader(actionAbstractFactory);
         PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryImpl(mapHelper)
+            new PlayerMovementFactoryImpl(mapHelper, input)
         );
 
         NullActionFactory nullActionFactory = new NullActionFactory();
