@@ -69,56 +69,6 @@ public class MapControllerTest extends TestCase {
         Assert.assertSame(map, mapHelper.getCurrentMap());
     }
 
-    public void testPressKeyOnPlayerCharacterMovement() {
-        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.pressKey(keyPressed);
-
-        Assert.assertEquals(keyPressed, playerMovementSpy.getPressedKey());
-    }
-
-    public void testPressKeyWhenChangePlayerCharacterElement() {
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        mapController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.pressKey(keyPressed);
-
-        Assert.assertEquals(keyPressed, newPlayerMovementSpy.getPressedKey());
-    }
-
-    public void testReleaseKeyOnPlayerCharacterMovement() {
-        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.releaseKey(keyReleased);
-
-        Assert.assertEquals(keyReleased, playerMovementSpy.getReleasedKey());
-    }
-
-    public void testReleaseKeyWhenChangePlayerCharacterElement() {
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        mapController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.releaseKey(keyReleased);
-
-        Assert.assertEquals(keyReleased, newPlayerMovementSpy.getReleasedKey());
-    }
-
-    public void testReleaseAllKeys() {
-        Assert.assertFalse(playerMovementSpy.isReleaseAllKeysCalled());
-
-        mapController.releaseAllKeys();
-
-        Assert.assertTrue(playerMovementSpy.isReleaseAllKeysCalled());
-    }
-
     public void testPrepareFrameAnimation() {
         mapController.prepareFrameAnimation();
 

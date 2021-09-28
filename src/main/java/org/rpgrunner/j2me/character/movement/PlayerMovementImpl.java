@@ -45,10 +45,4 @@ public class PlayerMovementImpl extends AbstractMovement implements
             character.moveLeft();
         }
     }
-
-    public void pressKey(final int keyPressed) { }
-
-    public void releaseKey(final int keyReleased) { }
-
-    public void releaseAllKeys() { }
 }

@@ -51,17 +51,11 @@ public class MapController implements Controller {
         return map;
     }
 
-    public void pressKey(final int key) {
-        playerMovement.pressKey(key);
-    }
+    public void pressKey(final int key) { }
 
-    public void releaseKey(final int key) {
-        playerMovement.releaseKey(key);
-    }
+    public void releaseKey(final int key) { }
 
-    public void releaseAllKeys() {
-        playerMovement.releaseAllKeys();
-    }
+    public void releaseAllKeys() { }
 
     public void prepareFrameAnimation() {
         for (
