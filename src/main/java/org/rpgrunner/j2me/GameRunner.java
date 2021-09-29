@@ -4,7 +4,6 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.controller.MessageController;
@@ -20,7 +19,6 @@ import org.rpgrunner.event.factory.ShowMessageFactory;
 import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
-import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
 import org.rpgrunner.j2me.helper.InputImpl;
@@ -103,9 +101,6 @@ public class GameRunner extends GameCanvas {
             new ActionAbstractFactory()
         );
         MapLoader mapLoader = new MapLoader(actionAbstractFactory);
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryImpl(mapHelper, input)
-        );
 
         NullActionFactory nullActionFactory = new NullActionFactory();
         ActionListFactory actionListFactory = new ActionListFactory(
@@ -115,7 +110,7 @@ public class GameRunner extends GameCanvas {
             new PlayerCharacterCreatorFactory(
                 mapController,
                 characterAnimationFactory,
-                playerMovementFactory
+                input
             )
         );
         CharacterCreatorFactory characterCreatorFactory = (

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
@@ -19,9 +18,9 @@ import org.rpgrunner.event.factory.ShowMessageFactory;
 import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.map.MapLoader;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
 import org.rpgrunner.test.mock.controller.GameControllerSpy;
 import org.rpgrunner.test.mock.controller.MapControllerSpy;
+import org.rpgrunner.test.mock.helper.InputSpy;
 
 public final class HelperActionAbstractFactory {
     private HelperActionAbstractFactory() { }
@@ -95,9 +94,7 @@ public final class HelperActionAbstractFactory {
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryMock()
-        );
+        InputSpy input = new InputSpy();
 
         ActionAbstractFactory actionAbstractFactory = (
             new ActionAbstractFactory()
@@ -112,7 +109,7 @@ public final class HelperActionAbstractFactory {
             new PlayerCharacterCreatorFactory(
                 mapController,
                 characterAnimationFactory,
-                playerMovementFactory
+                input
             )
         );
         CharacterCreatorFactory characterCreatorFactory = (
