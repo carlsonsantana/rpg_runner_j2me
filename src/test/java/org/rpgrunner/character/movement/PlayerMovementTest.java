@@ -1,21 +1,15 @@
-package org.rpgrunner.j2me.character.movement;
+package org.rpgrunner.character.movement;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.character.movement.MovementTest;
-import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.InputSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
-public abstract class PlayerMovementTest extends TestCase implements
-    MovementTest {
+public class PlayerMovementTest extends TestCase implements MovementTest {
     private static final boolean[] ONLY_HOLDING_UP = new boolean[] {
         true,
         false,
@@ -45,15 +39,16 @@ public abstract class PlayerMovementTest extends TestCase implements
     private static final int DOWN_INDEX = 2;
     private static final int LEFT_INDEX = 3;
     private SimpleCharacter character;
-    private CharacterSpy characterSpy;
     private CharacterAnimationSpy characterAnimation;
+    private MapHelperSpy mapHelper;
     private InputSpy input;
 
     public void setUp() {
         character = new SimpleCharacter();
         characterAnimation = new CharacterAnimationSpy();
 
-        input = getInput();
+        mapHelper = new MapHelperSpy();
+        input = new InputSpy();
         input.setHoldingUp(false);
         input.setHoldingRight(false);
         input.setHoldingDown(false);
@@ -62,7 +57,7 @@ public abstract class PlayerMovementTest extends TestCase implements
     }
 
     public void testExecuteWithoutPressedButton() {
-        PlayerMovement playerMovement = create(character);
+        PlayerMovement playerMovement = createPlayerMovement();
         byte direction = character.getDirection();
 
         playerMovement.execute();
@@ -90,7 +85,7 @@ public abstract class PlayerMovementTest extends TestCase implements
         final byte direction,
         final boolean[] holdingPositions
     ) {
-        PlayerMovement playerMovement = create(character, characterAnimation);
+        PlayerMovement playerMovement = createPlayerMovement();
         setHolding(holdingPositions);
         Assert.assertFalse(characterAnimation.isStartAnimationCalled());
         playerMovement.execute();
@@ -100,9 +95,7 @@ public abstract class PlayerMovementTest extends TestCase implements
     }
 
     public void testInteract() {
-        MapHelperSpy mapHelper = getMapHelper();
-        // CharacterSpy character = new CharacterSpy(null);
-        PlayerMovement playerMovement = create(character);
+        PlayerMovement playerMovement = createPlayerMovement();
         input.setActionPressed(true);
 
         playerMovement.execute();
@@ -130,7 +123,7 @@ public abstract class PlayerMovementTest extends TestCase implements
             character.moveLeft();
         }
 
-        PlayerMovement playerMovement = create(character);
+        PlayerMovement playerMovement = createPlayerMovement();
 
         character.setMoving(true);
         setHolding(holdingPositions);
@@ -140,7 +133,6 @@ public abstract class PlayerMovementTest extends TestCase implements
     }
 
     public void testCancelMoveWhenCharacterCantMove() {
-        MapHelperSpy mapHelper = getMapHelper();
         mapHelper.setCanMove(false);
 
         checkCancelMoveWhenCharacterCantMove(Direction.UP, ONLY_HOLDING_UP);
@@ -156,7 +148,7 @@ public abstract class PlayerMovementTest extends TestCase implements
         final byte direction,
         final boolean[] holdingPositions
     ) {
-        PlayerMovement playerMovement = create(character);
+        PlayerMovement playerMovement = createPlayerMovement();
         setHolding(holdingPositions);
         playerMovement.execute();
 
@@ -170,15 +162,14 @@ public abstract class PlayerMovementTest extends TestCase implements
         input.setHoldingLeft(holdingPositions[LEFT_INDEX]);
     }
 
-    private PlayerMovement create(final GameCharacter characterW) {
-        return create(characterW, characterAnimation);
+    private PlayerMovement createPlayerMovement() {
+        mapHelper.resetExecuteInteractActionCalled();
+
+        return new PlayerMovement(
+            character,
+            characterAnimation,
+            mapHelper,
+            input
+        );
     }
-
-    protected abstract PlayerMovement create(
-        GameCharacter characterW,
-        CharacterAnimation characterAnimationE
-    );
-
-    protected abstract MapHelperSpy getMapHelper();
-    protected abstract InputSpy getInput();
 }
