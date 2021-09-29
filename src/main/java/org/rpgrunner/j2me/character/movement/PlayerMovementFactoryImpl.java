@@ -23,7 +23,7 @@ public class PlayerMovementFactoryImpl implements PlayerMovementFactory {
         final GameCharacter playerCharacter,
         final CharacterAnimation characterAnimation
     ) {
-        return new PlayerMovementImpl(
+        return new PlayerMovement(
             playerCharacter,
             characterAnimation,
             mapHelper,

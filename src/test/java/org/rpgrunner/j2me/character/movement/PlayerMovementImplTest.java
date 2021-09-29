@@ -21,7 +21,7 @@ public class PlayerMovementImplTest extends PlayerMovementTest {
     ) {
         mapHelper.resetExecuteInteractActionCalled();
 
-        return new PlayerMovementImpl(
+        return new PlayerMovement(
             character,
             characterAnimation,
             mapHelper,
