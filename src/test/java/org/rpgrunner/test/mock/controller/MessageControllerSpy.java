@@ -4,30 +4,12 @@ import org.rpgrunner.controller.MessageController;
 
 public class MessageControllerSpy extends MessageController {
     private String lastMessage;
-    private int pressedKey;
-    private int releasedKey;
     private boolean finished;
     private boolean prepareFrameAnimationCalled;
     private boolean renderCalled;
 
     public MessageControllerSpy() {
         super(null, null);
-    }
-
-    public void pressKey(final int key) {
-        pressedKey = key;
-    }
-
-    public int getPressedKey() {
-        return pressedKey;
-    }
-
-    public void releaseKey(final int key) {
-        releasedKey = key;
-    }
-
-    public int getReleasedKey() {
-        return releasedKey;
     }
 
     public void showMessage(final String message) {

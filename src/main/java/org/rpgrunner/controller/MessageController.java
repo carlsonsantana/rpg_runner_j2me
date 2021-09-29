@@ -17,10 +17,6 @@ public class MessageController implements Controller {
         finished = true;
     }
 
-    public void pressKey(final int key) { }
-
-    public void releaseKey(final int key) { }
-
     public void prepareFrameAnimation() {
         if (input.isHoldingUp()) {
             messageGraphicsRender.scrollUp();

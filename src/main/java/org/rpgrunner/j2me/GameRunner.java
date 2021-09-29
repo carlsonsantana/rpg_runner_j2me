@@ -184,11 +184,9 @@ public class GameRunner extends GameCanvas {
         super.keyPressed(keyCode);
 
         if (isAllowedKey(keyCode)) {
-            gameController.pressKey(keyCode);
             input.pressKey(keyCode);
         } else {
             int gameAction = getGameAction(keyCode);
-            gameController.pressKey(gameAction);
             input.pressKey(gameAction);
         }
     }
@@ -197,11 +195,9 @@ public class GameRunner extends GameCanvas {
         super.keyReleased(keyCode);
 
         if (isAllowedKey(keyCode)) {
-            gameController.releaseKey(keyCode);
             input.releaseKey(keyCode);
         } else {
             int gameAction = getGameAction(keyCode);
-            gameController.releaseKey(gameAction);
             input.releaseKey(gameAction);
         }
     }

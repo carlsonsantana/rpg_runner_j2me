@@ -14,14 +14,6 @@ public class GameController implements Controller {
         currentController = mapController;
     }
 
-    public void pressKey(final int key) {
-        currentController.pressKey(key);
-    }
-
-    public void releaseKey(final int key) {
-        currentController.releaseKey(key);
-    }
-
     public void prepareFrameAnimation() {
         removeFinishedControllers();
 
