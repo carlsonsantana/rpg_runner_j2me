@@ -57,7 +57,7 @@ public class CharacterSpy extends GameCharacter {
         );
     }
 
-    public Action getInteractiveAction() {
+    public Action getInteractiveAction(final byte interactDirection) {
         return new CharacterActionSpy(this);
     }
 

@@ -109,7 +109,7 @@ public class GameCharacter {
         return mapNextPositionY;
     }
 
-    public Action getInteractiveAction() {
-        return mapEventListener.interact(Direction.UP);
+    public Action getInteractiveAction(final byte interactDirection) {
+        return mapEventListener.interact(interactDirection);
     }
 }

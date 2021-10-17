@@ -112,7 +112,9 @@ public class MapHelper {
             GameCharacter otherCharacter = otherCharacterElement.getCharacter();
 
             if (isInFrontOfCharacter(character, otherCharacter)) {
-                return otherCharacter.getInteractiveAction();
+                return otherCharacter.getInteractiveAction(
+                    character.getDirection()
+                );
             }
         }
 

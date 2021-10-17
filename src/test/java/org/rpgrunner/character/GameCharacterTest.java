@@ -217,6 +217,6 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testGetSameInteractiveAction() {
-        Assert.assertSame(action, character.getInteractiveAction());
+        Assert.assertSame(action, character.getInteractiveAction(Direction.UP));
     }
 }
