@@ -151,6 +151,7 @@ public class GameRunner extends GameCanvas {
         gameController.prepareFrameAnimation();
         actionQueue.execute();
         renderFrame();
+        input.update();
         waitUntilEndTimeFrame(startFrameTime);
     }
 
