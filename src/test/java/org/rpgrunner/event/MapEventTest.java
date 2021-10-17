@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
@@ -18,16 +17,15 @@ public class MapEventTest extends TestCase {
         interactDirection = RandomGenerator.getRandomDirection();
     }
 
-    public void testReturnsNullActionWhenDirectionDoesNotMatchLoop() {
+    public void testReturnsNullActionWhenDirectionDoesNotMatch() {
         byte eventDirections = (byte) ~interactDirection;
         MapEvent mapEvent = new MapEvent(actionSpy, eventDirections);
         Action action = mapEvent.interact(interactDirection);
 
-        Assert.assertNotSame(actionSpy, action);
-        Assert.assertTrue(action instanceof NullAction);
+        Assert.assertEquals(null, action);
     }
 
-    public void testReturnsSameActionWhenSameDirectionIsPassedLoop() {
+    public void testReturnsSameActionWhenSameDirectionIsPassed() {
         byte eventDirections = interactDirection;
         MapEvent mapEvent = new MapEvent(actionSpy, eventDirections);
         Action action = mapEvent.interact(interactDirection);
@@ -35,7 +33,7 @@ public class MapEventTest extends TestCase {
         Assert.assertSame(actionSpy, action);
     }
 
-    public void testReturnsSameActionWhenDirectionMatchesLoop() {
+    public void testReturnsSameActionWhenDirectionMatches() {
         byte directions = (byte) ~Direction.invertDirection(interactDirection);
         MapEvent mapEvent = new MapEvent(actionSpy, directions);
         Action action = mapEvent.interact(interactDirection);

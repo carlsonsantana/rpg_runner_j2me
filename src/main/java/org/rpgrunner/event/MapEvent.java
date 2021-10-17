@@ -1,10 +1,8 @@
 package org.rpgrunner.event;
 
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 
 public class MapEvent {
-    private static final NullAction NULL_ACTION = new NullAction();
     private final Action action;
     private final byte directions;
 
@@ -18,6 +16,6 @@ public class MapEvent {
             return action;
         }
 
-        return NULL_ACTION;
+        return null;
     }
 }
