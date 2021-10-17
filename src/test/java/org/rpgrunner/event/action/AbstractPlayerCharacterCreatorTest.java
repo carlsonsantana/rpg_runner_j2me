@@ -51,7 +51,6 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
             initialMapPositionY,
             playerCharacter.getMapPositionY()
         );
-        Assert.assertNull(playerCharacter.getInteractiveAction());
     }
 
     protected abstract PlayerCharacterCreator createPlayerCharacterCreator(

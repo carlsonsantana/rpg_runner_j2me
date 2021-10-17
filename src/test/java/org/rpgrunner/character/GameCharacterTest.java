@@ -9,6 +9,7 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
+import org.rpgrunner.test.mock.event.MapEventListenerSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class GameCharacterTest extends TestCase {
@@ -27,7 +28,9 @@ public class GameCharacterTest extends TestCase {
     public void setUp() {
         characterBaseName = RandomGenerator.getRandomString();
         action = new ActionSpy();
-        character = new GameCharacter(characterBaseName, action);
+        MapEventListenerSpy mapEventListener = new MapEventListenerSpy();
+        mapEventListener.setInteractAction(action);
+        character = new GameCharacter(characterBaseName, mapEventListener);
         characterElement = new CharacterElementSpy();
     }
 

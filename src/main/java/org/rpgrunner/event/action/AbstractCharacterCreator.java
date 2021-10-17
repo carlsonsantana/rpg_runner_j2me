@@ -6,6 +6,7 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.controller.MapController;
+import org.rpgrunner.event.MapEventListener;
 import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
@@ -13,7 +14,7 @@ public abstract class AbstractCharacterCreator implements Action {
     private final CharacterAnimationFactory characterAnimationFactory;
     private final String characterFileBaseName;
     private final LocalTeleport localTeleport;
-    private final Action interactiveAction;
+    private final MapEventListener mapEventListener;
 
     public AbstractCharacterCreator(
         final MapController currentMapController,
@@ -21,7 +22,7 @@ public abstract class AbstractCharacterCreator implements Action {
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY,
-        final Action newInteractiveAction
+        final MapEventListener newMapEventListener
     ) {
         mapController = currentMapController;
         characterFileBaseName = newCharacterFileBaseName;
@@ -30,7 +31,7 @@ public abstract class AbstractCharacterCreator implements Action {
             initialMapPositionY
         );
         characterAnimationFactory = currentCharacterAnimationFactory;
-        interactiveAction = newInteractiveAction;
+        mapEventListener = newMapEventListener;
     }
 
     public void execute() {
@@ -43,7 +44,7 @@ public abstract class AbstractCharacterCreator implements Action {
     private CharacterElement generateCharacterElement() {
         GameCharacter character = new GameCharacter(
             characterFileBaseName,
-            interactiveAction
+            mapEventListener
         );
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
