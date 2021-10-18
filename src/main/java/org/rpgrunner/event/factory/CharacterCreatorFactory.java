@@ -3,7 +3,6 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.MapEvent;
@@ -52,19 +51,7 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
         final int mapPositionY,
         final InputStream inputStream
     ) throws IOException {
-        Action action = actionAbstractFactory.create(inputStream);
-        MapEvent mapEvent = new MapEvent(
-            action,
-            (byte) (
-                Direction.UP
-                | Direction.RIGHT
-                | Direction.DOWN
-                | Direction.LEFT
-            )
-        );
-        MapEventListener mapEventListener = new MapEventListener(
-            new MapEvent[] {mapEvent}
-        );
+        MapEventListener mapEventListener = createMapEventListener(inputStream);
 
         CharacterCreator characterCreator = new CharacterCreator(
             mapController,
@@ -76,5 +63,15 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
         );
 
         return characterCreator;
+    }
+
+    private MapEventListener createMapEventListener(
+        final InputStream inputStream
+    ) throws IOException {
+        byte directions = (byte) inputStream.read();
+        Action action = actionAbstractFactory.create(inputStream);
+        MapEvent mapEvent = new MapEvent(action, directions);
+
+        return new MapEventListener(new MapEvent[] {mapEvent});
     }
 }
