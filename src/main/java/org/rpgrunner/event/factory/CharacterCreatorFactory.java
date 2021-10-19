@@ -68,10 +68,16 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
     private MapEventListener createMapEventListener(
         final InputStream inputStream
     ) throws IOException {
-        byte directions = (byte) inputStream.read();
-        Action action = actionAbstractFactory.create(inputStream);
-        MapEvent mapEvent = new MapEvent(action, directions);
+        int numberOfEvents = inputStream.read();
+        MapEvent[] events = new MapEvent[numberOfEvents];
 
-        return new MapEventListener(new MapEvent[] {mapEvent});
+        for (int i = 0; i < numberOfEvents; i++) {
+            byte directions = (byte) inputStream.read();
+            Action action = actionAbstractFactory.create(inputStream);
+            MapEvent mapEvent = new MapEvent(action, directions);
+            events[i] = mapEvent;
+        }
+
+        return new MapEventListener(events);
     }
 }

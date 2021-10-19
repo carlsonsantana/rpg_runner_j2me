@@ -18,17 +18,17 @@ import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public abstract class AbstractCharacterCreatorFactoryTest
     extends AbstractCharacterCreatorTest {
-    private static final int ADDITIONAL_BYTES = 5;
+    private static final int NUMBER_OF_EVENTS_INDEX = 4;
+    private static final int DIRECTION_INDEX = 2;
+    private static final int EVENT_ID_INDEX = 1;
+    private static final int ADDITIONAL_BYTES = 6;
 
     public void testPassSameDirectionToMapEvent() throws IOException {
         byte direction = RandomGenerator.getRandomDirection();
         MapControllerSpy mapController = new MapControllerSpy();
-        byte[] byteArray = new byte[ADDITIONAL_BYTES + 1];
-        InputStreamHelper.setByteArray(byteArray, "");
-        InputStreamHelper.setPosition(byteArray, 1, 0, 0);
-        byteArray[ADDITIONAL_BYTES - 2] = direction;
-        byteArray[ADDITIONAL_BYTES - 1] = 1;
-        byteArray[ADDITIONAL_BYTES] = 0;
+        byte[] byteArray = generateByteArray("", 0, 0, 1, direction, 1);
+        byteArray[byteArray.length - NUMBER_OF_EVENTS_INDEX] = 1;
+        byteArray[byteArray.length - 1] = 0;
 
         InputStream inputStream = generateInputStream(byteArray);
 
@@ -77,9 +77,33 @@ public abstract class AbstractCharacterCreatorFactoryTest
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
+        byte[] byteArray = generateByteArray(
+            characterFileName,
+            initialMapPositionX,
+            initialMapPositionY,
+            0,
+            RandomGenerator.getRandomDirection(),
+            0
+        );
+
+        return generateInputStream(byteArray);
+    }
+
+    private byte[] generateByteArray(
+        final String characterFileName,
+        final int initialMapPositionX,
+        final int initialMapPositionY,
+        final int actionId,
+        final byte direction,
+        final int extraBytes
+    ) {
         int stringLength = InputStreamHelper.getStringLength(characterFileName);
-        int arrayLength = stringLength + ADDITIONAL_BYTES;
+        int arrayNormalLength = stringLength + ADDITIONAL_BYTES;
+        int arrayLength = arrayNormalLength + extraBytes;
+        int directionIndex = arrayNormalLength - DIRECTION_INDEX;
+        int actionIndex = arrayNormalLength - EVENT_ID_INDEX;
         byte[] byteArray = new byte[arrayLength];
+
         InputStreamHelper.setByteArray(byteArray, characterFileName);
         InputStreamHelper.setPosition(
             byteArray,
@@ -87,10 +111,10 @@ public abstract class AbstractCharacterCreatorFactoryTest
             initialMapPositionX,
             initialMapPositionY
         );
-        byteArray[arrayLength - 2] = RandomGenerator.getRandomDirection();
-        byteArray[arrayLength - 1] = 0;
+        byteArray[directionIndex] = direction;
+        byteArray[actionIndex] = (byte) actionId;
 
-        return generateInputStream(byteArray);
+        return byteArray;
     }
 
     protected abstract InputStream generateInputStream(byte[] byteArray);
