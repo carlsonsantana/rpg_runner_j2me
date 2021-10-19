@@ -6,7 +6,7 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 
 public class NullActionFactory implements IdentifiedActionFactory {
-    public static final int ID_VALUE = 0;
+    private static final int ID_VALUE = 0;
 
     public int getId() {
         return ID_VALUE;
