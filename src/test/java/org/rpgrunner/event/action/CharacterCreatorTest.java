@@ -3,7 +3,7 @@ package org.rpgrunner.event.action;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.event.MapEventListenerSpy;
+import org.rpgrunner.test.mock.event.CharacterEventListenerSpy;
 
 public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
     private final CharacterAnimationFactory characterAnimationFactory;
@@ -19,8 +19,10 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
         final int initialMapPositionY
     ) {
         Action action = new NullAction();
-        MapEventListenerSpy mapEventListenerSpy = new MapEventListenerSpy();
-        mapEventListenerSpy.setInteractAction(action);
+        CharacterEventListenerSpy characterEventListenerSpy = (
+            new CharacterEventListenerSpy()
+        );
+        characterEventListenerSpy.setInteractAction(action);
 
         return new CharacterCreator(
             mapController,
@@ -28,7 +30,7 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
             characterFileName,
             initialMapPositionX,
             initialMapPositionY,
-            mapEventListenerSpy
+            characterEventListenerSpy
         );
     }
 }

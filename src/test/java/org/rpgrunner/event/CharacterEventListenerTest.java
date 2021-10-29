@@ -10,7 +10,7 @@ import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.mock.event.MapEventSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
-public class MapEventListenerTest extends TestCase {
+public class CharacterEventListenerTest extends TestCase {
     private static final int MAX_ARRAY_SIZE = 100;
     private static final int MIN_ARRAY_SIZE = 10;
     private final Random random;
@@ -19,7 +19,7 @@ public class MapEventListenerTest extends TestCase {
     private ActionSpy action1;
     private ActionSpy action2;
 
-    public MapEventListenerTest() {
+    public CharacterEventListenerTest() {
         random = new Random();
     }
 
@@ -35,7 +35,9 @@ public class MapEventListenerTest extends TestCase {
 
     public void testReturnsNullActionWhenNotAreEvents() {
         MapEvent[] mapEvents = new MapEvent[0];
-        MapEventListener mapEventListener = new MapEventListener(mapEvents);
+        CharacterEventListener mapEventListener = new CharacterEventListener(
+            mapEvents
+        );
 
         Action action = mapEventListener.interact((byte) 0);
 
@@ -44,7 +46,9 @@ public class MapEventListenerTest extends TestCase {
 
     public void testReturnsFirstNotNullAction() {
         MapEvent[] mapEvents = getRandomMapEvent();
-        MapEventListener mapEventListener = new MapEventListener(mapEvents);
+        CharacterEventListener mapEventListener = new CharacterEventListener(
+            mapEvents
+        );
 
         Action action = mapEventListener.interact((byte) 0);
 

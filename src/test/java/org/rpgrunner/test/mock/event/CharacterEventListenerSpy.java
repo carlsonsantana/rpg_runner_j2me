@@ -1,12 +1,12 @@
 package org.rpgrunner.test.mock.event;
 
-import org.rpgrunner.event.MapEventListener;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
-public class MapEventListenerSpy extends MapEventListener {
+public class CharacterEventListenerSpy extends CharacterEventListener {
     private Action action;
 
-    public MapEventListenerSpy() {
+    public CharacterEventListenerSpy() {
         super(null);
     }
 

@@ -7,7 +7,7 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.RandomMovement;
 import org.rpgrunner.controller.MapController;
-import org.rpgrunner.event.MapEventListener;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.helper.MapHelper;
 
 public class CharacterCreator extends AbstractCharacterCreator {
@@ -19,7 +19,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY,
-        final MapEventListener mapEventListener
+        final CharacterEventListener characterEventListener
     ) {
         super(
             currentMapController,
@@ -27,7 +27,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
             newCharacterFileBaseName,
             initialMapPositionX,
             initialMapPositionY,
-            mapEventListener
+            characterEventListener
         );
         mapController = currentMapController;
     }

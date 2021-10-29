@@ -5,8 +5,8 @@ import java.io.InputStream;
 
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.controller.MapController;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.MapEvent;
-import org.rpgrunner.event.MapEventListener;
 import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.CharacterCreator;
@@ -51,7 +51,9 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
         final int mapPositionY,
         final InputStream inputStream
     ) throws IOException {
-        MapEventListener mapEventListener = createMapEventListener(inputStream);
+        CharacterEventListener characterEventListener = (
+            createCharacterEventListener(inputStream)
+        );
 
         CharacterCreator characterCreator = new CharacterCreator(
             mapController,
@@ -59,13 +61,13 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
             fileBaseName,
             mapPositionX,
             mapPositionY,
-            mapEventListener
+            characterEventListener
         );
 
         return characterCreator;
     }
 
-    private MapEventListener createMapEventListener(
+    private CharacterEventListener createCharacterEventListener(
         final InputStream inputStream
     ) throws IOException {
         int numberOfEvents = inputStream.read();
@@ -78,6 +80,6 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
             events[i] = mapEvent;
         }
 
-        return new MapEventListener(events);
+        return new CharacterEventListener(events);
     }
 }

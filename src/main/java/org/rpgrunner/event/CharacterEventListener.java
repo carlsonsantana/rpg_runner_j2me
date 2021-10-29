@@ -3,11 +3,11 @@ package org.rpgrunner.event;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 
-public class MapEventListener {
+public class CharacterEventListener {
     private static final NullAction NULL_ACTION = new NullAction();
     private final MapEvent[] events;
 
-    public MapEventListener(final MapEvent[] eventsList) {
+    public CharacterEventListener(final MapEvent[] eventsList) {
         events = eventsList;
     }
 
