@@ -9,7 +9,7 @@ import org.rpgrunner.event.MapAreaEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
-import org.rpgrunner.test.mock.event.action.ActionListSpy;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
@@ -24,7 +24,7 @@ public class MapTest extends TestCase {
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
-    private ActionListSpy actionList;
+    private ActionSpy expectedAction;
     private MapAreaEventListener[] expectedMapAreaEventListeners;
 
     public MapTest() {
@@ -36,7 +36,7 @@ public class MapTest extends TestCase {
         layerObjects = new LayerSpy();
         mapFileBaseName = RandomGenerator.getRandomString();
         layers = new Layer[] {layerBackground, layerObjects};
-        actionList = new ActionListSpy();
+        expectedAction = new ActionSpy();
         int sizeMapAreaEventListeners = random.nextInt(
             MAXIMUM_MAP_AREA_EVENT_LISTENERS
         );
@@ -46,7 +46,7 @@ public class MapTest extends TestCase {
         map = new Map(
             mapFileBaseName,
             layers,
-            actionList,
+            expectedAction,
             expectedMapAreaEventListeners
         );
     }
@@ -116,7 +116,7 @@ public class MapTest extends TestCase {
     public void testGetSameStartAction() {
         Action action = map.getStartAction();
 
-        Assert.assertSame(action, actionList);
+        Assert.assertSame(expectedAction, action);
     }
 
     public void testGetSameMapAreaEventListeners() {
