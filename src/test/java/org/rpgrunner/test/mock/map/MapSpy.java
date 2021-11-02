@@ -13,7 +13,7 @@ public class MapSpy extends Map {
     private int height;
 
     public MapSpy() {
-        super(null, null, null);
+        super(null, null, null, null);
         width = 0;
         height = 0;
         startAction = new ActionSpy();

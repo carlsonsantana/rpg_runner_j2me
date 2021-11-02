@@ -52,7 +52,7 @@ public class MapLoader {
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, action);
+        return new Map(fileBaseName, layers, action, null);
     }
 
     private Layer extractLayer(
