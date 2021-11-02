@@ -5,69 +5,79 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.mock.event.MapEventSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class CharacterEventListenerTest extends TestCase {
+    private static final int TEST_REPEAT_LOOP = 100;
     private static final int MAX_ARRAY_SIZE = 100;
     private static final int MIN_ARRAY_SIZE = 10;
     private final Random random;
-    private MapEventSpy event1;
-    private MapEventSpy event2;
-    private ActionSpy action1;
-    private ActionSpy action2;
 
     public CharacterEventListenerTest() {
         random = new Random();
     }
 
-    public void setUp() {
-        event1 = new MapEventSpy();
-        event2 = new MapEventSpy();
-        action1 = new ActionSpy();
-        action2 = new ActionSpy();
-
-        event1.setInteractAction(action1);
-        event2.setInteractAction(action2);
-    }
-
     public void testReturnsNullActionWhenNotAreEvents() {
         MapEvent[] mapEvents = new MapEvent[0];
-        CharacterEventListener mapEventListener = new CharacterEventListener(
-            mapEvents
+        CharacterEventListener characterEventListener = (
+            new CharacterEventListener(mapEvents)
         );
 
-        Action action = mapEventListener.interact((byte) 0);
+        Action action = characterEventListener.interact((byte) 0);
 
         Assert.assertTrue(action instanceof NullAction);
     }
 
-    public void testReturnsFirstNotNullAction() {
-        MapEvent[] mapEvents = getRandomMapEvent();
-        CharacterEventListener mapEventListener = new CharacterEventListener(
-            mapEvents
+    public void testReturnsNullActionWhenNotAreEventsMatching() {
+        MapEventSpy mapEvent = new MapEventSpy();
+        MapEvent[] mapEvents = new MapEvent[] {mapEvent};
+        CharacterEventListener characterEventListener = (
+            new CharacterEventListener(mapEvents)
         );
 
-        Action action = mapEventListener.interact((byte) 0);
-
-        Assert.assertSame(action1, action);
+        Action action = characterEventListener.interact(Direction.UP);
+        Assert.assertTrue(action instanceof NullAction);
     }
 
-    private MapEvent[] getRandomMapEvent() {
+    public void testReturnsFirstNotNullActionLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkReturnsFirstNotNullAction();
+        }
+    }
+
+    private void checkReturnsFirstNotNullAction() {
+        ActionSpy expectedAction = new ActionSpy();
+        MapEventSpy mapEvent = new MapEventSpy();
+        mapEvent.setInteractAction(expectedAction);
+        MapEvent[] mapEvents = getRandomMapEvents(mapEvent);
+        CharacterEventListener characterEventListener = (
+            new CharacterEventListener(mapEvents)
+        );
+
+        Action action = characterEventListener.interact((byte) 0);
+
+        Assert.assertSame(expectedAction, action);
+    }
+
+    private MapEvent[] getRandomMapEvents(final MapEvent expectedMapEvent) {
         int arraySize = random.nextInt(MAX_ARRAY_SIZE) + MIN_ARRAY_SIZE;
         int filledIndex = random.nextInt(arraySize - 1);
         MapEvent[] mapEvents = new MapEvent[arraySize];
-        MapEvent nullEvent = new MapEventSpy();
 
         for (int i = 0; i < arraySize; i++) {
             if (i < filledIndex) {
+                MapEvent nullEvent = new MapEventSpy();
                 mapEvents[i] = nullEvent;
             } else if (i == filledIndex) {
-                mapEvents[i] = event1;
+                mapEvents[i] = expectedMapEvent;
             } else {
-                mapEvents[i] = event2;
+                MapEventSpy notNullEvent = new MapEventSpy();
+                notNullEvent.setInteractAction(new ActionSpy());
+                mapEvents[i] = notNullEvent;
             }
         }
 
