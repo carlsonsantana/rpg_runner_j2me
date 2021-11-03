@@ -1,5 +1,6 @@
 package org.rpgrunner.test.mock.character;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
@@ -71,5 +72,17 @@ public class CharacterSpy extends GameCharacter {
         }
 
         return direction;
+    }
+
+    public void moveTo(final byte newDirection) {
+        if (Direction.isUp(newDirection)) {
+            moveUp();
+        } else if (Direction.isRight(newDirection)) {
+            moveRight();
+        } else if (Direction.isDown(newDirection)) {
+            moveDown();
+        } else if (Direction.isLeft(newDirection)) {
+            moveLeft();
+        }
     }
 }
