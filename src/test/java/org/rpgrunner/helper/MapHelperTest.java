@@ -1,5 +1,6 @@
 package org.rpgrunner.helper;
 
+import java.util.Random;
 import java.util.Vector;
 
 import junit.framework.Assert;
@@ -7,17 +8,22 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.event.MapAreaEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
+import org.rpgrunner.test.mock.event.MapAreaEventListenerSpy;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
 public class MapHelperTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MAXIMUM_SIZE_MAP_EVENT = 100;
     private static final int MINIMUM_POSITION = 3;
+    private final Random random;
     private MapHelper mapHelper;
     private ActionQueueSpy actionQueue;
     private MapSpy map;
@@ -25,12 +31,22 @@ public class MapHelperTest extends TestCase {
     private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
+    private MapAreaEventListenerSpy mapAreaEventListener;
+
+    public MapHelperTest() {
+        random = new Random();
+    }
 
     public void setUp() {
         actionQueue = new ActionQueueSpy();
         mapHelper = new MapHelper(actionQueue);
         map = new MapSpy();
         map.setCanMoveTo(true);
+        mapAreaEventListener = new MapAreaEventListenerSpy();
+        MapAreaEventListener[] mapAreaEventListeners = (
+            new MapAreaEventListener[] {mapAreaEventListener}
+        );
+        map.setMapAreaEventListeners(mapAreaEventListeners);
         mapHelper.setMap(map);
         generateNewScenario();
     }
@@ -133,7 +149,7 @@ public class MapHelperTest extends TestCase {
     ) {
         generateNewScenario();
         character.moveTo(direction);
-        setInitialPosition(collisionDirection, additional);
+        setInitialPositionCollisionCharacter(collisionDirection, additional);
 
         collisionCharacter.moveTo(collisionDirection);
     }
@@ -152,7 +168,7 @@ public class MapHelperTest extends TestCase {
         character.moveTo(direction);
 
         character.cancelMove();
-        setInitialPosition(Direction.NO_DIRECTION, 1);
+        setInitialPositionCollisionCharacter(Direction.NO_DIRECTION, 1);
 
         mapHelper.executeInteractAction(character);
         CharacterActionSpy interactAction = (
@@ -178,7 +194,7 @@ public class MapHelperTest extends TestCase {
         generateNewScenario();
         character.moveTo(direction);
         character.cancelMove();
-        setInitialPosition(Direction.NO_DIRECTION, 2);
+        setInitialPositionCollisionCharacter(Direction.NO_DIRECTION, 2);
 
         mapHelper.executeInteractAction(character);
         Action action = actionQueue.getActions()[0];
@@ -187,7 +203,7 @@ public class MapHelperTest extends TestCase {
         Assert.assertTrue(action instanceof NullAction);
     }
 
-    private void setInitialPosition(
+    private void setInitialPositionCollisionCharacter(
         final byte direction,
         final int additional
     ) {
@@ -222,30 +238,8 @@ public class MapHelperTest extends TestCase {
         return (additional * getDirectionAdditionalX(character.getDirection()));
     }
 
-    private int getDirectionAdditionalX(final byte direction) {
-        switch (direction) {
-            case Direction.RIGHT:
-                return 1;
-            case Direction.LEFT:
-                return -1;
-            default:
-                return 0;
-        }
-    }
-
     private int getAdditionalYValue(final int additional) {
         return (additional * getDirectionAdditionalY(character.getDirection()));
-    }
-
-    private int getDirectionAdditionalY(final byte direction) {
-        switch (direction) {
-            case Direction.DOWN:
-                return 1;
-            case Direction.UP:
-                return -1;
-            default:
-                return 0;
-        }
     }
 
     private int calculateInitialPosition(
@@ -274,5 +268,78 @@ public class MapHelperTest extends TestCase {
             + additionalValue
             - additionalCollisionCharacterValue
         );
+    }
+
+    public void testReturnsNullActionCharacterNotInteractWithMapEvent() {
+        generateNewScenario();
+        mapAreaEventListener.setInteractAction(new ActionSpy());
+
+        mapHelper.executeInteractAction(character);
+        Action action = actionQueue.getActions()[0];
+
+        Assert.assertTrue(action instanceof NullAction);
+    }
+
+    public void testReturnsSameActionCharacterInteractWithMapEventLoop() {
+        for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
+            checkReturnsSameActionCharacterInteractWithMapEvent();
+        }
+    }
+
+    private void checkReturnsSameActionCharacterInteractWithMapEvent() {
+        generateNewScenario();
+        byte direction = RandomGenerator.getRandomDirection();
+        character.moveTo(direction);
+        Action expectedAction = new ActionSpy();
+        mapAreaEventListener.setInteractAction(expectedAction);
+        setMapEventAreaInFrontCharacter(direction);
+
+        mapHelper.executeInteractAction(character);
+        Action action = actionQueue.getActions()[0];
+        actionQueue.clear();
+
+        Assert.assertSame(expectedAction, action);
+    }
+
+    private void setMapEventAreaInFrontCharacter(final byte direction) {
+        int width = random.nextInt(MAXIMUM_SIZE_MAP_EVENT);
+        int height = random.nextInt(MAXIMUM_SIZE_MAP_EVENT);
+        int x = (
+            character.getMapPositionX()
+            - random.nextInt(width + 1)
+            + getDirectionAdditionalX(direction)
+        );
+        int y = (
+            character.getMapPositionY()
+            - random.nextInt(height + 1)
+            + getDirectionAdditionalY(direction)
+        );
+
+        mapAreaEventListener.setX(x);
+        mapAreaEventListener.setY(y);
+        mapAreaEventListener.setWidth(width);
+        mapAreaEventListener.setHeight(height);
+    }
+
+    private int getDirectionAdditionalX(final byte direction) {
+        switch (direction) {
+            case Direction.RIGHT:
+                return 1;
+            case Direction.LEFT:
+                return -1;
+            default:
+                return 0;
+        }
+    }
+
+    private int getDirectionAdditionalY(final byte direction) {
+        switch (direction) {
+            case Direction.DOWN:
+                return 1;
+            case Direction.UP:
+                return -1;
+            default:
+                return 0;
+        }
     }
 }
