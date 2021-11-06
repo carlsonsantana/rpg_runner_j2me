@@ -3,6 +3,8 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEvent;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Loader;
@@ -49,10 +51,13 @@ public class MapLoader {
         }
 
         Action action = actionAbstractFactory.create(mapInputStream);
+        MapAreaEventListener[] mapAreaEventListeners = (
+            extractMapAreaEventListeners(mapInputStream)
+        );
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, action, null);
+        return new Map(fileBaseName, layers, action, mapAreaEventListeners);
     }
 
     private Layer extractLayer(
@@ -80,5 +85,52 @@ public class MapLoader {
         }
 
         return tileMap;
+    }
+
+    private MapAreaEventListener[] extractMapAreaEventListeners(
+        final InputStream mapInputStream
+    ) throws IOException {
+        int length = mapInputStream.read();
+        MapAreaEventListener[] mapAreaEventListeners = (
+            new MapAreaEventListener[length]
+        );
+
+        for (int i = 0; i < length; i++) {
+            mapAreaEventListeners[i] = extractEventListener(mapInputStream);
+        }
+
+        return mapAreaEventListeners;
+    }
+
+    private MapAreaEventListener extractEventListener(
+        final InputStream mapInputStream
+    ) throws IOException {
+        int tilePositionX = mapInputStream.read();
+        int tilePositionY = mapInputStream.read();
+        int tilesWidth = mapInputStream.read();
+        int tilesHeight = mapInputStream.read();
+        int eventsLength = mapInputStream.read();
+        MapEvent[] mapEvents = new MapEvent[eventsLength];
+
+        for (int i = 0; i < eventsLength; i++) {
+            mapEvents[i] = extractMapEvent(mapInputStream);
+        }
+
+        return new MapAreaEventListener(
+            tilePositionX,
+            tilePositionY,
+            tilesWidth,
+            tilesHeight,
+            mapEvents
+        );
+    }
+
+    private MapEvent extractMapEvent(
+        final InputStream mapInputStream
+    ) throws IOException {
+        byte directions = (byte) mapInputStream.read();
+        Action action = actionAbstractFactory.create(mapInputStream);
+
+        return new MapEvent(action, directions);
     }
 }
