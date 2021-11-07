@@ -9,20 +9,20 @@ public class MapAreaEventListener {
     private final int y;
     private final int width;
     private final int height;
-    private final MapEvent[] events;
+    private final MapEvent mapEvent;
 
     public MapAreaEventListener(
         final int tilePositionX,
         final int tilePositionY,
         final int tilesWidth,
         final int tilesHeight,
-        final MapEvent[] eventsList
+        final MapEvent event
     ) {
         x = tilePositionX;
         y = tilePositionY;
         width = tilesWidth;
         height = tilesHeight;
-        events = eventsList;
+        mapEvent = event;
     }
 
     public int getX() {
@@ -42,14 +42,10 @@ public class MapAreaEventListener {
     }
 
     public Action interact(final byte direction) {
-        for (int i = 0, length = events.length; i < length; i++) {
-            MapEvent event = events[i];
+        Action action = mapEvent.interact(direction);
 
-            Action action = event.interact(direction);
-
-            if (action != null) {
-                return action;
-            }
+        if (action != null) {
+            return action;
         }
 
         return NULL_ACTION;

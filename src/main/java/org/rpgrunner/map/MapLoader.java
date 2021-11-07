@@ -109,19 +109,14 @@ public class MapLoader {
         int tilePositionY = mapInputStream.read();
         int tilesWidth = mapInputStream.read();
         int tilesHeight = mapInputStream.read();
-        int eventsLength = mapInputStream.read();
-        MapEvent[] mapEvents = new MapEvent[eventsLength];
-
-        for (int i = 0; i < eventsLength; i++) {
-            mapEvents[i] = extractMapEvent(mapInputStream);
-        }
+        MapEvent mapEvent = extractMapEvent(mapInputStream);
 
         return new MapAreaEventListener(
             tilePositionX,
             tilePositionY,
             tilesWidth,
             tilesHeight,
-            mapEvents
+            mapEvent
         );
     }
 
