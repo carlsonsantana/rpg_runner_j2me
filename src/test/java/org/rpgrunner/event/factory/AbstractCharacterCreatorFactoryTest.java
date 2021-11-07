@@ -5,6 +5,7 @@ import java.io.InputStream;
 
 import junit.framework.Assert;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
@@ -19,9 +20,13 @@ import org.rpgrunner.test.mock.controller.MapControllerSpy;
 public abstract class AbstractCharacterCreatorFactoryTest
     extends AbstractCharacterCreatorTest {
     private static final int NUMBER_OF_EVENTS_INDEX = 4;
+    private static final int NUMBER_EVENTS_INDEX = 3;
     private static final int DIRECTION_INDEX = 2;
     private static final int EVENT_ID_INDEX = 1;
     private static final int ADDITIONAL_BYTES = 6;
+    private static final byte ALL_DIRECTIONS = (
+        Direction.UP | Direction.RIGHT | Direction.DOWN | Direction.LEFT
+    );
 
     public void testPassSameDirectionToMapEvent() throws IOException {
         byte direction = RandomGenerator.getRandomDirection();
@@ -82,7 +87,7 @@ public abstract class AbstractCharacterCreatorFactoryTest
             initialMapPositionX,
             initialMapPositionY,
             0,
-            RandomGenerator.getRandomDirection(),
+            ALL_DIRECTIONS,
             0
         );
 
@@ -94,12 +99,13 @@ public abstract class AbstractCharacterCreatorFactoryTest
         final int initialMapPositionX,
         final int initialMapPositionY,
         final int actionId,
-        final byte direction,
+        final byte directions,
         final int extraBytes
     ) {
         int stringLength = InputStreamHelper.getStringLength(characterFileName);
         int arrayNormalLength = stringLength + ADDITIONAL_BYTES;
         int arrayLength = arrayNormalLength + extraBytes;
+        int numberEventsIndex = arrayNormalLength - NUMBER_EVENTS_INDEX;
         int directionIndex = arrayNormalLength - DIRECTION_INDEX;
         int actionIndex = arrayNormalLength - EVENT_ID_INDEX;
         byte[] byteArray = new byte[arrayLength];
@@ -111,7 +117,8 @@ public abstract class AbstractCharacterCreatorFactoryTest
             initialMapPositionX,
             initialMapPositionY
         );
-        byteArray[directionIndex] = direction;
+        byteArray[numberEventsIndex] = 1;
+        byteArray[directionIndex] = directions;
         byteArray[actionIndex] = (byte) actionId;
 
         return byteArray;

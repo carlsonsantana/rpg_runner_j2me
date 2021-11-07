@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.mock.event.MapEventSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
@@ -21,7 +20,7 @@ public class CharacterEventListenerTest extends TestCase {
         random = new Random();
     }
 
-    public void testReturnsNullActionWhenNotAreEvents() {
+    public void testReturnsNullWhenNotAreEvents() {
         MapEvent[] mapEvents = new MapEvent[0];
         CharacterEventListener characterEventListener = (
             new CharacterEventListener(mapEvents)
@@ -29,10 +28,10 @@ public class CharacterEventListenerTest extends TestCase {
 
         Action action = characterEventListener.interact((byte) 0);
 
-        Assert.assertTrue(action instanceof NullAction);
+        Assert.assertNull(action);
     }
 
-    public void testReturnsNullActionWhenNotAreEventsMatching() {
+    public void testReturnsNullWhenNotAreEventsMatching() {
         MapEventSpy mapEvent = new MapEventSpy();
         MapEvent[] mapEvents = new MapEvent[] {mapEvent};
         CharacterEventListener characterEventListener = (
@@ -40,7 +39,8 @@ public class CharacterEventListenerTest extends TestCase {
         );
 
         Action action = characterEventListener.interact(Direction.UP);
-        Assert.assertTrue(action instanceof NullAction);
+
+        Assert.assertNull(action);
     }
 
     public void testReturnsFirstNotNullActionLoop() {

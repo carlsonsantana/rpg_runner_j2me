@@ -1,10 +1,8 @@
 package org.rpgrunner.event;
 
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 
 public class CharacterEventListener {
-    private static final NullAction NULL_ACTION = new NullAction();
     private final MapEvent[] events;
 
     public CharacterEventListener(final MapEvent[] eventsList) {
@@ -20,6 +18,6 @@ public class CharacterEventListener {
             }
         }
 
-        return NULL_ACTION;
+        return null;
     }
 }
