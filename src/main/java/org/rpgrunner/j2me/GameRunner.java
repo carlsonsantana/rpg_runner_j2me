@@ -24,7 +24,7 @@ import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
 import org.rpgrunner.j2me.helper.InputImpl;
 import org.rpgrunner.map.MapLoader;
 
-public class GameRunner extends GameCanvas {
+public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
     private static final int[] ALLOWED_KEYS = new int[] {
         KEY_NUM0,
@@ -43,6 +43,7 @@ public class GameRunner extends GameCanvas {
 
     private final CharacterAnimationFactoryImpl characterAnimationFactory;
     private final InputImpl input;
+    private final Thread thread;
     private boolean destroyed;
     private GameController gameController;
     private ActionQueue actionQueue;
@@ -53,12 +54,13 @@ public class GameRunner extends GameCanvas {
         destroyed = false;
         characterAnimationFactory = new CharacterAnimationFactoryImpl();
         input = new InputImpl();
+        thread = new Thread(this);
     }
 
     public void start() {
         configure();
 
-        executeGame();
+        thread.start();
     }
 
     private void configure() {
@@ -140,7 +142,7 @@ public class GameRunner extends GameCanvas {
         return actionAbstractFactory;
     }
 
-    private void executeGame() {
+    public void run() {
         while (isRunning()) {
             executeFrame();
         }
