@@ -1,10 +1,8 @@
 package org.rpgrunner.event;
 
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 
 public class MapAreaEventListener {
-    private static final NullAction NULL_ACTION = new NullAction();
     private final int x;
     private final int y;
     private final int width;
@@ -42,12 +40,6 @@ public class MapAreaEventListener {
     }
 
     public Action interact(final byte direction) {
-        Action action = mapEvent.interact(direction);
-
-        if (action != null) {
-            return action;
-        }
-
-        return NULL_ACTION;
+        return mapEvent.interact(direction);
     }
 }

@@ -7,7 +7,6 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
-import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.mock.event.MapEventSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
@@ -38,7 +37,7 @@ public class MapAreaEventListenerTest extends TestCase {
         Assert.assertEquals(height, mapAreaEventListener.getHeight());
     }
 
-    public void testReturnsNullActionWhenNotAreEventsMatching() {
+    public void testReturnsNullWhenEventIsNotMatching() {
         MapEventSpy mapEvent = new MapEventSpy();
         MapAreaEventListener mapAreaEventListener = new MapAreaEventListener(
             0,
@@ -49,7 +48,8 @@ public class MapAreaEventListenerTest extends TestCase {
         );
 
         Action action = mapAreaEventListener.interact(Direction.UP);
-        Assert.assertTrue(action instanceof NullAction);
+
+        Assert.assertNull(action);
     }
 
     public void testReturnsNotNullActionWhenMapEventNotReturnsNull() {
@@ -65,6 +65,7 @@ public class MapAreaEventListenerTest extends TestCase {
         );
 
         Action action = mapAreaEventListener.interact(Direction.UP);
+
         Assert.assertEquals(expectedAction, action);
     }
 }
