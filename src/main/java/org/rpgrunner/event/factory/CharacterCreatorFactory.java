@@ -7,7 +7,6 @@ import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.MapEvent;
-import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.CharacterCreator;
 import org.rpgrunner.helper.Loader;
@@ -36,26 +35,11 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
         String fileBaseName = Loader.extractString(inputStream);
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();
-
-        return create(
-            fileBaseName,
-            mapPositionX,
-            mapPositionY,
-            inputStream
-        );
-    }
-
-    private AbstractCharacterCreator create(
-        final String fileBaseName,
-        final int mapPositionX,
-        final int mapPositionY,
-        final InputStream inputStream
-    ) throws IOException {
         CharacterEventListener characterEventListener = (
             createCharacterEventListener(inputStream)
         );
 
-        CharacterCreator characterCreator = new CharacterCreator(
+        return new CharacterCreator(
             mapController,
             characterAnimationFactory,
             fileBaseName,
@@ -63,8 +47,6 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
             mapPositionY,
             characterEventListener
         );
-
-        return characterCreator;
     }
 
     private CharacterEventListener createCharacterEventListener(
