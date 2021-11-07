@@ -34,7 +34,6 @@ public class GameController implements Controller {
     }
 
     public void showMessage(final String message) {
-        mapController.releaseAllKeys();
         messageController.showMessage(message);
         currentController = messageController;
     }

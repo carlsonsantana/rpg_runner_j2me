@@ -51,12 +51,6 @@ public class MapController implements Controller {
         return map;
     }
 
-    public void pressKey(final int key) { }
-
-    public void releaseKey(final int key) { }
-
-    public void releaseAllKeys() { }
-
     public void prepareFrameAnimation() {
         for (
             Enumeration enumeration = characterElements.elements();
