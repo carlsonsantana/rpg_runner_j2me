@@ -3,7 +3,6 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.event.MapEvent;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
@@ -105,23 +104,16 @@ public class MapLoader {
         int tilePositionY = mapInputStream.read();
         int tilesWidth = mapInputStream.read();
         int tilesHeight = mapInputStream.read();
-        MapEvent mapEvent = extractMapEvent(mapInputStream);
+        byte directions = (byte) mapInputStream.read();
+        Action action = actionAbstractFactory.create(mapInputStream);
 
         return new MapEventArea(
             tilePositionX,
             tilePositionY,
             tilesWidth,
             tilesHeight,
-            mapEvent
+            directions,
+            action
         );
-    }
-
-    private MapEvent extractMapEvent(
-        final InputStream mapInputStream
-    ) throws IOException {
-        byte directions = (byte) mapInputStream.read();
-        Action action = actionAbstractFactory.create(mapInputStream);
-
-        return new MapEvent(action, directions);
     }
 }

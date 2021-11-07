@@ -1,5 +1,6 @@
 package org.rpgrunner.test.mock.event;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
@@ -12,7 +13,7 @@ public class MapEventAreaSpy extends MapEventArea {
     private Action interactAction;
 
     public MapEventAreaSpy() {
-        super(0, 0, 0, 0, null);
+        super(0, 0, 0, 0, Direction.NO_DIRECTION, null);
         interactAction = new NullAction();
     }
 

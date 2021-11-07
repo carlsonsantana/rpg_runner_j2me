@@ -2,25 +2,26 @@ package org.rpgrunner.event;
 
 import org.rpgrunner.event.action.Action;
 
-public class MapEventArea {
+public class MapEventArea extends MapEvent {
     private final int x;
     private final int y;
     private final int width;
     private final int height;
-    private final MapEvent mapEvent;
 
     public MapEventArea(
         final int tilePositionX,
         final int tilePositionY,
         final int tilesWidth,
         final int tilesHeight,
-        final MapEvent event
+        final byte eventDirections,
+        final Action eventAction
     ) {
+        super(eventAction, eventDirections);
+
         x = tilePositionX;
         y = tilePositionY;
         width = tilesWidth;
         height = tilesHeight;
-        mapEvent = event;
     }
 
     public int getX() {
@@ -37,9 +38,5 @@ public class MapEventArea {
 
     public int getHeight() {
         return height;
-    }
-
-    public Action interact(final byte direction) {
-        return mapEvent.interact(direction);
     }
 }
