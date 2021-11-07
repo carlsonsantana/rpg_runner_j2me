@@ -13,6 +13,7 @@ import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
 
 public class MapHelper {
+    private static final Action DEFAULT_ACTION = new NullAction();
     private final ActionQueue actionQueue;
     private Map map;
     private Vector characterElements;
@@ -117,7 +118,7 @@ public class MapHelper {
             return actionFromMapAreas;
         }
 
-        return new NullAction();
+        return DEFAULT_ACTION;
     }
 
     private Action getInteractActionFromCharacters(
