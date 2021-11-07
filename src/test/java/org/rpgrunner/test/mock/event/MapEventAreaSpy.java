@@ -1,17 +1,17 @@
 package org.rpgrunner.test.mock.event;
 
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 
-public class MapAreaEventListenerSpy extends MapAreaEventListener {
+public class MapEventAreaSpy extends MapEventArea {
     private int x;
     private int y;
     private int width;
     private int height;
     private Action interactAction;
 
-    public MapAreaEventListenerSpy() {
+    public MapEventAreaSpy() {
         super(0, 0, 0, 0, null);
         interactAction = new NullAction();
     }

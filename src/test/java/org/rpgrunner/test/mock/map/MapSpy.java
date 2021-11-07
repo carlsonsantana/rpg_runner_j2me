@@ -1,7 +1,7 @@
 package org.rpgrunner.test.mock.map;
 
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.map.Layer;
 import org.rpgrunner.map.Map;
@@ -12,7 +12,7 @@ public class MapSpy extends Map {
     private boolean canMove;
     private int width;
     private int height;
-    private MapAreaEventListener[] mapAreaEventListeners;
+    private MapEventArea[] mapEventAreas;
 
     public MapSpy() {
         super(null, null, null, null);
@@ -53,13 +53,11 @@ public class MapSpy extends Map {
         return startAction;
     }
 
-    public void setMapAreaEventListeners(
-        final MapAreaEventListener[] newMapAreaEventListeners
-    ) {
-        mapAreaEventListeners = newMapAreaEventListeners;
+    public void setMapEventAreas(final MapEventArea[] newMapEventAreas) {
+        mapEventAreas = newMapEventAreas;
     }
 
-    public MapAreaEventListener[] getMapAreaEventListeners() {
-        return mapAreaEventListeners;
+    public MapEventArea[] getMapEventAreas() {
+        return mapEventAreas;
     }
 }

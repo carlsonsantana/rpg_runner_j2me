@@ -8,13 +8,13 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
-import org.rpgrunner.test.mock.event.MapAreaEventListenerSpy;
+import org.rpgrunner.test.mock.event.MapEventAreaSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
@@ -31,7 +31,7 @@ public class MapHelperTest extends TestCase {
     private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
-    private MapAreaEventListenerSpy mapAreaEventListener;
+    private MapEventAreaSpy mapEventArea;
 
     public MapHelperTest() {
         random = new Random();
@@ -42,11 +42,9 @@ public class MapHelperTest extends TestCase {
         mapHelper = new MapHelper(actionQueue);
         map = new MapSpy();
         map.setCanMoveTo(true);
-        mapAreaEventListener = new MapAreaEventListenerSpy();
-        MapAreaEventListener[] mapAreaEventListeners = (
-            new MapAreaEventListener[] {mapAreaEventListener}
-        );
-        map.setMapAreaEventListeners(mapAreaEventListeners);
+        mapEventArea = new MapEventAreaSpy();
+        MapEventArea[] mapEventAreas = new MapEventArea[] {mapEventArea};
+        map.setMapEventAreas(mapEventAreas);
         mapHelper.setMap(map);
         generateNewScenario();
     }
@@ -272,7 +270,7 @@ public class MapHelperTest extends TestCase {
 
     public void testReturnsNullActionCharacterNotInteractWithMapEvent() {
         generateNewScenario();
-        mapAreaEventListener.setInteractAction(new ActionSpy());
+        mapEventArea.setInteractAction(new ActionSpy());
 
         mapHelper.executeInteractAction(character);
         Action action = actionQueue.getActions()[0];
@@ -291,7 +289,7 @@ public class MapHelperTest extends TestCase {
         byte direction = RandomGenerator.getRandomDirection();
         character.moveTo(direction);
         Action expectedAction = new ActionSpy();
-        mapAreaEventListener.setInteractAction(expectedAction);
+        mapEventArea.setInteractAction(expectedAction);
         setMapEventAreaInFrontCharacter(direction);
 
         mapHelper.executeInteractAction(character);
@@ -315,10 +313,10 @@ public class MapHelperTest extends TestCase {
             + getDirectionAdditionalY(direction)
         );
 
-        mapAreaEventListener.setX(x);
-        mapAreaEventListener.setY(y);
-        mapAreaEventListener.setWidth(width);
-        mapAreaEventListener.setHeight(height);
+        mapEventArea.setX(x);
+        mapEventArea.setY(y);
+        mapEventArea.setWidth(width);
+        mapEventArea.setHeight(height);
     }
 
     private int getDirectionAdditionalX(final byte direction) {

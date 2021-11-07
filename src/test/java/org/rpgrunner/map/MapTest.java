@@ -5,7 +5,7 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
@@ -14,7 +14,7 @@ import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
-    private static final int MAXIMUM_MAP_AREA_EVENT_LISTENERS = 100;
+    private static final int MAXIMUM_MAP_EVENT_AREAS = 100;
     private static final int MAXIMUM_LAYER_WIDTH = 100;
     private static final int MAXIMUM_LAYER_HEIGHT = 100;
     private static final int MAXIMUM_POSITION = 100;
@@ -25,7 +25,7 @@ public class MapTest extends TestCase {
     private LayerSpy layerObjects;
     private Layer[] layers;
     private ActionSpy expectedAction;
-    private MapAreaEventListener[] expectedMapAreaEventListeners;
+    private MapEventArea[] expectedMapEventAreas;
 
     public MapTest() {
         random = new Random();
@@ -37,17 +37,13 @@ public class MapTest extends TestCase {
         mapFileBaseName = RandomGenerator.getRandomString();
         layers = new Layer[] {layerBackground, layerObjects};
         expectedAction = new ActionSpy();
-        int sizeMapAreaEventListeners = random.nextInt(
-            MAXIMUM_MAP_AREA_EVENT_LISTENERS
-        );
-        expectedMapAreaEventListeners = (
-            new MapAreaEventListener[sizeMapAreaEventListeners]
-        );
+        int sizeMapEventAreas = random.nextInt(MAXIMUM_MAP_EVENT_AREAS);
+        expectedMapEventAreas = new MapEventArea[sizeMapEventAreas];
         map = new Map(
             mapFileBaseName,
             layers,
             expectedAction,
-            expectedMapAreaEventListeners
+            expectedMapEventAreas
         );
     }
 
@@ -119,11 +115,9 @@ public class MapTest extends TestCase {
         Assert.assertSame(expectedAction, action);
     }
 
-    public void testGetSameMapAreaEventListeners() {
-        MapAreaEventListener[] mapAreaEventListeners = (
-            map.getMapAreaEventListeners()
-        );
+    public void testGetSameMapEventAreas() {
+        MapEventArea[] mapEventAreas = map.getMapEventAreas();
 
-        Assert.assertSame(expectedMapAreaEventListeners, mapAreaEventListeners);
+        Assert.assertSame(expectedMapEventAreas, mapEventAreas);
     }
 }

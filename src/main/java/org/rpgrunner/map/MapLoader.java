@@ -3,8 +3,8 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.event.MapAreaEventListener;
 import org.rpgrunner.event.MapEvent;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Loader;
@@ -51,13 +51,11 @@ public class MapLoader {
         }
 
         Action action = actionAbstractFactory.create(mapInputStream);
-        MapAreaEventListener[] mapAreaEventListeners = (
-            extractMapAreaEventListeners(mapInputStream)
-        );
+        MapEventArea[] mapEventAreas = extractMapEventAreas(mapInputStream);
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, action, mapAreaEventListeners);
+        return new Map(fileBaseName, layers, action, mapEventAreas);
     }
 
     private Layer extractLayer(
@@ -87,22 +85,20 @@ public class MapLoader {
         return tileMap;
     }
 
-    private MapAreaEventListener[] extractMapAreaEventListeners(
+    private MapEventArea[] extractMapEventAreas(
         final InputStream mapInputStream
     ) throws IOException {
         int length = mapInputStream.read();
-        MapAreaEventListener[] mapAreaEventListeners = (
-            new MapAreaEventListener[length]
-        );
+        MapEventArea[] mapEventAreas = new MapEventArea[length];
 
         for (int i = 0; i < length; i++) {
-            mapAreaEventListeners[i] = extractEventListener(mapInputStream);
+            mapEventAreas[i] = extractMapEventArea(mapInputStream);
         }
 
-        return mapAreaEventListeners;
+        return mapEventAreas;
     }
 
-    private MapAreaEventListener extractEventListener(
+    private MapEventArea extractMapEventArea(
         final InputStream mapInputStream
     ) throws IOException {
         int tilePositionX = mapInputStream.read();
@@ -111,7 +107,7 @@ public class MapLoader {
         int tilesHeight = mapInputStream.read();
         MapEvent mapEvent = extractMapEvent(mapInputStream);
 
-        return new MapAreaEventListener(
+        return new MapEventArea(
             tilePositionX,
             tilePositionY,
             tilesWidth,

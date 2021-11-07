@@ -1,25 +1,25 @@
 package org.rpgrunner.map;
 
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 
 public class Map {
     private final String fileBaseName;
     private final Layer[] layers;
     private final Action startAction;
-    private final MapAreaEventListener[] mapAreaEventListeners;
+    private final MapEventArea[] mapEventAreas;
 
     public Map(
         final String mapFileBaseName,
         final Layer[] mapLayers,
         final Action mapStartAction,
-        final MapAreaEventListener[] currentMapAreaEventListeners
+        final MapEventArea[] currentMapEventAreas
     ) {
         fileBaseName = mapFileBaseName;
         layers = mapLayers;
         startAction = mapStartAction;
-        mapAreaEventListeners = currentMapAreaEventListeners;
+        mapEventAreas = currentMapEventAreas;
     }
 
     public String getFileBaseName() {
@@ -52,7 +52,7 @@ public class Map {
         return startAction;
     }
 
-    public MapAreaEventListener[] getMapAreaEventListeners() {
-        return mapAreaEventListeners;
+    public MapEventArea[] getMapEventAreas() {
+        return mapEventAreas;
     }
 }

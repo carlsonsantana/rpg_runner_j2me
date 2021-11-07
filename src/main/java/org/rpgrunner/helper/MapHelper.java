@@ -7,7 +7,7 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.ActionQueue;
-import org.rpgrunner.event.MapAreaEventListener;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
@@ -179,29 +179,19 @@ public class MapHelper {
         int characterPositionX = getInteractPositionX(character);
         int characterPositionY = getInteractPositionY(character);
 
-        MapAreaEventListener[] mapAreaEventListeners = (
-            map.getMapAreaEventListeners()
-        );
+        MapEventArea[] mapEventAreas = map.getMapEventAreas();
 
-        for (
-            int i = 0, length = mapAreaEventListeners.length;
-            i < length;
-            i++
-        ) {
-            MapAreaEventListener mapAreaEventListener = (
-                mapAreaEventListeners[i]
-            );
+        for (int i = 0, length = mapEventAreas.length; i < length; i++) {
+            MapEventArea mapEventArea = mapEventAreas[i];
 
             if (
                 isCharacterOnArea(
                     characterPositionX,
                     characterPositionY,
-                    mapAreaEventListener
+                    mapEventArea
                 )
             ) {
-                return mapAreaEventListener.interact(
-                    character.getDirection()
-                );
+                return mapEventArea.interact(character.getDirection());
             }
         }
 
@@ -241,12 +231,12 @@ public class MapHelper {
     private boolean isCharacterOnArea(
         final int interactPositionX,
         final int interactPositionY,
-        final MapAreaEventListener mapAreaEventListener
+        final MapEventArea mapEventArea
     ) {
-        int mapAreaX1 = mapAreaEventListener.getX();
-        int mapAreaX2 = mapAreaX1 + mapAreaEventListener.getWidth();
-        int mapAreaY1 = mapAreaEventListener.getY();
-        int mapAreaY2 = mapAreaY1 + mapAreaEventListener.getHeight();
+        int mapAreaX1 = mapEventArea.getX();
+        int mapAreaX2 = mapAreaX1 + mapEventArea.getWidth();
+        int mapAreaY1 = mapEventArea.getY();
+        int mapAreaY2 = mapAreaY1 + mapEventArea.getHeight();
 
         return (
             (mapAreaX1 <= interactPositionX)
