@@ -1,20 +1,23 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.MapController;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
+import org.rpgrunner.character.movement.PlayerMovement;
+import org.rpgrunner.controller.MapController;
+import org.rpgrunner.helper.Input;
+import org.rpgrunner.helper.MapHelper;
 
 public class PlayerCharacterCreator extends AbstractCharacterCreator {
     private final MapController mapController;
-    private final PlayerMovementFactory playerMovementFactory;
+    private final Input input;
 
     public PlayerCharacterCreator(
         final MapController currentMapController,
         final CharacterAnimationFactory characterAnimationFactory,
-        final PlayerMovementFactory currentPlayerMovementFactory,
+        final Input currentInput,
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY
@@ -28,13 +31,21 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
             null
         );
         mapController = currentMapController;
-        playerMovementFactory = currentPlayerMovementFactory;
+        input = currentInput;
     }
 
     protected MovementCommand createMovementCommand(
-        final GameCharacter character
+        final GameCharacter character,
+        final CharacterAnimation characterAnimation
     ) {
-        return playerMovementFactory.createPlayerMovement(character);
+        MapHelper mapHelper = mapController.getMapHelper();
+
+        return new PlayerMovement(
+            character,
+            characterAnimation,
+            mapHelper,
+            input
+        );
     }
 
     protected void displayCharacter(final CharacterElement characterElement) {

@@ -8,13 +8,11 @@ import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.graphics.MapGraphicsRender;
-import org.rpgrunner.helper.Camera;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
 public class MapController implements Controller {
     private final MapGraphicsRender mapGraphicsRender;
-    private final Camera camera;
     private final Vector characterElements;
     private final MapHelper mapHelper;
     private Map map;
@@ -23,11 +21,9 @@ public class MapController implements Controller {
 
     public MapController(
         final MapGraphicsRender gameGraphicsRender,
-        final Camera gameCamera,
         final MapHelper gameMapHelper
     ) {
         mapGraphicsRender = gameGraphicsRender;
-        camera = gameCamera;
         characterElements = new Vector(1);
         mapHelper = gameMapHelper;
         mapHelper.setCharacterElements(characterElements);
@@ -37,7 +33,6 @@ public class MapController implements Controller {
         map = newMap;
 
         mapHelper.setMap(map);
-        camera.setMap(map);
         mapGraphicsRender.setMap(map);
         removeAllNPCs();
     }
@@ -54,14 +49,6 @@ public class MapController implements Controller {
 
     public Map getMap() {
         return map;
-    }
-
-    public void pressKey(final int key) {
-        playerMovement.pressKey(key);
-    }
-
-    public void releaseKey(final int key) {
-        playerMovement.releaseKey(key);
     }
 
     public void prepareFrameAnimation() {
@@ -114,7 +101,7 @@ public class MapController implements Controller {
             (PlayerMovement) playerCharacterElement.getMovementCommand()
         );
         addCharacterElement(newPlayerCharacterElement);
-        camera.setCharacterAnimation(
+        mapGraphicsRender.setCharacterAnimation(
             playerCharacterElement.getCharacterAnimation()
         );
     }

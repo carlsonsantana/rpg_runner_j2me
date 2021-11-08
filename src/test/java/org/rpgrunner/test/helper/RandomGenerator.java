@@ -44,7 +44,6 @@ public class RandomGenerator {
         MovementSpy movementSpy = new MovementSpy();
 
         return new CharacterElement(
-            null,
             character,
             characterAnimationSpy,
             movementSpy
@@ -63,7 +62,6 @@ public class RandomGenerator {
         CharacterElementSpy characterElement = new CharacterElementSpy();
         String randomFileBaseName = getRandomString();
         CharacterSpy character = new CharacterSpy(randomFileBaseName);
-        character.setCharacterElement(characterElement);
 
         return character;
     }

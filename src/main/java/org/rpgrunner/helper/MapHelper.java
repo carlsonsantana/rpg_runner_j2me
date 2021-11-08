@@ -7,11 +7,13 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.ActionQueue;
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.map.Map;
 
 public class MapHelper {
+    private static final Action DEFAULT_ACTION = new NullAction();
     private final ActionQueue actionQueue;
     private Map map;
     private Vector characterElements;
@@ -102,6 +104,26 @@ public class MapHelper {
     }
 
     private Action getInteractAction(final GameCharacter character) {
+        Action actionFromCharacters = getInteractActionFromCharacters(
+            character
+        );
+
+        if (actionFromCharacters != null) {
+            return actionFromCharacters;
+        }
+
+        Action actionFromMapAreas = getInteractActionFromMapAreas(character);
+
+        if (actionFromMapAreas != null) {
+            return actionFromMapAreas;
+        }
+
+        return DEFAULT_ACTION;
+    }
+
+    private Action getInteractActionFromCharacters(
+        final GameCharacter character
+    ) {
         for (
             Enumeration enumeration = characterElements.elements();
             enumeration.hasMoreElements();
@@ -112,11 +134,13 @@ public class MapHelper {
             GameCharacter otherCharacter = otherCharacterElement.getCharacter();
 
             if (isInFrontOfCharacter(character, otherCharacter)) {
-                return otherCharacter.getInteractiveAction();
+                return otherCharacter.getInteractiveAction(
+                    character.getDirection()
+                );
             }
         }
 
-        return new NullAction();
+        return null;
     }
 
     private boolean isInFrontOfCharacter(
@@ -134,17 +158,7 @@ public class MapHelper {
         final GameCharacter referenceCharacter,
         final GameCharacter otherCharacter
     ) {
-        byte direction = referenceCharacter.getDirection();
-        int movingCharacterX;
-
-        if (Direction.isRight(direction)) {
-            movingCharacterX = referenceCharacter.getMapPositionX() + 1;
-        } else if (Direction.isLeft(direction)) {
-            movingCharacterX = referenceCharacter.getMapPositionX() - 1;
-        } else {
-            movingCharacterX = referenceCharacter.getMapPositionX();
-        }
-
+        int movingCharacterX = getInteractPositionX(referenceCharacter);
         int otherCharacterX = otherCharacter.getMapPositionX();
 
         return (movingCharacterX == otherCharacterX);
@@ -154,18 +168,82 @@ public class MapHelper {
         final GameCharacter referenceCharacter,
         final GameCharacter otherCharacter
     ) {
-        byte direction = referenceCharacter.getDirection();
+        int movingCharacterY = getInteractPositionY(referenceCharacter);
         int otherCharacterY = otherCharacter.getMapPositionY();
-        int movingCharacterY;
-
-        if (Direction.isUp(direction)) {
-            movingCharacterY = referenceCharacter.getMapPositionY() - 1;
-        } else if (Direction.isDown(direction)) {
-            movingCharacterY = referenceCharacter.getMapPositionY() + 1;
-        } else {
-            movingCharacterY = referenceCharacter.getMapPositionY();
-        }
 
         return (movingCharacterY == otherCharacterY);
+    }
+
+    private Action getInteractActionFromMapAreas(
+        final GameCharacter character
+    ) {
+        int characterPositionX = getInteractPositionX(character);
+        int characterPositionY = getInteractPositionY(character);
+
+        MapEventArea[] mapEventAreas = map.getMapEventAreas();
+
+        for (int i = 0, length = mapEventAreas.length; i < length; i++) {
+            MapEventArea mapEventArea = mapEventAreas[i];
+
+            if (
+                isCharacterOnArea(
+                    characterPositionX,
+                    characterPositionY,
+                    mapEventArea
+                )
+            ) {
+                return mapEventArea.interact(character.getDirection());
+            }
+        }
+
+        return null;
+    }
+
+    private int getInteractPositionX(final GameCharacter character) {
+        byte direction = character.getDirection();
+        int characterPositionX = character.getMapPositionX();
+
+        if (Direction.isRight(direction)) {
+            return characterPositionX + 1;
+        }
+
+        if (Direction.isLeft(direction)) {
+            return characterPositionX - 1;
+        }
+
+        return characterPositionX;
+    }
+
+    private int getInteractPositionY(final GameCharacter character) {
+        byte direction = character.getDirection();
+        int characterPositionY = character.getMapPositionY();
+
+        if (Direction.isUp(direction)) {
+            return characterPositionY - 1;
+        }
+
+        if (Direction.isDown(direction)) {
+            return characterPositionY + 1;
+        }
+
+        return characterPositionY;
+    }
+
+    private boolean isCharacterOnArea(
+        final int interactPositionX,
+        final int interactPositionY,
+        final MapEventArea mapEventArea
+    ) {
+        int mapAreaX1 = mapEventArea.getX();
+        int mapAreaX2 = mapAreaX1 + mapEventArea.getWidth();
+        int mapAreaY1 = mapEventArea.getY();
+        int mapAreaY2 = mapAreaY1 + mapEventArea.getHeight();
+
+        return (
+            (mapAreaX1 <= interactPositionX)
+            && (mapAreaX2 >= interactPositionX)
+            && (mapAreaY1 <= interactPositionY)
+            && (mapAreaY2 >= interactPositionY)
+        );
     }
 }

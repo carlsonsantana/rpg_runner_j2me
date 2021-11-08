@@ -5,11 +5,10 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.movement.PlayerMovementFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
-import org.rpgrunner.test.mock.character.movement.PlayerMovementFactoryMock;
+import org.rpgrunner.test.mock.helper.InputSpy;
 
 public class PlayerCharacterCreatorFactoryTest
     extends AbstractPlayerCharacterCreatorFactoryTest {
@@ -24,15 +23,13 @@ public class PlayerCharacterCreatorFactoryTest
         CharacterAnimationFactory characterAnimationFactory = (
             new CharacterAnimationFactoryMock()
         );
-        PlayerMovementFactory playerMovementFactory = (
-            new PlayerMovementFactoryMock()
-        );
+        InputSpy input = new InputSpy();
 
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
                 mapController,
                 characterAnimationFactory,
-                playerMovementFactory
+                input
             )
         );
         Action action = playerCharacterCreatorFactory.create(inputStream);

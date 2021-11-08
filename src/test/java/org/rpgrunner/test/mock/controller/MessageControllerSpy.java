@@ -2,28 +2,14 @@ package org.rpgrunner.test.mock.controller;
 
 import org.rpgrunner.controller.MessageController;
 
-public class MessageControllerSpy implements MessageController {
+public class MessageControllerSpy extends MessageController {
     private String lastMessage;
-    private int pressedKey;
-    private int releasedKey;
     private boolean finished;
     private boolean prepareFrameAnimationCalled;
     private boolean renderCalled;
 
-    public void pressKey(final int key) {
-        pressedKey = key;
-    }
-
-    public int getPressedKey() {
-        return pressedKey;
-    }
-
-    public void releaseKey(final int key) {
-        releasedKey = key;
-    }
-
-    public int getReleasedKey() {
-        return releasedKey;
+    public MessageControllerSpy() {
+        super(null, null);
     }
 
     public void showMessage(final String message) {

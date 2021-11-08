@@ -3,6 +3,7 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
@@ -36,7 +37,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
             mapController.getLastCharacterElementAdded()
         );
         GameCharacter character = characterElement.getCharacter();
-        Action action = character.getInteractiveAction();
+        Action action = character.getInteractiveAction(Direction.UP);
 
         Assert.assertEquals(randomFileBaseName, character.getFileBaseName());
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());

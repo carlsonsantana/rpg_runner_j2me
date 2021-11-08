@@ -1,7 +1,6 @@
 package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.character.CharacterElement;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
     private boolean startAnimationCalled;
@@ -62,6 +61,4 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     public Object getSprite() {
         return null;
     }
-
-    public void setCharacterElement(final CharacterElement characterElement) { }
 }

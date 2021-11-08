@@ -1,5 +1,6 @@
 package org.rpgrunner.test.mock.character;
 
+import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
@@ -11,12 +12,10 @@ public class CharacterSpy extends GameCharacter {
     private int additionalNextPositionX;
     private int additionalNextPositionY;
     private byte direction;
-    private boolean interactCalled;
 
     public CharacterSpy(final String fileBaseName) {
         super(fileBaseName, null);
         direction = INITIAL_DIRECTION;
-        interactCalled = false;
     }
 
     public void setInitialPosition(
@@ -59,7 +58,7 @@ public class CharacterSpy extends GameCharacter {
         );
     }
 
-    public Action getInteractiveAction() {
+    public Action getInteractiveAction(final byte interactDirection) {
         return new CharacterActionSpy(this);
     }
 
@@ -75,15 +74,15 @@ public class CharacterSpy extends GameCharacter {
         return direction;
     }
 
-    public void interact() {
-        interactCalled = true;
-    }
-
-    public boolean isInteractCalled() {
-        return interactCalled;
-    }
-
-    public void resetInteractCalled() {
-        interactCalled = false;
+    public void moveTo(final byte newDirection) {
+        if (Direction.isUp(newDirection)) {
+            moveUp();
+        } else if (Direction.isRight(newDirection)) {
+            moveRight();
+        } else if (Direction.isDown(newDirection)) {
+            moveDown();
+        } else if (Direction.isLeft(newDirection)) {
+            moveLeft();
+        }
     }
 }

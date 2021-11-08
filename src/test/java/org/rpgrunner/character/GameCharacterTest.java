@@ -9,6 +9,7 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
+import org.rpgrunner.test.mock.event.CharacterEventListenerSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class GameCharacterTest extends TestCase {
@@ -27,9 +28,15 @@ public class GameCharacterTest extends TestCase {
     public void setUp() {
         characterBaseName = RandomGenerator.getRandomString();
         action = new ActionSpy();
-        character = new GameCharacter(characterBaseName, action);
+        CharacterEventListenerSpy characterEventListener = (
+            new CharacterEventListenerSpy()
+        );
+        characterEventListener.setInteractAction(action);
+        character = new GameCharacter(
+            characterBaseName,
+            characterEventListener
+        );
         characterElement = new CharacterElementSpy();
-        character.setCharacterElement(characterElement);
     }
 
     public void testReturnSameFileBaseName() {
@@ -38,7 +45,6 @@ public class GameCharacterTest extends TestCase {
 
     public void testCharacterStartStopped() {
         Assert.assertFalse(character.isMoving());
-        Assert.assertFalse(characterElement.isOnMoveCalled());
     }
 
     public void testFinishMoveWhenCharacterIsStopped() {
@@ -197,26 +203,6 @@ public class GameCharacterTest extends TestCase {
         Assert.assertEquals(finalPositionY, character.getMapNextPositionY());
     }
 
-    public void testOnMoveCalledWhenMoveUp() {
-        character.moveUp();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveRight() {
-        character.moveRight();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveDown() {
-        character.moveDown();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
-    public void testOnMoveCalledWhenMoveLeft() {
-        character.moveLeft();
-        Assert.assertTrue(characterElement.isOnMoveCalled());
-    }
-
     public void testSetMapPositionLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
             checkSetMapPosition();
@@ -236,12 +222,6 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void testGetSameInteractiveAction() {
-        Assert.assertSame(action, character.getInteractiveAction());
-    }
-
-    public void testInteractCallCharacterElementInteract() {
-        character.interact();
-
-        Assert.assertTrue(characterElement.isInteractCalled());
+        Assert.assertSame(action, character.getInteractiveAction(Direction.UP));
     }
 }

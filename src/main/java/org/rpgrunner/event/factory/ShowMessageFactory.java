@@ -8,11 +8,16 @@ import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.ShowMessage;
 import org.rpgrunner.helper.Loader;
 
-public class ShowMessageFactory implements ActionFactory {
+public class ShowMessageFactory implements IdentifiedActionFactory {
+    private static final int ID_VALUE = 6;
     private final GameController gameController;
 
     public ShowMessageFactory(final GameController currentGameController) {
         gameController = currentGameController;
+    }
+
+    public int getId() {
+        return ID_VALUE;
     }
 
     public Action create(final InputStream inputStream) throws IOException {

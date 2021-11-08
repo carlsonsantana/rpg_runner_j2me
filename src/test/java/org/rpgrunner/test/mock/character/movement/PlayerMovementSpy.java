@@ -2,29 +2,19 @@ package org.rpgrunner.test.mock.character.movement;
 
 import org.rpgrunner.character.movement.PlayerMovement;
 
-public class PlayerMovementSpy extends MovementSpy implements PlayerMovement {
-    private int pressedKey;
-    private int releasedKey;
+public class PlayerMovementSpy extends PlayerMovement {
+    private boolean executeCalled;
 
     public PlayerMovementSpy() {
-        super();
+        super(null, null, null, null);
+        executeCalled = false;
     }
 
-    public void pressKey(final int key) {
-        pressedKey = key;
+    public void execute() {
+        executeCalled = true;
     }
 
-    public int getPressedKey() {
-        return pressedKey;
+    public boolean isExecuteCalled() {
+        return executeCalled;
     }
-
-    public void releaseKey(final int key) {
-        releasedKey = key;
-    }
-
-    public int getReleasedKey() {
-        return releasedKey;
-    }
-
-    public void releaseAllKeys() { }
 }

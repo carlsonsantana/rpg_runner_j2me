@@ -15,7 +15,6 @@ import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
-import org.rpgrunner.test.mock.helper.CameraSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 import org.rpgrunner.test.mock.map.MapSpy;
 
@@ -24,7 +23,6 @@ public class MapControllerTest extends TestCase {
     private final Random random;
     private MapController mapController;
     private MapGraphicsRenderSpy mapGraphicsRender;
-    private CameraSpy camera;
     private MapHelperSpy mapHelper;
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
@@ -37,17 +35,16 @@ public class MapControllerTest extends TestCase {
 
     public void setUp() {
         mapGraphicsRender = new MapGraphicsRenderSpy();
-        camera = new CameraSpy();
         playerMovementSpy = new PlayerMovementSpy();
         characterAnimation = new CharacterAnimationSpy();
         playerCharacterElement = new CharacterElement(
-            null,
             new SimpleCharacter(),
             characterAnimation,
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        mapController = new MapController(mapGraphicsRender, camera, mapHelper);
+        mapController = new MapController(mapGraphicsRender, mapHelper);
+        mapController.setPlayerCharacterElement(playerCharacterElement);
         generateNPCs();
     }
 
@@ -69,59 +66,10 @@ public class MapControllerTest extends TestCase {
 
         Assert.assertSame(map, mapController.getMap());
         Assert.assertSame(map, mapGraphicsRender.getMap());
-        Assert.assertSame(map, camera.getMap());
         Assert.assertSame(map, mapHelper.getCurrentMap());
     }
 
-    public void testPressKeyOnPlayerCharacterMovement() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
-        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.pressKey(keyPressed);
-
-        Assert.assertEquals(keyPressed, playerMovementSpy.getPressedKey());
-    }
-
-    public void testPressKeyWhenChangePlayerCharacterElement() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        mapController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyPressed = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.pressKey(keyPressed);
-
-        Assert.assertEquals(keyPressed, newPlayerMovementSpy.getPressedKey());
-    }
-
-    public void testReleaseKeyOnPlayerCharacterMovement() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
-        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.releaseKey(keyReleased);
-
-        Assert.assertEquals(keyReleased, playerMovementSpy.getReleasedKey());
-    }
-
-    public void testReleaseKeyWhenChangePlayerCharacterElement() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
-        CharacterElement newPlayerCharacterElement = (
-            generatePlayerCharacterElement()
-        );
-        mapController.setPlayerCharacterElement(newPlayerCharacterElement);
-        PlayerMovementSpy newPlayerMovementSpy = (
-            (PlayerMovementSpy) newPlayerCharacterElement.getMovementCommand()
-        );
-        int keyReleased = random.nextInt(MAXIMUM_KEY_VALUE);
-        mapController.releaseKey(keyReleased);
-
-        Assert.assertEquals(keyReleased, newPlayerMovementSpy.getReleasedKey());
-    }
-
     public void testPrepareFrameAnimation() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
-
         mapController.prepareFrameAnimation();
 
         Assert.assertTrue(playerMovementSpy.isExecuteCalled());
@@ -142,12 +90,14 @@ public class MapControllerTest extends TestCase {
     }
 
     public void testSamePlayerCharacterElement() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
         Assert.assertSame(
             playerCharacterElement,
             mapController.getPlayerCharacterElement()
         );
-        Assert.assertSame(characterAnimation, camera.getCharacterAnimation());
+        Assert.assertSame(
+            characterAnimation,
+            mapGraphicsRender.getCharacterAnimation()
+        );
     }
 
     public void testChangePlayerCharacterElement() {
@@ -162,12 +112,11 @@ public class MapControllerTest extends TestCase {
         );
         Assert.assertSame(
             newPlayerCharacterElement.getCharacterAnimation(),
-            camera.getCharacterAnimation()
+            mapGraphicsRender.getCharacterAnimation()
         );
     }
 
     public void testAddSameCharacterElementsOnGraphicsRender() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
         Vector characterElementsGraphics = (
             mapGraphicsRender.getCharacterElements()
         );
@@ -186,7 +135,6 @@ public class MapControllerTest extends TestCase {
     }
 
     public void testRemoveLastPlayerCharacterWhenChangePlayerCharacter() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
         mapController.setPlayerCharacterElement(
             generatePlayerCharacterElement()
         );
@@ -207,7 +155,6 @@ public class MapControllerTest extends TestCase {
         PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
 
         return new CharacterElement(
-            null,
             character,
             characterAnimationSpy,
             newPlayerMovementSpy
@@ -231,7 +178,6 @@ public class MapControllerTest extends TestCase {
     }
 
     public void testKeepPlayerCharacterWhenChangeMap() {
-        mapController.setPlayerCharacterElement(playerCharacterElement);
         MapSpy map = new MapSpy();
         mapController.setMap(map);
         Vector characterElementsGraphics = (

@@ -31,7 +31,6 @@ public abstract class AbstractTeleportTest extends TestCase {
         character = new SimpleCharacter();
         CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
         characterElement = new CharacterElement(
-            null,
             character,
             characterAnimation,
             null

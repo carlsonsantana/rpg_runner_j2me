@@ -20,10 +20,13 @@ public class CharacterElementTest extends TestCase {
         mapHelper = new MapHelperSpy();
         character = RandomGenerator.generateRandomCharacter();
         characterAnimation = new CharacterAnimationSpy();
-        movementCommand = new RandomMovement(character);
+        movementCommand = new RandomMovement(
+            character,
+            characterAnimation,
+            mapHelper
+        );
 
         characterElement = new CharacterElement(
-            mapHelper,
             character,
             characterAnimation,
             movementCommand
@@ -46,47 +49,5 @@ public class CharacterElementTest extends TestCase {
             movementCommand,
             characterElement.getMovementCommand()
         );
-    }
-
-    public void testOnMoveFalseCancelCharacterMovement() {
-        testOnMove(false);
-    }
-
-    public void testOnMoveTrueContinueCharacterMovement() {
-        testOnMove(true);
-    }
-
-    private void testOnMove(final boolean canMove) {
-        int y = character.getMapPositionY();
-        int movementDifference = canMove ? -1 : 0;
-        int nextY = y + movementDifference;
-
-        mapHelper.setCanMove(canMove);
-        character.moveUp();
-        characterElement.onMove();
-
-        Assert.assertEquals(canMove, character.isMoving());
-        Assert.assertEquals(y, character.getMapPositionY());
-        Assert.assertEquals(nextY, character.getMapNextPositionY());
-        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
-    }
-
-    public void testOnAnimationCompleteFinishCharacterMovement() {
-        int y = character.getMapPositionY();
-        int nextY = y - 1;
-
-        mapHelper.setCanMove(true);
-        character.moveUp();
-        characterElement.onAnimationComplete();
-
-        Assert.assertFalse(character.isMoving());
-        Assert.assertEquals(nextY, character.getMapPositionY());
-        Assert.assertEquals(nextY, character.getMapNextPositionY());
-    }
-
-    public void testCallGetInteractFromMapHelper() {
-        characterElement.interact();
-
-        Assert.assertTrue(mapHelper.isExecuteInteractActionCalled());
     }
 }

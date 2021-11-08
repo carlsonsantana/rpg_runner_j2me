@@ -1,11 +1,12 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.controller.MapController;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
+import org.rpgrunner.controller.MapController;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
@@ -13,7 +14,7 @@ public abstract class AbstractCharacterCreator implements Action {
     private final CharacterAnimationFactory characterAnimationFactory;
     private final String characterFileBaseName;
     private final LocalTeleport localTeleport;
-    private final Action interactiveAction;
+    private final CharacterEventListener characterEventListener;
 
     public AbstractCharacterCreator(
         final MapController currentMapController,
@@ -21,7 +22,7 @@ public abstract class AbstractCharacterCreator implements Action {
         final String newCharacterFileBaseName,
         final int initialMapPositionX,
         final int initialMapPositionY,
-        final Action newInteractiveAction
+        final CharacterEventListener newCharacterEventListener
     ) {
         mapController = currentMapController;
         characterFileBaseName = newCharacterFileBaseName;
@@ -30,7 +31,7 @@ public abstract class AbstractCharacterCreator implements Action {
             initialMapPositionY
         );
         characterAnimationFactory = currentCharacterAnimationFactory;
-        interactiveAction = newInteractiveAction;
+        characterEventListener = newCharacterEventListener;
     }
 
     public void execute() {
@@ -43,27 +44,28 @@ public abstract class AbstractCharacterCreator implements Action {
     private CharacterElement generateCharacterElement() {
         GameCharacter character = new GameCharacter(
             characterFileBaseName,
-            interactiveAction
+            characterEventListener
         );
-        MovementCommand movementCommand = createMovementCommand(character);
-        MapHelper mapHelper = mapController.getMapHelper();
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(character)
         );
+        MovementCommand movementCommand = createMovementCommand(
+            character,
+            characterAnimation
+        );
+        MapHelper mapHelper = mapController.getMapHelper();
         CharacterElement characterElement = new CharacterElement(
-            mapHelper,
             character,
             characterAnimation,
             movementCommand
         );
-        character.setCharacterElement(characterElement);
-        characterAnimation.setCharacterElement(characterElement);
 
         return characterElement;
     }
 
     protected abstract MovementCommand createMovementCommand(
-        GameCharacter character
+        GameCharacter character,
+        CharacterAnimation characterAnimation
     );
 
     protected abstract void displayCharacter(CharacterElement characterElement);

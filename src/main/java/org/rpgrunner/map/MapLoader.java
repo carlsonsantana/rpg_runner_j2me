@@ -3,6 +3,7 @@ package org.rpgrunner.map;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
 import org.rpgrunner.helper.Loader;
@@ -49,10 +50,11 @@ public class MapLoader {
         }
 
         Action action = actionAbstractFactory.create(mapInputStream);
+        MapEventArea[] mapEventAreas = extractMapEventAreas(mapInputStream);
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, action);
+        return new Map(fileBaseName, layers, action, mapEventAreas);
     }
 
     private Layer extractLayer(
@@ -80,5 +82,38 @@ public class MapLoader {
         }
 
         return tileMap;
+    }
+
+    private MapEventArea[] extractMapEventAreas(
+        final InputStream mapInputStream
+    ) throws IOException {
+        int length = mapInputStream.read();
+        MapEventArea[] mapEventAreas = new MapEventArea[length];
+
+        for (int i = 0; i < length; i++) {
+            mapEventAreas[i] = extractMapEventArea(mapInputStream);
+        }
+
+        return mapEventAreas;
+    }
+
+    private MapEventArea extractMapEventArea(
+        final InputStream mapInputStream
+    ) throws IOException {
+        int tilePositionX = mapInputStream.read();
+        int tilePositionY = mapInputStream.read();
+        int tilesWidth = mapInputStream.read();
+        int tilesHeight = mapInputStream.read();
+        byte directions = (byte) mapInputStream.read();
+        Action action = actionAbstractFactory.create(mapInputStream);
+
+        return new MapEventArea(
+            tilePositionX,
+            tilePositionY,
+            tilesWidth,
+            tilesHeight,
+            directions,
+            action
+        );
     }
 }

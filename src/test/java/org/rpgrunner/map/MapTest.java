@@ -5,14 +5,16 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
-import org.rpgrunner.test.mock.event.action.ActionListSpy;
+import org.rpgrunner.test.mock.event.action.ActionSpy;
 import org.rpgrunner.test.mock.map.LayerSpy;
 
 public class MapTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private static final int MAXIMUM_MAP_EVENT_AREAS = 100;
     private static final int MAXIMUM_LAYER_WIDTH = 100;
     private static final int MAXIMUM_LAYER_HEIGHT = 100;
     private static final int MAXIMUM_POSITION = 100;
@@ -22,7 +24,8 @@ public class MapTest extends TestCase {
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
-    private ActionListSpy actionList;
+    private ActionSpy expectedAction;
+    private MapEventArea[] expectedMapEventAreas;
 
     public MapTest() {
         random = new Random();
@@ -33,8 +36,15 @@ public class MapTest extends TestCase {
         layerObjects = new LayerSpy();
         mapFileBaseName = RandomGenerator.getRandomString();
         layers = new Layer[] {layerBackground, layerObjects};
-        actionList = new ActionListSpy();
-        map = new Map(mapFileBaseName, layers, actionList);
+        expectedAction = new ActionSpy();
+        int sizeMapEventAreas = random.nextInt(MAXIMUM_MAP_EVENT_AREAS);
+        expectedMapEventAreas = new MapEventArea[sizeMapEventAreas];
+        map = new Map(
+            mapFileBaseName,
+            layers,
+            expectedAction,
+            expectedMapEventAreas
+        );
     }
 
     public void testReturnSameMapFileBaseName() {
@@ -102,6 +112,12 @@ public class MapTest extends TestCase {
     public void testGetSameStartAction() {
         Action action = map.getStartAction();
 
-        Assert.assertSame(action, actionList);
+        Assert.assertSame(expectedAction, action);
+    }
+
+    public void testGetSameMapEventAreas() {
+        MapEventArea[] mapEventAreas = map.getMapEventAreas();
+
+        Assert.assertSame(expectedMapEventAreas, mapEventAreas);
     }
 }

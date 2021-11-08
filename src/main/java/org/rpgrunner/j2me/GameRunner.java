@@ -10,15 +10,21 @@ import org.rpgrunner.controller.MessageController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.GameStartEvent;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
-import org.rpgrunner.helper.Camera;
+import org.rpgrunner.event.factory.ActionListFactory;
+import org.rpgrunner.event.factory.CharacterCreatorFactory;
+import org.rpgrunner.event.factory.LocalTeleportFactory;
+import org.rpgrunner.event.factory.NullActionFactory;
+import org.rpgrunner.event.factory.PlayerCharacterCreatorFactory;
+import org.rpgrunner.event.factory.ShowMessageFactory;
+import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
-import org.rpgrunner.j2me.character.movement.PlayerMovementFactoryImpl;
-import org.rpgrunner.j2me.controller.MessageControllerImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
+import org.rpgrunner.j2me.helper.InputImpl;
+import org.rpgrunner.map.MapLoader;
 
-public class GameRunner extends GameCanvas {
+public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
     private static final int[] ALLOWED_KEYS = new int[] {
         KEY_NUM0,
@@ -36,7 +42,8 @@ public class GameRunner extends GameCanvas {
     };
 
     private final CharacterAnimationFactoryImpl characterAnimationFactory;
-    private final PlayerMovementFactoryImpl playerMovementFactory;
+    private final InputImpl input;
+    private final Thread thread;
     private boolean destroyed;
     private GameController gameController;
     private ActionQueue actionQueue;
@@ -46,50 +53,96 @@ public class GameRunner extends GameCanvas {
 
         destroyed = false;
         characterAnimationFactory = new CharacterAnimationFactoryImpl();
-        playerMovementFactory = new PlayerMovementFactoryImpl();
+        input = new InputImpl();
+        thread = new Thread(this);
     }
 
     public void start() {
         configure();
 
-        executeGame();
+        thread.start();
     }
 
     private void configure() {
         Graphics graphics = getGraphics();
         graphics.setFont(Font.getDefaultFont());
-        Camera camera = new Camera(getWidth(), getHeight());
+        int screenWidth = getWidth();
+        int screenHeight = getHeight();
         actionQueue = new ActionQueue();
         MapHelper mapHelper = new MapHelper(actionQueue);
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
-            camera
+            screenWidth,
+            screenHeight
         );
         MessageGraphicsRenderImpl messageGraphicsRender = (
-            new MessageGraphicsRenderImpl(graphics, camera)
+            new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
         );
         MapController mapController = new MapController(
             mapGraphicsRender,
-            camera,
             mapHelper
         );
-        MessageController messageController = new MessageControllerImpl(
-            messageGraphicsRender
+        MessageController messageController = new MessageController(
+            messageGraphicsRender,
+            input
         );
         gameController = new GameController(mapController, messageController);
-        ActionAbstractFactory actionAbstractFactory = new ActionAbstractFactory(
-            gameController,
-            mapController,
-            characterAnimationFactory,
-            playerMovementFactory,
-            actionQueue
+        ActionAbstractFactory actionAbstractFactory = (
+            createActionAbstractFactory(mapController, mapHelper)
         );
         GameStartEvent gameStartEvent = new GameStartEvent();
 
         gameStartEvent.execute(actionAbstractFactory);
     }
 
-    private void executeGame() {
+    private ActionAbstractFactory createActionAbstractFactory(
+        final MapController mapController,
+        final MapHelper mapHelper
+    ) {
+        ActionAbstractFactory actionAbstractFactory = (
+            new ActionAbstractFactory()
+        );
+        MapLoader mapLoader = new MapLoader(actionAbstractFactory);
+
+        NullActionFactory nullActionFactory = new NullActionFactory();
+        ActionListFactory actionListFactory = new ActionListFactory(
+            actionAbstractFactory
+        );
+        PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
+            new PlayerCharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                input
+            )
+        );
+        CharacterCreatorFactory characterCreatorFactory = (
+            new CharacterCreatorFactory(
+                mapController,
+                characterAnimationFactory,
+                actionAbstractFactory
+            )
+        );
+        TeleportFactory teleportFactory = new TeleportFactory(
+            mapController,
+            mapLoader,
+            actionQueue
+        );
+        LocalTeleportFactory localTeleportFactory = new LocalTeleportFactory();
+        ShowMessageFactory showMessageFactory = new ShowMessageFactory(
+            gameController
+        );
+        actionAbstractFactory.addActionFactory(nullActionFactory);
+        actionAbstractFactory.addActionFactory(actionListFactory);
+        actionAbstractFactory.addActionFactory(playerCharacterCreatorFactory);
+        actionAbstractFactory.addActionFactory(characterCreatorFactory);
+        actionAbstractFactory.addActionFactory(teleportFactory);
+        actionAbstractFactory.addActionFactory(localTeleportFactory);
+        actionAbstractFactory.addActionFactory(showMessageFactory);
+
+        return actionAbstractFactory;
+    }
+
+    public void run() {
         while (isRunning()) {
             executeFrame();
         }
@@ -100,6 +153,7 @@ public class GameRunner extends GameCanvas {
         gameController.prepareFrameAnimation();
         actionQueue.execute();
         renderFrame();
+        input.update();
         waitUntilEndTimeFrame(startFrameTime);
     }
 
@@ -133,9 +187,10 @@ public class GameRunner extends GameCanvas {
         super.keyPressed(keyCode);
 
         if (isAllowedKey(keyCode)) {
-            gameController.pressKey(keyCode);
+            input.pressKey(keyCode);
         } else {
-            gameController.pressKey(getGameAction(keyCode));
+            int gameAction = getGameAction(keyCode);
+            input.pressKey(gameAction);
         }
     }
 
@@ -143,9 +198,10 @@ public class GameRunner extends GameCanvas {
         super.keyReleased(keyCode);
 
         if (isAllowedKey(keyCode)) {
-            gameController.releaseKey(keyCode);
+            input.releaseKey(keyCode);
         } else {
-            gameController.releaseKey(getGameAction(keyCode));
+            int gameAction = getGameAction(keyCode);
+            input.releaseKey(gameAction);
         }
     }
 
