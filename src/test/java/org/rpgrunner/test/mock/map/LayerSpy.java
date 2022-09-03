@@ -10,7 +10,7 @@ public class LayerSpy extends Layer {
     private boolean canMove;
 
     public LayerSpy() {
-        super(null, null);
+        super(null, null, 0, 0);
     }
 
     public void setWidth(final int newWidth) {
@@ -29,7 +29,7 @@ public class LayerSpy extends Layer {
         return height;
     }
 
-    public byte[][] getTileMap() {
+    public byte[] getTileMap() {
         return null;
     }
 

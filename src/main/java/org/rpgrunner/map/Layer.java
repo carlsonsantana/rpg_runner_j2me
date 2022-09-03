@@ -6,22 +6,31 @@ import org.rpgrunner.tileset.TileSet;
 
 public class Layer {
     private final TileSet tileSet;
-    private final byte[][] tileMap;
+    private final byte[] tileMap;
+    private final int width;
+    private final int height;
 
-    public Layer(final TileSet mapTileSet, final byte[][] mapTileMap) {
+    public Layer(
+        final TileSet mapTileSet,
+        final byte[] mapTileMap,
+        final int mapWidth,
+        final int mapHeight
+    ) {
         tileSet = mapTileSet;
         tileMap = mapTileMap;
+        width = mapWidth;
+        height = mapHeight;
     }
 
     public int getWidth() {
-        return tileMap[0].length;
+        return width;
     }
 
     public int getHeight() {
-        return tileMap.length;
+        return height;
     }
 
-    public byte[][] getTileMap() {
+    public byte[] getTileMap() {
         return tileMap;
     }
 
@@ -38,10 +47,10 @@ public class Layer {
 
         return (
             isValidPosition(toX, toY)
-            && (tileSet.canPassOn(tileMap[fromY][fromX], direction))
+            && (tileSet.canPassOn(tileMap[(fromY * width) + fromX], direction))
             && (
                 tileSet.canPassOn(
-                    tileMap[toY][toX],
+                    tileMap[(toY * width) + toX],
                     Direction.invertDirection(direction)
                 )
             )

@@ -18,7 +18,9 @@ public class LayerTest extends TestCase {
     private static final int MAXIMUM_LAYER_WIDTH = 100;
     private static final int MAXIMUM_LAYER_HEIGHT = 100;
     private Random random;
-    private byte[][] tileMap;
+    private int width;
+    private int height;
+    private byte[] tileMap;
     private boolean[] tileSetResults;
     private TileSetSpy tileSetSpy;
     private Layer layer;
@@ -30,8 +32,13 @@ public class LayerTest extends TestCase {
     public void setUp() {
         tileSetResults = generateTileSetResults();
         tileSetSpy = new TileSetSpy(tileSetResults);
+        width = random.nextInt(MAXIMUM_LAYER_WIDTH) + MINIMUM_LAYER_WIDTH;
+        height = (
+            random.nextInt(MAXIMUM_LAYER_HEIGHT)
+            + MINIMUM_LAYER_HEIGHT
+        );
         tileMap = generateRandomTileMap();
-        layer = new Layer(tileSetSpy, tileMap);
+        layer = new Layer(tileSetSpy, tileMap, width, height);
     }
 
     private boolean[] generateTileSetResults() {
@@ -44,17 +51,12 @@ public class LayerTest extends TestCase {
         return newTileSetResults;
     }
 
-    private byte[][] generateRandomTileMap() {
-        int height = (
-            random.nextInt(MAXIMUM_LAYER_HEIGHT)
-            + MINIMUM_LAYER_HEIGHT
-        );
-        int width = random.nextInt(MAXIMUM_LAYER_WIDTH) + MINIMUM_LAYER_WIDTH;
-        byte[][] newTileMap = new byte[height][width];
+    private byte[] generateRandomTileMap() {
+        byte[] newTileMap = new byte[height * width];
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                newTileMap[y][x] = RandomGenerator.getRandomByte();
+                newTileMap[(y * width) + x] = RandomGenerator.getRandomByte();
             }
         }
 
@@ -66,11 +68,11 @@ public class LayerTest extends TestCase {
     }
 
     public void testReturnSameWidthOfTileMap() {
-        Assert.assertEquals(tileMap[0].length, layer.getWidth());
+        Assert.assertEquals(width, layer.getWidth());
     }
 
     public void testReturnSameHeightOfTileMap() {
-        Assert.assertEquals(tileMap.length, layer.getHeight());
+        Assert.assertEquals(height, layer.getHeight());
     }
 
     public void testCanMoveToValidPositionsWithoutCollisionsLoop() {

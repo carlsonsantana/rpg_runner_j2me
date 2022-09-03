@@ -65,21 +65,19 @@ public class MapLoader {
         String tileSetFileName = Loader.extractString(mapInputStream);
         TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
 
-        byte[][] tileMap = extractTileMap(mapInputStream, width, height);
+        byte[] tileMap = extractTileMap(mapInputStream, width, height);
 
-        return new Layer(tileSet, tileMap);
+        return new Layer(tileSet, tileMap, width, height);
     }
 
-    private byte[][] extractTileMap(
+    private byte[] extractTileMap(
         final InputStream mapInputStream,
         final int width,
         final int height
     ) throws IOException {
-        byte[][] tileMap = new byte[height][width];
+        byte[] tileMap = new byte[height * width];
 
-        for (int i = 0; i < height; i++) {
-            mapInputStream.read(tileMap[i]);
-        }
+        mapInputStream.read(tileMap);
 
         return tileMap;
     }

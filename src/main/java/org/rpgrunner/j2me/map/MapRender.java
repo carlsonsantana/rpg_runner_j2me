@@ -44,14 +44,16 @@ public class MapRender {
         final Layer layer,
         final TiledLayer tiledLayer
     ) {
-        int height = layer.getHeight();
         int width = layer.getWidth();
-        byte[][] tileMap = layer.getTileMap();
+        int height = layer.getHeight();
+        byte[] tileMap = layer.getTileMap();
 
         for (int row = 0; row < height; row++) {
             for (int cell = 0; cell < width; cell++) {
-                if (tileMap[row][cell] > 0) {
-                    tiledLayer.setCell(cell, row, tileMap[row][cell]);
+                int position = (row * width) + cell;
+
+                if (tileMap[position] > 0) {
+                    tiledLayer.setCell(cell, row, tileMap[position]);
                 }
             }
         }
