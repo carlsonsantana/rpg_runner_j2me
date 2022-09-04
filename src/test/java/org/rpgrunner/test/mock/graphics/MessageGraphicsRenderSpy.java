@@ -3,11 +3,11 @@ package org.rpgrunner.test.mock.graphics;
 import org.rpgrunner.graphics.MessageGraphicsRender;
 
 public class MessageGraphicsRenderSpy extends GraphicsRenderSpy implements
-    MessageGraphicsRender {
+MessageGraphicsRender {
     private String lastMessage;
     private boolean showingMessage;
-    private boolean scrollUpCalled;
-    private boolean scrollDownCalled;
+    private boolean pageUpCalled;
+    private boolean pageDownCalled;
 
     public void showMessage(final String message) {
         lastMessage = message;
@@ -26,24 +26,24 @@ public class MessageGraphicsRenderSpy extends GraphicsRenderSpy implements
         return showingMessage;
     }
 
-    public void clearScroll() {
-        scrollUpCalled = false;
-        scrollDownCalled = false;
+    public void clearPage() {
+        pageUpCalled = false;
+        pageDownCalled = false;
     }
 
-    public void scrollUp() {
-        scrollUpCalled = true;
+    public void pageUp() {
+        pageUpCalled = true;
     }
 
-    public boolean isScrollUpCalled() {
-        return scrollUpCalled;
+    public boolean isPageUpCalled() {
+        return pageUpCalled;
     }
 
-    public void scrollDown() {
-        scrollDownCalled = true;
+    public void pageDown() {
+        pageDownCalled = true;
     }
 
-    public boolean isScrollDownCalled() {
-        return scrollDownCalled;
+    public boolean isPageDownCalled() {
+        return pageDownCalled;
     }
 }

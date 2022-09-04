@@ -19,9 +19,9 @@ public class MessageController implements Controller {
 
     public void prepareFrameAnimation() {
         if (input.isHoldingUp()) {
-            messageGraphicsRender.scrollUp();
+            messageGraphicsRender.pageUp();
         } else if (input.isHoldingDown()) {
-            messageGraphicsRender.scrollDown();
+            messageGraphicsRender.pageDown();
         } else if (input.isActionPressed()) {
             messageGraphicsRender.hideMessage();
             finished = true;

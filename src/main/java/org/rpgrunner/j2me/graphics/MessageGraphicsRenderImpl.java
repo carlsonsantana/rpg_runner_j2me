@@ -1,8 +1,5 @@
 package org.rpgrunner.j2me.graphics;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.LayerManager;
 
@@ -27,8 +24,10 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private final int textBoxWidth;
 
     private String currentMessage;
-    private int[] cacheLinesLengths;
-    private int scrollY;
+    private int[] linesLengths;
+    private int linesLengthsSize;
+    private int currentMessageIndex;
+    private int currentMessageLength;
 
     public MessageGraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -44,13 +43,14 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         boxHeight = (fontHeight * DISPLAY_LINES) + (TEXT_PADDING * 2);
         boxPositionY = screenHeight - boxHeight;
         textBoxWidth = boxWidth - (TEXT_PADDING * 2);
+
+        linesLengths = new int[DISPLAY_LINES];
     }
 
     public void showMessage(final String message) {
         currentMessage = message;
-
-        cacheLinesLengths = null;
-        scrollY = 0;
+        currentMessageIndex = 0;
+        currentMessageLength = 0;
 
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0, boxPositionY, boxWidth, boxHeight);
@@ -67,6 +67,8 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
             textBoxWidth,
             boxHeight - (2 * TEXT_PADDING)
         );
+
+        updateLinesLengths();
     }
 
     public void hideMessage() {
@@ -95,18 +97,11 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private void drawText() {
         graphics.setColor(TEXT_COLOR);
 
-        int[] linesLengths = getLinesLengthsProxy();
-        int currentOffset = 0;
+        int currentOffset = currentMessageIndex;
 
-        for (
-            int i = 0, arrayLength = linesLengths.length;
-            i < arrayLength;
-            i++
-        ) {
+        for (int i = 0; i <= linesLengthsSize; i++) {
             int lineLength = linesLengths[i];
-            int positionY = (
-                boxPositionY + i * fontHeight + TEXT_PADDING - scrollY
-            );
+            int positionY = boxPositionY + i * fontHeight + TEXT_PADDING;
 
             graphics.drawSubstring(
                 currentMessage,
@@ -121,58 +116,40 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         }
     }
 
-    public void scrollUp() {
-        if (scrollY <= 0) {
-            return;
-        }
+    public void pageUp() { }
 
-        scrollY--;
-    }
-
-    public void scrollDown() {
+    public void pageDown() {
         if (isMaxScrollDown()) {
             return;
         }
 
-        scrollY++;
+        currentMessageIndex += currentMessageLength;
+        updateLinesLengths();
     }
 
     private boolean isMaxScrollDown() {
-        int numberOfLines = getLinesLengthsProxy().length;
-        int textHeight = numberOfLines * fontHeight;
-
-        return ((textHeight + (2 * TEXT_PADDING)) <= (boxHeight + scrollY));
+        return (
+            currentMessage.length()
+            == currentMessageIndex + currentMessageLength
+        );
     }
 
-    private int[] getLinesLengthsProxy() {
-        if (cacheLinesLengths == null) {
-            Vector lines = getLinesLengths();
-            cacheLinesLengths = new int[lines.size()];
-            int i = 0;
+    private void updateLinesLengths() {
+        currentMessageLength = 0;
+        linesLengthsSize = 0;
 
-            for (
-                Enumeration enumeration = lines.elements();
-                enumeration.hasMoreElements();
-                i++
-            ) {
-                int length = ((Integer) enumeration.nextElement()).intValue();
-                cacheLinesLengths[i] = length;
-            }
-        }
-
-        return cacheLinesLengths;
-    }
-
-    private Vector getLinesLengths() {
-        Vector lines = new Vector();
         int messageLength = currentMessage.length();
-        int lineIndex = 0;
+        int lineIndex = currentMessageIndex;
         int lineLength = 0;
 
         for (
-            int searchIndex = 0,
+            int searchIndex = currentMessageIndex,
             spaceIndex = currentMessage.indexOf(" ", searchIndex);
-            ((searchIndex < messageLength) && (spaceIndex) >= 0);
+            (
+                (linesLengthsSize < DISPLAY_LINES)
+                && (searchIndex < messageLength)
+                && ((spaceIndex) >= 0)
+            );
             searchIndex = lineIndex + lineLength,
             spaceIndex = currentMessage.indexOf(" ", searchIndex)
         ) {
@@ -187,14 +164,18 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
             if (lineWidth < textBoxWidth) {
                 lineLength = substringLength;
             } else {
-                lines.addElement(new Integer(lineLength));
+                linesLengths[linesLengthsSize++] = lineLength;
+                currentMessageLength += lineLength;
                 lineIndex += lineLength;
                 lineLength = substringLength - lineLength;
             }
         }
 
-        lines.addElement(new Integer(messageLength - lineIndex));
-
-        return lines;
+        if (linesLengthsSize < DISPLAY_LINES) {
+            linesLengths[linesLengthsSize] = messageLength - lineIndex;
+            currentMessageLength += messageLength - lineIndex;
+        } else {
+            linesLengthsSize--;
+        }
     }
 }

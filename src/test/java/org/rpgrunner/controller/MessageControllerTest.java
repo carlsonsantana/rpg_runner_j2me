@@ -68,41 +68,41 @@ public class MessageControllerTest extends TestCase {
         Assert.assertTrue(messageGraphicsRender.isRenderCalled());
     }
 
-    public void testScrollUpWhenPressUp() {
-        messageGraphicsRender.clearScroll();
+    public void testPageUpWhenPressUp() {
+        messageGraphicsRender.clearPage();
 
         input.setHoldingUp(true);
         messageController.prepareFrameAnimation();
 
-        Assert.assertTrue(messageGraphicsRender.isScrollUpCalled());
+        Assert.assertTrue(messageGraphicsRender.isPageUpCalled());
     }
 
-    public void testScrollDownWhenPressDown() {
-        Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
+    public void testPageDownWhenPressDown() {
+        Assert.assertFalse(messageGraphicsRender.isPageDownCalled());
 
         input.setHoldingDown(true);
         messageController.prepareFrameAnimation();
 
-        Assert.assertTrue(messageGraphicsRender.isScrollDownCalled());
+        Assert.assertTrue(messageGraphicsRender.isPageDownCalled());
     }
 
-    public void testStopScrollUpWhenReleaseUp() {
+    public void testStopPageUpWhenReleaseUp() {
         input.setHoldingUp(true);
         messageController.prepareFrameAnimation();
-        messageGraphicsRender.clearScroll();
+        messageGraphicsRender.clearPage();
         input.setHoldingUp(false);
         messageController.prepareFrameAnimation();
 
-        Assert.assertFalse(messageGraphicsRender.isScrollUpCalled());
+        Assert.assertFalse(messageGraphicsRender.isPageUpCalled());
     }
 
-    public void testStopScrollDownWhenReleaseDown() {
+    public void testStopPageDownWhenReleaseDown() {
         input.setHoldingDown(true);
         messageController.prepareFrameAnimation();
-        messageGraphicsRender.clearScroll();
+        messageGraphicsRender.clearPage();
         input.setHoldingDown(false);
         messageController.prepareFrameAnimation();
 
-        Assert.assertFalse(messageGraphicsRender.isScrollDownCalled());
+        Assert.assertFalse(messageGraphicsRender.isPageDownCalled());
     }
 }
