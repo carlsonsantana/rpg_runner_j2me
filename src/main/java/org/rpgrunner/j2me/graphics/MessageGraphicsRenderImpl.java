@@ -14,6 +14,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private static final int TEXT_COLOR = 0xFFFFFF;
     private static final int BOX_PROPORTION = 4;
     private static final int TEXT_PADDING = 7;
+    private static final int OUTLINE_OFFSET = 1;
 
     private final Graphics graphics;
     private final LayerManager layerManager;
@@ -49,10 +50,27 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
         cacheLinesLengths = null;
         scrollY = 0;
+
+        graphics.setColor(BACKGROUND_COLOR);
+        graphics.fillRect(0, boxPositionY, boxWidth, boxHeight);
+        graphics.setColor(BORDER_COLOR);
+        graphics.drawRect(
+            OUTLINE_OFFSET,
+            boxPositionY + OUTLINE_OFFSET,
+            boxWidth - OUTLINE_OFFSET - 2,
+            boxHeight - OUTLINE_OFFSET - 2
+        );
+        graphics.setClip(
+            TEXT_PADDING,
+            boxPositionY + TEXT_PADDING,
+            textBoxWidth,
+            boxHeight - (2 * TEXT_PADDING)
+        );
     }
 
     public void hideMessage() {
         currentMessage = null;
+        graphics.setClip(0, 0, boxWidth, screenHeight);
     }
 
     public void render() {
@@ -64,17 +82,13 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     }
 
     private void displayMessage() {
-        graphics.setClip(0, boxPositionY, boxWidth, boxHeight);
-        drawBox();
+        clearBox();
         drawText();
-        graphics.setClip(0, 0, boxWidth, screenHeight);
     }
 
-    private void drawBox() {
+    private void clearBox() {
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0, boxPositionY, boxWidth, boxHeight);
-        graphics.setColor(BORDER_COLOR);
-        graphics.drawRect(0, boxPositionY, boxWidth - 1, boxHeight - 1);
     }
 
     private void drawText() {
@@ -126,7 +140,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         int numberOfLines = getLinesLengthsProxy().length;
         int textHeight = numberOfLines * fontHeight;
 
-        return ((textHeight + TEXT_PADDING) <= (boxHeight + scrollY));
+        return ((textHeight + (2 * TEXT_PADDING)) <= (boxHeight + scrollY));
     }
 
     private int[] getLinesLengthsProxy() {
