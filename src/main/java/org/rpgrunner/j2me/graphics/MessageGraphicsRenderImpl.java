@@ -9,7 +9,7 @@ import javax.microedition.lcdui.game.LayerManager;
 import org.rpgrunner.graphics.MessageGraphicsRender;
 
 public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
-    private static final int BORDER_COLOR = 0xFF0000;
+    private static final int OUTLINE_COLOR = 0xFF0000;
     private static final int BACKGROUND_COLOR = 0x000000;
     private static final int TEXT_COLOR = 0xFFFFFF;
     private static final int BOX_PROPORTION = 4;
@@ -54,7 +54,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
 
         graphics.setColor(BACKGROUND_COLOR);
         graphics.fillRect(0, boxPositionY, boxWidth, boxHeight);
-        graphics.setColor(BORDER_COLOR);
+        graphics.setColor(OUTLINE_COLOR);
         graphics.drawRect(
             OUTLINE_OFFSET,
             boxPositionY + OUTLINE_OFFSET,
