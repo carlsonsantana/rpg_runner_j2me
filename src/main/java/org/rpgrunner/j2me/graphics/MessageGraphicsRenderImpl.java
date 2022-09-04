@@ -15,6 +15,7 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
     private static final int BOX_PROPORTION = 4;
     private static final int TEXT_PADDING = 7;
     private static final int OUTLINE_OFFSET = 1;
+    private static final int DISPLAY_LINES = 4;
 
     private final Graphics graphics;
     private final LayerManager layerManager;
@@ -37,11 +38,11 @@ public class MessageGraphicsRenderImpl implements MessageGraphicsRender {
         graphics = midletGraphics;
         layerManager = new LayerManager();
 
-        boxWidth = currentScreenWidth;
         screenHeight = currentScreenHeight;
-        boxHeight = screenHeight / BOX_PROPORTION;
-        boxPositionY = screenHeight - boxHeight;
         fontHeight = graphics.getFont().getHeight();
+        boxWidth = currentScreenWidth;
+        boxHeight = (fontHeight * DISPLAY_LINES) + (TEXT_PADDING * 2);
+        boxPositionY = screenHeight - boxHeight;
         textBoxWidth = boxWidth - (TEXT_PADDING * 2);
     }
 
