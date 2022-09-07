@@ -5,6 +5,7 @@ import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public class MapControllerSpy extends MapController {
@@ -18,7 +19,7 @@ public class MapControllerSpy extends MapController {
     private boolean renderCalled;
 
     public MapControllerSpy() {
-        super(null, new MapHelperSpy());
+        super(new MapGraphicsRenderSpy(), new MapHelperSpy());
         map = null;
         countMapChanged = 0;
         prepareFrameAnimationCalled = false;

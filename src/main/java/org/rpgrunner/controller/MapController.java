@@ -23,8 +23,9 @@ public class MapController implements Controller {
         final MapGraphicsRender gameGraphicsRender,
         final MapHelper gameMapHelper
     ) {
-        mapGraphicsRender = gameGraphicsRender;
         characterElements = new Vector(1);
+        mapGraphicsRender = gameGraphicsRender;
+        mapGraphicsRender.setCharacterElements(characterElements);
         mapHelper = gameMapHelper;
         mapHelper.setCharacterElements(characterElements);
     }
@@ -44,7 +45,7 @@ public class MapController implements Controller {
             characterElements.addElement(playerCharacterElement);
         }
 
-        mapGraphicsRender.setCharacterElements(characterElements);
+        mapGraphicsRender.notifyChangesCharacterElements();
     }
 
     public Map getMap() {
@@ -110,11 +111,11 @@ public class MapController implements Controller {
         final CharacterElement characterElement
     ) {
         characterElements.removeElement(characterElement);
-        mapGraphicsRender.setCharacterElements(characterElements);
+        mapGraphicsRender.notifyChangesCharacterElements();
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
         characterElements.addElement(characterElement);
-        mapGraphicsRender.setCharacterElements(characterElements);
+        mapGraphicsRender.notifyChangesCharacterElements();
     }
 }
