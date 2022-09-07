@@ -1,11 +1,10 @@
 package org.rpgrunner.j2me;
 
-import java.util.Vector;
-
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
+import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.controller.MessageController;
@@ -28,6 +27,7 @@ import org.rpgrunner.map.MapLoader;
 
 public class GameRunner extends GameCanvas implements Runnable {
     private static final int FRAMES_PER_SECOND = 100;
+    private static final int MAX_CHARACTERS_ELEMENTS = 20;
     private static final int[] ALLOWED_KEYS = new int[] {
         KEY_NUM0,
         KEY_NUM1,
@@ -72,7 +72,9 @@ public class GameRunner extends GameCanvas implements Runnable {
         int screenHeight = getHeight();
 
         actionQueue = new ActionQueue();
-        Vector characterElements = new Vector();
+        CharacterElement[] characterElements = (
+            new CharacterElement[MAX_CHARACTERS_ELEMENTS]
+        );
         MapHelper mapHelper = new MapHelper(actionQueue, characterElements);
         MessageGraphicsRenderImpl messageGraphicsRender = (
             new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
@@ -102,7 +104,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         final int screenWidth,
         final int screenHeight,
         final MapHelper mapHelper,
-        final Vector characterElements
+        final CharacterElement[] characterElements
     ) {
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,

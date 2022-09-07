@@ -1,8 +1,5 @@
 package org.rpgrunner.j2me.graphics;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.Layer;
 import javax.microedition.lcdui.game.LayerManager;
@@ -21,7 +18,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final LayerManager layerManager;
     private final int screenWidth;
     private final int screenHeight;
-    private final Vector characterElements;
+    private final CharacterElement[] characterElements;
     private Map map;
     private CharacterAnimation characterAnimationFollowed;
 
@@ -29,7 +26,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         final Graphics midletGraphics,
         final int currentScreenWidth,
         final int currentScreenHeight,
-        final Vector gameCharacterElements
+        final CharacterElement[] gameCharacterElements
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
@@ -63,12 +60,11 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
 
     public void notifyChangesCharacterElements() {
         for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = characterElements.length;
+            (i < length) && (characterElements[i] != null);
+            i++
         ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
+            CharacterElement characterElement = characterElements[i];
             CharacterAnimation characterAnimation = (
                 characterElement.getCharacterAnimation()
             );

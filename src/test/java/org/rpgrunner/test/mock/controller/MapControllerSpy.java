@@ -1,7 +1,5 @@
 package org.rpgrunner.test.mock.controller;
 
-import java.util.Vector;
-
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
@@ -21,7 +19,11 @@ public class MapControllerSpy extends MapController {
     private boolean renderCalled;
 
     public MapControllerSpy() {
-        super(new MapGraphicsRenderSpy(), new MapHelperSpy(), new Vector());
+        super(
+            new MapGraphicsRenderSpy(),
+            new MapHelperSpy(),
+            new CharacterElement[0]
+        );
         map = null;
         countMapChanged = 0;
         prepareFrameAnimationCalled = false;

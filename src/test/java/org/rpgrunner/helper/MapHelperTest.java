@@ -1,7 +1,6 @@
 package org.rpgrunner.helper;
 
 import java.util.Random;
-import java.util.Vector;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -27,7 +26,7 @@ public class MapHelperTest extends TestCase {
     private MapHelper mapHelper;
     private ActionQueueSpy actionQueue;
     private MapSpy map;
-    private Vector characterElements;
+    private CharacterElement[] characterElements;
     private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;

@@ -1,8 +1,5 @@
 package org.rpgrunner.helper;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
@@ -15,12 +12,12 @@ import org.rpgrunner.map.Map;
 public class MapHelper {
     private static final Action DEFAULT_ACTION = new NullAction();
     private final ActionQueue actionQueue;
-    private final Vector characterElements;
+    private final CharacterElement[] characterElements;
     private Map map;
 
     public MapHelper(
         final ActionQueue currentActionQueue,
-        final Vector gameCharacterElements
+        final CharacterElement[] gameCharacterElements
     ) {
         actionQueue = currentActionQueue;
         characterElements = gameCharacterElements;
@@ -43,12 +40,11 @@ public class MapHelper {
         }
 
         for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = characterElements.length;
+            (i < length) && (characterElements[i] != null);
+            i++
         ) {
-            CharacterElement otherCharacterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
+            CharacterElement otherCharacterElement = characterElements[i];
             GameCharacter otherCharacter = otherCharacterElement.getCharacter();
 
             if (hasCharacterCollision(character, otherCharacter)) {
@@ -125,12 +121,11 @@ public class MapHelper {
         final GameCharacter character
     ) {
         for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = characterElements.length;
+            (i < length) && (characterElements[i] != null);
+            i++
         ) {
-            CharacterElement otherCharacterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
+            CharacterElement otherCharacterElement = characterElements[i];
             GameCharacter otherCharacter = otherCharacterElement.getCharacter();
 
             if (isInFrontOfCharacter(character, otherCharacter)) {

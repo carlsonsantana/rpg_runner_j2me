@@ -1,7 +1,6 @@
 package org.rpgrunner.test.helper;
 
 import java.util.Random;
-import java.util.Vector;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
@@ -22,15 +21,19 @@ public class RandomGenerator {
 
     private RandomGenerator() { }
 
-    public static Vector generateRandomCharacterElements() {
+    public static CharacterElement[] generateRandomCharacterElements() {
         int numberCharacters = (
             RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
             + MINIMUM_NUMBER_CHARACTERS
         );
-        Vector characterElements = new Vector();
+        CharacterElement[] characterElements = (
+            new CharacterElement[
+                MAXIMUM_NUMBER_CHARACTERS + MINIMUM_NUMBER_CHARACTERS
+            ]
+        );
 
         for (int i = 0; i < numberCharacters; i++) {
-            characterElements.addElement(generateRandomCharacterElement());
+            characterElements[i] = generateRandomCharacterElement();
         }
 
         return characterElements;
@@ -51,11 +54,23 @@ public class RandomGenerator {
     }
 
     public static CharacterElement getRandomCharacterElement(
-        final Vector characterElements
+        final CharacterElement[] characterElements
     ) {
-        int index = RANDOM.nextInt(characterElements.size());
+        int size = 0;
 
-        return (CharacterElement) characterElements.elementAt(index);
+        for (
+            int length = characterElements.length;
+            size < length;
+            size++
+        ) {
+            if (characterElements[size] == null) {
+                break;
+            }
+        }
+
+        int index = RANDOM.nextInt(size);
+
+        return characterElements[index];
     }
 
     public static CharacterSpy generateRandomCharacter() {

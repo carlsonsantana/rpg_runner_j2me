@@ -1,8 +1,5 @@
 package org.rpgrunner.controller;
 
-import java.util.Enumeration;
-import java.util.Vector;
-
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.movement.MovementCommand;
@@ -13,18 +10,20 @@ import org.rpgrunner.map.Map;
 
 public class MapController implements Controller {
     private final MapGraphicsRender mapGraphicsRender;
-    private final Vector characterElements;
     private final MapHelper mapHelper;
+    private final CharacterElement[] characterElements;
     private Map map;
     private CharacterElement playerCharacterElement;
     private PlayerMovement playerMovement;
+    private int numberCharacters;
 
     public MapController(
         final MapGraphicsRender gameGraphicsRender,
         final MapHelper gameMapHelper,
-        final Vector gameCharacterElements
+        final CharacterElement[] gameCharacterElements
     ) {
         characterElements = gameCharacterElements;
+        numberCharacters = 0;
         mapGraphicsRender = gameGraphicsRender;
         mapHelper = gameMapHelper;
     }
@@ -38,10 +37,14 @@ public class MapController implements Controller {
     }
 
     private void removeAllNPCs() {
-        characterElements.removeAllElements();
+        for (int i = 0; i < numberCharacters; i++) {
+            characterElements[i] = null;
+        }
+
+        numberCharacters = 0;
 
         if (playerCharacterElement != null) {
-            characterElements.addElement(playerCharacterElement);
+            characterElements[numberCharacters++] = playerCharacterElement;
         }
 
         mapGraphicsRender.notifyChangesCharacterElements();
@@ -52,13 +55,8 @@ public class MapController implements Controller {
     }
 
     public void prepareFrameAnimation() {
-        for (
-            Enumeration enumeration = characterElements.elements();
-            enumeration.hasMoreElements();
-        ) {
-            CharacterElement characterElement = (
-                (CharacterElement) enumeration.nextElement()
-            );
+        for (int i = 0; i < numberCharacters; i++) {
+            CharacterElement characterElement = characterElements[i];
             executeMovementCommand(characterElement);
             executeAnimation(characterElement);
         }
@@ -95,7 +93,10 @@ public class MapController implements Controller {
     public void setPlayerCharacterElement(
         final CharacterElement newPlayerCharacterElement
     ) {
-        removeCharacterElement(playerCharacterElement);
+        if (playerCharacterElement != null) {
+            removeCharacterElement(playerCharacterElement);
+        }
+
         playerCharacterElement = newPlayerCharacterElement;
         playerMovement = (
             (PlayerMovement) playerCharacterElement.getMovementCommand()
@@ -109,12 +110,23 @@ public class MapController implements Controller {
     private void removeCharacterElement(
         final CharacterElement characterElement
     ) {
-        characterElements.removeElement(characterElement);
+        CharacterElement lastCharacterElement = (
+            characterElements[--numberCharacters]
+        );
+
+        for (int i = 0; i < numberCharacters; i++) {
+            if (characterElement == characterElements[i]) {
+                characterElements[i] = lastCharacterElement;
+            }
+        }
+
+        characterElements[numberCharacters] = null;
+
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
-        characterElements.addElement(characterElement);
+        characterElements[numberCharacters++] = characterElement;
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 }

@@ -1,8 +1,6 @@
 package org.rpgrunner.controller;
 
-import java.util.Enumeration;
 import java.util.Random;
-import java.util.Vector;
 
 import junit.framework.Assert;
 import junit.framework.TestCase;
@@ -20,6 +18,7 @@ import org.rpgrunner.test.mock.map.MapSpy;
 
 public class MapControllerTest extends TestCase {
     private static final int MAXIMUM_KEY_VALUE = 100;
+    private static final int MAX_CHARACTERS_ELEMENTS = 200;
     private final Random random;
     private MapController mapController;
     private MapGraphicsRenderSpy mapGraphicsRender;
@@ -27,8 +26,8 @@ public class MapControllerTest extends TestCase {
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
     private CharacterAnimationSpy characterAnimation;
-    private Vector npcs;
-    private Vector characterElements;
+    private CharacterElement[] npcs;
+    private CharacterElement[] characterElements;
 
     public MapControllerTest() {
         random = new Random();
@@ -44,7 +43,7 @@ public class MapControllerTest extends TestCase {
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        characterElements = new Vector();
+        characterElements = new CharacterElement[MAX_CHARACTERS_ELEMENTS];
         mapController = new MapController(
             mapGraphicsRender,
             mapHelper,
@@ -58,10 +57,11 @@ public class MapControllerTest extends TestCase {
         npcs = RandomGenerator.generateRandomCharacterElements();
 
         for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = npcs.length;
+            (i < length) && (npcs[i] != null);
+            i++
         ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            CharacterElement npc = npcs[i];
             mapController.addCharacterElement(npc);
         }
     }
@@ -82,10 +82,11 @@ public class MapControllerTest extends TestCase {
         Assert.assertTrue(characterAnimation.isDoAnimationCalled());
 
         for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = npcs.length;
+            (i < length) && (npcs[i] != null);
+            i++
         ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
+            CharacterElement npc = npcs[i];
             MovementSpy movementSpy = (MovementSpy) npc.getMovementCommand();
             CharacterAnimationSpy characterAnimationSpy = (
                 (CharacterAnimationSpy) npc.getCharacterAnimation()
@@ -123,14 +124,15 @@ public class MapControllerTest extends TestCase {
     }
 
     public void testAddSameCharacterElementsOnGraphicsRender() {
-        Assert.assertTrue(characterElements.contains(playerCharacterElement));
+        Assert.assertTrue(containsOnCharacterElements(playerCharacterElement));
 
         for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = npcs.length;
+            (i < length) && (npcs[i] != null);
+            i++
         ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertTrue(characterElements.contains(npc));
+            CharacterElement npc = npcs[i];
+            Assert.assertTrue(containsOnCharacterElements(npc));
         }
     }
 
@@ -139,7 +141,7 @@ public class MapControllerTest extends TestCase {
             generatePlayerCharacterElement()
         );
 
-        Assert.assertFalse(characterElements.contains(playerCharacterElement));
+        Assert.assertFalse(containsOnCharacterElements(playerCharacterElement));
     }
 
     private CharacterElement generatePlayerCharacterElement() {
@@ -161,11 +163,12 @@ public class MapControllerTest extends TestCase {
         mapController.setMap(map);
 
         for (
-            Enumeration enumeration = npcs.elements();
-            enumeration.hasMoreElements();
+            int i = 0, length = npcs.length;
+            (i < length) && (npcs[i] != null);
+            i++
         ) {
-            CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertFalse(characterElements.contains(npc));
+            CharacterElement npc = npcs[i];
+            Assert.assertFalse(containsOnCharacterElements(npc));
         }
     }
 
@@ -173,14 +176,7 @@ public class MapControllerTest extends TestCase {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
 
-        Assert.assertTrue(characterElements.contains(playerCharacterElement));
-    }
-
-    public void testNotAddNullOnCharacterElementsWhenChangeMap() {
-        MapSpy map = new MapSpy();
-        mapController.setMap(map);
-
-        Assert.assertFalse(characterElements.contains(null));
+        Assert.assertTrue(containsOnCharacterElements(playerCharacterElement));
     }
 
     public void testCallGraphicsRender() {
@@ -189,5 +185,17 @@ public class MapControllerTest extends TestCase {
         mapController.render();
 
         Assert.assertTrue(mapGraphicsRender.isRenderCalled());
+    }
+
+    private boolean containsOnCharacterElements(
+        final CharacterElement characterElement
+    ) {
+        for (int i = 0; i < MAX_CHARACTERS_ELEMENTS; i++) {
+            if (characterElements[i] == characterElement) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
