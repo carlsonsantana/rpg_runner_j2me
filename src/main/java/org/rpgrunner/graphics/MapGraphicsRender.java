@@ -8,5 +8,6 @@ import org.rpgrunner.map.Map;
 public interface MapGraphicsRender extends GraphicsRender {
     void setMap(Map map);
     void setCharacterElements(Vector characterElements);
+    void notifyChangesCharacterElements();
     void setCharacterAnimation(CharacterAnimation characterAnimation);
 }

@@ -7,7 +7,7 @@ import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.map.Map;
 
 public class MapGraphicsRenderSpy extends GraphicsRenderSpy implements
-    MapGraphicsRender {
+MapGraphicsRender {
     private Map map;
     private Vector characterElements;
     private CharacterAnimation characterAnimation;
@@ -27,6 +27,8 @@ public class MapGraphicsRenderSpy extends GraphicsRenderSpy implements
     public Vector getCharacterElements() {
         return characterElements;
     }
+
+    public void notifyChangesCharacterElements() { }
 
     public void setCharacterAnimation(
         final CharacterAnimation newCharacterAnimation

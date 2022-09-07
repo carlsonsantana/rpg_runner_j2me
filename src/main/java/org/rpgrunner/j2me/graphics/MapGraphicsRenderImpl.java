@@ -23,6 +23,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final int screenHeight;
     private Map map;
     private CharacterAnimation characterAnimationFollowed;
+    private Vector characterElements;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -58,7 +59,12 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         }
     }
 
-    public void setCharacterElements(final Vector characterElements) {
+    public void setCharacterElements(final Vector newCharacterElements) {
+        characterElements = newCharacterElements;
+        notifyChangesCharacterElements();
+    }
+
+    public void notifyChangesCharacterElements() {
         for (
             Enumeration enumeration = characterElements.elements();
             enumeration.hasMoreElements();
