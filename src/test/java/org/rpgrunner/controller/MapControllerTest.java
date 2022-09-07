@@ -43,7 +43,12 @@ public class MapControllerTest extends TestCase {
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        mapController = new MapController(mapGraphicsRender, mapHelper);
+        Vector characterElements = new Vector();
+        mapController = new MapController(
+            mapGraphicsRender,
+            mapHelper,
+            characterElements
+        );
         mapController.setPlayerCharacterElement(playerCharacterElement);
         generateNPCs();
     }

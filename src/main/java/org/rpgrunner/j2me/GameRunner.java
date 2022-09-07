@@ -1,5 +1,7 @@
 package org.rpgrunner.j2me;
 
+import java.util.Vector;
+
 import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
@@ -70,16 +72,13 @@ public class GameRunner extends GameCanvas implements Runnable {
         int screenHeight = getHeight();
         actionQueue = new ActionQueue();
         MapHelper mapHelper = new MapHelper(actionQueue);
-        MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
-            graphics,
-            screenWidth,
-            screenHeight
-        );
         MessageGraphicsRenderImpl messageGraphicsRender = (
             new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
         );
-        MapController mapController = new MapController(
-            mapGraphicsRender,
+        MapController mapController = createMapController(
+            graphics,
+            screenWidth,
+            screenHeight,
             mapHelper
         );
         MessageController messageController = new MessageController(
@@ -93,6 +92,26 @@ public class GameRunner extends GameCanvas implements Runnable {
         GameStartEvent gameStartEvent = new GameStartEvent();
 
         gameStartEvent.execute(actionAbstractFactory);
+    }
+
+    private MapController createMapController(
+        final Graphics graphics,
+        final int screenWidth,
+        final int screenHeight,
+        final MapHelper mapHelper
+    ) {
+        MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
+            graphics,
+            screenWidth,
+            screenHeight
+        );
+        Vector characterElements = new Vector();
+
+        return new MapController(
+            mapGraphicsRender,
+            mapHelper,
+            characterElements
+        );
     }
 
     private ActionAbstractFactory createActionAbstractFactory(

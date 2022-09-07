@@ -21,9 +21,10 @@ public class MapController implements Controller {
 
     public MapController(
         final MapGraphicsRender gameGraphicsRender,
-        final MapHelper gameMapHelper
+        final MapHelper gameMapHelper,
+        final Vector gameCharacterElements
     ) {
-        characterElements = new Vector(1);
+        characterElements = gameCharacterElements;
         mapGraphicsRender = gameGraphicsRender;
         mapGraphicsRender.setCharacterElements(characterElements);
         mapHelper = gameMapHelper;
