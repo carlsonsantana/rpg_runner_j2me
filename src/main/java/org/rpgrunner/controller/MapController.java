@@ -28,7 +28,6 @@ public class MapController implements Controller {
         mapGraphicsRender = gameGraphicsRender;
         mapGraphicsRender.setCharacterElements(characterElements);
         mapHelper = gameMapHelper;
-        mapHelper.setCharacterElements(characterElements);
     }
 
     public void setMap(final Map newMap) {

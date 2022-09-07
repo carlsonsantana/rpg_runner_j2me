@@ -70,8 +70,10 @@ public class GameRunner extends GameCanvas implements Runnable {
         graphics.setFont(Font.getDefaultFont());
         int screenWidth = getWidth();
         int screenHeight = getHeight();
+
         actionQueue = new ActionQueue();
-        MapHelper mapHelper = new MapHelper(actionQueue);
+        Vector characterElements = new Vector();
+        MapHelper mapHelper = new MapHelper(actionQueue, characterElements);
         MessageGraphicsRenderImpl messageGraphicsRender = (
             new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
         );
@@ -79,7 +81,8 @@ public class GameRunner extends GameCanvas implements Runnable {
             graphics,
             screenWidth,
             screenHeight,
-            mapHelper
+            mapHelper,
+            characterElements
         );
         MessageController messageController = new MessageController(
             messageGraphicsRender,
@@ -98,14 +101,14 @@ public class GameRunner extends GameCanvas implements Runnable {
         final Graphics graphics,
         final int screenWidth,
         final int screenHeight,
-        final MapHelper mapHelper
+        final MapHelper mapHelper,
+        final Vector characterElements
     ) {
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
             screenWidth,
             screenHeight
         );
-        Vector characterElements = new Vector();
 
         return new MapController(
             mapGraphicsRender,

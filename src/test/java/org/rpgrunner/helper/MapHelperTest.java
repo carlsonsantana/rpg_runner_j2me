@@ -39,7 +39,10 @@ public class MapHelperTest extends TestCase {
 
     public void setUp() {
         actionQueue = new ActionQueueSpy();
-        mapHelper = new MapHelper(actionQueue);
+        characterElements = (
+            RandomGenerator.generateRandomCharacterElements()
+        );
+        mapHelper = new MapHelper(actionQueue, characterElements);
         map = new MapSpy();
         map.setCanMoveTo(true);
         mapEventArea = new MapEventAreaSpy();
@@ -53,7 +56,8 @@ public class MapHelperTest extends TestCase {
         characterElements = (
             RandomGenerator.generateRandomCharacterElements()
         );
-        mapHelper.setCharacterElements(characterElements);
+        mapHelper = new MapHelper(actionQueue, characterElements);
+        mapHelper.setMap(map);
         generateCharacterTest();
         collisionCharacter = getCollisionCharacter();
     }

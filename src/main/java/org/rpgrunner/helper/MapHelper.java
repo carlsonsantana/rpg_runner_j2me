@@ -15,19 +15,19 @@ import org.rpgrunner.map.Map;
 public class MapHelper {
     private static final Action DEFAULT_ACTION = new NullAction();
     private final ActionQueue actionQueue;
+    private final Vector characterElements;
     private Map map;
-    private Vector characterElements;
 
-    public MapHelper(final ActionQueue currentActionQueue) {
+    public MapHelper(
+        final ActionQueue currentActionQueue,
+        final Vector gameCharacterElements
+    ) {
         actionQueue = currentActionQueue;
+        characterElements = gameCharacterElements;
     }
 
     public void setMap(final Map newMap) {
         map = newMap;
-    }
-
-    public void setCharacterElements(final Vector newCharacterElements) {
-        characterElements = newCharacterElements;
     }
 
     public boolean canMove(final GameCharacter character) {
