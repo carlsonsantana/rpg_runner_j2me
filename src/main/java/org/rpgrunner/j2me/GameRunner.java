@@ -107,7 +107,8 @@ public class GameRunner extends GameCanvas implements Runnable {
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
             screenWidth,
-            screenHeight
+            screenHeight,
+            characterElements
         );
 
         return new MapController(

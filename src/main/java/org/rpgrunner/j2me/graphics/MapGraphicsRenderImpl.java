@@ -21,19 +21,21 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final LayerManager layerManager;
     private final int screenWidth;
     private final int screenHeight;
+    private final Vector characterElements;
     private Map map;
     private CharacterAnimation characterAnimationFollowed;
-    private Vector characterElements;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
         final int currentScreenWidth,
-        final int currentScreenHeight
+        final int currentScreenHeight,
+        final Vector gameCharacterElements
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
         screenWidth = currentScreenWidth;
         screenHeight = currentScreenHeight;
+        characterElements = gameCharacterElements;
     }
 
     public void setMap(final Map newMap) {
@@ -57,11 +59,6 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
                 layerManager.remove(layer);
             }
         }
-    }
-
-    public void setCharacterElements(final Vector newCharacterElements) {
-        characterElements = newCharacterElements;
-        notifyChangesCharacterElements();
     }
 
     public void notifyChangesCharacterElements() {

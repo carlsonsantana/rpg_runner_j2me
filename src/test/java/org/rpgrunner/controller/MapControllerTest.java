@@ -28,6 +28,7 @@ public class MapControllerTest extends TestCase {
     private PlayerMovementSpy playerMovementSpy;
     private CharacterAnimationSpy characterAnimation;
     private Vector npcs;
+    private Vector characterElements;
 
     public MapControllerTest() {
         random = new Random();
@@ -43,7 +44,7 @@ public class MapControllerTest extends TestCase {
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
-        Vector characterElements = new Vector();
+        characterElements = new Vector();
         mapController = new MapController(
             mapGraphicsRender,
             mapHelper,
@@ -122,20 +123,14 @@ public class MapControllerTest extends TestCase {
     }
 
     public void testAddSameCharacterElementsOnGraphicsRender() {
-        Vector characterElementsGraphics = (
-            mapGraphicsRender.getCharacterElements()
-        );
-
-        Assert.assertTrue(
-            characterElementsGraphics.contains(playerCharacterElement)
-        );
+        Assert.assertTrue(characterElements.contains(playerCharacterElement));
 
         for (
             Enumeration enumeration = npcs.elements();
             enumeration.hasMoreElements();
         ) {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertTrue(characterElementsGraphics.contains(npc));
+            Assert.assertTrue(characterElements.contains(npc));
         }
     }
 
@@ -143,13 +138,8 @@ public class MapControllerTest extends TestCase {
         mapController.setPlayerCharacterElement(
             generatePlayerCharacterElement()
         );
-        Vector characterElementsGraphics = (
-            mapGraphicsRender.getCharacterElements()
-        );
 
-        Assert.assertFalse(
-            characterElementsGraphics.contains(playerCharacterElement)
-        );
+        Assert.assertFalse(characterElements.contains(playerCharacterElement));
     }
 
     private CharacterElement generatePlayerCharacterElement() {
@@ -169,39 +159,28 @@ public class MapControllerTest extends TestCase {
     public void testRemoveAllNPCsWhenChangeMap() {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
-        Vector characterElementsGraphics = (
-            mapGraphicsRender.getCharacterElements()
-        );
 
         for (
             Enumeration enumeration = npcs.elements();
             enumeration.hasMoreElements();
         ) {
             CharacterElement npc = (CharacterElement) enumeration.nextElement();
-            Assert.assertFalse(characterElementsGraphics.contains(npc));
+            Assert.assertFalse(characterElements.contains(npc));
         }
     }
 
     public void testKeepPlayerCharacterWhenChangeMap() {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
-        Vector characterElementsGraphics = (
-            mapGraphicsRender.getCharacterElements()
-        );
 
-        Assert.assertTrue(
-            characterElementsGraphics.contains(playerCharacterElement)
-        );
+        Assert.assertTrue(characterElements.contains(playerCharacterElement));
     }
 
     public void testNotAddNullOnCharacterElementsWhenChangeMap() {
         MapSpy map = new MapSpy();
         mapController.setMap(map);
-        Vector characterElementsGraphics = (
-            mapGraphicsRender.getCharacterElements()
-        );
 
-        Assert.assertFalse(characterElementsGraphics.contains(null));
+        Assert.assertFalse(characterElements.contains(null));
     }
 
     public void testCallGraphicsRender() {

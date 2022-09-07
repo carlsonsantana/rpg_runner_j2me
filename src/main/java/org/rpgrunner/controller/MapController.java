@@ -26,7 +26,6 @@ public class MapController implements Controller {
     ) {
         characterElements = gameCharacterElements;
         mapGraphicsRender = gameGraphicsRender;
-        mapGraphicsRender.setCharacterElements(characterElements);
         mapHelper = gameMapHelper;
     }
 
