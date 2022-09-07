@@ -9,7 +9,8 @@ import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class ActionQueueTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
-    private static final int MAX_NUMBER_ACTIONS = 100;
+    private static final int MIN_NUMBER_ACTIONS = 2;
+    private static final int MAX_NUMBER_ACTIONS_EXTRA = 18;
     private final Random random;
     private ActionQueue actionQueue;
 
@@ -48,7 +49,9 @@ public class ActionQueueTest extends TestCase {
     }
 
     private void checkExecuteActionsOfQueueWithMoreThanOneActionInOrder() {
-        int numberOfActions = random.nextInt(MAX_NUMBER_ACTIONS) + 2;
+        int numberOfActions = (
+            random.nextInt(MAX_NUMBER_ACTIONS_EXTRA) + MIN_NUMBER_ACTIONS
+        );
         ActionSpy[] actions = new ActionSpy[numberOfActions];
 
         for (int i = 0; i < numberOfActions; i++) {
@@ -76,7 +79,9 @@ public class ActionQueueTest extends TestCase {
     }
 
     private void checkClearActionsAfterExecute() {
-        int numberOfActions = random.nextInt(MAX_NUMBER_ACTIONS) + 2;
+        int numberOfActions = (
+            random.nextInt(MAX_NUMBER_ACTIONS_EXTRA) + MIN_NUMBER_ACTIONS
+        );
         int lastActionNumber = numberOfActions + 1;
         ActionSpy[] actions = new ActionSpy[numberOfActions];
 
@@ -104,7 +109,9 @@ public class ActionQueueTest extends TestCase {
     }
 
     private void checkAllowExecuteAgainAnActionIfAddedAgain() {
-        int numberOfActions = random.nextInt(MAX_NUMBER_ACTIONS) + 2;
+        int numberOfActions = (
+            random.nextInt(MAX_NUMBER_ACTIONS_EXTRA) + MIN_NUMBER_ACTIONS
+        );
         ActionSpy[] actions = new ActionSpy[numberOfActions];
 
         for (int i = 0; i < numberOfActions; i++) {
