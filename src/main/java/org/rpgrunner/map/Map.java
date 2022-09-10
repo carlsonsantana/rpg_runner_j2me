@@ -5,25 +5,25 @@ import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 
 public class Map {
-    private final String fileBaseName;
+    private final byte id;
     private final Layer[] layers;
     private final Action startAction;
     private final MapEventArea[] mapEventAreas;
 
     public Map(
-        final String mapFileBaseName,
+        final byte mapID,
         final Layer[] mapLayers,
         final Action mapStartAction,
         final MapEventArea[] currentMapEventAreas
     ) {
-        fileBaseName = mapFileBaseName;
+        id = mapID;
         layers = mapLayers;
         startAction = mapStartAction;
         mapEventAreas = currentMapEventAreas;
     }
 
-    public String getFileBaseName() {
-        return fileBaseName;
+    public byte getID() {
+        return id;
     }
 
     public int getWidth() {

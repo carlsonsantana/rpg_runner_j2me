@@ -15,7 +15,7 @@ public class TeleportTest extends AbstractTeleportTest {
     protected Teleport createTeleport(
         final MapController mapController,
         final ActionQueue actionQueue,
-        final String mapFileName,
+        final byte mapID,
         final int newMapPositionX,
         final int newMapPositionY
     ) {
@@ -23,7 +23,7 @@ public class TeleportTest extends AbstractTeleportTest {
             mapController,
             mapLoader,
             actionQueue,
-            mapFileName,
+            mapID,
             newMapPositionX,
             newMapPositionY
         );

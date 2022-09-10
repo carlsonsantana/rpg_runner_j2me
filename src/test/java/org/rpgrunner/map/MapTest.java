@@ -20,7 +20,7 @@ public class MapTest extends TestCase {
     private static final int MAXIMUM_POSITION = 100;
     private Random random;
     private Map map;
-    private String mapFileBaseName;
+    private byte mapID;
     private LayerSpy layerBackground;
     private LayerSpy layerObjects;
     private Layer[] layers;
@@ -34,13 +34,13 @@ public class MapTest extends TestCase {
     public void setUp() {
         layerBackground = new LayerSpy();
         layerObjects = new LayerSpy();
-        mapFileBaseName = RandomGenerator.getRandomString();
+        mapID = (byte) random.nextInt(Byte.MAX_VALUE);
         layers = new Layer[] {layerBackground, layerObjects};
         expectedAction = new ActionSpy();
         int sizeMapEventAreas = random.nextInt(MAXIMUM_MAP_EVENT_AREAS);
         expectedMapEventAreas = new MapEventArea[sizeMapEventAreas];
         map = new Map(
-            mapFileBaseName,
+            mapID,
             layers,
             expectedAction,
             expectedMapEventAreas
@@ -48,7 +48,7 @@ public class MapTest extends TestCase {
     }
 
     public void testReturnSameMapFileBaseName() {
-        Assert.assertSame(mapFileBaseName, map.getFileBaseName());
+        Assert.assertEquals(mapID, map.getID());
     }
 
     public void testReturnSameWidthLayersLoop() {

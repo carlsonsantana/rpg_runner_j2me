@@ -7,7 +7,7 @@ import org.rpgrunner.map.MapLoader;
 
 public class Teleport implements Action {
     private final MapController mapController;
-    private final String mapName;
+    private final byte mapID;
     private final LocalTeleport localTeleport;
     private final MapLoader mapLoader;
     private final ActionQueue actionQueue;
@@ -16,13 +16,13 @@ public class Teleport implements Action {
         final MapController currentMapController,
         final MapLoader currentMapLoader,
         final ActionQueue currentActionQueue,
-        final String toMapName,
+        final byte toMapID,
         final int toMapPositionX,
         final int toMapPositionY
     ) {
         mapController = currentMapController;
         mapLoader = currentMapLoader;
-        mapName = toMapName;
+        mapID = toMapID;
         actionQueue = currentActionQueue;
         localTeleport = new LocalTeleport(toMapPositionX, toMapPositionY);
     }
@@ -41,7 +41,7 @@ public class Teleport implements Action {
 
     private Map getMap() {
         if (isOtherMap()) {
-            return mapLoader.loadMap(mapName);
+            return mapLoader.loadMap(mapID);
         }
 
         return mapController.getMap();
@@ -50,7 +50,7 @@ public class Teleport implements Action {
     private boolean isOtherMap() {
         Map map = mapController.getMap();
 
-        return ((map == null) || (!mapName.equals(map.getFileBaseName())));
+        return ((map == null) || (mapID != map.getID()));
     }
 
     private void changePlayerCharacterPosition() {

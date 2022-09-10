@@ -15,7 +15,7 @@ public class MapSpy extends Map {
     private MapEventArea[] mapEventAreas;
 
     public MapSpy() {
-        super(null, null, null, null);
+        super((byte) 0, null, null, null);
         width = 0;
         height = 0;
         startAction = new ActionSpy();

@@ -7,7 +7,6 @@ import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.Teleport;
-import org.rpgrunner.helper.Loader;
 import org.rpgrunner.map.MapLoader;
 
 public class TeleportFactory implements IdentifiedActionFactory {
@@ -31,14 +30,14 @@ public class TeleportFactory implements IdentifiedActionFactory {
     }
 
     public Action create(final InputStream inputStream) throws IOException {
-        String mapFileName = Loader.extractString(inputStream);
+        byte mapID = (byte) inputStream.read();
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();
         Teleport teleport = new Teleport(
             mapController,
             mapLoader,
             actionQueue,
-            mapFileName,
+            mapID,
             mapPositionX,
             mapPositionY
         );

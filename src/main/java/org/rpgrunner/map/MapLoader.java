@@ -18,24 +18,24 @@ public class MapLoader {
         actionAbstractFactory = currentActionAbstractFactory;
     }
 
-    public Map loadMap(final String fileBaseName) {
-        InputStream mapInputStream = loadFile(fileBaseName);
+    public Map loadMap(final byte id) {
+        InputStream mapInputStream = loadFile(id);
 
         try {
-            return extractMap(fileBaseName, mapInputStream);
+            return extractMap(id, mapInputStream);
         } catch (IOException exception) {
             throw new RuntimeException(exception.getMessage());
         }
     }
 
-    private InputStream loadFile(final String fileBaseName) {
-        String filePath = MAPS_DIRECTORY + fileBaseName + MAPS_EXTENSION;
+    private InputStream loadFile(final byte mapID) {
+        String filePath = MAPS_DIRECTORY + mapID + MAPS_EXTENSION;
 
         return MapLoader.class.getResourceAsStream(filePath);
     }
 
     private Map extractMap(
-        final String fileBaseName,
+        final byte id,
         final InputStream mapInputStream
     ) throws IOException {
         int width = mapInputStream.read();
@@ -53,7 +53,7 @@ public class MapLoader {
 
         mapInputStream.close();
 
-        return new Map(fileBaseName, layers, action, mapEventAreas);
+        return new Map(id, layers, action, mapEventAreas);
     }
 
     private Layer extractLayer(

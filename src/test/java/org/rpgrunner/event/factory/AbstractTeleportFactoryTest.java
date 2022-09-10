@@ -11,17 +11,17 @@ import org.rpgrunner.event.action.Teleport;
 import org.rpgrunner.test.helper.InputStreamHelper;
 
 public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
-    private static final int ADDITIONAL_BYTES = 3;
+    private static final int NUMBER_BYTES = 3;
 
     protected Teleport createTeleport(
         final MapController mapController,
         final ActionQueue actionQueue,
-        final String mapFileName,
+        final byte mapID,
         final int newMapPositionX,
         final int newMapPositionY
     ) {
         InputStream inputStream = getInputStream(
-            mapFileName,
+            mapID,
             newMapPositionX,
             newMapPositionY
         );
@@ -39,16 +39,15 @@ public abstract class AbstractTeleportFactoryTest extends AbstractTeleportTest {
     }
 
     private InputStream getInputStream(
-        final String mapFileName,
+        final byte mapID,
         final int mapPositionX,
         final int mapPositionY
     ) {
-        int arraySize = InputStreamHelper.getStringLength(mapFileName);
-        byte[] byteArray = new byte[arraySize + ADDITIONAL_BYTES];
-        InputStreamHelper.setByteArray(byteArray, mapFileName);
+        byte[] byteArray = new byte[NUMBER_BYTES];
+        byteArray[0] = mapID;
         InputStreamHelper.setPosition(
             byteArray,
-            arraySize + 1,
+            1,
             mapPositionX,
             mapPositionY
         );

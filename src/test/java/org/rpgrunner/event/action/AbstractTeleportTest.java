@@ -19,6 +19,8 @@ public abstract class AbstractTeleportTest extends TestCase {
     private static final int EXAMPLE_MAP_HEIGHT = 32;
     private static final int ANOTHER_MAP_WIDTH = 16;
     private static final int ANOTHER_MAP_HEIGHT = 16;
+    private static final byte FIRST_MAP_ID = (byte) 0;
+    private static final byte SECOND_MAP_ID = (byte) 1;
     private CharacterElement characterElement;
     private GameCharacter character;
     private MapControllerSpy mapController;
@@ -43,7 +45,7 @@ public abstract class AbstractTeleportTest extends TestCase {
         teleport = createTeleport(
             mapController,
             actionQueue,
-            "example",
+            FIRST_MAP_ID,
             mapPositionX,
             mapPositionY
         );
@@ -66,7 +68,7 @@ public abstract class AbstractTeleportTest extends TestCase {
         Teleport teleportAnotherMap = createTeleport(
             mapController,
             actionQueue,
-            "another",
+            SECOND_MAP_ID,
             nextMapPositionX,
             nextMapPositionY
         );
@@ -90,7 +92,7 @@ public abstract class AbstractTeleportTest extends TestCase {
         Teleport teleportSameMap = createTeleport(
             mapController,
             actionQueue,
-            "example",
+            FIRST_MAP_ID,
             nextMapPositionX,
             nextMapPositionY
         );
@@ -135,7 +137,7 @@ public abstract class AbstractTeleportTest extends TestCase {
     protected abstract Teleport createTeleport(
         MapController mapControllerTest,
         ActionQueue actionQueueTest,
-        String mapFileName,
+        byte mapID,
         int newMapPositionX,
         int newMapPositionY
     );
