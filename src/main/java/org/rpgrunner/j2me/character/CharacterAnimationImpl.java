@@ -82,7 +82,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     private Image loadImage() {
         String fileName = (
             CHARACTER_DIRECTORY
-            + character.getFileBaseName()
+            + String.valueOf(character.getIDSprite())
             + CHARACTER_EXTENSION
         );
 

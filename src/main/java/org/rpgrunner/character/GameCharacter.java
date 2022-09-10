@@ -5,7 +5,7 @@ import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
 public class GameCharacter {
-    private final String fileBaseName;
+    private final byte idSprite;
     private final CharacterEventListener characterEventListener;
     private byte direction;
     private int mapPositionX;
@@ -14,16 +14,16 @@ public class GameCharacter {
     private int mapNextPositionY;
 
     public GameCharacter(
-        final String characterFileBaseName,
+        final byte characterIDSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        fileBaseName = characterFileBaseName;
+        idSprite = characterIDSprite;
         direction = Direction.DOWN;
         characterEventListener = newCharacterEventListener;
     }
 
-    public String getFileBaseName() {
-        return fileBaseName;
+    public byte getIDSprite() {
+        return idSprite;
     }
 
     public void moveUp() {

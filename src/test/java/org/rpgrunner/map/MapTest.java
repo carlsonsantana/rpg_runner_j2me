@@ -96,7 +96,7 @@ public class MapTest extends TestCase {
         boolean canMoveToObjects = random.nextInt(2) == 1;
         boolean canMove = canMoveToBackground && canMoveToObjects;
 
-        CharacterSpy character = new CharacterSpy(null);
+        CharacterSpy character = new CharacterSpy();
         int x = random.nextInt(MAXIMUM_POSITION);
         int y = random.nextInt(MAXIMUM_POSITION);
         byte direction = RandomGenerator.getRandomDirection();

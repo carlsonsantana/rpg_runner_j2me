@@ -16,7 +16,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
     public CharacterCreator(
         final MapController currentMapController,
         final CharacterAnimationFactory characterAnimationFactory,
-        final String newCharacterFileBaseName,
+        final byte newCharacterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY,
         final CharacterEventListener characterEventListener
@@ -24,7 +24,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
         super(
             currentMapController,
             characterAnimationFactory,
-            newCharacterFileBaseName,
+            newCharacterIDSprite,
             initialMapPositionX,
             initialMapPositionY,
             characterEventListener

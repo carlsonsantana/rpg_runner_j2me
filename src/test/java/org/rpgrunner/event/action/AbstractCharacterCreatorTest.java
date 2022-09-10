@@ -1,5 +1,7 @@
 package org.rpgrunner.event.action;
 
+import java.util.Random;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
@@ -12,6 +14,11 @@ import org.rpgrunner.test.mock.controller.MapControllerSpy;
 
 public abstract class AbstractCharacterCreatorTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
+    private final Random random;
+
+    public AbstractCharacterCreatorTest() {
+        random = new Random();
+    }
 
     public void testCreateCharacterLoop() {
         for (int i = 0; i < TEST_REPEAT_LOOP; i++) {
@@ -21,12 +28,12 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
 
     private void checkCreateCharacter() {
         MapControllerSpy mapController = new MapControllerSpy();
-        String randomFileBaseName = RandomGenerator.getRandomString();
+        byte randomIDSprite = (byte) random.nextInt(Byte.MAX_VALUE);
         int initialMapPositionX = RandomGenerator.getRandomPosition();
         int initialMapPositionY = RandomGenerator.getRandomPosition();
         CharacterCreator characterCreator = createCharacterCreator(
             mapController,
-            randomFileBaseName,
+            randomIDSprite,
             initialMapPositionX,
             initialMapPositionY
         );
@@ -39,7 +46,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
         GameCharacter character = characterElement.getCharacter();
         Action action = character.getInteractiveAction(Direction.UP);
 
-        Assert.assertEquals(randomFileBaseName, character.getFileBaseName());
+        Assert.assertEquals(randomIDSprite, character.getIDSprite());
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
         Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
         Assert.assertNotNull(action);
@@ -48,7 +55,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
 
     protected abstract CharacterCreator createCharacterCreator(
         MapController mapController,
-        String characterFileName,
+        byte characterIDSprite,
         int initialMapPositionX,
         int initialMapPositionY
     );

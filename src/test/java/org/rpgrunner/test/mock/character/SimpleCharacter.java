@@ -8,7 +8,7 @@ public class SimpleCharacter extends GameCharacter {
     private boolean moving;
 
     public SimpleCharacter() {
-        super(null, null);
+        super((byte) 0, null);
     }
 
     public void moveUp() {

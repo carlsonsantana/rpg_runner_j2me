@@ -75,8 +75,7 @@ public class RandomGenerator {
 
     public static CharacterSpy generateRandomCharacter() {
         CharacterElementSpy characterElement = new CharacterElementSpy();
-        String randomFileBaseName = getRandomString();
-        CharacterSpy character = new CharacterSpy(randomFileBaseName);
+        CharacterSpy character = new CharacterSpy();
 
         return character;
     }

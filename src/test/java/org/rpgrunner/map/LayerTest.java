@@ -86,13 +86,13 @@ public class LayerTest extends TestCase {
     }
 
     public void testCantMoveToNegativePositions() {
-        CharacterSpy characterLeft = new CharacterSpy(null);
+        CharacterSpy characterLeft = new CharacterSpy();
         characterLeft.setInitialPosition(0, 0);
         characterLeft.setAdditionalNextPosition(-1, 0);
         characterLeft.setDirection(Direction.LEFT);
         Assert.assertFalse(layer.canMove(characterLeft));
 
-        CharacterSpy characterUp = new CharacterSpy(null);
+        CharacterSpy characterUp = new CharacterSpy();
         characterUp.setInitialPosition(0, 0);
         characterUp.setAdditionalNextPosition(0, -1);
         characterUp.setDirection(Direction.UP);
@@ -103,13 +103,13 @@ public class LayerTest extends TestCase {
         int borderX = layer.getWidth() - 1;
         int borderY = layer.getHeight() - 1;
 
-        CharacterSpy characterRight = new CharacterSpy(null);
+        CharacterSpy characterRight = new CharacterSpy();
         characterRight.setInitialPosition(borderX, borderY);
         characterRight.setAdditionalNextPosition(1, 0);
         characterRight.setDirection(Direction.RIGHT);
         Assert.assertFalse(layer.canMove(characterRight));
 
-        CharacterSpy characterDown = new CharacterSpy(null);
+        CharacterSpy characterDown = new CharacterSpy();
         characterDown.setInitialPosition(borderX, borderY);
         characterDown.setAdditionalNextPosition(0, 1);
         characterDown.setDirection(Direction.DOWN);
@@ -137,7 +137,7 @@ public class LayerTest extends TestCase {
     private void checkMoveToValidPositionsWithoutCollisions(
         final boolean expectedValue
     ) {
-        CharacterSpy character = new CharacterSpy(null);
+        CharacterSpy character = new CharacterSpy();
         int maxX = layer.getWidth();
         int maxY = layer.getHeight();
         int randomValidX = random.nextInt(maxX);

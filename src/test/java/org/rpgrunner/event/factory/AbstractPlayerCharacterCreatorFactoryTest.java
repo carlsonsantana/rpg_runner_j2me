@@ -10,17 +10,17 @@ import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.test.helper.InputStreamHelper;
 
 public abstract class AbstractPlayerCharacterCreatorFactoryTest
-    extends AbstractPlayerCharacterCreatorTest {
-    private static final int ADDITIONAL_BYTES = 3;
+extends AbstractPlayerCharacterCreatorTest {
+    private static final int NUMBER_BYTES = 3;
 
     protected PlayerCharacterCreator createPlayerCharacterCreator(
         final MapController mapController,
-        final String characterFileName,
+        final byte characterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
         InputStream inputStream = getInputStream(
-            characterFileName,
+            characterIDSprite,
             initialMapPositionX,
             initialMapPositionY
         );
@@ -40,16 +40,15 @@ public abstract class AbstractPlayerCharacterCreatorFactoryTest
     }
 
     private InputStream getInputStream(
-        final String characterFileName,
+        final byte characterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
-        int stringLength = InputStreamHelper.getStringLength(characterFileName);
-        byte[] byteArray = new byte[stringLength + ADDITIONAL_BYTES];
-        InputStreamHelper.setByteArray(byteArray, characterFileName);
+        byte[] byteArray = new byte[NUMBER_BYTES];
+        byteArray[0] = characterIDSprite;
         InputStreamHelper.setPosition(
             byteArray,
-            (stringLength + 1),
+            1,
             initialMapPositionX,
             initialMapPositionY
         );

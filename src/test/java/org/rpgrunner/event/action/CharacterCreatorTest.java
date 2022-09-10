@@ -14,7 +14,7 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
 
     protected CharacterCreator createCharacterCreator(
         final MapController mapController,
-        final String characterFileName,
+        final byte characterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
@@ -27,7 +27,7 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
         return new CharacterCreator(
             mapController,
             characterAnimationFactory,
-            characterFileName,
+            characterIDSprite,
             initialMapPositionX,
             initialMapPositionY,
             characterEventListenerSpy

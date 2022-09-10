@@ -18,14 +18,14 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
         final MapController currentMapController,
         final CharacterAnimationFactory characterAnimationFactory,
         final Input currentInput,
-        final String newCharacterFileBaseName,
+        final byte newCharacterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
         super(
             currentMapController,
             characterAnimationFactory,
-            newCharacterFileBaseName,
+            newCharacterIDSprite,
             initialMapPositionX,
             initialMapPositionY,
             null

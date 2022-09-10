@@ -17,7 +17,7 @@ public class GameCharacterTest extends TestCase {
     private static final int MAXIMUM_RANDOM_POSITION = 1000;
     private CharacterElementSpy characterElement;
     private GameCharacter character;
-    private String characterBaseName;
+    private byte characterIDSprite;
     private Random random;
     private Action action;
 
@@ -26,21 +26,21 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void setUp() {
-        characterBaseName = RandomGenerator.getRandomString();
+        characterIDSprite = (byte) random.nextInt(Short.MAX_VALUE);
         action = new ActionSpy();
         CharacterEventListenerSpy characterEventListener = (
             new CharacterEventListenerSpy()
         );
         characterEventListener.setInteractAction(action);
         character = new GameCharacter(
-            characterBaseName,
+            characterIDSprite,
             characterEventListener
         );
         characterElement = new CharacterElementSpy();
     }
 
     public void testReturnSameFileBaseName() {
-        Assert.assertEquals(characterBaseName, character.getFileBaseName());
+        Assert.assertEquals(characterIDSprite, character.getIDSprite());
     }
 
     public void testCharacterStartStopped() {

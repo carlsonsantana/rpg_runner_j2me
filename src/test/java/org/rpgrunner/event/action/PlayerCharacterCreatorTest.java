@@ -6,7 +6,7 @@ import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
 import org.rpgrunner.test.mock.helper.InputSpy;
 
 public class PlayerCharacterCreatorTest
-    extends AbstractPlayerCharacterCreatorTest {
+extends AbstractPlayerCharacterCreatorTest {
     private final CharacterAnimationFactory characterAnimationFactory;
     private final InputSpy input;
 
@@ -17,7 +17,7 @@ public class PlayerCharacterCreatorTest
 
     protected PlayerCharacterCreator createPlayerCharacterCreator(
         final MapController mapController,
-        final String characterFileName,
+        final byte characterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY
     ) {
@@ -25,7 +25,7 @@ public class PlayerCharacterCreatorTest
             mapController,
             characterAnimationFactory,
             input,
-            characterFileName,
+            characterIDSprite,
             initialMapPositionX,
             initialMapPositionY
         );

@@ -12,20 +12,20 @@ import org.rpgrunner.helper.MapHelper;
 public abstract class AbstractCharacterCreator implements Action {
     private final MapController mapController;
     private final CharacterAnimationFactory characterAnimationFactory;
-    private final String characterFileBaseName;
+    private final byte characterIDSprite;
     private final LocalTeleport localTeleport;
     private final CharacterEventListener characterEventListener;
 
     public AbstractCharacterCreator(
         final MapController currentMapController,
         final CharacterAnimationFactory currentCharacterAnimationFactory,
-        final String newCharacterFileBaseName,
+        final byte newCharacterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY,
         final CharacterEventListener newCharacterEventListener
     ) {
         mapController = currentMapController;
-        characterFileBaseName = newCharacterFileBaseName;
+        characterIDSprite = newCharacterIDSprite;
         localTeleport = new LocalTeleport(
             initialMapPositionX,
             initialMapPositionY
@@ -43,7 +43,7 @@ public abstract class AbstractCharacterCreator implements Action {
 
     private CharacterElement generateCharacterElement() {
         GameCharacter character = new GameCharacter(
-            characterFileBaseName,
+            characterIDSprite,
             characterEventListener
         );
         CharacterAnimation characterAnimation = (

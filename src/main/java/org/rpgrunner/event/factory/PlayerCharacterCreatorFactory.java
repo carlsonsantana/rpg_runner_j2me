@@ -9,7 +9,6 @@ import org.rpgrunner.event.action.AbstractCharacterCreator;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.PlayerCharacterCreator;
 import org.rpgrunner.helper.Input;
-import org.rpgrunner.helper.Loader;
 
 public class PlayerCharacterCreatorFactory implements IdentifiedActionFactory {
     private static final int ID_VALUE = 2;
@@ -32,15 +31,15 @@ public class PlayerCharacterCreatorFactory implements IdentifiedActionFactory {
     }
 
     public Action create(final InputStream inputStream) throws IOException {
-        String fileBaseName = Loader.extractString(inputStream);
+        byte idSprite = (byte) inputStream.read();
         int mapPositionX = inputStream.read();
         int mapPositionY = inputStream.read();
 
-        return create(fileBaseName, mapPositionX, mapPositionY);
+        return create(idSprite, mapPositionX, mapPositionY);
     }
 
     private AbstractCharacterCreator create(
-        final String fileBaseName,
+        final byte idSprite,
         final int mapPositionX,
         final int mapPositionY
     ) {
@@ -48,7 +47,7 @@ public class PlayerCharacterCreatorFactory implements IdentifiedActionFactory {
             mapController,
             characterAnimationFactory,
             input,
-            fileBaseName,
+            idSprite,
             mapPositionX,
             mapPositionY
         );

@@ -13,8 +13,12 @@ public class CharacterSpy extends GameCharacter {
     private int additionalNextPositionY;
     private byte direction;
 
-    public CharacterSpy(final String fileBaseName) {
-        super(fileBaseName, null);
+    public CharacterSpy() {
+        this((byte) 0);
+    }
+
+    public CharacterSpy(final byte idSprite) {
+        super(idSprite, null);
         direction = INITIAL_DIRECTION;
     }
 
