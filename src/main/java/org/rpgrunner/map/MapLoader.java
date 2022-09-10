@@ -6,7 +6,6 @@ import java.io.InputStream;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
-import org.rpgrunner.helper.Loader;
 import org.rpgrunner.tileset.TileSet;
 import org.rpgrunner.tileset.TileSetLoader;
 
@@ -62,8 +61,8 @@ public class MapLoader {
         final int width,
         final int height
     ) throws IOException {
-        String tileSetFileName = Loader.extractString(mapInputStream);
-        TileSet tileSet = TileSetLoader.loadTileSet(tileSetFileName);
+        byte tileSetID = (byte) mapInputStream.read();
+        TileSet tileSet = TileSetLoader.loadTileSet(tileSetID);
 
         byte[] tileMap = extractTileMap(mapInputStream, width, height);
 

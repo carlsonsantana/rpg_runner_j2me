@@ -9,24 +9,24 @@ public class TileSetLoader {
 
     private TileSetLoader() { }
 
-    public static TileSet loadTileSet(final String fileBaseName) {
-        InputStream tileSetInputStream = loadFile(fileBaseName);
+    public static TileSet loadTileSet(final byte tyleSetID) {
+        InputStream tileSetInputStream = loadFile(tyleSetID);
 
         try {
-            return extractTileSet(fileBaseName, tileSetInputStream);
+            return extractTileSet(tyleSetID, tileSetInputStream);
         } catch (IOException exception) {
             throw new RuntimeException(exception.getMessage());
         }
     }
 
-    private static InputStream loadFile(final String fileBaseName) {
-        String filePath = TILESET_DIRECTORY + fileBaseName + TILESET_EXTENSION;
+    private static InputStream loadFile(final byte tyleSetID) {
+        String filePath = TILESET_DIRECTORY + tyleSetID + TILESET_EXTENSION;
 
         return TileSetLoader.class.getResourceAsStream(filePath);
     }
 
     private static TileSet extractTileSet(
-        final String fileBaseName,
+        final byte tyleSetID,
         final InputStream tileSetInputStream
     ) throws IOException {
         int collisionsSize = tileSetInputStream.read() + 1;
@@ -36,6 +36,6 @@ public class TileSetLoader {
         tileSetInputStream.read(collisions);
         tileSetInputStream.close();
 
-        return new TileSet(fileBaseName, collisions);
+        return new TileSet(tyleSetID, collisions);
     }
 }

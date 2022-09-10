@@ -1,10 +1,11 @@
 package org.rpgrunner.tileset;
 
+import java.util.Random;
+
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.test.helper.RandomGenerator;
 
 public class TileSetTest extends TestCase {
     private static final byte[] ALL_POSSIBLE_COLLISIONS = new byte[] {
@@ -42,14 +43,19 @@ public class TileSetTest extends TestCase {
         4, 5, 7, 8, 11, 12, 14, 15
     };
     private static final byte COLLISION_BITS = 4;
-    private String tileSetName;
+    private final Random random;
+    private byte tileSetID;
     private byte[] collisions;
     private TileSet tileSet;
 
+    public TileSetTest() {
+        random = new Random();
+    }
+
     public void setUp() {
-        tileSetName = RandomGenerator.getRandomString();
+        tileSetID = (byte) random.nextInt(Byte.MAX_VALUE);
         collisions = generateCollisions();
-        tileSet = new TileSet(tileSetName, collisions);
+        tileSet = new TileSet(tileSetID, collisions);
     }
 
     private byte[] generateCollisions() {
@@ -71,7 +77,7 @@ public class TileSetTest extends TestCase {
     }
 
     public void testReturnSameName() {
-        Assert.assertEquals(tileSetName, tileSet.getName());
+        Assert.assertEquals(tileSetID, tileSet.getID());
     }
 
     public void testCollisionUp() {

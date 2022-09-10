@@ -17,7 +17,7 @@ public class TileSetRender {
     public static Image loadImage(final TileSet tileSet) {
         String tileSetFileName = (
             TileSetLoader.TILESET_DIRECTORY
-            + tileSet.getName()
+            + tileSet.getID()
             + TILESET_IMAGE_EXTENSION
         );
 

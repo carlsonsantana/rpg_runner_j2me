@@ -7,13 +7,9 @@ public class TileSetSpy extends TileSet {
     private boolean[] results;
 
     public TileSetSpy(final boolean[] spyResults) {
-        super(null, null);
+        super((byte) 0, null);
         resultsIndex = 0;
         results = spyResults;
-    }
-
-    public String getName() {
-        return null;
     }
 
     public boolean canPassOn(final int tileIndex, final byte direction) {
