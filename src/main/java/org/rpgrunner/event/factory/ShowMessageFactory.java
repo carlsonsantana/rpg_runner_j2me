@@ -6,7 +6,6 @@ import java.io.InputStream;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.ShowMessage;
-import org.rpgrunner.helper.Loader;
 
 public class ShowMessageFactory implements IdentifiedActionFactory {
     private static final int ID_VALUE = 6;
@@ -21,12 +20,22 @@ public class ShowMessageFactory implements IdentifiedActionFactory {
     }
 
     public Action create(final InputStream inputStream) throws IOException {
-        String message = Loader.extractString(inputStream);
+        String message = extractString(inputStream);
         ShowMessage showMessage = new ShowMessage(
             gameController,
             message
         );
 
         return showMessage;
+    }
+
+    private String extractString(
+        final InputStream inputStream
+    ) throws IOException {
+        int lengthString = inputStream.read();
+        byte[] stringBytes = new byte[lengthString];
+        inputStream.read(stringBytes);
+
+        return new String(stringBytes);
     }
 }
