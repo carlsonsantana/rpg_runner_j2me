@@ -2,7 +2,7 @@ package org.rpgrunner.test.mock.map;
 
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Layer;
-import org.rpgrunner.tileset.TileSet;
+import org.rpgrunner.map.TileSet;
 
 public class LayerSpy extends Layer {
     private int width;

@@ -1,11 +1,11 @@
-package org.rpgrunner.j2me.tileset;
+package org.rpgrunner.j2me.map;
 
 import java.io.IOException;
 
 import javax.microedition.lcdui.Image;
 
-import org.rpgrunner.tileset.TileSet;
-import org.rpgrunner.tileset.TileSetLoader;
+import org.rpgrunner.map.TileSet;
+import org.rpgrunner.map.TileSetLoader;
 
 public class TileSetRender {
     public static final int TILE_WIDTH = 16;

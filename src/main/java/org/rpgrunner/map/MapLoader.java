@@ -6,8 +6,6 @@ import java.io.InputStream;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.factory.ActionAbstractFactory;
-import org.rpgrunner.tileset.TileSet;
-import org.rpgrunner.tileset.TileSetLoader;
 
 public class MapLoader {
     private static final String MAPS_DIRECTORY = "/maps/";

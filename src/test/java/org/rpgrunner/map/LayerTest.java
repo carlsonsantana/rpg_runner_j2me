@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
-import org.rpgrunner.test.mock.tileset.TileSetSpy;
+import org.rpgrunner.test.mock.map.TileSetSpy;
 
 public class LayerTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;

@@ -1,4 +1,4 @@
-package org.rpgrunner.tileset;
+package org.rpgrunner.map;
 
 public class TileSet {
     private static final byte COLLISION_BITS = 4;

@@ -1,4 +1,4 @@
-package org.rpgrunner.tileset;
+package org.rpgrunner.map;
 
 import java.io.IOException;
 import java.io.InputStream;

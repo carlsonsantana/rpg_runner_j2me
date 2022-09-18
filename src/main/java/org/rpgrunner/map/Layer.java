@@ -2,7 +2,6 @@ package org.rpgrunner.map;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.tileset.TileSet;
 
 public class Layer {
     private final TileSet tileSet;

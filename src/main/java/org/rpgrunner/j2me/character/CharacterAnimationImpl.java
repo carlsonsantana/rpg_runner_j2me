@@ -8,7 +8,7 @@ import javax.microedition.lcdui.game.Sprite;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.j2me.tileset.TileSetRender;
+import org.rpgrunner.j2me.map.TileSetRender;
 
 public class CharacterAnimationImpl implements CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";
