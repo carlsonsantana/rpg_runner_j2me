@@ -1,12 +1,19 @@
 package org.rpgrunner.j2me.map;
 
+import java.io.IOException;
+
 import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.TiledLayer;
 
 import org.rpgrunner.map.Layer;
 import org.rpgrunner.map.Map;
+import org.rpgrunner.map.MapLoader;
+import org.rpgrunner.map.TileSet;
 
 public class MapRender {
+    public static final int TILE_WIDTH = 16;
+    public static final int TILE_HEIGHT = 16;
+    private static final String TILESET_IMAGE_EXTENSION = ".png";
     private final TiledLayer[] tiledLayers;
 
     public MapRender(final Map map) {
@@ -25,18 +32,32 @@ public class MapRender {
     }
 
     private static TiledLayer generateTiledLayer(final Layer layer) {
-        Image tileSetImage = TileSetRender.loadImage(layer.getTileSet());
+        Image tileSetImage = loadImage(layer.getTileSet());
 
         TiledLayer tiledLayer = new TiledLayer(
             layer.getWidth(),
             layer.getHeight(),
             tileSetImage,
-            TileSetRender.TILE_WIDTH,
-            TileSetRender.TILE_HEIGHT
+            TILE_WIDTH,
+            TILE_HEIGHT
         );
         fillTiledlayer(layer, tiledLayer);
 
         return tiledLayer;
+    }
+
+    private static Image loadImage(final TileSet tileSet) {
+        String tileSetFileName = (
+            MapLoader.TILESET_DIRECTORY
+            + tileSet.getID()
+            + TILESET_IMAGE_EXTENSION
+        );
+
+        try {
+            return Image.createImage(tileSetFileName);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception.getMessage());
+        }
     }
 
     private static void fillTiledlayer(

@@ -10,6 +10,8 @@ import org.rpgrunner.event.factory.ActionAbstractFactory;
 public class MapLoader {
     private static final String MAPS_DIRECTORY = "/maps/";
     private static final String MAPS_EXTENSION = ".map";
+    public static final String TILESET_DIRECTORY = "/tilesets/";
+    private static final String TILESET_EXTENSION = ".tileset";
     private final ActionAbstractFactory actionAbstractFactory;
 
     public MapLoader(final ActionAbstractFactory currentActionAbstractFactory) {
@@ -60,7 +62,7 @@ public class MapLoader {
         final int height
     ) throws IOException {
         byte tileSetID = (byte) mapInputStream.read();
-        TileSet tileSet = TileSetLoader.loadTileSet(tileSetID);
+        TileSet tileSet = loadTileSet(tileSetID);
 
         byte[] tileMap = extractTileMap(mapInputStream, width, height);
 
@@ -110,5 +112,35 @@ public class MapLoader {
             directions,
             action
         );
+    }
+
+    private static TileSet loadTileSet(final byte tyleSetID) {
+        InputStream tileSetInputStream = loadTyleSetFile(tyleSetID);
+
+        try {
+            return extractTileSet(tyleSetID, tileSetInputStream);
+        } catch (IOException exception) {
+            throw new RuntimeException(exception.getMessage());
+        }
+    }
+
+    private static InputStream loadTyleSetFile(final byte tyleSetID) {
+        String filePath = TILESET_DIRECTORY + tyleSetID + TILESET_EXTENSION;
+
+        return MapLoader.class.getResourceAsStream(filePath);
+    }
+
+    private static TileSet extractTileSet(
+        final byte tyleSetID,
+        final InputStream tileSetInputStream
+    ) throws IOException {
+        int collisionsSize = tileSetInputStream.read() + 1;
+        int collisionsByteSize = (collisionsSize / 2) + (collisionsSize % 2);
+        byte[] collisions = new byte[collisionsByteSize];
+
+        tileSetInputStream.read(collisions);
+        tileSetInputStream.close();
+
+        return new TileSet(tyleSetID, collisions);
     }
 }

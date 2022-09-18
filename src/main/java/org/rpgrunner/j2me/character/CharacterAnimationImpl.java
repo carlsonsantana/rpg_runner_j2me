@@ -8,7 +8,7 @@ import javax.microedition.lcdui.game.Sprite;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.j2me.map.TileSetRender;
+import org.rpgrunner.j2me.map.MapRender;
 
 public class CharacterAnimationImpl implements CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";
@@ -18,7 +18,7 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     private static final short SPRITE_WIDTH = 16;
     private static final short SPRITE_MOVE_SPEED = 4;
     private static final short SPRITE_REFERENCE_Y = (
-        SPRITE_HEIGHT - TileSetRender.TILE_HEIGHT
+        SPRITE_HEIGHT - MapRender.TILE_HEIGHT
     );
 
     private static final short SPRITE_FRAME_WALKING_1 = 0;
