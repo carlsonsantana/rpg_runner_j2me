@@ -3,12 +3,12 @@ package org.rpgrunner.character;
 import org.rpgrunner.character.movement.MovementCommand;
 
 public class CharacterElement {
-    private final GameCharacter character;
+    private final CharacterAnimation character;
     private final CharacterAnimation characterAnimation;
     private final MovementCommand movementCommand;
 
     public CharacterElement(
-        final GameCharacter newCharacter,
+        final CharacterAnimation newCharacter,
         final CharacterAnimation newCharacterAnimation,
         final MovementCommand characterCommand
     ) {
@@ -17,7 +17,7 @@ public class CharacterElement {
         movementCommand = characterCommand;
     }
 
-    public GameCharacter getCharacter() {
+    public CharacterAnimation getCharacter() {
         return character;
     }
 

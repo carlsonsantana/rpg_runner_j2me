@@ -3,8 +3,8 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.map.Map;
@@ -22,7 +22,7 @@ public abstract class AbstractTeleportTest extends TestCase {
     private static final byte FIRST_MAP_ID = (byte) 0;
     private static final byte SECOND_MAP_ID = (byte) 1;
     private CharacterElement characterElement;
-    private GameCharacter character;
+    private CharacterAnimation character;
     private MapControllerSpy mapController;
     private ActionQueueSpy actionQueue;
     private Teleport teleport;

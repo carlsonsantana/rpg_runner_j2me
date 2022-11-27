@@ -5,8 +5,8 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
@@ -145,7 +145,9 @@ public class MapControllerTest extends TestCase {
     }
 
     private CharacterElement generatePlayerCharacterElement() {
-        GameCharacter character = RandomGenerator.generateRandomCharacter();
+        CharacterAnimation character = (
+            RandomGenerator.generateRandomCharacter()
+        );
         CharacterAnimationSpy characterAnimationSpy = (
             new CharacterAnimationSpy()
         );

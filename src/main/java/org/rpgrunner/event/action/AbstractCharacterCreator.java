@@ -42,7 +42,7 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        GameCharacter character = new GameCharacter(
+        CharacterAnimation character = new GameCharacter(
             characterIDSprite,
             characterEventListener
         );
@@ -64,7 +64,7 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     protected abstract MovementCommand createMovementCommand(
-        GameCharacter character,
+        CharacterAnimation character,
         CharacterAnimation characterAnimation
     );
 

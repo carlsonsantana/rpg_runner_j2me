@@ -1,15 +1,15 @@
 package org.rpgrunner.test.mock.event.action;
 
-import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.CharacterAnimation;
 
 public class CharacterActionSpy extends ActionSpy {
-    private final GameCharacter character;
+    private final CharacterAnimation character;
 
-    public CharacterActionSpy(final GameCharacter characterOfAction) {
+    public CharacterActionSpy(final CharacterAnimation characterOfAction) {
         character = characterOfAction;
     }
 
-    public GameCharacter getCharacter() {
+    public CharacterAnimation getCharacter() {
         return character;
     }
 }

@@ -68,10 +68,10 @@ CharacterAnimation {
     };
 
     private final Sprite sprite;
-    private final GameCharacter character;
+    private final CharacterAnimation character;
     private byte direction;
 
-    public CharacterAnimationImpl(final GameCharacter newCharacter) {
+    public CharacterAnimationImpl(final CharacterAnimation newCharacter) {
         super(
             newCharacter.getIDSprite(),
             newCharacter.getCharacterEventListener()

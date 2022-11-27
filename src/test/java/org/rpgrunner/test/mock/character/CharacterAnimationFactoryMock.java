@@ -2,12 +2,11 @@ package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
-import org.rpgrunner.character.GameCharacter;
 
 public class CharacterAnimationFactoryMock
-        implements CharacterAnimationFactory {
+implements CharacterAnimationFactory {
     public CharacterAnimation createCharacterAnimation(
-        final GameCharacter character
+        final CharacterAnimation character
     ) {
         return new CharacterAnimationSpy();
     }

@@ -3,8 +3,8 @@ package org.rpgrunner.test.helper;
 import java.util.Random;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
@@ -40,7 +40,7 @@ public class RandomGenerator {
     }
 
     public static CharacterElement generateRandomCharacterElement() {
-        GameCharacter character = generateRandomCharacter();
+        CharacterAnimation character = generateRandomCharacter();
         CharacterAnimationSpy characterAnimationSpy = (
             new CharacterAnimationSpy()
         );

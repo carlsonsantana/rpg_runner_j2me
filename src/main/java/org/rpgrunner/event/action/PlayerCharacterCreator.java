@@ -3,7 +3,6 @@ package org.rpgrunner.event.action;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.controller.MapController;
@@ -35,7 +34,7 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
     }
 
     protected MovementCommand createMovementCommand(
-        final GameCharacter character,
+        final CharacterAnimation character,
         final CharacterAnimation characterAnimation
     ) {
         MapHelper mapHelper = mapController.getMapHelper();

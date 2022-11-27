@@ -1,6 +1,6 @@
 package org.rpgrunner.map;
 
-import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 
@@ -38,7 +38,7 @@ public class Map {
         return layers;
     }
 
-    public boolean canMove(final GameCharacter character) {
+    public boolean canMove(final CharacterAnimation character) {
         for (int i = 0; i < layers.length; i++) {
             if (!layers[i].canMove(character)) {
                 return false;

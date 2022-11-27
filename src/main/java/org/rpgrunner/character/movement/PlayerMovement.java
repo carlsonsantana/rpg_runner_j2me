@@ -1,17 +1,16 @@
 package org.rpgrunner.character.movement;
 
 import org.rpgrunner.character.CharacterAnimation;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.Input;
 import org.rpgrunner.helper.MapHelper;
 
 public class PlayerMovement extends AbstractMovement {
-    private final GameCharacter character;
+    private final CharacterAnimation character;
     private final MapHelper mapHelper;
     private final Input input;
 
     public PlayerMovement(
-        final GameCharacter playerCharacter,
+        final CharacterAnimation playerCharacter,
         final CharacterAnimation characterAnimation,
         final MapHelper newMapHelper,
         final Input currentInput

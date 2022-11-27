@@ -1,6 +1,7 @@
 package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
@@ -105,6 +106,14 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     }
 
     public Action getInteractiveAction(final byte interactDirection) {
+        return null;
+    }
+
+    public byte getIDSprite() {
+        return 0;
+    }
+
+    public CharacterEventListener getCharacterEventListener() {
         return null;
     }
 }

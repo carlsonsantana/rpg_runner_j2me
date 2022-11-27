@@ -12,7 +12,7 @@ import org.rpgrunner.test.mock.helper.MapHelperSpy;
 public class CharacterElementTest extends TestCase {
     private CharacterElement characterElement;
     private MapHelperSpy mapHelper;
-    private GameCharacter character;
+    private CharacterAnimation character;
     private CharacterAnimationSpy characterAnimation;
     private MovementCommand movementCommand;
 

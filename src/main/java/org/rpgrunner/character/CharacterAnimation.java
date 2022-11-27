@@ -1,5 +1,6 @@
 package org.rpgrunner.character;
 
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
 public interface CharacterAnimation {
@@ -9,6 +10,8 @@ public interface CharacterAnimation {
     void startAnimation();
     void doAnimation();
     Object getSprite();
+    byte getIDSprite();
+    CharacterEventListener getCharacterEventListener();
     void moveUp();
     void moveRight();
     void moveDown();

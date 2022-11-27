@@ -1,8 +1,8 @@
 package org.rpgrunner.helper;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
@@ -27,14 +27,14 @@ public class MapHelper {
         map = newMap;
     }
 
-    public boolean canMove(final GameCharacter character) {
+    public boolean canMove(final CharacterAnimation character) {
         return (
             map.canMove(character)
             && (!hasCharacterCollision(character))
         );
     }
 
-    private boolean hasCharacterCollision(final GameCharacter character) {
+    private boolean hasCharacterCollision(final CharacterAnimation character) {
         if (!character.isMoving()) {
             return true;
         }
@@ -45,7 +45,9 @@ public class MapHelper {
             i++
         ) {
             CharacterElement otherCharacterElement = characterElements[i];
-            GameCharacter otherCharacter = otherCharacterElement.getCharacter();
+            CharacterAnimation otherCharacter = (
+                otherCharacterElement.getCharacter()
+            );
 
             if (hasCharacterCollision(character, otherCharacter)) {
                 return true;
@@ -56,8 +58,8 @@ public class MapHelper {
     }
 
     private boolean hasCharacterCollision(
-        final GameCharacter movingCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation movingCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         return (
             (movingCharacter != otherCharacter)
@@ -67,8 +69,8 @@ public class MapHelper {
     }
 
     private boolean hasSameX(
-        final GameCharacter movingCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation movingCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         int movingCharacterX = movingCharacter.getMapNextPositionX();
         int otherCharacterX = otherCharacter.getMapPositionX();
@@ -81,8 +83,8 @@ public class MapHelper {
     }
 
     private boolean hasSameY(
-        final GameCharacter movingCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation movingCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         int movingCharacterY = movingCharacter.getMapNextPositionY();
         int otherCharacterY = otherCharacter.getMapPositionY();
@@ -94,12 +96,14 @@ public class MapHelper {
         );
     }
 
-    public void executeInteractAction(final GameCharacter playerCharacter) {
+    public void executeInteractAction(
+        final CharacterAnimation playerCharacter
+    ) {
         Action action = getInteractAction(playerCharacter);
         actionQueue.push(action);
     }
 
-    private Action getInteractAction(final GameCharacter character) {
+    private Action getInteractAction(final CharacterAnimation character) {
         Action actionFromCharacters = getInteractActionFromCharacters(
             character
         );
@@ -118,7 +122,7 @@ public class MapHelper {
     }
 
     private Action getInteractActionFromCharacters(
-        final GameCharacter character
+        final CharacterAnimation character
     ) {
         for (
             int i = 0, length = characterElements.length;
@@ -126,7 +130,9 @@ public class MapHelper {
             i++
         ) {
             CharacterElement otherCharacterElement = characterElements[i];
-            GameCharacter otherCharacter = otherCharacterElement.getCharacter();
+            CharacterAnimation otherCharacter = (
+                otherCharacterElement.getCharacter()
+            );
 
             if (isInFrontOfCharacter(character, otherCharacter)) {
                 return otherCharacter.getInteractiveAction(
@@ -139,8 +145,8 @@ public class MapHelper {
     }
 
     private boolean isInFrontOfCharacter(
-        final GameCharacter referenceCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation referenceCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         return (
             (referenceCharacter != otherCharacter)
@@ -150,8 +156,8 @@ public class MapHelper {
     }
 
     private boolean isInFrontOfCharacterX(
-        final GameCharacter referenceCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation referenceCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         int movingCharacterX = getInteractPositionX(referenceCharacter);
         int otherCharacterX = otherCharacter.getMapPositionX();
@@ -160,8 +166,8 @@ public class MapHelper {
     }
 
     private boolean isInFrontOfCharacterY(
-        final GameCharacter referenceCharacter,
-        final GameCharacter otherCharacter
+        final CharacterAnimation referenceCharacter,
+        final CharacterAnimation otherCharacter
     ) {
         int movingCharacterY = getInteractPositionY(referenceCharacter);
         int otherCharacterY = otherCharacter.getMapPositionY();
@@ -170,7 +176,7 @@ public class MapHelper {
     }
 
     private Action getInteractActionFromMapAreas(
-        final GameCharacter character
+        final CharacterAnimation character
     ) {
         int characterPositionX = getInteractPositionX(character);
         int characterPositionY = getInteractPositionY(character);
@@ -194,7 +200,7 @@ public class MapHelper {
         return null;
     }
 
-    private int getInteractPositionX(final GameCharacter character) {
+    private int getInteractPositionX(final CharacterAnimation character) {
         byte direction = character.getDirection();
         int characterPositionX = character.getMapPositionX();
 
@@ -209,7 +215,7 @@ public class MapHelper {
         return characterPositionX;
     }
 
-    private int getInteractPositionY(final GameCharacter character) {
+    private int getInteractPositionY(final CharacterAnimation character) {
         byte direction = character.getDirection();
         int characterPositionY = character.getMapPositionY();
 
