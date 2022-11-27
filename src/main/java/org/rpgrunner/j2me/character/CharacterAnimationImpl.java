@@ -10,7 +10,8 @@ import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.j2me.map.MapRender;
 
-public class CharacterAnimationImpl implements CharacterAnimation {
+public class CharacterAnimationImpl extends GameCharacter implements
+CharacterAnimation {
     private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
@@ -71,6 +72,10 @@ public class CharacterAnimationImpl implements CharacterAnimation {
     private byte direction;
 
     public CharacterAnimationImpl(final GameCharacter newCharacter) {
+        super(
+            newCharacter.getIDSprite(),
+            newCharacter.getCharacterEventListener()
+        );
         character = newCharacter;
         Image image = loadImage();
         sprite = new Sprite(image, SPRITE_WIDTH, SPRITE_HEIGHT);

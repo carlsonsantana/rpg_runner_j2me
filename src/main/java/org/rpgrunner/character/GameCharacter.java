@@ -112,4 +112,8 @@ public class GameCharacter {
     public Action getInteractiveAction(final byte interactDirection) {
         return characterEventListener.interact(interactDirection);
     }
+
+    public CharacterEventListener getCharacterEventListener() {
+        return characterEventListener;
+    }
 }

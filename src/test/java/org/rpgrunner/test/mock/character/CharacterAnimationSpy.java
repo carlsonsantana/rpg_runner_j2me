@@ -1,6 +1,7 @@
 package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.event.action.Action;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
     private boolean startAnimationCalled;
@@ -59,6 +60,51 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     }
 
     public Object getSprite() {
+        return null;
+    }
+
+    public void moveUp() { }
+
+    public void moveRight() { }
+
+    public void moveDown() { }
+
+    public void moveLeft() { }
+
+    public byte getDirection() {
+        return 0;
+    }
+
+    public boolean isMoving() {
+        return false;
+    }
+
+    public void finishMove() { }
+
+    public void cancelMove() { }
+
+    public void setMapPosition(
+        final int newMapPositionX,
+        final int newMapPositionY
+    ) { }
+
+    public int getMapPositionX() {
+        return 0;
+    }
+
+    public int getMapPositionY() {
+        return 0;
+    }
+
+    public int getMapNextPositionX() {
+        return 0;
+    }
+
+    public int getMapNextPositionY() {
+        return 0;
+    }
+
+    public Action getInteractiveAction(final byte interactDirection) {
         return null;
     }
 }
