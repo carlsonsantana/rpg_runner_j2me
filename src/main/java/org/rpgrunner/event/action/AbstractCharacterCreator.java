@@ -47,7 +47,10 @@ public abstract class AbstractCharacterCreator implements Action {
             characterEventListener
         );
         CharacterAnimation characterAnimation = (
-            characterAnimationFactory.createCharacterAnimation(character)
+            characterAnimationFactory.createCharacterAnimation(
+                characterIDSprite,
+                characterEventListener
+            )
         );
         MovementCommand movementCommand = createMovementCommand(
             character,

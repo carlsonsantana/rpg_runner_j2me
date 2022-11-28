@@ -1,5 +1,10 @@
 package org.rpgrunner.character;
 
+import org.rpgrunner.event.CharacterEventListener;
+
 public interface CharacterAnimationFactory {
-    CharacterAnimation createCharacterAnimation(CharacterAnimation character);
+    CharacterAnimation createCharacterAnimation(
+        byte characterIDSprite,
+        CharacterEventListener newCharacterEventListener
+    );
 }

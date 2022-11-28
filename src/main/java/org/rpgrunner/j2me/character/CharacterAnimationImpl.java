@@ -8,6 +8,7 @@ import javax.microedition.lcdui.game.Sprite;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.j2me.map.MapRender;
 
 public class CharacterAnimationImpl extends GameCharacter implements
@@ -68,15 +69,16 @@ CharacterAnimation {
     };
 
     private final Sprite sprite;
-    private final CharacterAnimation character;
     private byte direction;
 
-    public CharacterAnimationImpl(final CharacterAnimation newCharacter) {
+    public CharacterAnimationImpl(
+        final byte characterIDSprite,
+        final CharacterEventListener newCharacterEventListener
+    ) {
         super(
-            newCharacter.getIDSprite(),
-            newCharacter.getCharacterEventListener()
+            characterIDSprite,
+            newCharacterEventListener
         );
-        character = newCharacter;
         Image image = loadImage();
         sprite = new Sprite(image, SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
@@ -87,7 +89,7 @@ CharacterAnimation {
     private Image loadImage() {
         String fileName = (
             CHARACTER_DIRECTORY
-            + String.valueOf(character.getIDSprite())
+            + String.valueOf(getIDSprite())
             + CHARACTER_EXTENSION
         );
 
@@ -107,8 +109,8 @@ CharacterAnimation {
     }
 
     public void updateScreenPositionFromMapPosition() {
-        int mapPositionX = character.getMapPositionX();
-        int mapPositionY = character.getMapPositionY();
+        int mapPositionX = getMapPositionX();
+        int mapPositionY = getMapPositionY();
         int spritePositionX = mapPositionX * SPRITE_WIDTH;
         int spritePositionY = mapPositionY * SPRITE_WIDTH - SPRITE_REFERENCE_Y;
 
@@ -123,7 +125,7 @@ CharacterAnimation {
     }
 
     private void changeSpriteAnimation() {
-        byte characterCurrentDirection = character.getDirection();
+        byte characterCurrentDirection = getDirection();
 
         if (direction != characterCurrentDirection) {
             direction = characterCurrentDirection;
@@ -149,7 +151,7 @@ CharacterAnimation {
         changeSpriteFrame();
 
         if (isAnimationComplete()) {
-            character.finishMove();
+            finishMove();
         }
     }
 
@@ -183,7 +185,7 @@ CharacterAnimation {
     }
 
     private boolean isAnimationRunning() {
-        return character.isMoving() || (!isAnimationComplete());
+        return isMoving() || (!isAnimationComplete());
     }
 
     private boolean isAnimationComplete() {
