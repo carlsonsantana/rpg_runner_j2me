@@ -10,6 +10,10 @@ implements CharacterAnimationFactory {
         final byte characterIDSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        return new CharacterAnimationSpy();
+        CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
+        characterAnimation.setIDSprite(characterIDSprite);
+        characterAnimation.setCharacterEventListener(newCharacterEventListener);
+
+        return characterAnimation;
     }
 }

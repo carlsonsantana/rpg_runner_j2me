@@ -10,6 +10,10 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     private int screenY;
     private boolean updateScreenPositionFromMapPositionCalled;
     private boolean doAnimationCalled;
+    private byte idSprite;
+    private CharacterEventListener characterEventListener;
+    private int mapPositionX;
+    private int mapPositionY;
 
     public CharacterAnimationSpy() {
         startAnimationCalled = false;
@@ -87,14 +91,17 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     public void setMapPosition(
         final int newMapPositionX,
         final int newMapPositionY
-    ) { }
+    ) {
+        mapPositionX = newMapPositionX;
+        mapPositionY = newMapPositionY;
+    }
 
     public int getMapPositionX() {
-        return 0;
+        return mapPositionX;
     }
 
     public int getMapPositionY() {
-        return 0;
+        return mapPositionY;
     }
 
     public int getMapNextPositionX() {
@@ -106,14 +113,24 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     }
 
     public Action getInteractiveAction(final byte interactDirection) {
-        return null;
+        return characterEventListener.interact(interactDirection);
     }
 
     public byte getIDSprite() {
-        return 0;
+        return idSprite;
+    }
+
+    public void setIDSprite(final byte newIDSprite) {
+        idSprite = newIDSprite;
     }
 
     public CharacterEventListener getCharacterEventListener() {
         return null;
+    }
+
+    public void setCharacterEventListener(
+        final CharacterEventListener newCharacterEventListener
+    ) {
+        characterEventListener = newCharacterEventListener;
     }
 }

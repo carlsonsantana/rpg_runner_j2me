@@ -3,7 +3,6 @@ package org.rpgrunner.event.action;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.CharacterEventListener;
@@ -42,10 +41,6 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        CharacterAnimation character = new GameCharacter(
-            characterIDSprite,
-            characterEventListener
-        );
         CharacterAnimation characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(
                 characterIDSprite,
@@ -53,12 +48,12 @@ public abstract class AbstractCharacterCreator implements Action {
             )
         );
         MovementCommand movementCommand = createMovementCommand(
-            character,
+            characterAnimation,
             characterAnimation
         );
         MapHelper mapHelper = mapController.getMapHelper();
         CharacterElement characterElement = new CharacterElement(
-            character,
+            characterAnimation,
             characterAnimation,
             movementCommand
         );
