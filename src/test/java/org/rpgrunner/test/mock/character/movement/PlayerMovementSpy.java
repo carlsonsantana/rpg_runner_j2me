@@ -6,7 +6,7 @@ public class PlayerMovementSpy extends PlayerMovement {
     private boolean executeCalled;
 
     public PlayerMovementSpy() {
-        super(null, null, null, null);
+        super(null, null, null);
         executeCalled = false;
     }
 

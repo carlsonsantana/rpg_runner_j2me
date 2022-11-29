@@ -37,7 +37,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
     ) {
         MapHelper mapHelper = mapController.getMapHelper();
 
-        return new RandomMovement(character, characterAnimation, mapHelper);
+        return new RandomMovement(character, mapHelper);
     }
 
     protected void displayCharacter(final CharacterElement characterElement) {

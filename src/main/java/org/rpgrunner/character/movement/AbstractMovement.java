@@ -6,15 +6,12 @@ import org.rpgrunner.helper.MapHelper;
 public abstract class AbstractMovement implements MovementCommand {
     private final CharacterAnimation character;
     private final MapHelper mapHelper;
-    private final CharacterAnimation characterAnimation;
 
     public AbstractMovement(
         final CharacterAnimation controlledCharacter,
-        final CharacterAnimation newCharacterAnimation,
         final MapHelper newMapHelper
     ) {
         character = controlledCharacter;
-        characterAnimation = newCharacterAnimation;
         mapHelper = newMapHelper;
     }
 
@@ -29,7 +26,7 @@ public abstract class AbstractMovement implements MovementCommand {
             character.cancelMove();
         }
 
-        characterAnimation.startAnimation();
+        character.startAnimation();
     }
 
     protected abstract void executeMovement();

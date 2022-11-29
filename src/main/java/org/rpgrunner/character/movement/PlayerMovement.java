@@ -11,11 +11,10 @@ public class PlayerMovement extends AbstractMovement {
 
     public PlayerMovement(
         final CharacterAnimation playerCharacter,
-        final CharacterAnimation characterAnimation,
         final MapHelper newMapHelper,
         final Input currentInput
     ) {
-        super(playerCharacter, characterAnimation, newMapHelper);
+        super(playerCharacter, newMapHelper);
 
         character = playerCharacter;
         mapHelper = newMapHelper;

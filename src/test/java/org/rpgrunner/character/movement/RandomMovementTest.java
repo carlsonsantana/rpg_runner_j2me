@@ -25,13 +25,11 @@ public class RandomMovementTest extends TestCase implements MovementTest {
         boolean moveAllDirections = false;
 
         for (int i = 0; (i < TEST_REPEAT_LOOP) && (!moveAllDirections); i++) {
-            SimpleCharacter character = new SimpleCharacter();
-            CharacterAnimationSpy characterAnimation = (
+            CharacterAnimationSpy character = (
                 new CharacterAnimationSpy()
             );
             RandomMovement randomMovement = new RandomMovement(
                 character,
-                characterAnimation,
                 mapHelper
             );
 
@@ -44,7 +42,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
             moveLeft = moveLeft || Direction.isLeft(direction);
             moveAllDirections = moveUp && moveRight && moveDown && moveLeft;
 
-            Assert.assertTrue(characterAnimation.isStartAnimationCalled());
+            Assert.assertTrue(character.isStartAnimationCalled());
         }
 
         Assert.assertTrue(moveAllDirections);
@@ -107,10 +105,8 @@ public class RandomMovementTest extends TestCase implements MovementTest {
     private RandomMovement createRandomMovement(
         final CharacterAnimation character
     ) {
-        CharacterAnimation characterAnimation = new CharacterAnimationSpy();
         RandomMovement randomMovement = new RandomMovement(
             character,
-            characterAnimation,
             mapHelper
         );
 

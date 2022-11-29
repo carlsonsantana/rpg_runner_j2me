@@ -12,10 +12,9 @@ public class RandomMovement extends AbstractMovement {
 
     public RandomMovement(
         final CharacterAnimation controlledCharacter,
-        final CharacterAnimation characterAnimation,
         final MapHelper mapHelper
     ) {
-        super(controlledCharacter, characterAnimation, mapHelper);
+        super(controlledCharacter, mapHelper);
 
         character = controlledCharacter;
         random = new Random();

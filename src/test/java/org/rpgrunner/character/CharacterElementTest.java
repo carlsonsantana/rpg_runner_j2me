@@ -20,11 +20,7 @@ public class CharacterElementTest extends TestCase {
         mapHelper = new MapHelperSpy();
         character = RandomGenerator.generateRandomCharacter();
         characterAnimation = new CharacterAnimationSpy();
-        movementCommand = new RandomMovement(
-            character,
-            characterAnimation,
-            mapHelper
-        );
+        movementCommand = new RandomMovement(character, mapHelper);
 
         characterElement = new CharacterElement(
             character,

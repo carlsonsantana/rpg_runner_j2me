@@ -5,7 +5,6 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.InputSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
@@ -38,14 +37,12 @@ public class PlayerMovementTest extends TestCase implements MovementTest {
     private static final int RIGHT_INDEX = 1;
     private static final int DOWN_INDEX = 2;
     private static final int LEFT_INDEX = 3;
-    private SimpleCharacter character;
-    private CharacterAnimationSpy characterAnimation;
+    private CharacterAnimationSpy character;
     private MapHelperSpy mapHelper;
     private InputSpy input;
 
     public void setUp() {
-        character = new SimpleCharacter();
-        characterAnimation = new CharacterAnimationSpy();
+        character = new CharacterAnimationSpy();
 
         mapHelper = new MapHelperSpy();
         input = new InputSpy();
@@ -87,11 +84,11 @@ public class PlayerMovementTest extends TestCase implements MovementTest {
     ) {
         PlayerMovement playerMovement = createPlayerMovement();
         setHolding(holdingPositions);
-        Assert.assertFalse(characterAnimation.isStartAnimationCalled());
+        Assert.assertFalse(character.isStartAnimationCalled());
         playerMovement.execute();
 
         Assert.assertEquals(direction, character.getDirection());
-        Assert.assertTrue(characterAnimation.isStartAnimationCalled());
+        Assert.assertTrue(character.isStartAnimationCalled());
     }
 
     public void testInteract() {
@@ -165,11 +162,6 @@ public class PlayerMovementTest extends TestCase implements MovementTest {
     private PlayerMovement createPlayerMovement() {
         mapHelper.resetExecuteInteractActionCalled();
 
-        return new PlayerMovement(
-            character,
-            characterAnimation,
-            mapHelper,
-            input
-        );
+        return new PlayerMovement(character, mapHelper, input);
     }
 }

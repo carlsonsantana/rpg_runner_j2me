@@ -39,12 +39,7 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
     ) {
         MapHelper mapHelper = mapController.getMapHelper();
 
-        return new PlayerMovement(
-            character,
-            characterAnimation,
-            mapHelper,
-            input
-        );
+        return new PlayerMovement(character, mapHelper, input);
     }
 
     protected void displayCharacter(final CharacterElement characterElement) {

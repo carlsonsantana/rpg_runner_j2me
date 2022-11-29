@@ -4,7 +4,7 @@ import org.rpgrunner.character.movement.PlayerMovement;
 
 public class PlayerMovementMock extends PlayerMovement {
     public PlayerMovementMock() {
-        super(null, null, null, null);
+        super(null, null, null);
     }
 
     public void execute() { }
