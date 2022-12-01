@@ -41,19 +41,16 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        GameCharacter characterAnimation = (
+        GameCharacter character = (
             characterAnimationFactory.createCharacterAnimation(
                 characterIDSprite,
                 characterEventListener
             )
         );
-        MovementCommand movementCommand = createMovementCommand(
-            characterAnimation,
-            characterAnimation
-        );
+        MovementCommand movementCommand = createMovementCommand(character);
         MapHelper mapHelper = mapController.getMapHelper();
         CharacterElement characterElement = new CharacterElement(
-            characterAnimation,
+            character,
             movementCommand
         );
 
@@ -61,8 +58,7 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     protected abstract MovementCommand createMovementCommand(
-        GameCharacter character,
-        GameCharacter characterAnimation
+        GameCharacter character
     );
 
     protected abstract void displayCharacter(CharacterElement characterElement);

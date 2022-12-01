@@ -32,8 +32,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
     }
 
     protected MovementCommand createMovementCommand(
-        final GameCharacter character,
-        final GameCharacter characterAnimation
+        final GameCharacter character
     ) {
         MapHelper mapHelper = mapController.getMapHelper();
 
