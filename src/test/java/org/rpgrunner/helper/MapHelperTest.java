@@ -11,7 +11,7 @@ import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.character.CharacterSpy;
+import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
 import org.rpgrunner.test.mock.event.MapEventAreaSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
@@ -28,8 +28,8 @@ public class MapHelperTest extends TestCase {
     private MapSpy map;
     private CharacterElement[] characterElements;
     private CharacterElement characterElement;
-    private CharacterSpy character;
-    private CharacterSpy collisionCharacter;
+    private CharacterAnimationSpy character;
+    private CharacterAnimationSpy collisionCharacter;
     private MapEventAreaSpy mapEventArea;
 
     public MapHelperTest() {
@@ -65,22 +65,25 @@ public class MapHelperTest extends TestCase {
         characterElement = RandomGenerator.getRandomCharacterElement(
             characterElements
         );
-        character = (CharacterSpy) characterElement.getCharacter();
+        character = (
+            (CharacterAnimationSpy) characterElement.getCharacterAnimation()
+        );
 
         int x = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
         int y = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
-        character.setInitialPosition(x, y);
+        character.setMapPosition(x, y);
     }
 
-    private CharacterSpy getCollisionCharacter() {
-        CharacterSpy newCollisionCharacter;
+    private CharacterAnimationSpy getCollisionCharacter() {
+        CharacterAnimationSpy newCollisionCharacter;
 
         do {
             CharacterElement collisionCharacterElement = (
                 RandomGenerator.getRandomCharacterElement(characterElements)
             );
             newCollisionCharacter = (
-                (CharacterSpy) collisionCharacterElement.getCharacter()
+                (CharacterAnimationSpy) collisionCharacterElement.
+                getCharacterAnimation()
             );
         } while (newCollisionCharacter == character);
 
@@ -229,7 +232,7 @@ public class MapHelperTest extends TestCase {
             additionalYCollisionCharacterValue
         );
 
-        collisionCharacter.setInitialPosition(
+        collisionCharacter.setMapPosition(
             initialPositionX,
             initialPositionY
         );

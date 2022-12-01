@@ -29,10 +29,6 @@ public class CharacterElementTest extends TestCase {
         );
     }
 
-    public void testReturnSameCharacter() {
-        Assert.assertSame(character, characterElement.getCharacter());
-    }
-
     public void testReturnSameCharacterAnimation() {
         Assert.assertSame(
             characterAnimation,

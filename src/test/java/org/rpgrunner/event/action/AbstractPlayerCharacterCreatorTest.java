@@ -45,7 +45,7 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
             mapController.getPlayerCharacterElement()
         );
         CharacterAnimation playerCharacter = (
-            playerCharacterElement.getCharacter()
+            playerCharacterElement.getCharacterAnimation()
         );
 
         Assert.assertEquals(randomIDSprite, playerCharacter.getIDSprite());

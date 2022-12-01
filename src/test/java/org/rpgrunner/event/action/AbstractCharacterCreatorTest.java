@@ -43,7 +43,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
         CharacterElement characterElement = (
             mapController.getLastCharacterElementAdded()
         );
-        CharacterAnimation character = characterElement.getCharacter();
+        CharacterAnimation character = characterElement.getCharacterAnimation();
         Action action = character.getInteractiveAction(Direction.UP);
 
         Assert.assertEquals(randomIDSprite, character.getIDSprite());

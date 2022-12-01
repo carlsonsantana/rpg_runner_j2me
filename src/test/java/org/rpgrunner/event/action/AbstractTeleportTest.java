@@ -10,7 +10,6 @@ import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.map.Map;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.controller.MapControllerSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
 
@@ -30,13 +29,8 @@ public abstract class AbstractTeleportTest extends TestCase {
     private int mapPositionY;
 
     public void setUp() {
-        character = new SimpleCharacter();
-        CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
-        characterElement = new CharacterElement(
-            character,
-            characterAnimation,
-            null
-        );
+        character = new CharacterAnimationSpy();
+        characterElement = new CharacterElement(character, character, null);
         mapController = new MapControllerSpy();
         mapController.setPlayerCharacterElement(characterElement);
         actionQueue = new ActionQueueSpy();

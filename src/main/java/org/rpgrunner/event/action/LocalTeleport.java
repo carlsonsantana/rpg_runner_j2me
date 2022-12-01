@@ -28,7 +28,7 @@ public class LocalTeleport implements Action {
     }
 
     private void updateCharacterMapPosition() {
-        CharacterAnimation character = characterElement.getCharacter();
+        CharacterAnimation character = characterElement.getCharacterAnimation();
         character.setMapPosition(mapPositionX, mapPositionY);
     }
 

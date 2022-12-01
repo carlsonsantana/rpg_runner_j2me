@@ -4,6 +4,7 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
+import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 
 public class CharacterAnimationSpy implements CharacterAnimation {
     private boolean startAnimationCalled;
@@ -15,6 +16,8 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     private CharacterEventListener characterEventListener;
     private int mapPositionX;
     private int mapPositionY;
+    private int nextMapPositionX;
+    private int nextMapPositionY;
     private byte direction;
     private boolean moving;
 
@@ -74,21 +77,25 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     public void moveUp() {
         direction = Direction.UP;
         moving = true;
+        nextMapPositionY--;
     }
 
     public void moveRight() {
         direction = Direction.RIGHT;
         moving = true;
+        nextMapPositionX++;
     }
 
     public void moveDown() {
         direction = Direction.DOWN;
         moving = true;
+        nextMapPositionY++;
     }
 
     public void moveLeft() {
         direction = Direction.LEFT;
         moving = true;
+        nextMapPositionX--;
     }
 
     public byte getDirection() {
@@ -115,6 +122,8 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     ) {
         mapPositionX = newMapPositionX;
         mapPositionY = newMapPositionY;
+        nextMapPositionX = newMapPositionX;
+        nextMapPositionY = newMapPositionY;
     }
 
     public int getMapPositionX() {
@@ -126,14 +135,18 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     }
 
     public int getMapNextPositionX() {
-        return 0;
+        return nextMapPositionX;
     }
 
     public int getMapNextPositionY() {
-        return 0;
+        return nextMapPositionY;
     }
 
     public Action getInteractiveAction(final byte interactDirection) {
+        if (characterEventListener == null) {
+            return new CharacterActionSpy(this);
+        }
+
         return characterEventListener.interact(interactDirection);
     }
 
@@ -153,5 +166,17 @@ public class CharacterAnimationSpy implements CharacterAnimation {
         final CharacterEventListener newCharacterEventListener
     ) {
         characterEventListener = newCharacterEventListener;
+    }
+
+    public void moveTo(final byte newDirection) {
+        if (Direction.isUp(newDirection)) {
+            moveUp();
+        } else if (Direction.isRight(newDirection)) {
+            moveRight();
+        } else if (Direction.isDown(newDirection)) {
+            moveDown();
+        } else if (Direction.isLeft(newDirection)) {
+            moveLeft();
+        }
     }
 }

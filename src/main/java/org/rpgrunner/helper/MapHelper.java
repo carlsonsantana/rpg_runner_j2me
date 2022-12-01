@@ -46,7 +46,7 @@ public class MapHelper {
         ) {
             CharacterElement otherCharacterElement = characterElements[i];
             CharacterAnimation otherCharacter = (
-                otherCharacterElement.getCharacter()
+                otherCharacterElement.getCharacterAnimation()
             );
 
             if (hasCharacterCollision(character, otherCharacter)) {
@@ -131,7 +131,7 @@ public class MapHelper {
         ) {
             CharacterElement otherCharacterElement = characterElements[i];
             CharacterAnimation otherCharacter = (
-                otherCharacterElement.getCharacter()
+                otherCharacterElement.getCharacterAnimation()
             );
 
             if (isInFrontOfCharacter(character, otherCharacter)) {

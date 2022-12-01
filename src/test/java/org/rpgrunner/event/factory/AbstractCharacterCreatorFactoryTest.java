@@ -44,7 +44,7 @@ extends AbstractCharacterCreatorTest {
         CharacterElement characterElement = (
             mapController.getLastCharacterElementAdded()
         );
-        CharacterAnimation character = characterElement.getCharacter();
+        CharacterAnimation character = characterElement.getCharacterAnimation();
         Action action = character.getInteractiveAction(direction);
 
         Assert.assertTrue(action instanceof ActionList);

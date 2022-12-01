@@ -17,10 +17,6 @@ public class CharacterElement {
         movementCommand = characterCommand;
     }
 
-    public CharacterAnimation getCharacter() {
-        return character;
-    }
-
     public CharacterAnimation getCharacterAnimation() {
         return characterAnimation;
     }
