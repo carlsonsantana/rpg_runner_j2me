@@ -30,7 +30,7 @@ public abstract class AbstractTeleportTest extends TestCase {
 
     public void setUp() {
         character = new CharacterAnimationSpy();
-        characterElement = new CharacterElement(character, character, null);
+        characterElement = new CharacterElement(character, null);
         mapController = new MapControllerSpy();
         mapController.setPlayerCharacterElement(characterElement);
         actionQueue = new ActionQueueSpy();

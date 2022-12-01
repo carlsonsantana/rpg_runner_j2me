@@ -14,7 +14,7 @@ public abstract class AbstractLocalTeleportTest extends TestCase {
 
     public void setUp() {
         character = new CharacterAnimationSpy();
-        characterElement = new CharacterElement(character, character, null);
+        characterElement = new CharacterElement(character, null);
     }
 
     public void testChangeCharacterPositionLoop() {

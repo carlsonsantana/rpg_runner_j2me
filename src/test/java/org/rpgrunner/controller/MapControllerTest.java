@@ -5,11 +5,9 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
-import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
@@ -38,7 +36,6 @@ public class MapControllerTest extends TestCase {
         playerMovementSpy = new PlayerMovementSpy();
         characterAnimation = new CharacterAnimationSpy();
         playerCharacterElement = new CharacterElement(
-            new SimpleCharacter(),
             characterAnimation,
             playerMovementSpy
         );
@@ -145,16 +142,12 @@ public class MapControllerTest extends TestCase {
     }
 
     private CharacterElement generatePlayerCharacterElement() {
-        CharacterAnimation character = (
-            RandomGenerator.generateRandomCharacter()
-        );
         CharacterAnimationSpy characterAnimationSpy = (
             new CharacterAnimationSpy()
         );
         PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
 
         return new CharacterElement(
-            character,
             characterAnimationSpy,
             newPlayerMovementSpy
         );
