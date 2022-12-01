@@ -1,12 +1,12 @@
 package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 
-public class CharacterAnimationSpy implements CharacterAnimation {
+public class CharacterAnimationSpy extends GameCharacter {
     private boolean startAnimationCalled;
     private int screenX;
     private int screenY;
@@ -22,6 +22,7 @@ public class CharacterAnimationSpy implements CharacterAnimation {
     private boolean moving;
 
     public CharacterAnimationSpy() {
+        super((byte) 0, null);
         startAnimationCalled = false;
         screenX = 0;
         screenY = 0;

@@ -6,13 +6,11 @@ import javax.microedition.lcdui.Image;
 import javax.microedition.lcdui.game.Sprite;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.j2me.map.MapRender;
 
-public class CharacterAnimationImpl extends GameCharacter implements
-CharacterAnimation {
+public class CharacterAnimationImpl extends GameCharacter {
     private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
