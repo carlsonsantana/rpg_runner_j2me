@@ -46,4 +46,22 @@ public class SimpleCharacter extends GameCharacter {
     public void cancelMove() {
         moving = false;
     }
+
+    public int getScreenX() {
+        return 0;
+    }
+
+    public int getScreenY() {
+        return 0;
+    }
+
+    public void updateScreenPositionFromMapPosition() { }
+
+    public void startAnimation() { }
+
+    public void doAnimation() { }
+
+    public Object getSprite() {
+        return null;
+    }
 }

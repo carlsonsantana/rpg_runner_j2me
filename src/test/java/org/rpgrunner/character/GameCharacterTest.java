@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
@@ -21,6 +22,33 @@ public class GameCharacterTest extends TestCase {
     private Random random;
     private Action action;
 
+    private static class CharacterImpl extends GameCharacter {
+        CharacterImpl(
+            final byte characterIDSprite,
+            final CharacterEventListener newCharacterEventListener
+        ) {
+            super(characterIDSprite, newCharacterEventListener);
+        }
+
+        public int getScreenX() {
+            return 0;
+        }
+
+        public int getScreenY() {
+            return 0;
+        }
+
+        public void updateScreenPositionFromMapPosition() { }
+
+        public void startAnimation() { }
+
+        public void doAnimation() { }
+
+        public Object getSprite() {
+            return null;
+        }
+    }
+
     public GameCharacterTest() {
         random = new Random();
     }
@@ -32,7 +60,7 @@ public class GameCharacterTest extends TestCase {
             new CharacterEventListenerSpy()
         );
         characterEventListener.setInteractAction(action);
-        character = new GameCharacter(
+        character = new CharacterImpl(
             characterIDSprite,
             characterEventListener
         );

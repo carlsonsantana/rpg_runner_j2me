@@ -89,4 +89,22 @@ public class CharacterSpy extends GameCharacter {
             moveLeft();
         }
     }
+
+    public int getScreenX() {
+        return 0;
+    }
+
+    public int getScreenY() {
+        return 0;
+    }
+
+    public void updateScreenPositionFromMapPosition() { }
+
+    public void startAnimation() { }
+
+    public void doAnimation() { }
+
+    public Object getSprite() {
+        return null;
+    }
 }
