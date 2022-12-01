@@ -4,7 +4,7 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
-public abstract class GameCharacter implements CharacterAnimation {
+public abstract class GameCharacter {
     private final byte idSprite;
     private final CharacterEventListener characterEventListener;
     private byte direction;
@@ -116,4 +116,11 @@ public abstract class GameCharacter implements CharacterAnimation {
     public CharacterEventListener getCharacterEventListener() {
         return characterEventListener;
     }
+
+    public abstract int getScreenX();
+    public abstract int getScreenY();
+    public abstract void updateScreenPositionFromMapPosition();
+    public abstract void startAnimation();
+    public abstract void doAnimation();
+    public abstract Object getSprite();
 }

@@ -6,8 +6,8 @@ import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 import javax.microedition.lcdui.game.TiledLayer;
 
-import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.j2me.map.MapRender;
 import org.rpgrunner.map.Map;
@@ -20,7 +20,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final int screenHeight;
     private final CharacterElement[] characterElements;
     private Map map;
-    private CharacterAnimation characterAnimationFollowed;
+    private GameCharacter characterAnimationFollowed;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -65,7 +65,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
             i++
         ) {
             CharacterElement characterElement = characterElements[i];
-            CharacterAnimation characterAnimation = (
+            GameCharacter characterAnimation = (
                 characterElement.getCharacterAnimation()
             );
             layerManager.insert((Sprite) characterAnimation.getSprite(), 0);
@@ -73,7 +73,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     }
 
     public void setCharacterAnimation(
-        final CharacterAnimation newCharacterAnimation
+        final GameCharacter newCharacterAnimation
     ) {
         characterAnimationFollowed = newCharacterAnimation;
     }

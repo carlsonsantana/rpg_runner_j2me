@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
@@ -102,9 +102,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
         Assert.assertFalse(character.isMoving());
     }
 
-    private RandomMovement createRandomMovement(
-        final CharacterAnimation character
-    ) {
+    private RandomMovement createRandomMovement(final GameCharacter character) {
         RandomMovement randomMovement = new RandomMovement(
             character,
             mapHelper

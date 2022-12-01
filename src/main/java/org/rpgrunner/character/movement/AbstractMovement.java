@@ -1,14 +1,14 @@
 package org.rpgrunner.character.movement;
 
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractMovement implements MovementCommand {
-    private final CharacterAnimation character;
+    private final GameCharacter character;
     private final MapHelper mapHelper;
 
     public AbstractMovement(
-        final CharacterAnimation controlledCharacter,
+        final GameCharacter controlledCharacter,
         final MapHelper newMapHelper
     ) {
         character = controlledCharacter;

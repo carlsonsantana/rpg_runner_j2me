@@ -1,8 +1,8 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.CharacterEventListener;
@@ -41,7 +41,7 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        CharacterAnimation characterAnimation = (
+        GameCharacter characterAnimation = (
             characterAnimationFactory.createCharacterAnimation(
                 characterIDSprite,
                 characterEventListener
@@ -61,8 +61,8 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     protected abstract MovementCommand createMovementCommand(
-        CharacterAnimation character,
-        CharacterAnimation characterAnimation
+        GameCharacter character,
+        GameCharacter characterAnimation
     );
 
     protected abstract void displayCharacter(CharacterElement characterElement);

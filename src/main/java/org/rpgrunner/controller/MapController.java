@@ -1,7 +1,7 @@
 package org.rpgrunner.controller;
 
-import org.rpgrunner.character.CharacterAnimation;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.graphics.MapGraphicsRender;
@@ -75,7 +75,7 @@ public class MapController implements Controller {
     }
 
     private void executeAnimation(final CharacterElement characterElement) {
-        CharacterAnimation characterAnimation = (
+        GameCharacter characterAnimation = (
             characterElement.getCharacterAnimation()
         );
 

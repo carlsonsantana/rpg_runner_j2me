@@ -1,6 +1,6 @@
 package org.rpgrunner.test.mock.helper;
 
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
 
@@ -23,7 +23,7 @@ public class MapHelperSpy extends MapHelper {
         return currentMap;
     }
 
-    public void setCharacters(final CharacterAnimation[] characters) {
+    public void setCharacters(final GameCharacter[] characters) {
         throw new RuntimeException();
     }
 
@@ -31,13 +31,11 @@ public class MapHelperSpy extends MapHelper {
         canMoveValue = newCanMoveValue;
     }
 
-    public boolean canMove(final CharacterAnimation character) {
+    public boolean canMove(final GameCharacter character) {
         return canMoveValue;
     }
 
-    public void executeInteractAction(
-        final CharacterAnimation playerCharacter
-    ) {
+    public void executeInteractAction(final GameCharacter playerCharacter) {
         executeInteractActionCalled = true;
     }
 

@@ -1,7 +1,7 @@
 package org.rpgrunner.map;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 
 public class Layer {
     private final TileSet tileSet;
@@ -37,7 +37,7 @@ public class Layer {
         return tileSet;
     }
 
-    public boolean canMove(final CharacterAnimation character) {
+    public boolean canMove(final GameCharacter character) {
         int fromX = character.getMapPositionX();
         int fromY = character.getMapPositionY();
         int toX = character.getMapNextPositionX();

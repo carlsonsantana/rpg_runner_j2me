@@ -1,13 +1,13 @@
 package org.rpgrunner.test.mock.graphics;
 
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.map.Map;
 
 public class MapGraphicsRenderSpy extends GraphicsRenderSpy implements
 MapGraphicsRender {
     private Map map;
-    private CharacterAnimation characterAnimation;
+    private GameCharacter characterAnimation;
 
     public void setMap(final Map newMap) {
         map = newMap;
@@ -20,12 +20,12 @@ MapGraphicsRender {
     public void notifyChangesCharacterElements() { }
 
     public void setCharacterAnimation(
-        final CharacterAnimation newCharacterAnimation
+        final GameCharacter newCharacterAnimation
     ) {
         characterAnimation = newCharacterAnimation;
     }
 
-    public CharacterAnimation getCharacterAnimation() {
+    public GameCharacter getCharacterAnimation() {
         return characterAnimation;
     }
 }

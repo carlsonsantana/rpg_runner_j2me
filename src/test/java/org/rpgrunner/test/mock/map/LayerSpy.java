@@ -1,6 +1,6 @@
 package org.rpgrunner.test.mock.map;
 
-import org.rpgrunner.character.CharacterAnimation;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.map.Layer;
 import org.rpgrunner.map.TileSet;
 
@@ -41,7 +41,7 @@ public class LayerSpy extends Layer {
         canMove = newCanMove;
     }
 
-    public boolean canMove(final CharacterAnimation character) {
+    public boolean canMove(final GameCharacter character) {
         return canMove;
     }
 }
