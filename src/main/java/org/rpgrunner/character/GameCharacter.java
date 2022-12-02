@@ -113,10 +113,6 @@ public abstract class GameCharacter {
         return characterEventListener.interact(interactDirection);
     }
 
-    public CharacterEventListener getCharacterEventListener() {
-        return characterEventListener;
-    }
-
     public abstract int getScreenX();
     public abstract int getScreenY();
     public abstract void updateScreenPositionFromMapPosition();

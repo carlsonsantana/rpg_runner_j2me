@@ -159,10 +159,6 @@ public class CharacterAnimationSpy extends GameCharacter {
         idSprite = newIDSprite;
     }
 
-    public CharacterEventListener getCharacterEventListener() {
-        return null;
-    }
-
     public void setCharacterEventListener(
         final CharacterEventListener newCharacterEventListener
     ) {
