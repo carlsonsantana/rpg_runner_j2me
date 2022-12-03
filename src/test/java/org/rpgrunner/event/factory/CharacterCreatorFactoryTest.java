@@ -4,14 +4,14 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
+import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.HelperActionAbstractFactory;
-import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
+import org.rpgrunner.test.mock.character.CharacterFactoryMock;
 
 public class CharacterCreatorFactoryTest
-    extends AbstractCharacterCreatorFactoryTest {
+extends AbstractCharacterCreatorFactoryTest {
     protected InputStream generateInputStream(final byte[] byteArray) {
         return new ByteArrayInputStream(byteArray);
     }
@@ -25,14 +25,12 @@ public class CharacterCreatorFactoryTest
                 mapController
             )
         );
-        CharacterAnimationFactory characterAnimationFactory = (
-            new CharacterAnimationFactoryMock()
-        );
+        CharacterFactory characterFactory = new CharacterFactoryMock();
 
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
                 mapController,
-                characterAnimationFactory,
+                characterFactory,
                 actionAbstractFactory
             )
         );

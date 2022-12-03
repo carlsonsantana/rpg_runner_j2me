@@ -3,7 +3,7 @@ package org.rpgrunner.event.factory;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
+import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.MapEvent;
@@ -13,16 +13,16 @@ import org.rpgrunner.event.action.CharacterCreator;
 public class CharacterCreatorFactory implements IdentifiedActionFactory {
     private static final int ID_VALUE = 3;
     private final MapController mapController;
-    private final CharacterAnimationFactory characterAnimationFactory;
+    private final CharacterFactory characterFactory;
     private final ActionAbstractFactory actionAbstractFactory;
 
     public CharacterCreatorFactory(
         final MapController currentMapController,
-        final CharacterAnimationFactory currentCharacterAnimationFactory,
+        final CharacterFactory currentCharacterFactory,
         final ActionAbstractFactory currentActionAbstractFactory
     ) {
         mapController = currentMapController;
-        characterAnimationFactory = currentCharacterAnimationFactory;
+        characterFactory = currentCharacterFactory;
         actionAbstractFactory = currentActionAbstractFactory;
     }
 
@@ -40,7 +40,7 @@ public class CharacterCreatorFactory implements IdentifiedActionFactory {
 
         return new CharacterCreator(
             mapController,
-            characterAnimationFactory,
+            characterFactory,
             idSprite,
             mapPositionX,
             mapPositionY,

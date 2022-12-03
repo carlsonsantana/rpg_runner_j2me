@@ -19,7 +19,7 @@ import org.rpgrunner.event.factory.PlayerCharacterCreatorFactory;
 import org.rpgrunner.event.factory.ShowMessageFactory;
 import org.rpgrunner.event.factory.TeleportFactory;
 import org.rpgrunner.helper.MapHelper;
-import org.rpgrunner.j2me.character.CharacterAnimationFactoryImpl;
+import org.rpgrunner.j2me.character.CharacterFactoryImpl;
 import org.rpgrunner.j2me.graphics.MapGraphicsRenderImpl;
 import org.rpgrunner.j2me.graphics.MessageGraphicsRenderImpl;
 import org.rpgrunner.j2me.helper.InputImpl;
@@ -43,7 +43,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         KEY_STAR
     };
 
-    private final CharacterAnimationFactoryImpl characterAnimationFactory;
+    private final CharacterFactoryImpl characterFactory;
     private final InputImpl input;
     private final Thread thread;
     private boolean destroyed;
@@ -54,7 +54,7 @@ public class GameRunner extends GameCanvas implements Runnable {
         super(false);
 
         destroyed = false;
-        characterAnimationFactory = new CharacterAnimationFactoryImpl();
+        characterFactory = new CharacterFactoryImpl();
         input = new InputImpl();
         thread = new Thread(this);
     }
@@ -136,14 +136,14 @@ public class GameRunner extends GameCanvas implements Runnable {
         PlayerCharacterCreatorFactory playerCharacterCreatorFactory = (
             new PlayerCharacterCreatorFactory(
                 mapController,
-                characterAnimationFactory,
+                characterFactory,
                 input
             )
         );
         CharacterCreatorFactory characterCreatorFactory = (
             new CharacterCreatorFactory(
                 mapController,
-                characterAnimationFactory,
+                characterFactory,
                 actionAbstractFactory
             )
         );

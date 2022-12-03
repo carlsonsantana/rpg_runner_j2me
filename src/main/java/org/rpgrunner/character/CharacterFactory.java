@@ -2,8 +2,8 @@ package org.rpgrunner.character;
 
 import org.rpgrunner.event.CharacterEventListener;
 
-public interface CharacterAnimationFactory {
-    GameCharacter createCharacterAnimation(
+public interface CharacterFactory {
+    GameCharacter createCharacter(
         byte characterIDSprite,
         CharacterEventListener newCharacterEventListener
     );

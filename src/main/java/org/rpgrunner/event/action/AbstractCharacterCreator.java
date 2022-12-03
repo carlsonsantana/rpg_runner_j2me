@@ -1,7 +1,7 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.controller.MapController;
@@ -10,14 +10,14 @@ import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
     private final MapController mapController;
-    private final CharacterAnimationFactory characterAnimationFactory;
+    private final CharacterFactory characterFactory;
     private final byte characterIDSprite;
     private final LocalTeleport localTeleport;
     private final CharacterEventListener characterEventListener;
 
     public AbstractCharacterCreator(
         final MapController currentMapController,
-        final CharacterAnimationFactory currentCharacterAnimationFactory,
+        final CharacterFactory currentCharacterFactory,
         final byte newCharacterIDSprite,
         final int initialMapPositionX,
         final int initialMapPositionY,
@@ -29,7 +29,7 @@ public abstract class AbstractCharacterCreator implements Action {
             initialMapPositionX,
             initialMapPositionY
         );
-        characterAnimationFactory = currentCharacterAnimationFactory;
+        characterFactory = currentCharacterFactory;
         characterEventListener = newCharacterEventListener;
     }
 
@@ -41,11 +41,9 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     private CharacterElement generateCharacterElement() {
-        GameCharacter character = (
-            characterAnimationFactory.createCharacterAnimation(
-                characterIDSprite,
-                characterEventListener
-            )
+        GameCharacter character = characterFactory.createCharacter(
+            characterIDSprite,
+            characterEventListener
         );
         MovementCommand movementCommand = createMovementCommand(character);
         MapHelper mapHelper = mapController.getMapHelper();

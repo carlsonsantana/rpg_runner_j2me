@@ -1,15 +1,15 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
+import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.controller.MapController;
-import org.rpgrunner.test.mock.character.CharacterAnimationFactoryMock;
+import org.rpgrunner.test.mock.character.CharacterFactoryMock;
 import org.rpgrunner.test.mock.event.CharacterEventListenerSpy;
 
 public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
-    private final CharacterAnimationFactory characterAnimationFactory;
+    private final CharacterFactory characterFactory;
 
     public CharacterCreatorTest() {
-        characterAnimationFactory = new CharacterAnimationFactoryMock();
+        characterFactory = new CharacterFactoryMock();
     }
 
     protected CharacterCreator createCharacterCreator(
@@ -26,7 +26,7 @@ public class CharacterCreatorTest extends AbstractCharacterCreatorTest {
 
         return new CharacterCreator(
             mapController,
-            characterAnimationFactory,
+            characterFactory,
             characterIDSprite,
             initialMapPositionX,
             initialMapPositionY,

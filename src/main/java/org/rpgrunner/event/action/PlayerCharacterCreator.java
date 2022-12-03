@@ -1,7 +1,7 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterAnimationFactory;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
@@ -15,7 +15,7 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
 
     public PlayerCharacterCreator(
         final MapController currentMapController,
-        final CharacterAnimationFactory characterAnimationFactory,
+        final CharacterFactory characterFactory,
         final Input currentInput,
         final byte newCharacterIDSprite,
         final int initialMapPositionX,
@@ -23,7 +23,7 @@ public class PlayerCharacterCreator extends AbstractCharacterCreator {
     ) {
         super(
             currentMapController,
-            characterAnimationFactory,
+            characterFactory,
             newCharacterIDSprite,
             initialMapPositionX,
             initialMapPositionY,
