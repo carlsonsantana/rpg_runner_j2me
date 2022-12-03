@@ -9,9 +9,6 @@ public class CharacterFactoryImpl implements CharacterFactory {
         final byte characterIDSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        return new CharacterAnimationImpl(
-            characterIDSprite,
-            newCharacterEventListener
-        );
+        return new CharacterImpl(characterIDSprite, newCharacterEventListener);
     }
 }

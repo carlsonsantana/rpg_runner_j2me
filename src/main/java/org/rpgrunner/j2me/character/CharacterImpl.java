@@ -10,7 +10,7 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.j2me.map.MapRender;
 
-public class CharacterAnimationImpl extends GameCharacter {
+public class CharacterImpl extends GameCharacter {
     private static final String CHARACTER_DIRECTORY = "/characters/";
     private static final String CHARACTER_EXTENSION = ".png";
 
@@ -69,7 +69,7 @@ public class CharacterAnimationImpl extends GameCharacter {
     private final Sprite sprite;
     private byte direction;
 
-    public CharacterAnimationImpl(
+    public CharacterImpl(
         final byte idSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
