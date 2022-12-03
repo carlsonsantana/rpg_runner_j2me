@@ -46,7 +46,6 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
         GameCharacter character = characterElement.getCharacterAnimation();
         Action action = character.getInteractiveAction(Direction.UP);
 
-        Assert.assertEquals(randomIDSprite, character.getIDSprite());
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());
         Assert.assertEquals(initialMapPositionY, character.getMapPositionY());
         Assert.assertNotNull(action);

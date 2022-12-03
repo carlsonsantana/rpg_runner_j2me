@@ -12,7 +12,6 @@ public class CharacterAnimationSpy extends GameCharacter {
     private int screenY;
     private boolean updateScreenPositionFromMapPositionCalled;
     private boolean doAnimationCalled;
-    private byte idSprite;
     private CharacterEventListener characterEventListener;
     private int mapPositionX;
     private int mapPositionY;
@@ -22,7 +21,7 @@ public class CharacterAnimationSpy extends GameCharacter {
     private boolean moving;
 
     public CharacterAnimationSpy() {
-        super((byte) 0, null);
+        super(null);
         startAnimationCalled = false;
         screenX = 0;
         screenY = 0;
@@ -149,14 +148,6 @@ public class CharacterAnimationSpy extends GameCharacter {
         }
 
         return characterEventListener.interact(interactDirection);
-    }
-
-    public byte getIDSprite() {
-        return idSprite;
-    }
-
-    public void setIDSprite(final byte newIDSprite) {
-        idSprite = newIDSprite;
     }
 
     public void setCharacterEventListener(

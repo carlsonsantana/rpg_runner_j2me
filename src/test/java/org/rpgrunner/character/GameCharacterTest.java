@@ -18,16 +18,14 @@ public class GameCharacterTest extends TestCase {
     private static final int MAXIMUM_RANDOM_POSITION = 1000;
     private CharacterElementSpy characterElement;
     private GameCharacter character;
-    private byte characterIDSprite;
     private Random random;
     private Action action;
 
     private static class CharacterImpl extends GameCharacter {
         CharacterImpl(
-            final byte characterIDSprite,
             final CharacterEventListener newCharacterEventListener
         ) {
-            super(characterIDSprite, newCharacterEventListener);
+            super(newCharacterEventListener);
         }
 
         public int getScreenX() {
@@ -54,21 +52,13 @@ public class GameCharacterTest extends TestCase {
     }
 
     public void setUp() {
-        characterIDSprite = (byte) random.nextInt(Short.MAX_VALUE);
         action = new ActionSpy();
         CharacterEventListenerSpy characterEventListener = (
             new CharacterEventListenerSpy()
         );
         characterEventListener.setInteractAction(action);
-        character = new CharacterImpl(
-            characterIDSprite,
-            characterEventListener
-        );
+        character = new CharacterImpl(characterEventListener);
         characterElement = new CharacterElementSpy();
-    }
-
-    public void testReturnSameFileBaseName() {
-        Assert.assertEquals(characterIDSprite, character.getIDSprite());
     }
 
     public void testCharacterStartStopped() {

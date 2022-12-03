@@ -14,11 +14,8 @@ public class CharacterSpy extends GameCharacter {
     private byte direction;
 
     public CharacterSpy() {
-        this((byte) 0);
-    }
+        super(null);
 
-    public CharacterSpy(final byte idSprite) {
-        super(idSprite, null);
         direction = INITIAL_DIRECTION;
     }
 

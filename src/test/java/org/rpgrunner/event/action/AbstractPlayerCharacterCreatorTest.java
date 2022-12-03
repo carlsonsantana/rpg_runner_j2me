@@ -48,7 +48,6 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
             playerCharacterElement.getCharacterAnimation()
         );
 
-        Assert.assertEquals(randomIDSprite, playerCharacter.getIDSprite());
         Assert.assertEquals(
             initialMapPositionX,
             playerCharacter.getMapPositionX()

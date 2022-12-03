@@ -11,7 +11,6 @@ implements CharacterAnimationFactory {
         final CharacterEventListener newCharacterEventListener
     ) {
         CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
-        characterAnimation.setIDSprite(characterIDSprite);
         characterAnimation.setCharacterEventListener(newCharacterEventListener);
 
         return characterAnimation;

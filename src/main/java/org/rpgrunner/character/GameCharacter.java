@@ -5,7 +5,6 @@ import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
 public abstract class GameCharacter {
-    private final byte idSprite;
     private final CharacterEventListener characterEventListener;
     private byte direction;
     private int mapPositionX;
@@ -14,16 +13,10 @@ public abstract class GameCharacter {
     private int mapNextPositionY;
 
     public GameCharacter(
-        final byte characterIDSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        idSprite = characterIDSprite;
         direction = Direction.DOWN;
         characterEventListener = newCharacterEventListener;
-    }
-
-    public byte getIDSprite() {
-        return idSprite;
     }
 
     public void moveUp() {

@@ -70,24 +70,22 @@ public class CharacterAnimationImpl extends GameCharacter {
     private byte direction;
 
     public CharacterAnimationImpl(
-        final byte characterIDSprite,
+        final byte idSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        super(
-            characterIDSprite,
-            newCharacterEventListener
-        );
-        Image image = loadImage();
+        super(newCharacterEventListener);
+
+        Image image = loadImage(idSprite);
         sprite = new Sprite(image, SPRITE_WIDTH, SPRITE_HEIGHT);
         sprite.defineReferencePixel(0, SPRITE_REFERENCE_Y);
         sprite.setPosition(0, -SPRITE_REFERENCE_Y);
         changeSpriteAnimation();
     }
 
-    private Image loadImage() {
+    private Image loadImage(final byte idSprite) {
         String fileName = (
             CHARACTER_DIRECTORY
-            + String.valueOf(getIDSprite())
+            + String.valueOf(idSprite)
             + CHARACTER_EXTENSION
         );
 
