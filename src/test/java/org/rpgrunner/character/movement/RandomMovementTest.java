@@ -5,7 +5,7 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
@@ -25,9 +25,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
         boolean moveAllDirections = false;
 
         for (int i = 0; (i < TEST_REPEAT_LOOP) && (!moveAllDirections); i++) {
-            CharacterAnimationSpy character = (
-                new CharacterAnimationSpy()
-            );
+            CharacterSpy character = new CharacterSpy();
             RandomMovement randomMovement = new RandomMovement(
                 character,
                 mapHelper

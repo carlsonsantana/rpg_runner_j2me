@@ -9,9 +9,9 @@ public class CharacterFactoryMock implements CharacterFactory {
         final byte characterIDSprite,
         final CharacterEventListener newCharacterEventListener
     ) {
-        CharacterAnimationSpy characterAnimation = new CharacterAnimationSpy();
-        characterAnimation.setCharacterEventListener(newCharacterEventListener);
+        CharacterSpy character = new CharacterSpy();
+        character.setCharacterEventListener(newCharacterEventListener);
 
-        return characterAnimation;
+        return character;
     }
 }

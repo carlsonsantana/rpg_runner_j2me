@@ -7,7 +7,7 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 import org.rpgrunner.test.mock.character.movement.PlayerMovementSpy;
 import org.rpgrunner.test.mock.graphics.MapGraphicsRenderSpy;
@@ -23,7 +23,7 @@ public class MapControllerTest extends TestCase {
     private MapHelperSpy mapHelper;
     private CharacterElement playerCharacterElement;
     private PlayerMovementSpy playerMovementSpy;
-    private CharacterAnimationSpy characterAnimation;
+    private CharacterSpy character;
     private CharacterElement[] npcs;
     private CharacterElement[] characterElements;
 
@@ -34,9 +34,9 @@ public class MapControllerTest extends TestCase {
     public void setUp() {
         mapGraphicsRender = new MapGraphicsRenderSpy();
         playerMovementSpy = new PlayerMovementSpy();
-        characterAnimation = new CharacterAnimationSpy();
+        character = new CharacterSpy();
         playerCharacterElement = new CharacterElement(
-            characterAnimation,
+            character,
             playerMovementSpy
         );
         mapHelper = new MapHelperSpy();
@@ -76,7 +76,7 @@ public class MapControllerTest extends TestCase {
         mapController.prepareFrameAnimation();
 
         Assert.assertTrue(playerMovementSpy.isExecuteCalled());
-        Assert.assertTrue(characterAnimation.isDoAnimationCalled());
+        Assert.assertTrue(character.isDoAnimationCalled());
 
         for (
             int i = 0, length = npcs.length;
@@ -85,11 +85,11 @@ public class MapControllerTest extends TestCase {
         ) {
             CharacterElement npc = npcs[i];
             MovementSpy movementSpy = (MovementSpy) npc.getMovementCommand();
-            CharacterAnimationSpy characterAnimationSpy = (
-                (CharacterAnimationSpy) npc.getCharacterAnimation()
+            CharacterSpy characterSpy = (
+                (CharacterSpy) npc.getCharacterAnimation()
             );
             Assert.assertTrue(movementSpy.isExecuteCalled());
-            Assert.assertTrue(characterAnimationSpy.isDoAnimationCalled());
+            Assert.assertTrue(characterSpy.isDoAnimationCalled());
         }
     }
 
@@ -98,10 +98,7 @@ public class MapControllerTest extends TestCase {
             playerCharacterElement,
             mapController.getPlayerCharacterElement()
         );
-        Assert.assertSame(
-            characterAnimation,
-            mapGraphicsRender.getCharacterAnimation()
-        );
+        Assert.assertSame(character, mapGraphicsRender.getCharacterAnimation());
     }
 
     public void testChangePlayerCharacterElement() {
@@ -142,15 +139,10 @@ public class MapControllerTest extends TestCase {
     }
 
     private CharacterElement generatePlayerCharacterElement() {
-        CharacterAnimationSpy characterAnimationSpy = (
-            new CharacterAnimationSpy()
-        );
+        CharacterSpy characterSpy = new CharacterSpy();
         PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
 
-        return new CharacterElement(
-            characterAnimationSpy,
-            newPlayerMovementSpy
-        );
+        return new CharacterElement(characterSpy, newPlayerMovementSpy);
     }
 
     public void testRemoveAllNPCsWhenChangeMap() {

@@ -11,7 +11,7 @@ import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.event.ActionQueueSpy;
 import org.rpgrunner.test.mock.event.MapEventAreaSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
@@ -28,8 +28,8 @@ public class MapHelperTest extends TestCase {
     private MapSpy map;
     private CharacterElement[] characterElements;
     private CharacterElement characterElement;
-    private CharacterAnimationSpy character;
-    private CharacterAnimationSpy collisionCharacter;
+    private CharacterSpy character;
+    private CharacterSpy collisionCharacter;
     private MapEventAreaSpy mapEventArea;
 
     public MapHelperTest() {
@@ -65,25 +65,22 @@ public class MapHelperTest extends TestCase {
         characterElement = RandomGenerator.getRandomCharacterElement(
             characterElements
         );
-        character = (
-            (CharacterAnimationSpy) characterElement.getCharacterAnimation()
-        );
+        character = (CharacterSpy) characterElement.getCharacterAnimation();
 
         int x = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
         int y = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
         character.setMapPosition(x, y);
     }
 
-    private CharacterAnimationSpy getCollisionCharacter() {
-        CharacterAnimationSpy newCollisionCharacter;
+    private CharacterSpy getCollisionCharacter() {
+        CharacterSpy newCollisionCharacter;
 
         do {
             CharacterElement collisionCharacterElement = (
                 RandomGenerator.getRandomCharacterElement(characterElements)
             );
             newCollisionCharacter = (
-                (CharacterAnimationSpy) collisionCharacterElement.
-                getCharacterAnimation()
+                (CharacterSpy) collisionCharacterElement.getCharacterAnimation()
             );
         } while (newCollisionCharacter == character);
 

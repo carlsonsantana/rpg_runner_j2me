@@ -4,7 +4,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.helper.InputSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
@@ -37,12 +37,12 @@ public class PlayerMovementTest extends TestCase implements MovementTest {
     private static final int RIGHT_INDEX = 1;
     private static final int DOWN_INDEX = 2;
     private static final int LEFT_INDEX = 3;
-    private CharacterAnimationSpy character;
+    private CharacterSpy character;
     private MapHelperSpy mapHelper;
     private InputSpy input;
 
     public void setUp() {
-        character = new CharacterAnimationSpy();
+        character = new CharacterSpy();
 
         mapHelper = new MapHelperSpy();
         input = new InputSpy();
@@ -114,15 +114,16 @@ public class PlayerMovementTest extends TestCase implements MovementTest {
         final byte direction,
         final boolean[] holdingPositions
     ) {
-        byte initialDirection = character.getDirection();
+        character.cancelMove();
 
-        if (initialDirection == direction) {
+        if (direction == Direction.DOWN) {
             character.moveLeft();
+        } else {
+            character.moveDown();
         }
 
         PlayerMovement playerMovement = createPlayerMovement();
 
-        character.setMoving(true);
         setHolding(holdingPositions);
         playerMovement.execute();
 

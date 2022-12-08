@@ -5,31 +5,25 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.RandomMovement;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public class CharacterElementTest extends TestCase {
     private CharacterElement characterElement;
     private MapHelperSpy mapHelper;
-    private CharacterAnimationSpy characterAnimation;
+    private CharacterSpy character;
     private MovementCommand movementCommand;
 
     public void setUp() {
         mapHelper = new MapHelperSpy();
-        characterAnimation = new CharacterAnimationSpy();
-        movementCommand = new RandomMovement(characterAnimation, mapHelper);
+        character = new CharacterSpy();
+        movementCommand = new RandomMovement(character, mapHelper);
 
-        characterElement = new CharacterElement(
-            characterAnimation,
-            movementCommand
-        );
+        characterElement = new CharacterElement(character, movementCommand);
     }
 
-    public void testReturnSameCharacterAnimation() {
-        Assert.assertSame(
-            characterAnimation,
-            characterElement.getCharacterAnimation()
-        );
+    public void testReturnSameCharacter() {
+        Assert.assertSame(character, characterElement.getCharacterAnimation());
     }
 
     public void testReturnSameMovementCommand() {

@@ -5,15 +5,15 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
+import org.rpgrunner.test.mock.character.CharacterSpy;
 
 public abstract class AbstractLocalTeleportTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
-    private CharacterAnimationSpy character;
+    private CharacterSpy character;
     private CharacterElement characterElement;
 
     public void setUp() {
-        character = new CharacterAnimationSpy();
+        character = new CharacterSpy();
         characterElement = new CharacterElement(character, null);
     }
 

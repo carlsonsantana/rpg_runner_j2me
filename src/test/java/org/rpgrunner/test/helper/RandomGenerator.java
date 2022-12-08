@@ -4,7 +4,6 @@ import java.util.Random;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
-import org.rpgrunner.test.mock.character.CharacterAnimationSpy;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
@@ -39,12 +38,10 @@ public class RandomGenerator {
     }
 
     public static CharacterElement generateRandomCharacterElement() {
-        CharacterAnimationSpy characterAnimationSpy = (
-            new CharacterAnimationSpy()
-        );
+        CharacterSpy characterSpy = new CharacterSpy();
         MovementSpy movementSpy = new MovementSpy();
 
-        return new CharacterElement(characterAnimationSpy, movementSpy);
+        return new CharacterElement(characterSpy, movementSpy);
     }
 
     public static CharacterElement getRandomCharacterElement(

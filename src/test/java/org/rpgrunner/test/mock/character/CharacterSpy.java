@@ -2,6 +2,7 @@ package org.rpgrunner.test.mock.character;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
+import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.mock.event.action.CharacterActionSpy;
 
@@ -12,11 +13,22 @@ public class CharacterSpy extends GameCharacter {
     private int additionalNextPositionX;
     private int additionalNextPositionY;
     private byte direction;
+    private CharacterEventListener characterEventListener;
+    private boolean startAnimationCalled;
+    private int screenX;
+    private int screenY;
+    private boolean updateScreenPositionFromMapPositionCalled;
+    private boolean doAnimationCalled;
 
     public CharacterSpy() {
         super(null);
 
         direction = INITIAL_DIRECTION;
+        startAnimationCalled = false;
+        screenX = 0;
+        screenY = 0;
+        updateScreenPositionFromMapPositionCalled = false;
+        doAnimationCalled = false;
     }
 
     public void setInitialPosition(
@@ -60,7 +72,17 @@ public class CharacterSpy extends GameCharacter {
     }
 
     public Action getInteractiveAction(final byte interactDirection) {
-        return new CharacterActionSpy(this);
+        if (characterEventListener == null) {
+            return new CharacterActionSpy(this);
+        }
+
+        return characterEventListener.interact(interactDirection);
+    }
+
+    public void setCharacterEventListener(
+        final CharacterEventListener newCharacterEventListener
+    ) {
+        characterEventListener = newCharacterEventListener;
     }
 
     public void setDirection(final byte newDirection) {
@@ -88,18 +110,41 @@ public class CharacterSpy extends GameCharacter {
     }
 
     public int getScreenX() {
-        return 0;
+        return screenX;
     }
 
     public int getScreenY() {
-        return 0;
+        return screenY;
     }
 
-    public void updateScreenPositionFromMapPosition() { }
+    public void setScreenPosition(final int newScreenX, final int newScreenY) {
+        screenX = newScreenX;
+        screenY = newScreenY;
+    }
 
-    public void startAnimation() { }
+    public void updateScreenPositionFromMapPosition() {
+        updateScreenPositionFromMapPositionCalled = true;
+    }
 
-    public void doAnimation() { }
+    public boolean isUpdateScreenPositionFromMapPositionCalled() {
+        return updateScreenPositionFromMapPositionCalled;
+    }
+
+    public void startAnimation() {
+        startAnimationCalled = true;
+    }
+
+    public boolean isStartAnimationCalled() {
+        return startAnimationCalled;
+    }
+
+    public void doAnimation() {
+        doAnimationCalled = true;
+    }
+
+    public boolean isDoAnimationCalled() {
+        return doAnimationCalled;
+    }
 
     public Object getSprite() {
         return null;
