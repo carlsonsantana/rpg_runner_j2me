@@ -47,7 +47,7 @@ public abstract class AbstractCharacterCreator implements Action {
         MovementCommand movementCommand = createMovementCommand(character);
         character.setMovementCommand(movementCommand);
 
-        return new CharacterElement(character, movementCommand);
+        return new CharacterElement(character);
     }
 
     protected abstract MovementCommand createMovementCommand(

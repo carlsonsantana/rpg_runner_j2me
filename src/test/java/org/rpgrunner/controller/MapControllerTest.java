@@ -35,10 +35,8 @@ public class MapControllerTest extends TestCase {
         mapGraphicsRender = new MapGraphicsRenderSpy();
         playerMovementSpy = new PlayerMovementSpy();
         character = new CharacterSpy();
-        playerCharacterElement = new CharacterElement(
-            character,
-            playerMovementSpy
-        );
+        character.setMovementCommand(playerMovementSpy);
+        playerCharacterElement = new CharacterElement(character);
         mapHelper = new MapHelperSpy();
         characterElements = new CharacterElement[MAX_CHARACTERS_ELEMENTS];
         mapController = new MapController(
@@ -84,9 +82,11 @@ public class MapControllerTest extends TestCase {
             i++
         ) {
             CharacterElement npc = npcs[i];
-            MovementSpy movementSpy = (MovementSpy) npc.getMovementCommand();
             CharacterSpy characterSpy = (
                 (CharacterSpy) npc.getCharacterAnimation()
+            );
+            MovementSpy movementSpy = (
+                (MovementSpy) characterSpy.getMovementCommand()
             );
             Assert.assertTrue(movementSpy.isExecuteCalled());
             Assert.assertTrue(characterSpy.isDoAnimationCalled());
@@ -139,10 +139,11 @@ public class MapControllerTest extends TestCase {
     }
 
     private CharacterElement generatePlayerCharacterElement() {
-        CharacterSpy characterSpy = new CharacterSpy();
         PlayerMovementSpy newPlayerMovementSpy = new PlayerMovementSpy();
+        CharacterSpy characterSpy = new CharacterSpy();
+        characterSpy.setMovementCommand(newPlayerMovementSpy);
 
-        return new CharacterElement(characterSpy, newPlayerMovementSpy);
+        return new CharacterElement(characterSpy);
     }
 
     public void testRemoveAllNPCsWhenChangeMap() {

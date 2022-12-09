@@ -38,10 +38,11 @@ public class RandomGenerator {
     }
 
     public static CharacterElement generateRandomCharacterElement() {
-        CharacterSpy characterSpy = new CharacterSpy();
         MovementSpy movementSpy = new MovementSpy();
+        CharacterSpy characterSpy = new CharacterSpy();
+        characterSpy.setMovementCommand(movementSpy);
 
-        return new CharacterElement(characterSpy, movementSpy);
+        return new CharacterElement(characterSpy);
     }
 
     public static CharacterElement getRandomCharacterElement(

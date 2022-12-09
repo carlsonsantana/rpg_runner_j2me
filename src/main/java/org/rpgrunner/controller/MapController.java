@@ -2,7 +2,6 @@ package org.rpgrunner.controller;
 
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.helper.MapHelper;
@@ -57,29 +56,15 @@ public class MapController implements Controller {
     public void prepareFrameAnimation() {
         for (int i = 0; i < numberCharacters; i++) {
             CharacterElement characterElement = characterElements[i];
-            executeMovementCommand(characterElement);
-            executeAnimation(characterElement);
+            GameCharacter character = characterElement.getCharacterAnimation();
+
+            character.getMovementCommand().execute();
+            character.doAnimation();
         }
     }
 
     public void render() {
         mapGraphicsRender.render();
-    }
-
-    private void executeMovementCommand(
-        final CharacterElement characterElement
-    ) {
-        MovementCommand movementCommand = characterElement.getMovementCommand();
-
-        movementCommand.execute();
-    }
-
-    private void executeAnimation(final CharacterElement characterElement) {
-        GameCharacter characterAnimation = (
-            characterElement.getCharacterAnimation()
-        );
-
-        characterAnimation.doAnimation();
     }
 
     public CharacterElement getPlayerCharacterElement() {
@@ -98,13 +83,12 @@ public class MapController implements Controller {
         }
 
         playerCharacterElement = newPlayerCharacterElement;
-        playerMovement = (
-            (PlayerMovement) playerCharacterElement.getMovementCommand()
-        );
-        addCharacterElement(newPlayerCharacterElement);
-        mapGraphicsRender.setCharacterAnimation(
+        GameCharacter playerCharacter = (
             playerCharacterElement.getCharacterAnimation()
         );
+        playerMovement = (PlayerMovement) playerCharacter.getMovementCommand();
+        addCharacterElement(newPlayerCharacterElement);
+        mapGraphicsRender.setCharacterAnimation(playerCharacter);
     }
 
     private void removeCharacterElement(
