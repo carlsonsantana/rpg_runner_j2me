@@ -2,7 +2,6 @@ package org.rpgrunner.controller;
 
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.character.movement.PlayerMovement;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.helper.MapHelper;
 import org.rpgrunner.map.Map;
@@ -13,7 +12,6 @@ public class MapController implements Controller {
     private final CharacterElement[] characterElements;
     private Map map;
     private CharacterElement playerCharacterElement;
-    private PlayerMovement playerMovement;
     private int numberCharacters;
 
     public MapController(
@@ -86,7 +84,6 @@ public class MapController implements Controller {
         GameCharacter playerCharacter = (
             playerCharacterElement.getCharacterAnimation()
         );
-        playerMovement = (PlayerMovement) playerCharacter.getMovementCommand();
         addCharacterElement(newPlayerCharacterElement);
         mapGraphicsRender.setCharacterAnimation(playerCharacter);
     }
