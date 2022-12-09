@@ -6,7 +6,6 @@ import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.CharacterEventListener;
-import org.rpgrunner.helper.MapHelper;
 
 public abstract class AbstractCharacterCreator implements Action {
     private final MapController mapController;
@@ -46,13 +45,9 @@ public abstract class AbstractCharacterCreator implements Action {
             characterEventListener
         );
         MovementCommand movementCommand = createMovementCommand(character);
-        MapHelper mapHelper = mapController.getMapHelper();
-        CharacterElement characterElement = new CharacterElement(
-            character,
-            movementCommand
-        );
+        character.setMovementCommand(movementCommand);
 
-        return characterElement;
+        return new CharacterElement(character, movementCommand);
     }
 
     protected abstract MovementCommand createMovementCommand(

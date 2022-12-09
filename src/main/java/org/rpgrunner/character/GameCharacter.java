@@ -1,6 +1,7 @@
 package org.rpgrunner.character;
 
 import org.rpgrunner.Direction;
+import org.rpgrunner.character.movement.MovementCommand;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 
@@ -11,6 +12,7 @@ public abstract class GameCharacter {
     private int mapPositionY;
     private int mapNextPositionX;
     private int mapNextPositionY;
+    private MovementCommand movementCommand;
 
     public GameCharacter(
         final CharacterEventListener newCharacterEventListener
@@ -104,6 +106,14 @@ public abstract class GameCharacter {
 
     public Action getInteractiveAction(final byte interactDirection) {
         return characterEventListener.interact(interactDirection);
+    }
+
+    public void setMovementCommand(final MovementCommand newMovementCommand) {
+        movementCommand = newMovementCommand;
+    }
+
+    public MovementCommand getMovementCommand() {
+        return movementCommand;
     }
 
     public abstract int getScreenX();
