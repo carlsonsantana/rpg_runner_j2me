@@ -34,7 +34,7 @@ public abstract class AbstractCharacterCreator implements Action {
 
     public void execute() {
         CharacterElement characterElement = generateCharacterElement();
-        localTeleport.setCharacterElement(characterElement);
+        localTeleport.setCharacter(characterElement.getCharacterAnimation());
         localTeleport.execute();
         displayCharacter(characterElement);
     }

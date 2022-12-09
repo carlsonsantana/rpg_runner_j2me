@@ -1,12 +1,11 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 
 public class LocalTeleport implements Action {
     private final int mapPositionX;
     private final int mapPositionY;
-    private CharacterElement characterElement;
+    private GameCharacter character;
 
     public LocalTeleport(
         final int toMapPositionX,
@@ -16,26 +15,12 @@ public class LocalTeleport implements Action {
         mapPositionY = toMapPositionY;
     }
 
-    public void setCharacterElement(
-        final CharacterElement newCharacterElement
-    ) {
-        characterElement = newCharacterElement;
+    public void setCharacter(final GameCharacter newCharacter) {
+        character = newCharacter;
     }
 
     public void execute() {
-        updateCharacterMapPosition();
-        updateCharacterAnimationMapPosition();
-    }
-
-    private void updateCharacterMapPosition() {
-        GameCharacter character = characterElement.getCharacterAnimation();
         character.setMapPosition(mapPositionX, mapPositionY);
-    }
-
-    private void updateCharacterAnimationMapPosition() {
-        GameCharacter characterAnimation = (
-            characterElement.getCharacterAnimation()
-        );
-        characterAnimation.updateScreenPositionFromMapPosition();
+        character.updateScreenPositionFromMapPosition();
     }
 }

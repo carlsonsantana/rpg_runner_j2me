@@ -3,18 +3,15 @@ package org.rpgrunner.event.action;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 
 public abstract class AbstractLocalTeleportTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private CharacterSpy character;
-    private CharacterElement characterElement;
 
     public void setUp() {
         character = new CharacterSpy();
-        characterElement = new CharacterElement(character);
     }
 
     public void testChangeCharacterPositionLoop() {
@@ -31,7 +28,7 @@ public abstract class AbstractLocalTeleportTest extends TestCase {
             mapPositionY
         );
 
-        localTeleport.setCharacterElement(characterElement);
+        localTeleport.setCharacter(character);
         localTeleport.execute();
 
         Assert.assertTrue(
