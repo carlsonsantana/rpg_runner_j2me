@@ -6,7 +6,6 @@ import junit.framework.TestCase;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterSpy;
-import org.rpgrunner.test.mock.character.SimpleCharacter;
 import org.rpgrunner.test.mock.helper.MapHelperSpy;
 
 public class RandomMovementTest extends TestCase implements MovementTest {
@@ -50,8 +49,8 @@ public class RandomMovementTest extends TestCase implements MovementTest {
         boolean directionsEquals = true;
 
         for (int i = 0; (i < TEST_REPEAT_LOOP) && (directionsEquals); i++) {
-            SimpleCharacter character1 = new SimpleCharacter();
-            SimpleCharacter character2 = new SimpleCharacter();
+            CharacterSpy character1 = new CharacterSpy();
+            CharacterSpy character2 = new CharacterSpy();
             RandomMovement randomMovement1 = createRandomMovement(character1);
             RandomMovement randomMovement2 = createRandomMovement(character2);
 
@@ -73,12 +72,12 @@ public class RandomMovementTest extends TestCase implements MovementTest {
     }
 
     private void checkDoNotMoveWhenCharacterIsMoving() {
-        SimpleCharacter character = new SimpleCharacter();
+        CharacterSpy character = new CharacterSpy();
         RandomMovement randomMovement = createRandomMovement(character);
 
         byte initialDirection = character.getDirection();
 
-        character.setMoving(true);
+        character.moveDown();
         randomMovement.execute();
 
         Assert.assertEquals(initialDirection, character.getDirection());
@@ -93,7 +92,7 @@ public class RandomMovementTest extends TestCase implements MovementTest {
     }
 
     private void checkCancelMoveWhenCharacterCantMove() {
-        SimpleCharacter character = new SimpleCharacter();
+        CharacterSpy character = new CharacterSpy();
         RandomMovement randomMovement = createRandomMovement(character);
         randomMovement.execute();
 
