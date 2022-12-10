@@ -17,7 +17,7 @@ MapGraphicsRender {
         return map;
     }
 
-    public void notifyChangesCharacterElements() { }
+    public void notifyChangesCharacters() { }
 
     public void setCharacterAnimation(
         final GameCharacter newCharacterAnimation

@@ -108,7 +108,7 @@ public class MapControllerTest extends TestCase {
         );
     }
 
-    public void testAddSameCharacterElementsOnGraphicsRender() {
+    public void testAddSameCharactersOnGraphicsRender() {
         Assert.assertTrue(containsOnCharacters(playerCharacter));
 
         for (

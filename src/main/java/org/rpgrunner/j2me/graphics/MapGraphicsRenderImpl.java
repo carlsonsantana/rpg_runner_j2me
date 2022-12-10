@@ -57,7 +57,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         }
     }
 
-    public void notifyChangesCharacterElements() {
+    public void notifyChangesCharacters() {
         for (
             int i = 0, length = characters.length;
             (i < length) && (characters[i] != null);

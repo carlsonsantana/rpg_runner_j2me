@@ -3,7 +3,6 @@ package org.rpgrunner.test.helper;
 import java.util.Random;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
@@ -18,72 +17,6 @@ public class RandomGenerator {
     private static final Random RANDOM = new Random();
 
     private RandomGenerator() { }
-
-    public static CharacterElement[] generateRandomCharacterElements() {
-        int numberCharacters = (
-            RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
-            + MINIMUM_NUMBER_CHARACTERS
-        );
-        CharacterElement[] characterElements = (
-            new CharacterElement[
-                MAXIMUM_NUMBER_CHARACTERS + MINIMUM_NUMBER_CHARACTERS
-            ]
-        );
-
-        for (int i = 0; i < numberCharacters; i++) {
-            characterElements[i] = generateRandomCharacterElement();
-        }
-
-        return characterElements;
-    }
-
-    public static CharacterElement generateRandomCharacterElement() {
-        MovementSpy movementSpy = new MovementSpy();
-        CharacterSpy characterSpy = new CharacterSpy();
-        characterSpy.setMovementCommand(movementSpy);
-
-        return new CharacterElement(characterSpy);
-    }
-
-    public static CharacterElement getRandomCharacterElement(
-        final CharacterElement[] characterElements
-    ) {
-        int size = 0;
-
-        for (
-            int length = characterElements.length;
-            size < length;
-            size++
-        ) {
-            if (characterElements[size] == null) {
-                break;
-            }
-        }
-
-        int index = RANDOM.nextInt(size);
-
-        return characterElements[index];
-    }
-
-    public static GameCharacter getRandomCharacter(
-        final GameCharacter[] characters
-    ) {
-        int size = 0;
-
-        for (
-            int length = characters.length;
-            size < length;
-            size++
-        ) {
-            if (characters[size] == null) {
-                break;
-            }
-        }
-
-        int index = RANDOM.nextInt(size);
-
-        return characters[index];
-    }
 
     public static GameCharacter[] generateRandomCharacters() {
         int numberCharacters = (
@@ -109,6 +42,26 @@ public class RandomGenerator {
         character.setMovementCommand(movementSpy);
 
         return character;
+    }
+
+    public static GameCharacter getRandomCharacter(
+        final GameCharacter[] characters
+    ) {
+        int size = 0;
+
+        for (
+            int length = characters.length;
+            size < length;
+            size++
+        ) {
+            if (characters[size] == null) {
+                break;
+            }
+        }
+
+        int index = RANDOM.nextInt(size);
+
+        return characters[index];
     }
 
     public static String getRandomString() {

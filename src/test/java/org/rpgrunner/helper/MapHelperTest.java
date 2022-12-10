@@ -6,7 +6,6 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
@@ -28,7 +27,6 @@ public class MapHelperTest extends TestCase {
     private ActionQueueSpy actionQueue;
     private MapSpy map;
     private GameCharacter[] characters;
-    private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
     private MapEventAreaSpy mapEventArea;

@@ -5,6 +5,6 @@ import org.rpgrunner.map.Map;
 
 public interface MapGraphicsRender extends GraphicsRender {
     void setMap(Map map);
-    void notifyChangesCharacterElements();
+    void notifyChangesCharacters();
     void setCharacterAnimation(GameCharacter characterAnimation);
 }

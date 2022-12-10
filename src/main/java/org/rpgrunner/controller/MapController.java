@@ -43,7 +43,7 @@ public class MapController implements Controller {
             characters[numberCharacters++] = playerCharacter;
         }
 
-        mapGraphicsRender.notifyChangesCharacterElements();
+        mapGraphicsRender.notifyChangesCharacters();
     }
 
     public Map getMap() {
@@ -92,11 +92,11 @@ public class MapController implements Controller {
 
         characters[numberCharacters] = null;
 
-        mapGraphicsRender.notifyChangesCharacterElements();
+        mapGraphicsRender.notifyChangesCharacters();
     }
 
     public void addCharacter(final GameCharacter character) {
         characters[numberCharacters++] = character;
-        mapGraphicsRender.notifyChangesCharacterElements();
+        mapGraphicsRender.notifyChangesCharacters();
     }
 }
