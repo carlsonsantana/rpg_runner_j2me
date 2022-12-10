@@ -9,14 +9,12 @@ import org.rpgrunner.Direction;
 import org.rpgrunner.event.CharacterEventListener;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.test.helper.RandomGenerator;
-import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.event.CharacterEventListenerSpy;
 import org.rpgrunner.test.mock.event.action.ActionSpy;
 
 public class GameCharacterTest extends TestCase {
     private static final int TEST_REPEAT_LOOP = 100;
     private static final int MAXIMUM_RANDOM_POSITION = 1000;
-    private CharacterElementSpy characterElement;
     private GameCharacter character;
     private Random random;
     private Action action;
@@ -58,7 +56,6 @@ public class GameCharacterTest extends TestCase {
         );
         characterEventListener.setInteractAction(action);
         character = new CharacterImpl(characterEventListener);
-        characterElement = new CharacterElementSpy();
     }
 
     public void testCharacterStartStopped() {
