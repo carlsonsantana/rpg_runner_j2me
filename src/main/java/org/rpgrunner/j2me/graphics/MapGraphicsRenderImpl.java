@@ -19,7 +19,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final int screenHeight;
     private final GameCharacter[] characters;
     private Map map;
-    private GameCharacter characterAnimationFollowed;
+    private GameCharacter characterFollowed;
 
     public MapGraphicsRenderImpl(
         final Graphics midletGraphics,
@@ -68,10 +68,8 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         }
     }
 
-    public void setCharacterAnimation(
-        final GameCharacter newCharacterAnimation
-    ) {
-        characterAnimationFollowed = newCharacterAnimation;
+    public void setCharacter(final GameCharacter newCharacter) {
+        characterFollowed = newCharacter;
     }
 
     public void render() {
@@ -89,7 +87,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
 
     private int getXViewWindow() {
         int characterScreenPosition = (
-            characterAnimationFollowed.getScreenX() + (TILE_WIDTH / 2)
+            characterFollowed.getScreenX() + (TILE_WIDTH / 2)
         );
 
         return getCenter(characterScreenPosition, screenWidth, map.getWidth());
@@ -97,7 +95,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
 
     private int getYViewWindow() {
         return getCenter(
-            characterAnimationFollowed.getScreenY(),
+            characterFollowed.getScreenY(),
             screenHeight,
             map.getHeight()
         );

@@ -78,7 +78,7 @@ public class MapController implements Controller {
 
         playerCharacter = newPlayerCharacter;
         addCharacter(playerCharacter);
-        mapGraphicsRender.setCharacterAnimation(playerCharacter);
+        mapGraphicsRender.setCharacter(playerCharacter);
     }
 
     private void removeCharacter(final GameCharacter character) {

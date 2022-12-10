@@ -88,10 +88,7 @@ public class MapControllerTest extends TestCase {
 
     public void testSamePlayerCharacter() {
         Assert.assertSame(playerCharacter, mapController.getPlayerCharacter());
-        Assert.assertSame(
-            playerCharacter,
-            mapGraphicsRender.getCharacterAnimation()
-        );
+        Assert.assertSame(playerCharacter, mapGraphicsRender.getCharacter());
     }
 
     public void testChangePlayerCharacter() {
@@ -102,10 +99,7 @@ public class MapControllerTest extends TestCase {
             newPlayerCharacter,
             mapController.getPlayerCharacter()
         );
-        Assert.assertSame(
-            newPlayerCharacter,
-            mapGraphicsRender.getCharacterAnimation()
-        );
+        Assert.assertSame(newPlayerCharacter, mapGraphicsRender.getCharacter());
     }
 
     public void testAddSameCharactersOnGraphicsRender() {

@@ -7,7 +7,7 @@ import org.rpgrunner.map.Map;
 public class MapGraphicsRenderSpy extends GraphicsRenderSpy implements
 MapGraphicsRender {
     private Map map;
-    private GameCharacter characterAnimation;
+    private GameCharacter character;
 
     public void setMap(final Map newMap) {
         map = newMap;
@@ -19,13 +19,11 @@ MapGraphicsRender {
 
     public void notifyChangesCharacters() { }
 
-    public void setCharacterAnimation(
-        final GameCharacter newCharacterAnimation
-    ) {
-        characterAnimation = newCharacterAnimation;
+    public void setCharacter(final GameCharacter newCharacter) {
+        character = newCharacter;
     }
 
-    public GameCharacter getCharacterAnimation() {
-        return characterAnimation;
+    public GameCharacter getCharacter() {
+        return character;
     }
 }
