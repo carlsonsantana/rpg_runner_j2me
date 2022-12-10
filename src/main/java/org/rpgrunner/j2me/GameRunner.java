@@ -4,7 +4,7 @@ import javax.microedition.lcdui.Font;
 import javax.microedition.lcdui.Graphics;
 import javax.microedition.lcdui.game.GameCanvas;
 
-import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.GameController;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.controller.MessageController;
@@ -72,10 +72,8 @@ public class GameRunner extends GameCanvas implements Runnable {
         int screenHeight = getHeight();
 
         actionQueue = new ActionQueue();
-        CharacterElement[] characterElements = (
-            new CharacterElement[MAX_CHARACTERS_ELEMENTS]
-        );
-        MapHelper mapHelper = new MapHelper(actionQueue, characterElements);
+        GameCharacter[] characters = new GameCharacter[MAX_CHARACTERS_ELEMENTS];
+        MapHelper mapHelper = new MapHelper(actionQueue, characters);
         MessageGraphicsRenderImpl messageGraphicsRender = (
             new MessageGraphicsRenderImpl(graphics, screenWidth, screenHeight)
         );
@@ -84,7 +82,7 @@ public class GameRunner extends GameCanvas implements Runnable {
             screenWidth,
             screenHeight,
             mapHelper,
-            characterElements
+            characters
         );
         MessageController messageController = new MessageController(
             messageGraphicsRender,
@@ -104,20 +102,16 @@ public class GameRunner extends GameCanvas implements Runnable {
         final int screenWidth,
         final int screenHeight,
         final MapHelper mapHelper,
-        final CharacterElement[] characterElements
+        final GameCharacter[] characters
     ) {
         MapGraphicsRenderImpl mapGraphicsRender = new MapGraphicsRenderImpl(
             graphics,
             screenWidth,
             screenHeight,
-            characterElements
+            characters
         );
 
-        return new MapController(
-            mapGraphicsRender,
-            mapHelper,
-            characterElements
-        );
+        return new MapController(mapGraphicsRender, mapHelper, characters);
     }
 
     private ActionAbstractFactory createActionAbstractFactory(

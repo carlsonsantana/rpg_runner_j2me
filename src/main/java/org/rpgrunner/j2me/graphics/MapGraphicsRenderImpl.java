@@ -6,7 +6,6 @@ import javax.microedition.lcdui.game.LayerManager;
 import javax.microedition.lcdui.game.Sprite;
 import javax.microedition.lcdui.game.TiledLayer;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.j2me.map.MapRender;
@@ -18,7 +17,7 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
     private final LayerManager layerManager;
     private final int screenWidth;
     private final int screenHeight;
-    private final CharacterElement[] characterElements;
+    private final GameCharacter[] characters;
     private Map map;
     private GameCharacter characterAnimationFollowed;
 
@@ -26,13 +25,13 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
         final Graphics midletGraphics,
         final int currentScreenWidth,
         final int currentScreenHeight,
-        final CharacterElement[] gameCharacterElements
+        final GameCharacter[] gameCharacters
     ) {
         graphics = midletGraphics;
         layerManager = new LayerManager();
         screenWidth = currentScreenWidth;
         screenHeight = currentScreenHeight;
-        characterElements = gameCharacterElements;
+        characters = gameCharacters;
     }
 
     public void setMap(final Map newMap) {
@@ -60,15 +59,12 @@ public class MapGraphicsRenderImpl implements MapGraphicsRender {
 
     public void notifyChangesCharacterElements() {
         for (
-            int i = 0, length = characterElements.length;
-            (i < length) && (characterElements[i] != null);
+            int i = 0, length = characters.length;
+            (i < length) && (characters[i] != null);
             i++
         ) {
-            CharacterElement characterElement = characterElements[i];
-            GameCharacter characterAnimation = (
-                characterElement.getCharacterAnimation()
-            );
-            layerManager.insert((Sprite) characterAnimation.getSprite(), 0);
+            GameCharacter character = characters[i];
+            layerManager.insert((Sprite) character.getSprite(), 0);
         }
     }
 

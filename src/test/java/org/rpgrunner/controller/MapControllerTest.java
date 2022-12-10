@@ -6,6 +6,7 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.helper.RandomGenerator;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
@@ -25,7 +26,7 @@ public class MapControllerTest extends TestCase {
     private PlayerMovementSpy playerMovementSpy;
     private CharacterSpy character;
     private CharacterElement[] npcs;
-    private CharacterElement[] characterElements;
+    private GameCharacter[] characters;
 
     public MapControllerTest() {
         random = new Random();
@@ -38,11 +39,11 @@ public class MapControllerTest extends TestCase {
         character.setMovementCommand(playerMovementSpy);
         playerCharacterElement = new CharacterElement(character);
         mapHelper = new MapHelperSpy();
-        characterElements = new CharacterElement[MAX_CHARACTERS_ELEMENTS];
+        characters = new GameCharacter[MAX_CHARACTERS_ELEMENTS];
         mapController = new MapController(
             mapGraphicsRender,
             mapHelper,
-            characterElements
+            characters
         );
         mapController.setPlayerCharacterElement(playerCharacterElement);
         generateNPCs();
@@ -179,7 +180,7 @@ public class MapControllerTest extends TestCase {
         final CharacterElement characterElement
     ) {
         for (int i = 0; i < MAX_CHARACTERS_ELEMENTS; i++) {
-            if (characterElements[i] == characterElement) {
+            if (characters[i] == characterElement.getCharacterAnimation()) {
                 return true;
             }
         }

@@ -1,7 +1,6 @@
 package org.rpgrunner.helper;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.ActionQueue;
 import org.rpgrunner.event.MapEventArea;
@@ -12,15 +11,15 @@ import org.rpgrunner.map.Map;
 public class MapHelper {
     private static final Action DEFAULT_ACTION = new NullAction();
     private final ActionQueue actionQueue;
-    private final CharacterElement[] characterElements;
+    private final GameCharacter[] characters;
     private Map map;
 
     public MapHelper(
         final ActionQueue currentActionQueue,
-        final CharacterElement[] gameCharacterElements
+        final GameCharacter[] gameCharacters
     ) {
         actionQueue = currentActionQueue;
-        characterElements = gameCharacterElements;
+        characters = gameCharacters;
     }
 
     public void setMap(final Map newMap) {
@@ -40,14 +39,11 @@ public class MapHelper {
         }
 
         for (
-            int i = 0, length = characterElements.length;
-            (i < length) && (characterElements[i] != null);
+            int i = 0, length = characters.length;
+            (i < length) && (characters[i] != null);
             i++
         ) {
-            CharacterElement otherCharacterElement = characterElements[i];
-            GameCharacter otherCharacter = (
-                otherCharacterElement.getCharacterAnimation()
-            );
+            GameCharacter otherCharacter = characters[i];
 
             if (hasCharacterCollision(character, otherCharacter)) {
                 return true;
@@ -123,14 +119,11 @@ public class MapHelper {
         final GameCharacter character
     ) {
         for (
-            int i = 0, length = characterElements.length;
-            (i < length) && (characterElements[i] != null);
+            int i = 0, length = characters.length;
+            (i < length) && (characters[i] != null);
             i++
         ) {
-            CharacterElement otherCharacterElement = characterElements[i];
-            GameCharacter otherCharacter = (
-                otherCharacterElement.getCharacterAnimation()
-            );
+            GameCharacter otherCharacter = characters[i];
 
             if (isInFrontOfCharacter(character, otherCharacter)) {
                 return otherCharacter.getInteractiveAction(

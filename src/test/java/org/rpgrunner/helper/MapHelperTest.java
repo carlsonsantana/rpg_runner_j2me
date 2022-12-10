@@ -7,6 +7,7 @@ import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.event.MapEventArea;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.event.action.NullAction;
@@ -26,7 +27,7 @@ public class MapHelperTest extends TestCase {
     private MapHelper mapHelper;
     private ActionQueueSpy actionQueue;
     private MapSpy map;
-    private CharacterElement[] characterElements;
+    private GameCharacter[] characters;
     private CharacterElement characterElement;
     private CharacterSpy character;
     private CharacterSpy collisionCharacter;
@@ -38,10 +39,8 @@ public class MapHelperTest extends TestCase {
 
     public void setUp() {
         actionQueue = new ActionQueueSpy();
-        characterElements = (
-            RandomGenerator.generateRandomCharacterElements()
-        );
-        mapHelper = new MapHelper(actionQueue, characterElements);
+        characters = RandomGenerator.generateRandomCharacters();
+        mapHelper = new MapHelper(actionQueue, characters);
         map = new MapSpy();
         map.setCanMoveTo(true);
         mapEventArea = new MapEventAreaSpy();
@@ -52,20 +51,17 @@ public class MapHelperTest extends TestCase {
     }
 
     private void generateNewScenario() {
-        characterElements = (
-            RandomGenerator.generateRandomCharacterElements()
-        );
-        mapHelper = new MapHelper(actionQueue, characterElements);
+        characters = RandomGenerator.generateRandomCharacters();
+        mapHelper = new MapHelper(actionQueue, characters);
         mapHelper.setMap(map);
         generateCharacterTest();
         collisionCharacter = getCollisionCharacter();
     }
 
     private void generateCharacterTest() {
-        characterElement = RandomGenerator.getRandomCharacterElement(
-            characterElements
+        character = (CharacterSpy) RandomGenerator.getRandomCharacter(
+            characters
         );
-        character = (CharacterSpy) characterElement.getCharacterAnimation();
 
         int x = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
         int y = RandomGenerator.getRandomPosition() + MINIMUM_POSITION;
@@ -76,11 +72,8 @@ public class MapHelperTest extends TestCase {
         CharacterSpy newCollisionCharacter;
 
         do {
-            CharacterElement collisionCharacterElement = (
-                RandomGenerator.getRandomCharacterElement(characterElements)
-            );
             newCollisionCharacter = (
-                (CharacterSpy) collisionCharacterElement.getCharacterAnimation()
+                (CharacterSpy) RandomGenerator.getRandomCharacter(characters)
             );
         } while (newCollisionCharacter == character);
 

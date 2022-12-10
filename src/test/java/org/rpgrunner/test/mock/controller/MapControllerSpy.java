@@ -1,6 +1,7 @@
 package org.rpgrunner.test.mock.controller;
 
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
 import org.rpgrunner.helper.MapHelper;
@@ -22,7 +23,7 @@ public class MapControllerSpy extends MapController {
         super(
             new MapGraphicsRenderSpy(),
             new MapHelperSpy(),
-            new CharacterElement[0]
+            new GameCharacter[0]
         );
         map = null;
         countMapChanged = 0;

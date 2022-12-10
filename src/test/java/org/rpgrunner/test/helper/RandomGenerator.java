@@ -4,6 +4,7 @@ import java.util.Random;
 
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
+import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
@@ -63,6 +64,44 @@ public class RandomGenerator {
         int index = RANDOM.nextInt(size);
 
         return characterElements[index];
+    }
+
+    public static GameCharacter getRandomCharacter(
+        final GameCharacter[] characters
+    ) {
+        int size = 0;
+
+        for (
+            int length = characters.length;
+            size < length;
+            size++
+        ) {
+            if (characters[size] == null) {
+                break;
+            }
+        }
+
+        int index = RANDOM.nextInt(size);
+
+        return characters[index];
+    }
+
+    public static GameCharacter[] generateRandomCharacters() {
+        int numberCharacters = (
+            RANDOM.nextInt(MAXIMUM_NUMBER_CHARACTERS)
+            + MINIMUM_NUMBER_CHARACTERS
+        );
+        GameCharacter[] characters = (
+            new GameCharacter[
+                MAXIMUM_NUMBER_CHARACTERS + MINIMUM_NUMBER_CHARACTERS
+            ]
+        );
+
+        for (int i = 0; i < numberCharacters; i++) {
+            characters[i] = generateRandomCharacter();
+        }
+
+        return characters;
     }
 
     public static CharacterSpy generateRandomCharacter() {

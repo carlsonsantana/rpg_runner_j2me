@@ -9,7 +9,7 @@ import org.rpgrunner.map.Map;
 public class MapController implements Controller {
     private final MapGraphicsRender mapGraphicsRender;
     private final MapHelper mapHelper;
-    private final CharacterElement[] characterElements;
+    private final GameCharacter[] characters;
     private Map map;
     private CharacterElement playerCharacterElement;
     private int numberCharacters;
@@ -17,9 +17,9 @@ public class MapController implements Controller {
     public MapController(
         final MapGraphicsRender gameGraphicsRender,
         final MapHelper gameMapHelper,
-        final CharacterElement[] gameCharacterElements
+        final GameCharacter[] gameCharacters
     ) {
-        characterElements = gameCharacterElements;
+        characters = gameCharacters;
         numberCharacters = 0;
         mapGraphicsRender = gameGraphicsRender;
         mapHelper = gameMapHelper;
@@ -35,13 +35,15 @@ public class MapController implements Controller {
 
     private void removeAllNPCs() {
         for (int i = 0; i < numberCharacters; i++) {
-            characterElements[i] = null;
+            characters[i] = null;
         }
 
         numberCharacters = 0;
 
         if (playerCharacterElement != null) {
-            characterElements[numberCharacters++] = playerCharacterElement;
+            characters[numberCharacters++] = (
+                playerCharacterElement.getCharacterAnimation()
+            );
         }
 
         mapGraphicsRender.notifyChangesCharacterElements();
@@ -53,8 +55,7 @@ public class MapController implements Controller {
 
     public void prepareFrameAnimation() {
         for (int i = 0; i < numberCharacters; i++) {
-            CharacterElement characterElement = characterElements[i];
-            GameCharacter character = characterElement.getCharacterAnimation();
+            GameCharacter character = characters[i];
 
             character.getMovementCommand().execute();
             character.doAnimation();
@@ -91,23 +92,23 @@ public class MapController implements Controller {
     private void removeCharacterElement(
         final CharacterElement characterElement
     ) {
-        CharacterElement lastCharacterElement = (
-            characterElements[--numberCharacters]
-        );
+        GameCharacter lastCharacter = characters[--numberCharacters];
 
         for (int i = 0; i < numberCharacters; i++) {
-            if (characterElement == characterElements[i]) {
-                characterElements[i] = lastCharacterElement;
+            if (characterElement.getCharacterAnimation() == characters[i]) {
+                characters[i] = lastCharacter;
             }
         }
 
-        characterElements[numberCharacters] = null;
+        characters[numberCharacters] = null;
 
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 
     public void addCharacterElement(final CharacterElement characterElement) {
-        characterElements[numberCharacters++] = characterElement;
+        characters[numberCharacters++] = (
+            characterElement.getCharacterAnimation()
+        );
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 }
