@@ -1,6 +1,5 @@
 package org.rpgrunner.controller;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.graphics.MapGraphicsRender;
 import org.rpgrunner.helper.MapHelper;
@@ -11,7 +10,7 @@ public class MapController implements Controller {
     private final MapHelper mapHelper;
     private final GameCharacter[] characters;
     private Map map;
-    private CharacterElement playerCharacterElement;
+    private GameCharacter playerCharacter;
     private int numberCharacters;
 
     public MapController(
@@ -40,10 +39,8 @@ public class MapController implements Controller {
 
         numberCharacters = 0;
 
-        if (playerCharacterElement != null) {
-            characters[numberCharacters++] = (
-                playerCharacterElement.getCharacterAnimation()
-            );
+        if (playerCharacter != null) {
+            characters[numberCharacters++] = playerCharacter;
         }
 
         mapGraphicsRender.notifyChangesCharacterElements();
@@ -66,36 +63,29 @@ public class MapController implements Controller {
         mapGraphicsRender.render();
     }
 
-    public CharacterElement getPlayerCharacterElement() {
-        return playerCharacterElement;
+    public GameCharacter getPlayerCharacter() {
+        return playerCharacter;
     }
 
     public MapHelper getMapHelper() {
         return mapHelper;
     }
 
-    public void setPlayerCharacterElement(
-        final CharacterElement newPlayerCharacterElement
-    ) {
-        if (playerCharacterElement != null) {
-            removeCharacterElement(playerCharacterElement);
+    public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
+        if (playerCharacter != null) {
+            removeCharacter(playerCharacter);
         }
 
-        playerCharacterElement = newPlayerCharacterElement;
-        GameCharacter playerCharacter = (
-            playerCharacterElement.getCharacterAnimation()
-        );
-        addCharacterElement(newPlayerCharacterElement);
+        playerCharacter = newPlayerCharacter;
+        addCharacter(playerCharacter);
         mapGraphicsRender.setCharacterAnimation(playerCharacter);
     }
 
-    private void removeCharacterElement(
-        final CharacterElement characterElement
-    ) {
+    private void removeCharacter(final GameCharacter character) {
         GameCharacter lastCharacter = characters[--numberCharacters];
 
         for (int i = 0; i < numberCharacters; i++) {
-            if (characterElement.getCharacterAnimation() == characters[i]) {
+            if (character == characters[i]) {
                 characters[i] = lastCharacter;
             }
         }
@@ -105,10 +95,8 @@ public class MapController implements Controller {
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 
-    public void addCharacterElement(final CharacterElement characterElement) {
-        characters[numberCharacters++] = (
-            characterElement.getCharacterAnimation()
-        );
+    public void addCharacter(final GameCharacter character) {
+        characters[numberCharacters++] = character;
         mapGraphicsRender.notifyChangesCharacterElements();
     }
 }

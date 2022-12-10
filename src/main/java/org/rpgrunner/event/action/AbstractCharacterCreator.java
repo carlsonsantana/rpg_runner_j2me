@@ -1,6 +1,5 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
@@ -33,13 +32,13 @@ public abstract class AbstractCharacterCreator implements Action {
     }
 
     public void execute() {
-        CharacterElement characterElement = generateCharacterElement();
-        localTeleport.setCharacter(characterElement.getCharacterAnimation());
+        GameCharacter character = generateCharacter();
+        localTeleport.setCharacter(character);
         localTeleport.execute();
-        displayCharacter(characterElement);
+        displayCharacter(character);
     }
 
-    private CharacterElement generateCharacterElement() {
+    private GameCharacter generateCharacter() {
         GameCharacter character = characterFactory.createCharacter(
             characterIDSprite,
             characterEventListener
@@ -47,12 +46,12 @@ public abstract class AbstractCharacterCreator implements Action {
         MovementCommand movementCommand = createMovementCommand(character);
         character.setMovementCommand(movementCommand);
 
-        return new CharacterElement(character);
+        return character;
     }
 
     protected abstract MovementCommand createMovementCommand(
         GameCharacter character
     );
 
-    protected abstract void displayCharacter(CharacterElement characterElement);
+    protected abstract void displayCharacter(GameCharacter character);
 }

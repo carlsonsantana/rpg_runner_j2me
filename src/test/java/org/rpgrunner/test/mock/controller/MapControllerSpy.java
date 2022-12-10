@@ -1,6 +1,5 @@
 package org.rpgrunner.test.mock.controller;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.Action;
@@ -12,8 +11,8 @@ import org.rpgrunner.test.mock.helper.MapHelperSpy;
 public class MapControllerSpy extends MapController {
     private Map map;
     private int countMapChanged;
-    private CharacterElement playerCharacterElement;
-    private CharacterElement lastCharacterElementAdded;
+    private GameCharacter playerCharacter;
+    private GameCharacter lastCharacterAdded;
     private Action lastAction;
     private String lastMessage;
     private boolean prepareFrameAnimationCalled;
@@ -43,26 +42,24 @@ public class MapControllerSpy extends MapController {
         return countMapChanged;
     }
 
-    public void setPlayerCharacterElement(
-        final CharacterElement newPlayerCharacterElement
-    ) {
-        playerCharacterElement = newPlayerCharacterElement;
+    public void setPlayerCharacter(final GameCharacter newPlayerCharacter) {
+        playerCharacter = newPlayerCharacter;
     }
 
-    public CharacterElement getPlayerCharacterElement() {
-        return playerCharacterElement;
+    public GameCharacter getPlayerCharacter() {
+        return playerCharacter;
     }
 
     public MapHelper getMapHelper() {
         return new MapHelperSpy();
     }
 
-    public void addCharacterElement(final CharacterElement characterElement) {
-        lastCharacterElementAdded = characterElement;
+    public void addCharacter(final GameCharacter character) {
+        lastCharacterAdded = character;
     }
 
-    public CharacterElement getLastCharacterElementAdded() {
-        return lastCharacterElementAdded;
+    public GameCharacter getLastCharacterAdded() {
+        return lastCharacterAdded;
     }
 
     public void prepareFrameAnimation() {

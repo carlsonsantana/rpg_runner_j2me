@@ -5,7 +5,6 @@ import java.util.Random;
 import org.rpgrunner.Direction;
 import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
-import org.rpgrunner.test.mock.character.CharacterElementSpy;
 import org.rpgrunner.test.mock.character.CharacterSpy;
 import org.rpgrunner.test.mock.character.movement.MovementSpy;
 
@@ -105,8 +104,9 @@ public class RandomGenerator {
     }
 
     public static CharacterSpy generateRandomCharacter() {
-        CharacterElementSpy characterElement = new CharacterElementSpy();
+        MovementSpy movementSpy = new MovementSpy();
         CharacterSpy character = new CharacterSpy();
+        character.setMovementCommand(movementSpy);
 
         return character;
     }

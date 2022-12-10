@@ -54,9 +54,7 @@ public class Teleport implements Action {
     }
 
     private void changePlayerCharacterPosition() {
-        localTeleport.setCharacter(
-            mapController.getPlayerCharacterElement().getCharacterAnimation()
-        );
+        localTeleport.setCharacter(mapController.getPlayerCharacter());
         localTeleport.execute();
     }
 }

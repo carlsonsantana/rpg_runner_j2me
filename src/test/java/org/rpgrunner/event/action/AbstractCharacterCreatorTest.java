@@ -6,7 +6,6 @@ import junit.framework.Assert;
 import junit.framework.TestCase;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.helper.RandomGenerator;
@@ -40,10 +39,7 @@ public abstract class AbstractCharacterCreatorTest extends TestCase {
 
         characterCreator.execute();
 
-        CharacterElement characterElement = (
-            mapController.getLastCharacterElementAdded()
-        );
-        GameCharacter character = characterElement.getCharacterAnimation();
+        GameCharacter character = mapController.getLastCharacterAdded();
         Action action = character.getInteractiveAction(Direction.UP);
 
         Assert.assertEquals(initialMapPositionX, character.getMapPositionX());

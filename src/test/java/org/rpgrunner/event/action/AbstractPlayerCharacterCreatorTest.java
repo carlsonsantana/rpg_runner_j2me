@@ -5,7 +5,6 @@ import java.util.Random;
 import junit.framework.Assert;
 import junit.framework.TestCase;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.test.helper.RandomGenerator;
@@ -41,12 +40,7 @@ public abstract class AbstractPlayerCharacterCreatorTest extends TestCase {
 
         playerCharacterCreator.execute();
 
-        CharacterElement playerCharacterElement = (
-            mapController.getPlayerCharacterElement()
-        );
-        GameCharacter playerCharacter = (
-            playerCharacterElement.getCharacterAnimation()
-        );
+        GameCharacter playerCharacter = mapController.getPlayerCharacter();
 
         Assert.assertEquals(
             initialMapPositionX,

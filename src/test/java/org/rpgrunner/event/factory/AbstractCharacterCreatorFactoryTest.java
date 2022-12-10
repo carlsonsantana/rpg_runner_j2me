@@ -6,7 +6,6 @@ import java.io.InputStream;
 import junit.framework.Assert;
 
 import org.rpgrunner.Direction;
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.controller.MapController;
 import org.rpgrunner.event.action.AbstractCharacterCreatorTest;
@@ -41,10 +40,7 @@ extends AbstractCharacterCreatorTest {
 
         characterCreator.execute();
 
-        CharacterElement characterElement = (
-            mapController.getLastCharacterElementAdded()
-        );
-        GameCharacter character = characterElement.getCharacterAnimation();
+        GameCharacter character = mapController.getLastCharacterAdded();
         Action action = character.getInteractiveAction(direction);
 
         Assert.assertTrue(action instanceof ActionList);

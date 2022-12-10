@@ -1,6 +1,5 @@
 package org.rpgrunner.event.action;
 
-import org.rpgrunner.character.CharacterElement;
 import org.rpgrunner.character.CharacterFactory;
 import org.rpgrunner.character.GameCharacter;
 import org.rpgrunner.character.movement.MovementCommand;
@@ -39,7 +38,7 @@ public class CharacterCreator extends AbstractCharacterCreator {
         return new RandomMovement(character, mapHelper);
     }
 
-    protected void displayCharacter(final CharacterElement characterElement) {
-        mapController.addCharacterElement(characterElement);
+    protected void displayCharacter(final GameCharacter character) {
+        mapController.addCharacter(character);
     }
 }
